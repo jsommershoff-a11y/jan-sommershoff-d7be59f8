@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { siteData } from '@/data/siteData';
+import heroImage from '@/assets/hero-jan.jpeg';
+import aboutImage from '@/assets/about-jan.jpeg';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { Building2, Brain, Rocket, Building, Monitor, ArrowRight, Mail, MapPin, Quote } from 'lucide-react';
@@ -25,8 +27,8 @@ export default function Home() {
         <section className="relative h-screen w-full overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80&fit=crop"
-              alt="Business environment"
+              src={heroImage}
+              alt="Jan Sommershoff auf der Bühne"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
@@ -98,7 +100,7 @@ export default function Home() {
                 </div>
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80&fit=crop"
+                    src={aboutImage}
                     alt="Jan Sommershoff"
                     className="w-full rounded-2xl shadow-2xl"
                   />
