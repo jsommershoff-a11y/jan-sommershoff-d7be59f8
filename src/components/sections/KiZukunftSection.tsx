@@ -47,7 +47,9 @@ export function KiZukunftSection() {
         <ScrollReveal delay={0.3}>
           <div className="mt-10 text-center">
             <a
-              href="/auth"
+              href="https://krs-signature.de/auth?src=jan"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
             >
               KI Notfallkoffer entdecken

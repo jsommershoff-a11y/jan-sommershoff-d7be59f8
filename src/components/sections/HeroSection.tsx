@@ -62,17 +62,21 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <a
-                href="/auth"
+                href="https://krs-signature.de/auth?src=jan"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-10 py-5 bg-primary text-primary-foreground text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-[0_4px_20px_rgba(15,61,46,0.4)] inline-block"
               >
                 KI Erste Hilfe starten
               </a>
-              <button
-                onClick={() => scrollTo('contact')}
-                className="px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-colors"
+              <a
+                href="https://krs-signature.de/auth?src=jan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-colors inline-block"
               >
                 Gespräch anfragen
-              </button>
+              </a>
             </motion.div>
           </motion.div>
         </div>

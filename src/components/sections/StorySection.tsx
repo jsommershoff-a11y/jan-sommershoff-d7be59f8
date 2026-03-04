@@ -40,13 +40,15 @@ export function StorySection() {
                   );
                 })}
               </div>
-              <button
-                onClick={() => scrollTo('contact')}
+              <a
+                href="https://krs-signature.de/auth?src=jan"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
               >
                 Gespräch anfragen
                 <ArrowRight className="size-4" />
-              </button>
+              </a>
             </div>
             <div className="relative sticky top-32">
               <img
