@@ -11,19 +11,24 @@ const stats = [
 
 export function SocialProofSection() {
   return (
-    <section className="py-16 md:py-20 px-6 lg:px-8 bg-primary">
+    <section className="py-16 md:py-20 px-6 lg:px-8 bg-[#0F3D2E]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
+        <div className="flex flex-wrap justify-center">
           {stats.map((stat, index) => (
             <ScrollReveal key={stat.label} delay={index * 0.1}>
-              <div className="text-center space-y-2">
-                <stat.icon className="size-6 text-accent mx-auto mb-3" />
-                <p className="text-3xl md:text-4xl font-bold text-primary-foreground">
-                  {stat.value}
-                </p>
-                <p className="text-sm text-primary-foreground/70 font-medium">
-                  {stat.label}
-                </p>
+              <div className="flex items-center">
+                <div className="text-center space-y-2 px-6 md:px-10 py-4">
+                  <stat.icon className="size-6 text-accent mx-auto mb-3" />
+                  <p className="text-4xl md:text-5xl font-bold text-white">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-white/70 font-medium">
+                    {stat.label}
+                  </p>
+                </div>
+                {index < stats.length - 1 && (
+                  <div className="hidden md:block w-px h-16 bg-white/20" />
+                )}
               </div>
             </ScrollReveal>
           ))}
