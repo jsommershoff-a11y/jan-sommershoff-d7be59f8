@@ -1,5 +1,6 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { TrustSection } from '@/components/sections/TrustSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
@@ -24,6 +25,7 @@ export default function Home() {
       />
       <div className="min-h-screen">
         <HeroSection />
+        <TrustSection />
         <SocialProofSection />
         <StorySection />
         <SituationsSection />
