@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark, LayoutList } from 'lucide-react';
+import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark, LayoutList, ShieldAlert } from 'lucide-react';
 
 const situations = [
   {
@@ -39,6 +39,12 @@ const situations = [
     headline: 'Deine Organisation entscheidet über deinen Erfolg.',
     story: 'Unternehmer glauben oft, Erfolg entsteht durch Energie und Einsatz.\n\nDoch langfristig entscheidet etwas anderes: Selbstführung.\n\nIch habe im Verlauf meiner unternehmerischen Reise gelernt, wie entscheidend Tagesorganisation und strukturiertes Arbeiten sind.\n\nWer seine eigenen Abläufe nicht kontrolliert, verliert irgendwann die Kontrolle über sein Unternehmen.',
     insight: 'KI kann hier eine enorme Hilfe sein – bei Planung, Struktur und Kontrolle.',
+  },
+  {
+    icon: ShieldAlert,
+    headline: 'Du schützt dein Unternehmen nicht ausreichend.',
+    story: 'Einer meiner größten Fehler war, mein Unternehmen nicht ausreichend abzusichern.\n\nIn schwierigen Zeiten können Menschen Entscheidungen treffen, die für dich und dein Unternehmen schädlich sind.\n\nOhne klare Kontrollprozesse, Datenüberwachung und Struktur entsteht ein Risiko, das viele Unternehmer unterschätzen.',
+    insight: 'Heute lassen sich viele dieser Prozesse technisch absichern – auch mit KI. Zum Beispiel durch Monitoring von Datenbewegungen oder automatisierte Kontrollsysteme.',
   },
 ];
 
