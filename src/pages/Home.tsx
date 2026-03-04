@@ -3,6 +3,7 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
+import { MistakesSection } from '@/components/sections/MistakesSection';
 import { PhilosophySection } from '@/components/sections/PhilosophySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
 import { KiZukunftSection } from '@/components/sections/KiZukunftSection';
@@ -24,6 +25,7 @@ export default function Home() {
         <SocialProofSection />
         <StorySection />
         <SituationsSection />
+        <MistakesSection />
         <PhilosophySection />
         <ExpertiseSection />
         <KiZukunftSection />
