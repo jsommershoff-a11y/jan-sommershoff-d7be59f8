@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { siteData } from '@/data/siteData';
-import heroImage from '@/assets/hero-jan-new.png';
+import heroImage from '@/assets/hero-jan.jpeg';
 
 export function HeroSection() {
   const scrollTo = (id: string) => {
@@ -15,7 +15,7 @@ export function HeroSection() {
           alt="Jan Sommershoff auf der Bühne"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
       </div>
 
       <div className="relative h-full flex items-center px-6 lg:px-8">
