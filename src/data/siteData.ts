@@ -1,59 +1,94 @@
 export const siteData = {
   name: 'Jan Sommershoff',
-  tagline: 'Immobilienunternehmer, Investor & Digitalstratege',
-  heroHeadline: 'Mehr aus deinem Leben machen.',
-  heroSubheadline: 'Immobilien. KI. Unternehmertum. Strategien für Menschen, die mehr wollen.',
+  tagline: 'Immobilien. KI. Unternehmertum.',
+  heroHeadline: 'Comeback. KI. Unternehmertum.',
+  heroSubheadline:
+    'Ich begleite Unternehmer dabei, aus Chaos wieder ein System zu bauen – mit klaren Strukturen und KI als Hebel für bessere Entscheidungen.',
   email: 'info@krsimmobilien.de',
   location: 'Deutschland',
   socialLinks: {
     linkedin: 'https://linkedin.com/in/jansommershoff',
   },
-  about: {
-    intro: 'Ich bin Jan Sommershoff – Unternehmer, Investor und Stratege mit einer klaren Mission: Menschen dabei helfen, mehr aus ihrem Leben zu machen.',
-    text: 'Angefangen mit meiner ersten Immobilieninvestition, habe ich über die Jahre ein Portfolio aufgebaut, das Immobilien, digitale Unternehmen und strategische Beratung vereint. Mein Antrieb ist es, Technologie, künstliche Intelligenz und bewährte Investmentstrategien zu verbinden – für echten Mehrwert und nachhaltigen Vermögensaufbau.',
-    text2: 'Ob Immobilieninvestments, der Aufbau digitaler Geschäftsmodelle oder die Nutzung von KI – ich teile mein Wissen und meine Erfahrung, damit andere ihren eigenen Weg zu finanzieller Freiheit und unternehmerischem Erfolg finden.',
+  story: {
+    headline: 'Meine Geschichte',
+    paragraphs: [
+      'Unternehmertum ist kein gerader Weg.',
+      'Es gibt Phasen, in denen alles funktioniert. Wachstum, Erfolg, Momentum.',
+      'Und es gibt Phasen, in denen plötzlich nichts mehr sicher ist. Entscheidungen, die alles verändern. Rückschläge. Enttäuschungen.',
+      'In Deutschland wird Scheitern oft negativ bewertet.',
+      'Dabei zeigt sich wahre Stärke nicht darin, nie zu fallen.\nSondern darin, wie man wieder aufsteht.',
+      'Ich habe in meinem Leben Unternehmen aufgebaut, Projekte entwickelt und viele unternehmerische Erfahrungen gesammelt.',
+      'Ich habe aber auch Fehler gemacht. Große Fehler.',
+      'Fehler, für die ich heute Verantwortung übernehme.',
+      'Diese Zeit hat mir eine der wichtigsten Lektionen meines Lebens gezeigt:',
+      'Ein Unternehmen ohne klare Struktur, Systeme und strategische Entscheidungen wird früher oder später instabil.',
+      'Heute weiß ich:',
+      'Die größten Krisen können die größte Entwicklung auslösen.',
+      'Wenn man den Mut hat, sich selbst zu hinterfragen und ein solides Fundament aufzubauen.',
+      'Genau dabei unterstütze ich heute Unternehmer.',
+    ],
+  },
+  philosophy: {
+    headline: 'Was ich über Unternehmertum gelernt habe',
+    quotes: [
+      'Echte Stärke zeigt sich nicht im Erfolg.\nEchte Stärke zeigt sich in Krisen.',
+      'Viele Kontakte zu haben ist einfach.\nEchte Freundschaften erkennt man erst, wenn es schwierig wird.',
+      'Viele Geschäftsbeziehungen zu haben ist kein Erfolg, wenn man sich selbst dabei verliert.',
+      'Mut bedeutet, in den schwierigsten Momenten die strategisch richtige Entscheidung zu treffen – auch wenn sie Konsequenzen hat.',
+      'Hilfe anzunehmen ist kein Zeichen von Schwäche.\nEs ist ein Zeichen von Stärke.',
+    ],
   },
   expertise: [
     {
-      title: 'Immobilien-Investment',
-      description: 'Menschen verstehen und Zugang zu Immobilien als Strategie für nachhaltigen Vermögensaufbau schaffen.',
+      title: 'Immobilien',
+      description:
+        'Langjährige Erfahrung im Aufbau, Ankauf und der Entwicklung von Immobilienprojekten und unternehmerischen Strukturen.',
       icon: 'Building2',
     },
     {
-      title: 'KI & Digitale Strategien',
-      description: 'Moderne Technologie und künstliche Intelligenz nutzen, um smartere Unternehmen aufzubauen.',
+      title: 'KI & Systeme',
+      description:
+        'Ich unterstütze Unternehmer dabei, künstliche Intelligenz sinnvoll in ihre Prozesse zu integrieren, um bessere Entscheidungen und effizientere Strukturen aufzubauen.',
       icon: 'Brain',
     },
     {
       title: 'Unternehmertum',
-      description: 'Einblicke und Strategien aus dem Aufbau von Unternehmen und erfolgreichen Investments teilen.',
+      description:
+        'Strategien aus echter Erfahrung: Wachstum, Krisen, Verantwortung und der Aufbau stabiler Unternehmen.',
       icon: 'Rocket',
     },
   ],
-  quotes: [
-    {
-      text: 'Der beste Zeitpunkt zu investieren war gestern. Der zweitbeste ist heute.',
-      author: 'Jan Sommershoff',
-    },
-    {
-      text: 'Erfolg entsteht nicht durch Zufall – sondern durch klare Strategien und konsequentes Handeln.',
-      author: 'Jan Sommershoff',
-    },
-    {
-      text: 'KI verändert nicht nur Branchen – sie verändert, wie wir denken, arbeiten und Vermögen aufbauen.',
-      author: 'Jan Sommershoff',
-    },
-  ],
+  kiZukunft: {
+    headline: 'Warum KI für Unternehmer entscheidend wird',
+    paragraphs: [
+      'Unternehmen unterscheiden sich im Detail.',
+      'Aber ihre Grundstrukturen sind fast immer gleich.',
+      'Strategie.\nProzesse.\nEntscheidungen.',
+      'Genau hier wird künstliche Intelligenz in den nächsten Jahren alles verändern.',
+      'Studien der größten Beratungsgesellschaften zeigen bereits heute, dass KI viele Arbeitsweisen grundlegend verändern wird.',
+      'Natürlich wird KI Fehler machen.',
+      'Aber Systeme können so aufgebaut werden, dass sie sich gegenseitig prüfen.',
+      'Fehlerquoten werden kalkulierbar.\nProzesse werden stabiler.\nEntscheidungen werden schneller.',
+      'Wer heute beginnt, KI sinnvoll in seine Strukturen zu integrieren, baut einen massiven strategischen Vorteil auf.',
+    ],
+  },
   projects: [
     {
       name: 'KRS Immobilien',
-      description: 'Immobilieninvestment und Property-Lösungen. Von der Akquise bis zur Verwaltung – strategischer Vermögensaufbau durch Immobilien.',
+      description:
+        'Unternehmerische Erfahrung im Aufbau von Immobilienprojekten und Vermietungsstrukturen.',
       icon: 'Building',
     },
     {
       name: 'KRS Digital',
-      description: 'Digitale Lösungen und KI-gestützte Strategien. Unternehmen fit machen für die Zukunft durch intelligente Technologie.',
+      description:
+        'Digitale Strategien, KI-Implementierung und moderne Unternehmensstrukturen.',
       icon: 'Monitor',
     },
   ],
+  cta: {
+    headline: 'Der nächste Schritt liegt bei dir.',
+    text: 'Unternehmertum bringt Verantwortung, Druck und manchmal auch Phasen, in denen man nicht mehr weiter weiß.\n\nGenau in diesen Momenten entscheidet ein stabiles Fundament aus Struktur, Systemen und den richtigen Entscheidungen darüber, ob man wieder aufsteht.\n\nWenn du Unternehmer bist und merkst, dass dein Unternehmen mehr Struktur, Klarheit und bessere Systeme braucht, können wir darüber sprechen.\n\nManchmal hilft auch einfach ein Gespräch mit jemandem, der diese Situationen selbst erlebt hat.',
+    button: 'Gespräch anfragen',
+  },
 };
