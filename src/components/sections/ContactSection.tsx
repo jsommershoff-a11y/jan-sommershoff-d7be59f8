@@ -4,18 +4,41 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, MapPin, Send } from 'lucide-react';
+import { Mail, MapPin, Send, Loader2, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 export function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Anfrage von ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
-    );
-    window.location.href = `mailto:${siteData.email}?subject=${subject}&body=${body}`;
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          type: 'contact',
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        },
+      });
+
+      if (error) throw error;
+
+      setIsSuccess(true);
+      setForm({ name: '', email: '', message: '' });
+      toast.success('Nachricht erfolgreich gesendet!');
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      console.error('Submit error:', error);
+      toast.error('Fehler beim Senden. Bitte versuche es erneut.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -34,47 +57,65 @@ export function ContactSection() {
 
         <div className="grid md:grid-cols-2 gap-16">
           <ScrollReveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Dein Name"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  required
-                />
+            {isSuccess ? (
+              <div className="flex flex-col items-center justify-center text-center space-y-4 py-12">
+                <CheckCircle className="size-16 text-green-500" />
+                <h3 className="text-2xl font-semibold text-foreground">Nachricht gesendet!</h3>
+                <p className="text-muted-foreground">
+                  Vielen Dank für deine Nachricht. Ich melde mich schnellstmöglich.
+                </p>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">E-Mail</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="deine@email.de"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Nachricht</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Wie kann ich dir helfen?"
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:opacity-90 transition-opacity"
-              >
-                <Send className="size-4" />
-                Nachricht senden
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Dein Name"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">E-Mail</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="deine@email.de"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">Nachricht</Label>
+                  <Textarea
+                    id="message"
+                    placeholder="Wie kann ich dir helfen?"
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Send className="size-4" />
+                  )}
+                  {isSubmitting ? 'Wird gesendet...' : 'Nachricht senden'}
+                </button>
+              </form>
+            )}
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
