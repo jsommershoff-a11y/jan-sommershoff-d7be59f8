@@ -8,8 +8,6 @@ export function ClosingSection() {
 
   return (
     <section className="relative">
-      <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
       <div className="py-24 md:py-36 px-6 lg:px-8 bg-gradient-to-b from-[#0F3D2E] to-[#0a2e21] relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.03),transparent_60%)] pointer-events-none" />
 
