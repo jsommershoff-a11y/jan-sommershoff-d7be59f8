@@ -32,9 +32,9 @@ export default function Home() {
         <KiZukunftSection />
         <ProjectsSection />
         <LeadMagnetSection />
-        <CtaSection />
-        <ContactSection />
         <ClosingSection />
+        <ContactSection />
+        <CtaSection />
         <StickyCta />
       </div>
     </>
