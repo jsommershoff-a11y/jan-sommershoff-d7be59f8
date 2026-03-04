@@ -1,10 +1,12 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Building2, Users, Brain, TrendingUp } from 'lucide-react';
+import { Building2, Users, Brain, TrendingUp, UsersRound } from 'lucide-react';
 
 const stats = [
   { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
+  { value: '50+', label: 'Immobilienprojekte', icon: Building2 },
+  { value: '100+', label: 'KI Systeme implementiert', icon: Brain },
   { value: '10+', label: 'Unternehmer begleitet', icon: Users },
-  { value: '10+', label: 'KI Systeme implementiert', icon: Brain },
+  { value: '50+', label: 'Mitarbeiter in Spitzenzeiten', icon: UsersRound },
 ];
 
 export function SocialProofSection() {
