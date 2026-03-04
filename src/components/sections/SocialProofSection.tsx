@@ -13,7 +13,7 @@ export function SocialProofSection() {
   return (
     <section className="py-16 md:py-20 px-6 lg:px-8 bg-primary">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <ScrollReveal key={stat.label} delay={index * 0.1}>
               <div className="text-center space-y-2">
