@@ -4,7 +4,7 @@ import { Building2, Users, Brain, TrendingUp } from 'lucide-react';
 const stats = [
   { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
   { value: '10+', label: 'Unternehmer begleitet', icon: Users },
-  { value: 'KI', label: 'Systeme implementiert', icon: Brain },
+  { value: '10+', label: 'KI Systeme implementiert', icon: Brain },
 ];
 
 export function SocialProofSection() {
