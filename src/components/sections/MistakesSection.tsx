@@ -61,12 +61,13 @@ export function MistakesSection() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
             Fehler, die ich heute nie wieder machen würde.
           </h2>
-          <p className="text-white/60 text-lg mb-14 max-w-2xl">
+          <div className="w-16 h-0.5 bg-[#0F3D2E] mb-6" />
+          <p className="text-white/60 text-lg mb-16 max-w-2xl">
             Erfahrungen, die mich als Unternehmer geprägt haben.
           </p>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {mistakes.map((item, index) => {
             const Icon = item.icon;
 
@@ -74,23 +75,30 @@ export function MistakesSection() {
               <ScrollReveal key={index} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="group h-full bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-7 md:p-8 transition-all duration-300 hover:bg-white/[0.07] hover:border-[#0F3D2E]/40"
+                  className="group relative h-full bg-[#1a1a1a] border border-white/[0.06] rounded-2xl p-7 md:p-8 transition-all duration-300 hover:border-[#0F3D2E]/40 shadow-[0_4px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
                 >
-                  <div className="size-12 rounded-full bg-[#0F3D2E]/20 flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-[#0F3D2E]/30">
-                    <Icon className="size-5 text-[#0F3D2E]" />
+                  {/* Large decorative quote mark */}
+                  <span className="absolute top-4 right-5 text-[7rem] leading-none font-serif text-white/[0.03] pointer-events-none select-none">
+                    „
+                  </span>
+
+                  <div className="relative z-10">
+                    <div className="size-12 rounded-full bg-[#0F3D2E]/20 flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-[#0F3D2E]/30">
+                      <Icon className="size-5 text-[#0F3D2E]" />
+                    </div>
+
+                    <h3 className="text-xl font-bold text-white mb-3 leading-snug">
+                      {item.headline}
+                    </h3>
+
+                    <p className="text-white/50 leading-relaxed mb-4 text-[15px]">
+                      {item.reflection}
+                    </p>
+
+                    <p className="text-[#0F3D2E] font-medium leading-relaxed text-[15px]">
+                      {item.lesson}
+                    </p>
                   </div>
-
-                  <h3 className="text-xl font-bold text-white mb-3 leading-snug">
-                    {item.headline}
-                  </h3>
-
-                  <p className="text-white/50 leading-relaxed mb-4 text-[15px]">
-                    {item.reflection}
-                  </p>
-
-                  <p className="text-[#0F3D2E] font-medium leading-relaxed text-[15px]">
-                    {item.lesson}
-                  </p>
                 </motion.div>
               </ScrollReveal>
             );
