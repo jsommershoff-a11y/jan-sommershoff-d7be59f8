@@ -21,7 +21,9 @@ const columns = [
 
 export function TrustSection() {
   return (
-    <section className="py-16 md:py-32 px-5 md:px-6 lg:px-8 bg-primary text-primary-foreground">
+    <section className="relative py-16 md:py-32 px-5 md:px-6 lg:px-8 bg-primary text-primary-foreground">
+      {/* Subtle gradient transition from hero */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-center mb-10 md:mb-16">
