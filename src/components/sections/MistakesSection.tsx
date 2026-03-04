@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { AlertTriangle, Users, Workflow, ShieldCheck, TrendingUp } from 'lucide-react';
+import { AlertTriangle, Users, Workflow, ShieldCheck, TrendingUp, ArrowRightLeft } from 'lucide-react';
 
 const mistakes = [
   {
@@ -32,6 +32,12 @@ const mistakes = [
     headline: 'Zu schnell wachsen.',
     reflection: 'Einer meiner größten Fehler war, Wachstum über Struktur zu stellen. Neue Projekte, neue Verantwortung, neue Menschen – aber zu wenig klare Prozesse.',
     lesson: 'Heute weiß ich: Wachstum ohne Struktur ist kein Fortschritt. Es ist Risiko. Deshalb arbeite ich heute konsequent mit klaren Systemen und KI-gestützten Prozessen.',
+  },
+  {
+    icon: ArrowRightLeft,
+    headline: 'Verantwortung zu früh abgeben.',
+    reflection: 'Ich habe Aufgaben delegiert, bevor die Prozesse wirklich klar waren. Mitarbeiter konnten Entscheidungen nicht sauber treffen, weil die Struktur fehlte.',
+    lesson: 'Die Verantwortung lag am Ende trotzdem bei mir. Heute gilt für mich: Erst verstehen. Dann strukturieren. Dann delegieren.',
   },
 ];
 
