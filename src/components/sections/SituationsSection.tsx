@@ -18,9 +18,9 @@ const situations = [
   },
   {
     icon: TrendingDown,
-    headline: 'Du merkst, dass dein Unternehmen schneller wächst als deine Strukturen.',
-    story: 'Am Anfang funktioniert vieles über Energie und Improvisation.\n\nDoch irgendwann merkst du: Entscheidungen dauern länger, Prozesse funktionieren nicht sauber und dein Unternehmen wird immer chaotischer.\n\nViele Unternehmer versuchen dann einfach noch mehr zu arbeiten.',
-    insight: 'Das Problem ist aber selten der Einsatz. Das Problem sind fehlende Systeme.',
+    headline: 'Du wächst schneller als deine Strukturen.',
+    story: 'Manchmal wächst ein Unternehmen schneller, als man selbst Strukturen aufbauen kann.\n\nGenau das ist mir passiert.\n\nIch habe Entscheidungen getroffen, Aufgaben abgegeben und Verantwortung verteilt – ohne die Prozesse wirklich sauber aufgebaut zu haben.\n\nDas Ergebnis war Chaos, Missverständnisse und viele Probleme, die vermeidbar gewesen wären.',
+    insight: 'Heute weiß ich: Wachstum ohne Struktur ist kein Wachstum. Es ist nur beschleunigtes Chaos. Saubere Prozesse, klare Verantwortlichkeiten und KI-gestützte Systeme sorgen dafür, dass Wachstum stabil bleibt.',
   },
   {
     icon: Users,
