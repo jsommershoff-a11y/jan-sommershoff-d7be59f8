@@ -27,12 +27,14 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05]"
+              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.2]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {siteData.heroHeadline}
+              <span className="block">Comeback.</span>
+              <span className="block mt-2 md:mt-4">Struktur.</span>
+              <span className="block mt-2 md:mt-4 text-primary">KI.</span>
             </motion.h1>
 
             <motion.p
