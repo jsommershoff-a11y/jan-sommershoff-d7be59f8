@@ -11,6 +11,7 @@ import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { LeadMagnetSection } from '@/components/sections/LeadMagnetSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
+import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
 
@@ -33,6 +34,7 @@ export default function Home() {
         <ProjectsSection />
         <LeadMagnetSection />
         <ClosingSection />
+        <PersonalContactSection />
         <ContactSection />
         <CtaSection />
         <StickyCta />
