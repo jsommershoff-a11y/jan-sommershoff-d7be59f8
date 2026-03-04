@@ -15,7 +15,7 @@ export function HeroSection() {
           alt="Jan Sommershoff auf der Bühne"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/[0.75] via-black/[0.60] to-black/[0.45]" />
       </div>
 
       <div className="relative h-full flex items-center px-6 lg:px-8">
