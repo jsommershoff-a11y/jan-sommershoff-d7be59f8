@@ -21,23 +21,23 @@ const columns = [
 
 export function TrustSection() {
   return (
-    <section className="py-24 md:py-32 px-6 lg:px-8 bg-primary text-primary-foreground">
+    <section className="py-16 md:py-32 px-5 md:px-6 lg:px-8 bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-16">
+          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-center mb-10 md:mb-16">
             Warum Unternehmer mit mir arbeiten
           </h2>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {columns.map((col, i) => (
-            <ScrollReveal key={col.title} delay={i * 0.15}>
-              <div className="text-center space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center mx-auto">
-                  <col.icon className="size-7 text-accent" />
+            <ScrollReveal key={col.title} delay={i * 0.1}>
+              <div className="text-center space-y-3 md:space-y-4">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/10 flex items-center justify-center mx-auto">
+                  <col.icon className="size-6 md:size-7 text-accent" />
                 </div>
-                <h3 className="text-xl font-semibold">{col.title}</h3>
-                <p className="text-primary-foreground/75 leading-relaxed">
+                <h3 className="text-lg md:text-xl font-semibold">{col.title}</h3>
+                <p className="text-primary-foreground/75 leading-relaxed text-sm md:text-base">
                   {col.text}
                 </p>
               </div>
