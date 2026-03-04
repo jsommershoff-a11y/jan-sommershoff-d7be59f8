@@ -7,19 +7,19 @@ interface ScrollRevealProps {
   className?: string;
 }
 
-/**
- * Reusable scroll-triggered animation component
- * Reveals content with fade and slide on scroll
- */
 export function ScrollReveal({ children, delay = 0, className }: ScrollRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+      }}
       transition={{ 
         duration: 0.6,
         delay,
