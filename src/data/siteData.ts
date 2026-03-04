@@ -7,7 +7,7 @@ export const siteData = {
   email: 'info@krsimmobilien.de',
   location: 'Deutschland',
   socialLinks: {
-    linkedin: 'https://linkedin.com/in/jansommershoff',
+    linkedin: 'https://www.linkedin.com/in/jan-niklas-sommershoff-719787218',
     instagram: 'https://www.instagram.com/jan_sommershoff/',
   },
   story: {
