@@ -61,7 +61,7 @@ export function HeroSection() {
             >
               <button
                 onClick={() => scrollTo('lead-magnet')}
-                className="px-8 py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:opacity-90 transition-opacity"
+                className="px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
               >
                 KI Erste Hilfe starten
               </button>

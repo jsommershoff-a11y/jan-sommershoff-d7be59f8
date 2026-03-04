@@ -44,12 +44,12 @@ export function LeadMagnetSection() {
     <section id="lead-magnet" className="py-24 md:py-32 px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
-          <div className="bg-card rounded-3xl p-10 md:p-16 shadow-lg border border-border">
+          <div className="bg-card rounded-3xl p-10 md:p-16 shadow-lg border border-primary/10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                <Package className="size-6 text-accent" />
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Package className="size-6 text-primary" />
               </div>
-              <p className="text-sm font-semibold tracking-widest uppercase text-accent">
+              <p className="text-sm font-semibold tracking-widest uppercase text-primary">
                 Kostenlos
               </p>
             </div>
@@ -72,15 +72,15 @@ export function LeadMagnetSection() {
             <div className="space-y-4 mb-10">
               {siteData.leadMagnet.items.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <CheckCircle className="size-5 text-accent mt-0.5 shrink-0" />
+                  <CheckCircle className="size-5 text-primary mt-0.5 shrink-0" />
                   <span className="text-foreground font-medium">{item}</span>
                 </div>
               ))}
             </div>
 
             {isSuccess ? (
-              <div className="flex items-center gap-3 p-4 bg-green-500/10 rounded-lg">
-                <CheckCircle className="size-6 text-green-500 shrink-0" />
+              <div className="flex items-center gap-3 p-4 bg-primary/10 rounded-lg">
+                <CheckCircle className="size-6 text-primary shrink-0" />
                 <p className="text-foreground font-medium">
                   Vielen Dank! Du erhältst den KI-Notfallkoffer in Kürze per E-Mail.
                 </p>
@@ -113,7 +113,7 @@ export function LeadMagnetSection() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-10 py-4 bg-accent text-accent-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg disabled:opacity-50 shadow-lg"
                 >
                   {isSubmitting ? (
                     <>
@@ -128,7 +128,7 @@ export function LeadMagnetSection() {
             ) : (
               <button
                 onClick={() => setShowForm(true)}
-                className="px-10 py-4 bg-accent text-accent-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg"
+                className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg shadow-lg"
               >
                 {siteData.leadMagnet.button}
               </button>

@@ -1,5 +1,6 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { PhilosophySection } from '@/components/sections/PhilosophySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
@@ -8,6 +9,7 @@ import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { LeadMagnetSection } from '@/components/sections/LeadMagnetSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { StickyCta } from '@/components/sections/StickyCta';
 
 export default function Home() {
   return (
@@ -18,6 +20,7 @@ export default function Home() {
       />
       <div className="min-h-screen">
         <HeroSection />
+        <SocialProofSection />
         <StorySection />
         <PhilosophySection />
         <ExpertiseSection />
@@ -26,6 +29,7 @@ export default function Home() {
         <LeadMagnetSection />
         <CtaSection />
         <ContactSection />
+        <StickyCta />
       </div>
     </>
   );
