@@ -75,7 +75,10 @@ export function ClosingSection() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <div className="mt-12">
+            <div className="mt-12 flex flex-col items-center">
+              <p className="text-white/50 text-base italic mb-4">
+                Welche Situation beschäftigt dich gerade am meisten?
+              </p>
               <button
                 onClick={scrollToContact}
                 className="inline-flex items-center gap-2.5 bg-white text-[#0F3D2E] font-bold text-lg px-10 py-4 rounded-lg shadow-[0_4px_24px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_32px_rgba(255,255,255,0.25)] hover:-translate-y-0.5 transition-all duration-300"
