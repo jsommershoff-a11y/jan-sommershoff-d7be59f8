@@ -9,6 +9,8 @@ export const siteData = {
   socialLinks: {
     linkedin: 'https://www.linkedin.com/in/jan-niklas-sommershoff-719787218',
     instagram: 'https://www.instagram.com/jan_sommershoff/',
+    youtube: '#',
+    podcast: '#',
   },
   story: {
     headline: 'Meine Geschichte',

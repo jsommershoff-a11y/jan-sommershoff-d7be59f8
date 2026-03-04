@@ -4,7 +4,7 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, MapPin, Send, Loader2, CheckCircle } from 'lucide-react';
+import { Mail, MapPin, Send, Loader2, CheckCircle, Linkedin, Instagram, Youtube, Podcast } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -135,6 +135,37 @@ export function ContactSection() {
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <MapPin className="size-5" />
                     <span>{siteData.location}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Links */}
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-4">
+                  Social Media
+                </h3>
+                <div className="flex items-start gap-5">
+                  {siteData.socialLinks.linkedin && (
+                    <a href={siteData.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
+                      <Linkedin className="size-5" />
+                    </a>
+                  )}
+                  {siteData.socialLinks.instagram && (
+                    <a href={siteData.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
+                      <Instagram className="size-5" />
+                    </a>
+                  )}
+                  <div className="flex flex-col items-center gap-1">
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="YouTube">
+                      <Youtube className="size-5" />
+                    </a>
+                    <span className="text-[10px] text-muted-foreground/60">Coming soon</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Podcast">
+                      <Podcast className="size-5" />
+                    </a>
+                    <span className="text-[10px] text-muted-foreground/60">Coming soon</span>
                   </div>
                 </div>
               </div>
