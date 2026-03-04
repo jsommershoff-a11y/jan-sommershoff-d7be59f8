@@ -23,9 +23,9 @@ const mistakes = [
   },
   {
     icon: ShieldCheck,
-    headline: 'Mein Unternehmen nicht abgesichert.',
-    reflection: 'Ich hatte keine Kontrollsysteme, keine Datenüberwachung und keine klaren Prozesse für den Ernstfall. Als es darauf ankam, war ich unvorbereitet.',
-    lesson: 'Heute sind Absicherung und Monitoring fester Bestandteil meiner Unternehmensstruktur – vieles davon KI-gestützt.',
+    headline: 'Mein Unternehmen nicht ausreichend schützen.',
+    reflection: 'In schwierigen Zeiten habe ich erlebt, wie schnell Vertrauen missbraucht werden kann. Fehlende Kontrollmechanismen, unklare Datenstrukturen und zu viel Vertrauen haben zu Problemen geführt.',
+    lesson: 'Heute setze ich auf klare Systeme, Monitoring und strukturierte Prozesse – oft auch mit KI-Unterstützung.',
   },
   {
     icon: TrendingUp,
