@@ -5,34 +5,34 @@ import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark } from 'luc
 
 const situations = [
   {
-    icon: TrendingDown,
-    headline: 'Dein Umsatz bricht ein – und du weißt nicht warum.',
-    story: 'Du arbeitest mehr als je zuvor. Aber die Zahlen stimmen nicht mehr. Kunden springen ab, Projekte verzögern sich, und du merkst: Irgendwo ist das System undicht geworden.',
-    insight: 'Meistens liegt es nicht am Markt. Sondern an fehlenden Strukturen, die mit dem Wachstum nicht mitgewachsen sind.',
-  },
-  {
-    icon: Users,
-    headline: 'Du hast ein Team – aber trägst alles allein.',
-    story: 'Auf dem Papier hast du Mitarbeiter. Aber in der Realität landest du bei jeder wichtigen Entscheidung wieder bei dir selbst. Delegation fühlt sich an wie ein Risiko.',
-    insight: 'Echte Führung beginnt mit klaren Entscheidungsstrukturen – nicht mit mehr Kontrolle.',
-  },
-  {
     icon: Scale,
-    headline: 'Du stehst vor einer Entscheidung, die alles verändern könnte.',
-    story: 'Verkaufen oder weitermachen? Investieren oder absichern? Partner aufnehmen oder allein weitergehen? Die Tragweite der Entscheidung lähmt dich.',
-    insight: 'In solchen Momenten hilft kein Bauchgefühl. Sondern ein strukturiertes Framework, das deine Optionen klar macht.',
+    headline: 'Du wirst im Business zu Entscheidungen gedrängt.',
+    story: 'Manchmal wirst du im Business unter Druck gesetzt.\n\nGeschäftspartner, Investoren oder sogar Freunde erwarten, dass du sofort entscheidest. Jetzt unterschreiben. Jetzt investieren. Jetzt den nächsten Schritt machen.\n\nDu spürst innerlich, dass etwas nicht stimmt – aber der Druck von außen ist groß.\n\nGenau in solchen Situationen habe ich in der Vergangenheit falsche Entscheidungen getroffen.',
+    insight: 'Heute weiß ich: Die wichtigsten Entscheidungen trifft man nicht unter Druck. Sondern mit Struktur, Analyse und der Fähigkeit, einen Schritt zurückzugehen.',
   },
   {
     icon: BrainCog,
-    headline: 'Du weißt, dass KI wichtig wird – aber nicht, wo du anfangen sollst.',
-    story: 'Alle reden über künstliche Intelligenz. Du siehst die Möglichkeiten, aber dein Tagesgeschäft lässt keinen Raum zum Experimentieren. Du hast Angst, den Anschluss zu verlieren.',
-    insight: 'Du brauchst keine KI-Revolution. Du brauchst drei bis fünf konkrete Anwendungen, die sofort Wirkung zeigen.',
+    headline: 'Du arbeitest im Unternehmen statt am Unternehmen.',
+    story: 'Viele Unternehmer verlieren sich irgendwann im operativen Chaos.\n\nBelege prüfen. E-Mails beantworten. Dokumente sortieren. Prozesse kontrollieren.\n\nDu arbeitest mehr im Unternehmen als am Unternehmen.\n\nDie Realität ist brutal: Unternehmer, die dauerhaft wie eine Sekretärin arbeiten, werden langfristig auch wie eine Sekretärin bezahlt.',
+    insight: 'Genau hier verändert künstliche Intelligenz gerade alles. Viele dieser Aufgaben lassen sich heute von KI-Systemen erledigen – sauber, strukturiert und kontrollierbar.',
+  },
+  {
+    icon: TrendingDown,
+    headline: 'Du merkst, dass dein Unternehmen schneller wächst als deine Strukturen.',
+    story: 'Am Anfang funktioniert vieles über Energie und Improvisation.\n\nDoch irgendwann merkst du: Entscheidungen dauern länger, Prozesse funktionieren nicht sauber und dein Unternehmen wird immer chaotischer.\n\nViele Unternehmer versuchen dann einfach noch mehr zu arbeiten.',
+    insight: 'Das Problem ist aber selten der Einsatz. Das Problem sind fehlende Systeme.',
+  },
+  {
+    icon: Users,
+    headline: 'Du hast Erfolg – aber innerlich fühlt sich vieles falsch an.',
+    story: 'Von außen sieht alles gut aus.\n\nDas Unternehmen wächst, Projekte laufen, Menschen sehen dich als erfolgreichen Unternehmer.\n\nAber innerlich merkst du, dass vieles nicht mehr stimmig ist. Entscheidungen fühlen sich schwer an und du hast das Gefühl, ständig unter Druck zu stehen.',
+    insight: 'Diese Phase kennen viele Unternehmer – aber kaum jemand spricht offen darüber.',
   },
   {
     icon: Landmark,
-    headline: 'Dein Unternehmen hat eine Krise hinter sich – und du brauchst einen Neustart.',
-    story: 'Vielleicht war es ein finanzieller Rückschlag, ein gescheitertes Projekt oder eine persönliche Krise. Du stehst wieder auf – aber der Weg zurück fühlt sich unklar an.',
-    insight: 'Ein Comeback beginnt nicht mit Motivation. Sondern mit einem soliden Fundament aus Struktur, Systemen und den richtigen Entscheidungen.',
+    headline: 'Du trägst Entscheidungen alleine.',
+    story: 'Je größer dein Unternehmen wird, desto weniger Menschen gibt es, mit denen du offen über Entscheidungen sprechen kannst.\n\nMitarbeiter erwarten Führung. Partner erwarten Ergebnisse. Familie erwartet Stabilität.\n\nAber wer hört dir zu, wenn du selbst nicht mehr weiterweißt?',
+    insight: 'Manchmal braucht es keinen Berater. Sondern jemanden, der diese Situationen selbst erlebt hat.',
   },
 ];
 
@@ -94,9 +94,11 @@ export function SituationsSection() {
                         className="overflow-hidden"
                       >
                         <div className="px-5 md:px-6 pb-6 pt-0 ml-0 md:ml-[3.75rem] space-y-4">
-                          <p className="text-muted-foreground leading-relaxed">
-                            {item.story}
-                          </p>
+                          <div className="text-muted-foreground leading-relaxed space-y-3">
+                            {item.story.split('\n\n').map((p, i) => (
+                              <p key={i}>{p}</p>
+                            ))}
+                          </div>
                           <p className="text-[#0F3D2E] font-medium leading-relaxed">
                             {item.insight}
                           </p>
