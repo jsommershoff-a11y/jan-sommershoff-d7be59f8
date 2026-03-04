@@ -13,6 +13,8 @@ import { LoadingFallback } from "@/components/ui/LoadingFallback";
 const Home = lazy(() => import("./pages/Home"));
 const Impressum = lazy(() => import("./pages/Impressum"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Upsell = lazy(() => import("./pages/Upsell"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -25,16 +27,19 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Layout>
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/impressum" element={<Impressum />} />
-                  <Route path="/datenschutz" element={<Datenschutz />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                {/* Funnel pages – no main layout */}
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/upsell" element={<Upsell />} />
+
+                {/* Main site pages */}
+                <Route path="/" element={<Layout><Home /></Layout>} />
+                <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
+                <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
+                <Route path="*" element={<Layout><NotFound /></Layout>} />
+              </Routes>
+            </Suspense>
             <CookieBanner />
           </BrowserRouter>
         </TooltipProvider>
