@@ -8,6 +8,7 @@ export const siteData = {
   location: 'Deutschland',
   socialLinks: {
     linkedin: 'https://linkedin.com/in/jansommershoff',
+    instagram: 'https://www.instagram.com/jan_sommershoff/',
   },
   story: {
     headline: 'Meine Geschichte',

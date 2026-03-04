@@ -1,4 +1,4 @@
-import { Linkedin } from 'lucide-react';
+import { Instagram, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { siteData } from '@/data/siteData';
 import logoLight from '@/assets/logo-light.png';
@@ -29,6 +29,17 @@ export function Footer() {
             >
               {siteData.email}
             </a>
+            {siteData.socialLinks.instagram && (
+              <a
+                href={siteData.socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="size-5" />
+              </a>
+            )}
             {siteData.socialLinks.linkedin && (
               <a
                 href={siteData.socialLinks.linkedin}
