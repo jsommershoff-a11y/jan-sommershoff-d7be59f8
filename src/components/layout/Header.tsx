@@ -4,8 +4,7 @@ import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
-import logoLight from '@/assets/logo-light.png';
-import logoDark from '@/assets/logo-dark.png';
+import logoIcon from '@/assets/logo-icon.png';
 
 const navLinks = [
   { name: 'Meine Geschichte', href: '#story' },
@@ -61,18 +60,21 @@ export function Header() {
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }}
-              className="z-50"
+              className="flex items-center gap-2.5 z-50"
             >
               <img
-                src={isTransparent ? logoDark : logoLight}
-                alt="Jan Sommershoff"
-                className="h-10 w-auto dark:hidden"
+                src={logoIcon}
+                alt="JS"
+                className="h-9 w-9 rounded-md object-cover"
               />
-              <img
-                src={logoDark}
-                alt="Jan Sommershoff"
-                className="h-10 w-auto hidden dark:block"
-              />
+              <span
+                className={cn(
+                  'text-sm font-semibold tracking-[0.2em] transition-colors duration-300 hidden sm:block',
+                  isTransparent ? 'text-white' : 'text-foreground'
+                )}
+              >
+                JAN SOMMERSHOFF
+              </span>
             </a>
 
             {/* Desktop nav */}
