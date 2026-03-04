@@ -24,7 +24,12 @@ export function ProjectsSection() {
             const Icon = iconMap[project.icon];
             return (
               <ScrollReveal key={project.name} delay={index * 0.15}>
-                <div className="group bg-card p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <a
+                  href="https://krs-signature.de/auth?src=jan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block bg-card p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+                >
                   <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
                     {Icon && <Icon className="size-8 text-accent" />}
                   </div>
@@ -34,11 +39,11 @@ export function ProjectsSection() {
                   <p className="text-muted-foreground leading-relaxed">
                     {project.description}
                   </p>
-                  <div className="mt-6 flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+                  <div className="mt-6 inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
                     <span>Mehr erfahren</span>
-                    <ArrowRight className="size-4" />
+                    <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </a>
               </ScrollReveal>
             );
           })}

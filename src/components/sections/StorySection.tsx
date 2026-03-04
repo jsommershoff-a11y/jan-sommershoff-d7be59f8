@@ -44,10 +44,11 @@ export function StorySection() {
                 href="https://krs-signature.de/auth?src=jan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.4)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.5)] hover:-translate-y-1 duration-300"
               >
-                Gespräch anfragen
-                <ArrowRight className="size-4" />
+                <span className="absolute inset-0 rounded-xl bg-primary animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-20" />
+                <span className="relative">Gespräch anfragen</span>
+                <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
             <div className="relative sticky top-32">
