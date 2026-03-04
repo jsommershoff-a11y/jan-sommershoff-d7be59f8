@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark } from 'lucide-react';
+import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark, LayoutList } from 'lucide-react';
 
 const situations = [
   {
@@ -33,6 +33,12 @@ const situations = [
     headline: 'Du trägst Entscheidungen alleine.',
     story: 'Je größer dein Unternehmen wird, desto weniger Menschen gibt es, mit denen du offen über Entscheidungen sprechen kannst.\n\nMitarbeiter erwarten Führung. Partner erwarten Ergebnisse. Familie erwartet Stabilität.\n\nAber wer hört dir zu, wenn du selbst nicht mehr weiterweißt?',
     insight: 'Manchmal braucht es keinen Berater. Sondern jemanden, der diese Situationen selbst erlebt hat.',
+  },
+  {
+    icon: LayoutList,
+    headline: 'Deine Organisation entscheidet über deinen Erfolg.',
+    story: 'Unternehmer glauben oft, Erfolg entsteht durch Energie und Einsatz.\n\nDoch langfristig entscheidet etwas anderes: Selbstführung.\n\nIch habe im Verlauf meiner unternehmerischen Reise gelernt, wie entscheidend Tagesorganisation und strukturiertes Arbeiten sind.\n\nWer seine eigenen Abläufe nicht kontrolliert, verliert irgendwann die Kontrolle über sein Unternehmen.',
+    insight: 'KI kann hier eine enorme Hilfe sein – bei Planung, Struktur und Kontrolle.',
   },
 ];
 
