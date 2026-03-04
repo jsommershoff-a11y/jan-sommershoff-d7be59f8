@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
+import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +11,8 @@ const navLinks = [
   { name: 'Projekte', href: '#projects' },
   { name: 'Kontakt', href: '#contact' },
 ];
+
+const sectionIds = navLinks.map((l) => l.href.slice(1));
 
 function HamburgerIcon({ open, transparent }: { open: boolean; transparent: boolean }) {
   const lineClass = cn(
@@ -29,6 +32,7 @@ export function Header() {
   const { isScrolled } = useScrollPosition();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isTransparent = !isScrolled && !mobileMenuOpen;
+  const activeSection = useActiveSection(sectionIds);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -65,25 +69,47 @@ export function Header() {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 * i }}
-                >
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={cn(
-                      'text-sm font-medium tracking-wide transition-colors duration-300',
-                      isTransparent ? 'text-white/90 hover:text-white' : 'text-muted-foreground hover:text-foreground'
-                    )}
+              {navLinks.map((link, i) => {
+                const isActive = activeSection === link.href;
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 * i }}
+                    className="relative"
                   >
-                    {link.name}
-                  </a>
-                </motion.div>
-              ))}
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.href)}
+                      className={cn(
+                        'text-sm font-medium tracking-wide transition-colors duration-300',
+                        isTransparent
+                          ? isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                          : isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                      )}
+                    >
+                      {link.name}
+                    </a>
+                    {/* Active indicator dot */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-indicator"
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className={cn(
+                            'absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full',
+                            isTransparent ? 'bg-white' : 'bg-[#0F3D2E] dark:bg-[#6fcfab]'
+                          )}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
               <ThemeToggle />
             </nav>
 
@@ -114,23 +140,31 @@ export function Header() {
             className="fixed inset-0 z-40 bg-background/98 backdrop-blur-md flex flex-col"
           >
             <nav className="flex-1 flex flex-col justify-center items-center gap-2 px-8">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.35, delay: 0.08 * i }}
-                >
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="block text-2xl font-light tracking-wide text-foreground hover:text-[#0F3D2E] dark:hover:text-[#6fcfab] transition-colors py-4 text-center"
+              {navLinks.map((link, i) => {
+                const isActive = activeSection === link.href;
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.35, delay: 0.08 * i }}
                   >
-                    {link.name}
-                  </a>
-                </motion.div>
-              ))}
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.href)}
+                      className={cn(
+                        'block text-2xl font-light tracking-wide transition-colors py-4 text-center',
+                        isActive
+                          ? 'text-[#0F3D2E] dark:text-[#6fcfab]'
+                          : 'text-foreground/60 hover:text-[#0F3D2E] dark:hover:text-[#6fcfab]'
+                      )}
+                    >
+                      {link.name}
+                    </a>
+                  </motion.div>
+                );
+              })}
 
               {/* CTA in mobile menu */}
               <motion.div
