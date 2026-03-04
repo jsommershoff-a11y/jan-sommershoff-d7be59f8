@@ -61,13 +61,13 @@ export function HeroSection() {
             >
               <button
                 onClick={() => scrollTo('lead-magnet')}
-                className="px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                className="px-10 py-5 bg-primary text-primary-foreground text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-[0_4px_20px_rgba(15,61,46,0.4)]"
               >
                 KI Erste Hilfe starten
               </button>
               <button
                 onClick={() => scrollTo('contact')}
-                className="px-8 py-4 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
+                className="px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-colors"
               >
                 Gespräch anfragen
               </button>
