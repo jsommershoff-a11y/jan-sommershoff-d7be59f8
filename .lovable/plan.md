@@ -1,15 +1,11 @@
 
 
-## Plan: Absenderadresse aktualisieren und E-Mail-Versand testen
+## Plan: Hero-Bild ersetzen
 
-### Änderung
+Das hochgeladene Bild zeigt Jan vor einem dunklen Hintergrund im schwarzen T-Shirt -- genau der richtige Stil für den Hero. Es ersetzt das aktuelle `hero-jan.jpeg` (blaues Pullover-Bild).
 
-In `supabase/functions/send-contact-email/index.ts` (Zeile 86):
+### Schritte
 
-**Vorher:** `from: 'Website <onboarding@resend.dev>'`  
-**Nachher:** `from: 'Jan Sommershoff <info@jan-sommershoff.de>'`
-
-### Test
-
-Nach dem Deploy der Änderung teste ich den Versand über das Kontaktformular und den KI-Notfallkoffer mit dem Browser-Tool, um sicherzustellen, dass E-Mails korrekt an j.s@krsimmobilien.de zugestellt werden.
+1. **Bild kopieren**: Das hochgeladene Bild als `src/assets/hero-jan-new.png` speichern
+2. **HeroSection.tsx aktualisieren**: Import auf das neue Bild ändern und ggf. das Overlay-Gradient anpassen, da das neue Bild bereits einen dunklen Hintergrund hat (leichteres Overlay reicht)
 
