@@ -60,7 +60,7 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <button
-                onClick={() => scrollTo('contact')}
+                onClick={() => scrollTo('lead-magnet')}
                 className="px-8 py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:opacity-90 transition-opacity"
               >
                 KI Erste Hilfe starten
@@ -69,7 +69,7 @@ export function HeroSection() {
                 onClick={() => scrollTo('contact')}
                 className="px-8 py-4 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
               >
-                Kontakt aufnehmen
+                Gespräch anfragen
               </button>
             </motion.div>
           </motion.div>

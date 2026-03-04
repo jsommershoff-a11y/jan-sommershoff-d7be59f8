@@ -1,9 +1,9 @@
 export const siteData = {
   name: 'Jan Sommershoff',
   tagline: 'Immobilien. KI. Unternehmertum.',
-  heroHeadline: 'Comeback. KI. Unternehmertum.',
+  heroHeadline: 'Comeback. Struktur. KI.',
   heroSubheadline:
-    'Ich begleite Unternehmer dabei, aus Chaos wieder ein System zu bauen – mit klaren Strukturen und KI als Hebel für bessere Entscheidungen.',
+    'Ich begleite Unternehmer dabei, aus Chaos wieder ein stabiles System zu bauen – mit klaren Entscheidungen, starken Strukturen und künstlicher Intelligenz als Hebel.',
   email: 'info@krsimmobilien.de',
   location: 'Deutschland',
   socialLinks: {
@@ -26,6 +26,12 @@ export const siteData = {
       'Die größten Krisen können die größte Entwicklung auslösen.',
       'Wenn man den Mut hat, sich selbst zu hinterfragen und ein solides Fundament aufzubauen.',
       'Genau dabei unterstütze ich heute Unternehmer.',
+      'Der Moment, in dem du mit dem Rücken zur Wand stehst, ist oft der Moment, in dem du die wichtigste Entscheidung deines Lebens triffst.',
+      'Nicht jede Entscheidung gelingt sofort.',
+      'Mir auch nicht.',
+      'Aber genau dort beginnt Entwicklung.',
+      'Heute arbeite ich daran, meine Unternehmen wieder stabil aufzubauen – mit besseren Entscheidungen, klaren Systemen und dem Einsatz von künstlicher Intelligenz.',
+      'Und genau diese Erfahrungen gebe ich heute an Unternehmer weiter.',
     ],
   },
   philosophy: {
@@ -42,19 +48,19 @@ export const siteData = {
     {
       title: 'Immobilien',
       description:
-        'Langjährige Erfahrung im Aufbau, Ankauf und der Entwicklung von Immobilienprojekten und unternehmerischen Strukturen.',
+        'Langjährige Erfahrung im Aufbau, Ankauf und der Entwicklung von Immobilienprojekten sowie der Strukturierung von Vermietungsmodellen.',
       icon: 'Building2',
     },
     {
       title: 'KI & Systeme',
       description:
-        'Ich unterstütze Unternehmer dabei, künstliche Intelligenz sinnvoll in ihre Prozesse zu integrieren, um bessere Entscheidungen und effizientere Strukturen aufzubauen.',
+        'Ich unterstütze Unternehmer dabei, künstliche Intelligenz gezielt in ihre Unternehmensprozesse zu integrieren – für bessere Entscheidungen, effizientere Abläufe und stabilere Strukturen.',
       icon: 'Brain',
     },
     {
       title: 'Unternehmertum',
       description:
-        'Strategien aus echter Erfahrung: Wachstum, Krisen, Verantwortung und der Aufbau stabiler Unternehmen.',
+        'Strategien aus echter Erfahrung: Wachstum, Krisenmanagement, Entscheidungsstrukturen und der Aufbau stabiler Unternehmen.',
       icon: 'Rocket',
     },
   ],
@@ -90,5 +96,19 @@ export const siteData = {
     headline: 'Der nächste Schritt liegt bei dir.',
     text: 'Unternehmertum bringt Verantwortung, Druck und manchmal auch Phasen, in denen man nicht mehr weiter weiß.\n\nGenau in diesen Momenten entscheidet ein stabiles Fundament aus Struktur, Systemen und den richtigen Entscheidungen darüber, ob man wieder aufsteht.\n\nWenn du Unternehmer bist und merkst, dass dein Unternehmen mehr Struktur, Klarheit und bessere Systeme braucht, können wir darüber sprechen.\n\nManchmal hilft auch einfach ein Gespräch mit jemandem, der diese Situationen selbst erlebt hat.',
     button: 'Gespräch anfragen',
+  },
+  leadMagnet: {
+    headline: 'KI Notfallkoffer für Unternehmer',
+    paragraphs: [
+      'Wenn dein Unternehmen wächst, entstehen automatisch neue Probleme.',
+      'Zu viele Entscheidungen.\nZu wenig Struktur.\nZu viele offene Prozesse.',
+      'Der KI-Notfallkoffer zeigt dir, wie du künstliche Intelligenz sofort in deine tägliche Arbeit integrieren kannst.',
+    ],
+    items: [
+      '10 KI Prompts für Unternehmer',
+      '3 Automatisierungs-Workflows',
+      'Ein Entscheidungs-Framework für schwierige Situationen',
+    ],
+    button: 'KI Notfallkoffer anfordern',
   },
 };
