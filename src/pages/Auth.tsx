@@ -59,7 +59,50 @@ export default function Auth() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex">
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+      {/* Conversion section */}
+      <section className="border-b border-white/5 py-16 md:py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug mb-8"
+          >
+            Wenn du gerade merkst, dass dein Unternehmen dich mehr belastet als es dir Freiheit gibt, dann ist jetzt der richtige Moment, etwas zu verändern.
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-4 text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-10"
+          >
+            <p>Viele Unternehmer merken erst zu spät, dass sie ihre Zeit mit den falschen Aufgaben verbringen.</p>
+            <p className="text-white/80 font-medium">KI kann dir genau hier helfen.</p>
+            <p>Nicht als Ersatz für dein Denken.</p>
+            <p>Sondern als System, das dir Zeit zurückgibt.</p>
+          </motion.div>
+
+          <motion.a
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            href="#register"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#0F3D2E] hover:bg-[#174d3a] text-white font-medium rounded-xl transition-colors text-sm tracking-wide"
+          >
+            Kostenlose KI Analyse starten
+            <Zap className="w-4 h-4" />
+          </motion.a>
+        </div>
+      </section>
+
+      {/* Registration section */}
+      <div id="register" className="flex-1 flex min-h-screen">
       {/* Left: Benefits */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#0F3D2E] to-[#0a2a1e] p-16 flex-col justify-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -219,6 +262,7 @@ export default function Auth() {
             <a href="/datenschutz" className="underline hover:text-white/40">Datenschutzerklärung</a>.
           </p>
         </motion.div>
+      </div>
       </div>
     </div>
   );
