@@ -39,13 +39,13 @@ export function StickyCta() {
               Bereit für den nächsten Schritt? Starte jetzt mit dem KI-Notfallkoffer.
             </p>
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <button
-                onClick={() => scrollTo('lead-magnet')}
+              <a
+                href="/auth"
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-white text-primary font-semibold rounded-lg hover:bg-white/90 transition-colors text-sm"
               >
                 Kostenlos starten
                 <ArrowRight className="size-4" />
-              </button>
+              </a>
               <button
                 onClick={() => setIsDismissed(true)}
                 className="p-2 text-primary-foreground/60 hover:text-primary-foreground transition-colors"

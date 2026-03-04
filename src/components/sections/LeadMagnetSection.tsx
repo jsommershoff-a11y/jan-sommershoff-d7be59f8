@@ -78,61 +78,12 @@ export function LeadMagnetSection() {
               ))}
             </div>
 
-            {isSuccess ? (
-              <div className="flex items-center gap-3 p-4 bg-primary/10 rounded-lg">
-                <CheckCircle className="size-6 text-primary shrink-0" />
-                <p className="text-foreground font-medium">
-                  Vielen Dank! Du erhältst den KI-Notfallkoffer in Kürze per E-Mail.
-                </p>
-              </div>
-            ) : showForm ? (
-              <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-                <div className="space-y-2">
-                  <Label htmlFor="lead-name">Name</Label>
-                  <Input
-                    id="lead-name"
-                    placeholder="Dein Name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lead-email">E-Mail</Label>
-                  <Input
-                    id="lead-email"
-                    type="email"
-                    placeholder="deine@email.de"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg disabled:opacity-50 shadow-lg"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="size-5 animate-spin" />
-                      Wird gesendet...
-                    </>
-                  ) : (
-                    'Jetzt anfordern'
-                  )}
-                </button>
-              </form>
-            ) : (
-              <button
-                onClick={() => setShowForm(true)}
-                className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg shadow-lg"
-              >
-                {siteData.leadMagnet.button}
-              </button>
-            )}
+            <a
+              href="/auth"
+              className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg shadow-lg inline-block"
+            >
+              {siteData.leadMagnet.button}
+            </a>
           </div>
         </ScrollReveal>
       </div>
