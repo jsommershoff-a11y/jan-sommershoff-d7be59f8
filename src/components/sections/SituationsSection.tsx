@@ -72,7 +72,7 @@ export function SituationsSection() {
   };
 
   return (
-    <section className="py-20 md:py-28 px-6 lg:px-8 bg-[#F3F4F3]">
+    <section className="py-20 md:py-28 px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F3D2E] mb-4 leading-tight">
