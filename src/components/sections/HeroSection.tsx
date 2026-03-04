@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { siteData } from '@/data/siteData';
 import heroImage from '@/assets/hero-jan.jpeg';
 
@@ -65,17 +66,20 @@ export function HeroSection() {
                 href="https://krs-signature.de/auth?src=jan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 bg-primary text-primary-foreground text-lg font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-[0_4px_20px_rgba(15,61,46,0.4)] inline-block"
+                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-primary text-primary-foreground text-lg font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.5)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.6)] hover:-translate-y-1 duration-300"
               >
-                KI Erste Hilfe starten
+                <span className="absolute inset-0 rounded-xl bg-primary animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-20" />
+                <span className="relative">KI Erste Hilfe starten</span>
+                <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
                 href="https://krs-signature.de/auth?src=jan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-lg hover:bg-white/10 transition-colors inline-block"
+                className="group inline-flex items-center gap-3 px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
               >
                 Gespräch anfragen
+                <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </motion.div>
           </motion.div>

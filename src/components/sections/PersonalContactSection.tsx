@@ -100,13 +100,15 @@ export function PersonalContactSection() {
                 </a>
 
                 {/* Secondary CTA */}
-                <button
-                  onClick={scrollToContact}
-                  className="inline-flex items-center justify-center gap-2.5 border-2 border-white/20 text-white font-semibold text-base px-8 py-4 rounded-full hover:border-[#0F3D2E] hover:bg-[#0F3D2E]/10 transition-all duration-300"
+                <a
+                  href="https://krs-signature.de/auth?src=jan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2.5 border-2 border-white/20 text-white font-semibold text-base px-8 py-4 rounded-full hover:border-primary hover:bg-primary/20 transition-all duration-300"
                 >
                   Analysegespräch buchen
-                  <ArrowRight className="size-4" />
-                </button>
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </a>
               </div>
 
               <p className="text-white/30 text-sm mt-4 flex items-center gap-2">
