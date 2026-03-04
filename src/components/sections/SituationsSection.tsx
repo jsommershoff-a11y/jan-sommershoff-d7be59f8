@@ -3,6 +3,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ChevronDown, TrendingUp, Workflow, Users, LayoutList, ShieldAlert, Compass } from 'lucide-react';
 
+// Key phrases to highlight in brand color
+const highlights = [
+  'Strukturen', 'Chaos', 'KI-gestützt', 'beschleunigtes Chaos',
+  'zu früh abgeben', 'KI automatisiert', 'strukturiert und dokumentiert',
+  'Struktur', 'Systeme', 'KI', 'Selbstführung', 'Kontrolle',
+  'Kontrollprozesse', 'Datenüberwachung', 'automatisierte Kontrollsysteme',
+  'neutrale Perspektive', 'Risiken abzuwägen',
+];
+
+function highlightText(text: string) {
+  // Sort by length descending to match longer phrases first
+  const sorted = [...highlights].sort((a, b) => b.length - a.length);
+  const pattern = sorted.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const regex = new RegExp(`(${pattern})`, 'g');
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    sorted.some(h => h === part)
+      ? <span key={i} className="text-[#0F3D2E] font-semibold">{part}</span>
+      : part
+  );
+}
+
 const situations = [
   {
     icon: TrendingUp,
@@ -61,7 +83,7 @@ export function SituationsSection() {
           </p>
         </ScrollReveal>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {situations.map((item, index) => {
             const isOpen = openIndex === index;
             const Icon = item.icon;
@@ -69,20 +91,22 @@ export function SituationsSection() {
             return (
               <ScrollReveal key={index} delay={index * 0.08}>
                 <div
-                  className={`bg-white rounded-xl border-2 transition-all duration-300 ${
+                  className={`bg-white rounded-2xl border-2 transition-all duration-300 ${
                     isOpen
-                      ? 'shadow-md border-[#0F3D2E]'
-                      : 'shadow-sm border-transparent hover:shadow-md hover:border-[#0F3D2E]/30'
+                      ? 'shadow-lg border-[#0F3D2E] -translate-y-0.5'
+                      : 'shadow-sm border-transparent hover:shadow-lg hover:border-[#0F3D2E] hover:-translate-y-1'
                   }`}
                 >
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full flex items-center gap-4 p-5 md:p-6 text-left"
+                    className="w-full flex items-center gap-5 p-6 md:p-7 text-left"
                   >
-                    <div className="shrink-0 size-11 rounded-lg bg-[#0F3D2E]/10 flex items-center justify-center">
-                      <Icon className="size-5 text-[#0F3D2E]" />
+                    <div className={`shrink-0 size-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                      isOpen ? 'bg-[#0F3D2E] text-white' : 'bg-[#0F3D2E]/10 text-[#0F3D2E]'
+                    }`}>
+                      <Icon className="size-5" />
                     </div>
-                    <span className="flex-1 text-base md:text-lg font-semibold text-foreground leading-snug">
+                    <span className="flex-1 text-lg md:text-xl font-bold text-foreground leading-snug">
                       {item.headline}
                     </span>
                     <ChevronDown
@@ -98,21 +122,21 @@ export function SituationsSection() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 md:px-6 pb-6 pt-0 ml-0 md:ml-[3.75rem] space-y-4">
+                        <div className="px-6 md:px-7 pb-7 pt-0 ml-0 md:ml-[4.25rem] space-y-4">
                           <div className="text-muted-foreground leading-relaxed space-y-3">
                             {item.story.split('\n\n').map((p, i) => (
-                              <p key={i}>{p}</p>
+                              <p key={i}>{highlightText(p)}</p>
                             ))}
                           </div>
-                          <p className="text-[#0F3D2E] font-medium leading-relaxed">
-                            {item.insight}
+                          <p className="text-[#0F3D2E] font-semibold leading-relaxed">
+                            {highlightText(item.insight)}
                           </p>
                           <button
                             onClick={scrollToContact}
-                            className="text-sm font-semibold text-[#0F3D2E] hover:underline underline-offset-4 transition-all"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0F3D2E] hover:underline underline-offset-4 transition-all mt-1"
                           >
                             Darüber können wir sprechen →
                           </button>
