@@ -12,9 +12,9 @@ const situations = [
   },
   {
     icon: BrainCog,
-    headline: 'Du arbeitest im Unternehmen statt am Unternehmen.',
-    story: 'Viele Unternehmer verlieren sich irgendwann im operativen Chaos.\n\nBelege prüfen. E-Mails beantworten. Dokumente sortieren. Prozesse kontrollieren.\n\nDu arbeitest mehr im Unternehmen als am Unternehmen.\n\nDie Realität ist brutal: Unternehmer, die dauerhaft wie eine Sekretärin arbeiten, werden langfristig auch wie eine Sekretärin bezahlt.',
-    insight: 'Genau hier verändert künstliche Intelligenz gerade alles. Viele dieser Aufgaben lassen sich heute von KI-Systemen erledigen – sauber, strukturiert und kontrollierbar.',
+    headline: 'Du gibst Aufgaben ab, die du selbst noch nicht vollständig verstanden hast.',
+    story: 'Ein Fehler, den viele Unternehmer machen: Dinge zu früh abgeben.\n\nIch habe Aufgaben delegiert, die ich selbst noch nicht zu 100 % durchdrungen hatte.\n\nDadurch konnten Mitarbeiter sie nicht sauber umsetzen.\n\nDie Verantwortung lag letztendlich bei mir.',
+    insight: 'Heute arbeite ich anders: Prozesse werden zuerst verstanden, strukturiert und dokumentiert. Erst danach werden sie delegiert – oder durch KI automatisiert.',
   },
   {
     icon: TrendingDown,
