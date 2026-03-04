@@ -46,13 +46,13 @@ export function KiZukunftSection() {
 
         <ScrollReveal delay={0.3}>
           <div className="mt-10 text-center">
-            <button
-              onClick={() => scrollTo('lead-magnet')}
+            <a
+              href="/auth"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
             >
               KI Notfallkoffer entdecken
               <ArrowRight className="size-4" />
-            </button>
+            </a>
           </div>
         </ScrollReveal>
       </div>
