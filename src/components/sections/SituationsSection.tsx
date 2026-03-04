@@ -63,8 +63,10 @@ export function SituationsSection() {
             return (
               <ScrollReveal key={index} delay={index * 0.08}>
                 <div
-                  className={`bg-white rounded-xl shadow-sm transition-shadow duration-300 ${
-                    isOpen ? 'shadow-md' : 'hover:shadow-md'
+                  className={`bg-white rounded-xl border-2 transition-all duration-300 ${
+                    isOpen
+                      ? 'shadow-md border-[#0F3D2E]'
+                      : 'shadow-sm border-transparent hover:shadow-md hover:border-[#0F3D2E]/30'
                   }`}
                 >
                   <button
