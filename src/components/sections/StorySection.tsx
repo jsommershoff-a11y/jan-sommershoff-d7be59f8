@@ -1,5 +1,5 @@
 import { siteData } from '@/data/siteData';
-import aboutImage from '@/assets/about-jan.jpeg';
+import aboutImage from '@/assets/hero-jan-new.png';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export function StorySection() {
