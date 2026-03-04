@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { AlertTriangle, Users, Workflow, ShieldCheck, TrendingUp, ArrowRightLeft } from 'lucide-react';
+import { AlertTriangle, Users, Workflow, ShieldCheck, TrendingUp, ArrowRightLeft, Compass } from 'lucide-react';
 
 const mistakes = [
   {
@@ -38,6 +38,12 @@ const mistakes = [
     headline: 'Verantwortung zu früh abgeben.',
     reflection: 'Ich habe Aufgaben delegiert, bevor die Prozesse wirklich klar waren. Mitarbeiter konnten Entscheidungen nicht sauber treffen, weil die Struktur fehlte.',
     lesson: 'Die Verantwortung lag am Ende trotzdem bei mir. Heute gilt für mich: Erst verstehen. Dann strukturieren. Dann delegieren.',
+  },
+  {
+    icon: Compass,
+    headline: 'Entscheidungen alleine tragen.',
+    reflection: 'Je größer ein Unternehmen wird, desto weniger Menschen gibt es, mit denen man offen sprechen kann. Viele Gespräche verfolgen eigene Interessen.',
+    lesson: 'Heute nutze ich strukturierte Entscheidungsprozesse und manchmal auch KI, um Entscheidungen aus mehreren Perspektiven zu betrachten.',
   },
 ];
 
