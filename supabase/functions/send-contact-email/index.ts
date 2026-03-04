@@ -83,7 +83,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Website <onboarding@resend.dev>',
+        from: 'Jan Sommershoff <info@jan-sommershoff.de>',
         to: ['j.s@krsimmobilien.de'],
         subject,
         html: htmlBody,
