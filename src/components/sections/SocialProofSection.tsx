@@ -2,9 +2,8 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Building2, Users, Brain, TrendingUp } from 'lucide-react';
 
 const stats = [
-  { value: '10+', label: 'Jahre Unternehmertum', icon: TrendingUp },
-  { value: '50+', label: 'Immobilienprojekte', icon: Building2 },
-  { value: '100+', label: 'Unternehmer begleitet', icon: Users },
+  { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
+  { value: '10+', label: 'Unternehmer begleitet', icon: Users },
   { value: 'KI', label: 'Systeme implementiert', icon: Brain },
 ];
 
