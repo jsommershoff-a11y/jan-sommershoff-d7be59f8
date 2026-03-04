@@ -6,10 +6,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { CookieBanner } from "@/components/CookieBanner";
 import { lazy, Suspense } from "react";
 import { LoadingFallback } from "@/components/ui/LoadingFallback";
 
 const Home = lazy(() => import("./pages/Home"));
+const Impressum = lazy(() => import("./pages/Impressum"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -26,10 +29,13 @@ const App = () => (
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/impressum" element={<Impressum />} />
+                  <Route path="/datenschutz" element={<Datenschutz />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
             </Layout>
+            <CookieBanner />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

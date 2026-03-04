@@ -1,4 +1,5 @@
 import { Linkedin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { siteData } from '@/data/siteData';
 
 export function Footer() {
@@ -12,6 +13,12 @@ export function Footer() {
             © {currentYear} {siteData.name}. Alle Rechte vorbehalten.
           </p>
           <div className="flex items-center gap-6">
+            <Link to="/impressum" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+              Impressum
+            </Link>
+            <Link to="/datenschutz" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+              Datenschutz
+            </Link>
             <a
               href={`mailto:${siteData.email}`}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
