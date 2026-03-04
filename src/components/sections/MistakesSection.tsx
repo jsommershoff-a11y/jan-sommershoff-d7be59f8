@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { AlertTriangle, Users, Workflow, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, Users, Workflow, ShieldCheck, TrendingUp } from 'lucide-react';
 
 const mistakes = [
   {
@@ -26,6 +26,12 @@ const mistakes = [
     headline: 'Mein Unternehmen nicht abgesichert.',
     reflection: 'Ich hatte keine Kontrollsysteme, keine Datenüberwachung und keine klaren Prozesse für den Ernstfall. Als es darauf ankam, war ich unvorbereitet.',
     lesson: 'Heute sind Absicherung und Monitoring fester Bestandteil meiner Unternehmensstruktur – vieles davon KI-gestützt.',
+  },
+  {
+    icon: TrendingUp,
+    headline: 'Zu schnell wachsen.',
+    reflection: 'Einer meiner größten Fehler war, Wachstum über Struktur zu stellen. Neue Projekte, neue Verantwortung, neue Menschen – aber zu wenig klare Prozesse.',
+    lesson: 'Heute weiß ich: Wachstum ohne Struktur ist kein Fortschritt. Es ist Risiko. Deshalb arbeite ich heute konsequent mit klaren Systemen und KI-gestützten Prozessen.',
   },
 ];
 
