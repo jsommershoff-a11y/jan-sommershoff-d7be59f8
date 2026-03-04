@@ -26,45 +26,45 @@ export default function Home() {
       />
       <div className="min-h-screen">
         <HeroSection />
-        {/* Hero (dark overlay ~black/45) → Trust (primary green) */}
-        <SectionTransition from="hsl(0 0% 0% / 0.45)" to="hsl(160 61% 15%)" height={64} />
+        {/* Hero (dark overlay) → Trust (primary green) */}
+        <SectionTransition from="hsl(0 0% 0% / 0.45)" to="var(--primary)" height={64} />
         <TrustSection />
         <SocialProofSection />
-        {/* SocialProof (green) → Story (white bg) */}
-        <SectionTransition from="#0F3D2E" to="hsl(0 0% 100%)" height={80} />
+        {/* SocialProof (green) → Story (background) */}
+        <SectionTransition from="#0F3D2E" to="var(--background)" height={80} />
         <StorySection />
-        {/* Story (white) → Situations (soft grey) – subtle */}
-        <SectionTransition from="hsl(0 0% 100%)" to="#F3F4F3" height={48} />
+        {/* Story (background) → Situations (soft grey / muted in dark) */}
+        <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <SituationsSection />
-        {/* Situations (light grey) → Mistakes (dark) */}
-        <SectionTransition from="#F3F4F3" to="#111111" height={80} />
+        {/* Situations (muted) → Mistakes (dark) */}
+        <SectionTransition from="var(--muted)" to="#111111" height={80} />
         <MistakesSection />
-        {/* Mistakes (dark) → Philosophy (muted light) */}
-        <SectionTransition from="#111111" to="hsl(120 3% 95%)" height={80} />
+        {/* Mistakes (dark) → Philosophy (muted) */}
+        <SectionTransition from="#111111" to="var(--muted)" height={80} />
         <PhilosophySection />
-        {/* Philosophy (muted) → Expertise (white) – subtle */}
-        <SectionTransition from="hsl(120 3% 95%)" to="hsl(0 0% 100%)" height={48} />
+        {/* Philosophy (muted) → Expertise (background) */}
+        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <ExpertiseSection />
-        {/* Expertise (white) → KiZukunft (muted) – subtle */}
-        <SectionTransition from="hsl(0 0% 100%)" to="hsl(120 3% 95%)" height={48} />
+        {/* Expertise (background) → KiZukunft (muted) */}
+        <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <KiZukunftSection />
-        {/* KiZukunft (muted) → Projects (white) – subtle */}
-        <SectionTransition from="hsl(120 3% 95%)" to="hsl(0 0% 100%)" height={48} />
+        {/* KiZukunft (muted) → Projects (background) */}
+        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <ProjectsSection />
-        {/* Projects (white) → LeadMagnet (muted) – subtle */}
-        <SectionTransition from="hsl(0 0% 100%)" to="hsl(120 3% 95%)" height={48} />
+        {/* Projects (background) → LeadMagnet (muted) */}
+        <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <LeadMagnetSection />
         {/* LeadMagnet (muted) → Closing (green) */}
-        <SectionTransition from="hsl(120 3% 95%)" to="#0F3D2E" height={80} />
+        <SectionTransition from="var(--muted)" to="#0F3D2E" height={80} />
         <ClosingSection />
         {/* Closing (dark green) → PersonalContact (dark) */}
         <SectionTransition from="#0a2e21" to="#111111" height={64} />
         <PersonalContactSection />
-        {/* PersonalContact (dark) → Contact (white) */}
-        <SectionTransition from="#111111" to="hsl(0 0% 100%)" height={80} />
+        {/* PersonalContact (dark) → Contact (background) */}
+        <SectionTransition from="#111111" to="var(--background)" height={80} />
         <ContactSection />
-        {/* Contact (white) → CTA (primary green) */}
-        <SectionTransition from="hsl(0 0% 100%)" to="hsl(160 61% 15%)" height={80} />
+        {/* Contact (background) → CTA (primary green) */}
+        <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
         <CtaSection />
         <StickyCta />
       </div>
