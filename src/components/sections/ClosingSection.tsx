@@ -190,13 +190,16 @@ export function ClosingSection() {
                 Welche Situation beschäftigt dich gerade am meisten?
               </p>
 
-              <button
-                onClick={scrollToContact}
-                className="inline-flex items-center gap-3 bg-white text-[#0F3D2E] font-bold text-lg md:text-xl px-12 md:px-16 py-5 rounded-xl shadow-[0_4px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(255,255,255,0.25)] hover:-translate-y-1 transition-all duration-300"
+              <a
+                href="https://krs-signature.de/auth?src=jan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-3 bg-white text-[#0F3D2E] font-bold text-lg md:text-xl px-12 md:px-16 py-5 rounded-xl shadow-[0_4px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(255,255,255,0.25)] hover:-translate-y-1 transition-all duration-300"
               >
-                Kostenlose Analyse starten
-                <ArrowRight className="size-6" />
-              </button>
+                <span className="absolute inset-0 rounded-xl bg-white animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-10" />
+                <span className="relative">Kostenlose Analyse starten</span>
+                <ArrowRight className="relative size-6 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </ScrollReveal>
         </div>
