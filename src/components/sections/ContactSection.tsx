@@ -46,7 +46,7 @@ export function ContactSection() {
       <div className="max-w-5xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-16 space-y-4">
-            <p className="text-sm font-semibold tracking-widest uppercase text-accent">
+            <p className="text-sm font-semibold tracking-widest uppercase text-primary">
               Kontakt
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
@@ -59,7 +59,7 @@ export function ContactSection() {
           <ScrollReveal delay={0.1}>
             {isSuccess ? (
               <div className="flex flex-col items-center justify-center text-center space-y-4 py-12">
-                <CheckCircle className="size-16 text-green-500" />
+                <CheckCircle className="size-16 text-primary" />
                 <h3 className="text-2xl font-semibold text-foreground">Nachricht gesendet!</h3>
                 <p className="text-muted-foreground">
                   Vielen Dank für deine Nachricht. Ich melde mich schnellstmöglich.
@@ -105,7 +105,7 @@ export function ContactSection() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 shadow-lg"
                 >
                   {isSubmitting ? (
                     <Loader2 className="size-4 animate-spin" />
@@ -127,7 +127,7 @@ export function ContactSection() {
                 <div className="space-y-4">
                   <a
                     href={`mailto:${siteData.email}`}
-                    className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors"
+                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                   >
                     <Mail className="size-5" />
                     <span>{siteData.email}</span>
@@ -139,7 +139,7 @@ export function ContactSection() {
                 </div>
               </div>
 
-              <div className="p-6 bg-muted rounded-2xl">
+              <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10">
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
                   „Der Unterschied zwischen dauerhaftem Erfolg und dauerhaftem Chaos
                   liegt selten im Talent. Er liegt fast immer in Struktur, Systemen
