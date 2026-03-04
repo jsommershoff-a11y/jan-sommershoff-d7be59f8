@@ -1,38 +1,26 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { ChevronDown, TrendingDown, Users, Scale, BrainCog, Landmark, LayoutList, ShieldAlert } from 'lucide-react';
+import { ChevronDown, TrendingUp, Workflow, Users, LayoutList, ShieldAlert, Compass } from 'lucide-react';
 
 const situations = [
   {
-    icon: Scale,
-    headline: 'Du wirst im Business zu Entscheidungen gedrängt.',
-    story: 'Manchmal wirst du im Business unter Druck gesetzt.\n\nGeschäftspartner, Investoren oder sogar Freunde erwarten, dass du sofort entscheidest. Jetzt unterschreiben. Jetzt investieren. Jetzt den nächsten Schritt machen.\n\nDu spürst innerlich, dass etwas nicht stimmt – aber der Druck von außen ist groß.\n\nGenau in solchen Situationen habe ich in der Vergangenheit falsche Entscheidungen getroffen.',
-    insight: 'Heute weiß ich: Die wichtigsten Entscheidungen trifft man nicht unter Druck. Sondern mit Struktur, Analyse und der Fähigkeit, einen Schritt zurückzugehen.',
-  },
-  {
-    icon: BrainCog,
-    headline: 'Du gibst Aufgaben ab, die du selbst noch nicht vollständig verstanden hast.',
-    story: 'Ein Fehler, den viele Unternehmer machen: Dinge zu früh abgeben.\n\nIch habe Aufgaben delegiert, die ich selbst noch nicht zu 100 % durchdrungen hatte.\n\nDadurch konnten Mitarbeiter sie nicht sauber umsetzen.\n\nDie Verantwortung lag letztendlich bei mir.',
-    insight: 'Heute arbeite ich anders: Prozesse werden zuerst verstanden, strukturiert und dokumentiert. Erst danach werden sie delegiert – oder durch KI automatisiert.',
-  },
-  {
-    icon: TrendingDown,
+    icon: TrendingUp,
     headline: 'Du wächst schneller als deine Strukturen.',
     story: 'Manchmal wächst ein Unternehmen schneller, als man selbst Strukturen aufbauen kann.\n\nGenau das ist mir passiert.\n\nIch habe Entscheidungen getroffen, Aufgaben abgegeben und Verantwortung verteilt – ohne die Prozesse wirklich sauber aufgebaut zu haben.\n\nDas Ergebnis war Chaos, Missverständnisse und viele Probleme, die vermeidbar gewesen wären.',
     insight: 'Heute weiß ich: Wachstum ohne Struktur ist kein Wachstum. Es ist nur beschleunigtes Chaos. Saubere Prozesse, klare Verantwortlichkeiten und KI-gestützte Systeme sorgen dafür, dass Wachstum stabil bleibt.',
   },
   {
-    icon: Users,
-    headline: 'Du hast Erfolg – aber innerlich fühlt sich vieles falsch an.',
-    story: 'Von außen sieht alles gut aus.\n\nDas Unternehmen wächst, Projekte laufen, Menschen sehen dich als erfolgreichen Unternehmer.\n\nAber innerlich merkst du, dass vieles nicht mehr stimmig ist. Entscheidungen fühlen sich schwer an und du hast das Gefühl, ständig unter Druck zu stehen.',
-    insight: 'Diese Phase kennen viele Unternehmer – aber kaum jemand spricht offen darüber.',
+    icon: Workflow,
+    headline: 'Du gibst Aufgaben ab, die du selbst noch nicht vollständig verstanden hast.',
+    story: 'Ein Fehler, den viele Unternehmer machen: Dinge zu früh abgeben.\n\nIch habe Aufgaben delegiert, die ich selbst noch nicht zu 100 % durchdrungen hatte.\n\nDadurch konnten Mitarbeiter sie nicht sauber umsetzen.\n\nDie Verantwortung lag letztendlich bei mir.',
+    insight: 'Heute arbeite ich anders: Prozesse werden zuerst verstanden, strukturiert und dokumentiert. Erst danach werden sie delegiert – oder durch KI automatisiert.',
   },
   {
-    icon: Landmark,
-    headline: 'Du trägst Entscheidungen alleine.',
-    story: 'Je größer dein Unternehmen wird, desto weniger Menschen gibt es, mit denen du offen über Entscheidungen sprechen kannst.\n\nMitarbeiter erwarten Führung. Partner erwarten Ergebnisse. Familie erwartet Stabilität.\n\nAber wer hört dir zu, wenn du selbst nicht mehr weiterweißt?',
-    insight: 'Manchmal braucht es keinen Berater. Sondern jemanden, der diese Situationen selbst erlebt hat.',
+    icon: Users,
+    headline: 'Mitarbeiter werden mit Aufgaben alleine gelassen.',
+    story: 'Ich habe lange geglaubt, dass gute Mitarbeiter alles alleine lösen können.\n\nAber die Wahrheit ist: Ohne klare Briefings, saubere Prozesse und regelmäßiges Feedback bleiben selbst die besten Leute unter ihrem Potenzial.\n\nDas Ergebnis waren Frustration auf beiden Seiten und Ergebnisse, die nicht meinen Erwartungen entsprachen.',
+    insight: 'Führung bedeutet nicht, Aufgaben zu verteilen. Führung bedeutet, die Voraussetzungen zu schaffen, damit Menschen ihre Arbeit gut machen können.',
   },
   {
     icon: LayoutList,
@@ -45,6 +33,12 @@ const situations = [
     headline: 'Du schützt dein Unternehmen nicht ausreichend.',
     story: 'Einer meiner größten Fehler war, mein Unternehmen nicht ausreichend abzusichern.\n\nIn schwierigen Zeiten können Menschen Entscheidungen treffen, die für dich und dein Unternehmen schädlich sind.\n\nOhne klare Kontrollprozesse, Datenüberwachung und Struktur entsteht ein Risiko, das viele Unternehmer unterschätzen.',
     insight: 'Heute lassen sich viele dieser Prozesse technisch absichern – auch mit KI. Zum Beispiel durch Monitoring von Datenbewegungen oder automatisierte Kontrollsysteme.',
+  },
+  {
+    icon: Compass,
+    headline: 'Du triffst Entscheidungen allein.',
+    story: 'Je größer dein Unternehmen wird, desto weniger Menschen gibt es, mit denen du offen über Entscheidungen sprechen kannst.\n\nMitarbeiter erwarten Führung. Partner erwarten Ergebnisse. Familie erwartet Stabilität.\n\nAber wer hört dir zu, wenn du selbst nicht mehr weiterweißt?',
+    insight: 'Manchmal braucht es keinen Berater. Sondern jemanden, der diese Situationen selbst erlebt hat.',
   },
 ];
 
