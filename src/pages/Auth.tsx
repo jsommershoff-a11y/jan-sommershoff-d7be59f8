@@ -29,12 +29,14 @@ export default function Auth() {
         });
         if (error) throw error;
 
-        // Also save as contact submission for lead tracking
-        await supabase.from('contact_submissions').insert({
-          type: 'ki-notfallkoffer',
-          name: name || email,
-          email,
-          message: 'KI Notfallkoffer Registration',
+        // Track registration via edge function for validation and email notification
+        await supabase.functions.invoke('send-contact-email', {
+          body: {
+            type: 'lead_magnet',
+            name: name || email,
+            email,
+            message: 'KI Notfallkoffer Registration',
+          },
         });
 
         toast.success('Registrierung erfolgreich!');
