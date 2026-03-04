@@ -79,7 +79,9 @@ export function LeadMagnetSection() {
             </div>
 
             <a
-              href="/auth"
+              href="https://krs-signature.de/auth?src=jan"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg shadow-lg inline-block"
             >
               {siteData.leadMagnet.button}
