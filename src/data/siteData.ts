@@ -34,6 +34,7 @@ export const siteData = {
       'Nicht jede Entscheidung gelingt sofort.',
       'Mir auch nicht.',
       'Aber genau dort beginnt Entwicklung.',
+      'Als Vater von zwei Kindern weiß ich, was auf dem Spiel steht. Familie gibt mir jeden Tag den Antrieb, die richtigen Entscheidungen zu treffen.',
       'Heute arbeite ich daran, meine Unternehmen wieder stabil aufzubauen – mit besseren Entscheidungen, klaren Systemen und dem Einsatz von künstlicher Intelligenz.',
       'Und genau diese Erfahrungen gebe ich heute an Unternehmer weiter.',
     ],

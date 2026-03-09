@@ -122,6 +122,18 @@ export function Header() {
                   </motion.div>
                 );
               })}
+              <a
+                href={siteData.socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  'transition-colors duration-300',
+                  isTransparent ? 'text-white/60 hover:text-white' : 'text-muted-foreground hover:text-foreground'
+                )}
+                aria-label="Instagram"
+              >
+                <Instagram className="size-4" />
+              </a>
               <ThemeToggle />
             </nav>
 
