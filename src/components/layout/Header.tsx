@@ -4,6 +4,8 @@ import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
+import { Instagram } from 'lucide-react';
+import { siteData } from '@/data/siteData';
 import logoIcon from '@/assets/logo-icon.png';
 
 const navLinks = [
