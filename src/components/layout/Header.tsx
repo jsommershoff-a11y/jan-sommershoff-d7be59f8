@@ -4,6 +4,8 @@ import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
+import { Instagram } from 'lucide-react';
+import { siteData } from '@/data/siteData';
 import logoIcon from '@/assets/logo-icon.png';
 
 const navLinks = [
@@ -120,6 +122,18 @@ export function Header() {
                   </motion.div>
                 );
               })}
+              <a
+                href={siteData.socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  'transition-colors duration-300',
+                  isTransparent ? 'text-white/60 hover:text-white' : 'text-muted-foreground hover:text-foreground'
+                )}
+                aria-label="Instagram"
+              >
+                <Instagram className="size-4" />
+              </a>
               <ThemeToggle />
             </nav>
 

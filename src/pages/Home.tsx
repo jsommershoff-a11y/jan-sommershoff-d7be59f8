@@ -3,15 +3,18 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { TrustSection } from '@/components/sections/TrustSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
+import { PersonalFactsSection } from '@/components/sections/PersonalFactsSection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
 import { MistakesSection } from '@/components/sections/MistakesSection';
 import { PhilosophySection } from '@/components/sections/PhilosophySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { KiZukunftSection } from '@/components/sections/KiZukunftSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { LeadMagnetSection } from '@/components/sections/LeadMagnetSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
+import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
@@ -26,44 +29,52 @@ export default function Home() {
       />
       <div className="min-h-screen">
         <HeroSection />
-        {/* Hero (dark overlay) → Trust (primary green) */}
+        {/* Hero → Trust */}
         <SectionTransition from="hsl(0 0% 0% / 0.45)" to="var(--primary)" height={64} />
         <TrustSection />
         <SocialProofSection />
-        {/* SocialProof (green) → Story (background) */}
+        {/* SocialProof → Story */}
         <SectionTransition from="#0F3D2E" to="var(--background)" height={80} />
         <StorySection />
-        {/* Story (background) → Situations (soft grey / muted in dark) */}
+        {/* Story → PersonalFacts */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
+        <PersonalFactsSection />
+        {/* PersonalFacts → Situations */}
         <SituationsSection />
-        {/* Situations (muted) → Mistakes (dark) */}
+        {/* Situations → Mistakes */}
         <SectionTransition from="var(--muted)" to="#111111" height={80} />
         <MistakesSection />
-        {/* Mistakes (dark) → Philosophy (muted) */}
+        {/* Mistakes → Philosophy */}
         <SectionTransition from="#111111" to="var(--muted)" height={80} />
         <PhilosophySection />
-        {/* Philosophy (muted) → Expertise (background) */}
+        {/* Philosophy → Expertise */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <ExpertiseSection />
-        {/* Expertise (background) → KiZukunft (muted) */}
+        {/* Expertise → Testimonials */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
-        <KiZukunftSection />
-        {/* KiZukunft (muted) → Projects (background) */}
+        <TestimonialsSection />
+        {/* Testimonials → KiZukunft */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
-        <ProjectsSection />
-        {/* Projects (background) → LeadMagnet (muted) */}
+        <KiZukunftSection />
+        {/* KiZukunft → Projects */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
+        <ProjectsSection />
+        {/* Projects → LeadMagnet */}
+        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <LeadMagnetSection />
-        {/* LeadMagnet (muted) → Closing (green) */}
-        <SectionTransition from="var(--muted)" to="#0F3D2E" height={80} />
+        {/* LeadMagnet → Closing */}
+        <SectionTransition from="var(--background)" to="#0F3D2E" height={80} />
         <ClosingSection />
-        {/* Closing (dark green) → PersonalContact (dark) */}
-        <SectionTransition from="#0a2e21" to="#111111" height={64} />
+        {/* Closing → Instagram */}
+        <SectionTransition from="#0a2e21" to="var(--background)" height={64} />
+        <InstagramSection />
+        {/* Instagram → PersonalContact */}
+        <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
-        {/* PersonalContact (dark) → Contact (background) */}
+        {/* PersonalContact → Contact */}
         <SectionTransition from="#111111" to="var(--background)" height={80} />
         <ContactSection />
-        {/* Contact (background) → CTA (primary green) */}
+        {/* Contact → CTA */}
         <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
         <CtaSection />
         <StickyCta />

@@ -43,6 +43,10 @@ export function PersonalContactSection() {
             <ScrollReveal delay={0.1}>
               <div className="text-white/65 text-lg leading-relaxed space-y-6">
                 <p>
+                  Als Familienvater und Unternehmer kenne ich den Druck, unter dem du stehst. Die Verantwortung für dein Team, deine Familie, deine Entscheidungen.
+                </p>
+
+                <p>
                   Viele Unternehmer stehen irgendwann an einem Punkt, an dem sie merken:
                 </p>
 

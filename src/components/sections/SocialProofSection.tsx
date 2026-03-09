@@ -1,5 +1,5 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Building2, Users, Brain, TrendingUp, UsersRound } from 'lucide-react';
+import { Building2, Users, Brain, TrendingUp, UsersRound, GraduationCap } from 'lucide-react';
 
 const stats = [
   { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
@@ -7,6 +7,7 @@ const stats = [
   { value: '100+', label: 'KI Systeme implementiert', icon: Brain },
   { value: '10+', label: 'Unternehmer begleitet', icon: Users },
   { value: '50+', label: 'Mitarbeiter in Spitzenzeiten', icon: UsersRound },
+  { value: 'B.A.', label: 'Wirtschaftspsychologie', icon: GraduationCap },
 ];
 
 export function SocialProofSection() {

@@ -20,6 +20,7 @@ export const siteData = {
       'Und es gibt Phasen, in denen plötzlich nichts mehr sicher ist. Entscheidungen, die alles verändern. Rückschläge. Enttäuschungen.',
       'In Deutschland wird Scheitern oft negativ bewertet.',
       'Dabei zeigt sich wahre Stärke nicht darin, nie zu fallen.\nSondern darin, wie man wieder aufsteht.',
+      'Mein Studium der Wirtschaftspsychologie hat mir früh gezeigt, wie Menschen Entscheidungen treffen – und warum sie scheitern. Dieses Wissen ist bis heute mein Fundament.',
       'Ich habe in meinem Leben Unternehmen aufgebaut, Projekte entwickelt und viele unternehmerische Erfahrungen gesammelt.',
       'Ich habe aber auch Fehler gemacht. Große Fehler.',
       'Fehler, für die ich heute Verantwortung übernehme.',
@@ -33,6 +34,7 @@ export const siteData = {
       'Nicht jede Entscheidung gelingt sofort.',
       'Mir auch nicht.',
       'Aber genau dort beginnt Entwicklung.',
+      'Als Vater von zwei Kindern weiß ich, was auf dem Spiel steht. Familie gibt mir jeden Tag den Antrieb, die richtigen Entscheidungen zu treffen.',
       'Heute arbeite ich daran, meine Unternehmen wieder stabil aufzubauen – mit besseren Entscheidungen, klaren Systemen und dem Einsatz von künstlicher Intelligenz.',
       'Und genau diese Erfahrungen gebe ich heute an Unternehmer weiter.',
     ],
@@ -100,6 +102,33 @@ export const siteData = {
     text: 'Unternehmertum bringt Verantwortung, Druck und manchmal auch Phasen, in denen man nicht mehr weiter weiß.\n\nGenau in diesen Momenten entscheidet ein stabiles Fundament aus Struktur, Systemen und den richtigen Entscheidungen darüber, ob man wieder aufsteht.\n\nWenn du Unternehmer bist und merkst, dass dein Unternehmen mehr Struktur, Klarheit und bessere Systeme braucht, können wir darüber sprechen.\n\nManchmal hilft auch einfach ein Gespräch mit jemandem, der diese Situationen selbst erlebt hat.',
     button: 'Gespräch anfragen',
   },
+  personalFacts: [
+    { icon: 'User', label: 'Mitte 30', detail: 'Jahrgang Ende der 80er' },
+    { icon: 'Heart', label: '10+ Jahre', detail: 'Glückliche Partnerschaft' },
+    { icon: 'Baby', label: '2 Kinder', detail: 'Familienvater mit Verantwortung' },
+    { icon: 'GraduationCap', label: 'B.A. Wirtschaftspsychologie', detail: 'Fundament für Entscheidungen' },
+    { icon: 'MapPin', label: 'Deutschland', detail: 'Verwurzelt & unternehmerisch aktiv' },
+  ],
+  testimonials: [
+    {
+      quote: 'Jan hat mir geholfen, in einer der schwierigsten Phasen meines Unternehmens wieder Klarheit zu finden. Seine Kombination aus echtem Verständnis und strukturiertem Denken ist einzigartig.',
+      name: 'M. Richter',
+      role: 'Geschäftsführer, Mittelstand',
+      stars: 5,
+    },
+    {
+      quote: 'Was mich überzeugt hat: Jan spricht nicht aus der Theorie, sondern aus echter Erfahrung. Die KI-Systeme, die wir gemeinsam aufgebaut haben, sparen mir heute Stunden pro Woche.',
+      name: 'S. Weber',
+      role: 'Unternehmerin, E-Commerce',
+      stars: 5,
+    },
+    {
+      quote: 'Ich war skeptisch, ob mir jemand wirklich helfen kann. Nach dem ersten Gespräch wusste ich: Jan versteht, wovon er spricht. Authentisch und auf den Punkt.',
+      name: 'T. Hoffmann',
+      role: 'Immobilienunternehmer',
+      stars: 5,
+    },
+  ],
   leadMagnet: {
     headline: 'KI Notfallkoffer für Unternehmer',
     paragraphs: [
