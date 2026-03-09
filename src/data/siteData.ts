@@ -20,6 +20,7 @@ export const siteData = {
       'Und es gibt Phasen, in denen plötzlich nichts mehr sicher ist. Entscheidungen, die alles verändern. Rückschläge. Enttäuschungen.',
       'In Deutschland wird Scheitern oft negativ bewertet.',
       'Dabei zeigt sich wahre Stärke nicht darin, nie zu fallen.\nSondern darin, wie man wieder aufsteht.',
+      'Mein Studium der Wirtschaftspsychologie hat mir früh gezeigt, wie Menschen Entscheidungen treffen – und warum sie scheitern. Dieses Wissen ist bis heute mein Fundament.',
       'Ich habe in meinem Leben Unternehmen aufgebaut, Projekte entwickelt und viele unternehmerische Erfahrungen gesammelt.',
       'Ich habe aber auch Fehler gemacht. Große Fehler.',
       'Fehler, für die ich heute Verantwortung übernehme.',
