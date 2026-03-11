@@ -10,7 +10,7 @@ export function StickyCta() {
     const handleScroll = () => {
       // Show after scrolling past hero (80vh)
       const scrollY = window.scrollY;
-      const threshold = window.innerHeight * 0.8;
+      const threshold = window.innerHeight * 0.3;
       setIsVisible(scrollY > threshold);
     };
 

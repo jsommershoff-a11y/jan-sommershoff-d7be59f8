@@ -3,7 +3,9 @@ export const siteData = {
   tagline: 'Immobilien. KI. Unternehmertum.',
   heroHeadline: 'Comeback. Struktur. KI.',
   heroSubheadline:
-    'Ich begleite Unternehmer dabei, aus Chaos wieder ein stabiles System zu bauen – mit klaren Entscheidungen, starken Strukturen und künstlicher Intelligenz als Hebel.',
+    'Dein Unternehmen steckt fest? Ich zeige dir den Weg raus – mit Struktur, Klarheit und KI.',
+  scrollTeaser:
+    'Wie ich 7-stellige Schulden überwinde — und bereits 6-stellig hinter mir gelassen habe.',
   email: 'info@krsimmobilien.de',
   location: 'Deutschland',
   socialLinks: {
