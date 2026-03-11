@@ -1,5 +1,6 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { ScrollTeaser } from '@/components/sections/ScrollTeaser';
 import { TrustSection } from '@/components/sections/TrustSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
@@ -18,6 +19,7 @@ import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
+import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
 import { SectionTransition } from '@/components/ui/SectionTransition';
 
 export default function Home() {
@@ -29,8 +31,10 @@ export default function Home() {
       />
       <div className="min-h-screen">
         <HeroSection />
-        {/* Hero → Trust */}
-        <SectionTransition from="hsl(0 0% 0% / 0.45)" to="var(--primary)" height={64} />
+        {/* Scroll-Teaser Hook */}
+        <ScrollTeaser />
+        {/* Teaser → Trust */}
+        <SectionTransition from="var(--background)" to="var(--primary)" height={64} />
         <TrustSection />
         <SocialProofSection />
         {/* SocialProof → Story */}
@@ -78,6 +82,7 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
         <CtaSection />
         <StickyCta />
+        <ExitIntentPopup />
       </div>
     </>
   );
