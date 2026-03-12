@@ -71,7 +71,7 @@ export function HeroSection() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 pt-2"
+              className="flex flex-col sm:flex-row gap-3 pt-1 md:pt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -80,7 +80,7 @@ export function HeroSection() {
                 href="https://krs-signature.de/auth?src=jan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-primary text-primary-foreground text-lg font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.5)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.6)] hover:-translate-y-1 duration-300"
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-primary text-primary-foreground text-base md:text-lg font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.5)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.6)] hover:-translate-y-1 duration-300"
               >
                 <span className="absolute inset-0 rounded-xl bg-primary animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-20" />
                 <span className="relative">KI Erste Hilfe starten</span>
@@ -90,7 +90,7 @@ export function HeroSection() {
                 href="https://krs-signature.de/auth?src=jan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-3 px-10 py-5 border-2 border-white/40 text-white text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 border-2 border-white/40 text-white text-base md:text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
               >
                 Gespräch anfragen
                 <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
