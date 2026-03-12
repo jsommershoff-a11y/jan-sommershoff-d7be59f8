@@ -59,7 +59,7 @@ export function SEOHead({
     updateMetaTag('og:type', type, true);
     updateMetaTag('og:url', fullUrl, true);
     updateMetaTag('og:image', image, true);
-    updateMetaTag('og:site_name', photographerInfo.name, true);
+    updateMetaTag('og:site_name', siteData.name, true);
     
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
