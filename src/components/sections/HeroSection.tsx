@@ -11,50 +11,67 @@ export function HeroSection() {
         <img
           src={heroImage}
           alt="Jan Sommershoff auf der Bühne"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/[0.75] via-black/[0.60] to-black/[0.45]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/[0.85] via-black/[0.65] to-black/[0.50]" />
+        {/* Dramatic red accent line */}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-1 bg-accent"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.2, delay: 1, ease: 'easeOut' }}
+          style={{ transformOrigin: 'left' }}
+        />
       </div>
 
       <div className="relative h-full flex items-center px-6 lg:px-8">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
-            className="max-w-2xl space-y-8"
+            className="max-w-3xl space-y-6 md:space-y-8"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
+            {/* Provocative pre-headline */}
+            <motion.p
+              className="text-sm md:text-base font-bold tracking-[0.3em] uppercase text-accent"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              7-stellige Schulden. 2 Kinder. Kein Plan B.
+            </motion.p>
+
             <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.2]"
+              className="text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tight text-white leading-[1.05]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block">Comeback.</span>
-              <span className="block mt-2 md:mt-4">Struktur.</span>
-              <span className="block mt-2 md:mt-4 text-primary">KI.</span>
+              <span className="block">Gescheitert.</span>
+              <span className="block mt-1 md:mt-3">Aufgestanden.</span>
+              <motion.span
+                className="block mt-1 md:mt-3 text-primary"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.7, type: 'spring', stiffness: 200 }}
+              >
+                Systematisiert.
+              </motion.span>
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-white/80 font-light leading-relaxed max-w-xl"
+              className="text-lg md:text-xl text-white/90 font-normal leading-relaxed max-w-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {siteData.heroSubheadline}
-            </motion.p>
-
-            <motion.p
-              className="text-sm md:text-base font-semibold tracking-[0.25em] uppercase text-accent"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              {siteData.tagline}
+              Dein Unternehmen brennt? Ich habe meins abgefackelt — und neu aufgebaut.
+              <span className="block mt-1 text-white/60 text-base">Mit Struktur, Klarheit und KI.</span>
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 pt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
