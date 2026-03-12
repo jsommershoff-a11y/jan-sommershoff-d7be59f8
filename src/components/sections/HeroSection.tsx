@@ -13,7 +13,7 @@ export function HeroSection() {
           alt="Jan Sommershoff auf der Bühne"
           className="w-full h-full object-cover scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/[0.85] via-black/[0.65] to-black/[0.50]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/[0.92] via-black/[0.80] to-black/[0.65]" />
         {/* Dramatic red accent line */}
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-1 bg-accent"
