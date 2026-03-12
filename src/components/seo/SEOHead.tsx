@@ -68,8 +68,8 @@ export function SEOHead({
     updateMetaTag('twitter:image', image);
 
     // Additional SEO tags
-    updateMetaTag('author', photographerInfo.name);
-    updateMetaTag('keywords', `photography, ${photographerInfo.name}, professional photographer, ${photographerInfo.tagline}`);
+    updateMetaTag('author', siteData.name);
+    updateMetaTag('keywords', `Unternehmer, ${siteData.name}, KI, Immobilien, Unternehmertum, Comeback`);
   }, [fullTitle, fullDescription, fullUrl, image, type]);
 
   return null;
