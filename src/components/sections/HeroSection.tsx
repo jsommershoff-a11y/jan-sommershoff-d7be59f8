@@ -27,7 +27,7 @@ export function HeroSection() {
       <div className="relative h-full flex items-center px-6 lg:px-8">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
-            className="max-w-3xl space-y-6 md:space-y-8"
+            className="max-w-3xl space-y-4 md:space-y-6"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
