@@ -48,15 +48,15 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block">Gescheitert.</span>
-              <span className="block mt-1 md:mt-3">Aufgestanden.</span>
+              <span className="block">Gefallen.</span>
+              <span className="block mt-1 md:mt-3">Wieder aufgebaut.</span>
               <motion.span
                 className="block mt-1 md:mt-3 text-primary"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7, type: 'spring', stiffness: 200 }}
               >
-                Systematisiert.
+                Mit System.
               </motion.span>
             </motion.h1>
 
