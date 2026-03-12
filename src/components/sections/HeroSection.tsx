@@ -61,13 +61,13 @@ export function HeroSection() {
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-white/90 font-normal leading-relaxed max-w-xl"
+              className="text-base md:text-xl text-white/90 font-normal leading-relaxed max-w-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               Ich baue mein Unternehmen wieder auf — mit den richtigen Systemen, Struktur und KI.
-              <span className="block mt-1 text-white/60 text-base">Und zeige anderen Unternehmern, wie sie es auch schaffen.</span>
+              <span className="hidden md:block mt-1 text-white/60 text-base">Und zeige anderen Unternehmern, wie sie es auch schaffen.</span>
             </motion.p>
 
             <motion.div
