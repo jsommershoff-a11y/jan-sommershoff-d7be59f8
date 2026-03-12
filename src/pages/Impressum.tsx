@@ -10,13 +10,13 @@ export default function Impressum() {
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-6 text-muted-foreground">
         <section>
           <h2 className="text-lg font-semibold text-foreground">Angaben gemäß § 5 TMG</h2>
-          <p><strong>KRS Immobilien GmbH</strong></p>
-          <p>Westerwaldstraße 146<br />53773 Hennef<br />Deutschland</p>
+          <p><strong>SMB Consulting UG (haftungsbeschränkt)</strong></p>
+          <p>Westerwaldstr. 146<br />53773 Hennef<br />Deutschland</p>
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-foreground">Vertreten durch die Geschäftsführer</h2>
-          <p>Jan Niklas Sommershoff<br />Yannick Müller</p>
+          <h2 className="text-lg font-semibold text-foreground">Vertreten durch den Geschäftsführer</h2>
+          <p>Jan Sommershoff</p>
         </section>
 
         <section>
@@ -26,17 +26,17 @@ export default function Impressum() {
 
         <section>
           <h2 className="text-lg font-semibold text-foreground">Registereintrag</h2>
-          <p>Eintragung im Handelsregister<br />Registergericht: Amtsgericht Siegburg<br />Registernummer: HRB 18532</p>
+          <p>Eintragung im Handelsregister<br />Registergericht: Amtsgericht Köln<br />Registernummer: HRB 114170</p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold text-foreground">Umsatzsteuer-ID</h2>
-          <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />DE224477392</p>
+          <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />DE121862927</p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold text-foreground">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
-          <p>Jan Niklas Sommershoff<br />Westerwaldstraße 146<br />53773 Hennef<br />Deutschland</p>
+          <p>Jan Sommershoff<br />Westerwaldstr. 146<br />53773 Hennef<br />Deutschland</p>
         </section>
 
         <section>

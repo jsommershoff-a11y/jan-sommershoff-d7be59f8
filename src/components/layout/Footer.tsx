@@ -53,7 +53,7 @@ export function Footer() {
         {/* Bottom: Links + Copyright */}
         <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
-            © {currentYear} {siteData.name}. Alle Rechte vorbehalten.
+            © {currentYear} SMB Consulting UG (haftungsbeschränkt) – Alle Rechte vorbehalten.
           </p>
           <div className="flex items-center gap-6">
             <Link to="/impressum" className="text-xs text-muted-foreground hover:text-primary transition-colors">

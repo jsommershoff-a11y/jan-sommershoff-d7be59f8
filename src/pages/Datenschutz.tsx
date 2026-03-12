@@ -36,8 +36,8 @@ export default function Datenschutz() {
 
           <h3 className="text-lg font-semibold text-foreground mt-4">Hinweis zur verantwortlichen Stelle</h3>
           <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
-          <p><strong>KRS Immobilien GmbH</strong><br />Westerwaldstr. 146<br />53773 Hennef<br />Deutschland</p>
-          <p>Telefon: +49 (0) 2248 9249907<br />E-Mail: anfrage@krsimmobilien.de</p>
+          <p><strong>SMB Consulting UG (haftungsbeschränkt)</strong><br />Westerwaldstr. 146<br />53773 Hennef<br />Deutschland</p>
+          <p>Telefon: +49 175 1127114<br />E-Mail: info@krsimmobilien.de</p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">Speicherdauer</h3>
           <p>Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt.</p>
@@ -75,7 +75,7 @@ export default function Datenschutz() {
           <p>Die Verarbeitung erfolgt ausschließlich zum Zweck der inhaltlichen Analyse und Entscheidungsunterstützung für den Nutzer. Eine Speicherung oder Zuordnung zu einer identifizierbaren Person findet nicht statt.</p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">3. Keine automatische Datenspeicherung oder Weitergabe</h3>
-          <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und nicht automatisch an die KRS Immobilien GmbH oder Dritte übermittelt.</p>
+          <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und nicht automatisch an die SMB Consulting UG (haftungsbeschränkt) oder Dritte übermittelt.</p></p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">4. Freiwillige Weiterleitung zur Beratung</h3>
           <p>Am Ende der Analyse besteht für Nutzer die freiwillige Möglichkeit, sich für eine persönliche Beratung zu entscheiden. Erst nach einer aktiven Entscheidung des Nutzers erfolgt eine Weiterleitung auf eine externe Seite.</p>

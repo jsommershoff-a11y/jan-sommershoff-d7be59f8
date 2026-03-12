@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { photographerInfo } from '@/data/photographer';
+import { siteData } from '@/data/siteData';
 
 interface SEOHeadProps {
   title?: string;
@@ -23,10 +23,10 @@ export function SEOHead({
   const location = useLocation();
   
   const fullTitle = title 
-    ? `${title} | ${photographerInfo.name}` 
-    : `${photographerInfo.name} - ${photographerInfo.tagline}`;
+    ? `${title} | ${siteData.name}` 
+    : `${siteData.name} - ${siteData.tagline}`;
   
-  const defaultDescription = photographerInfo.heroIntroduction;
+  const defaultDescription = siteData.heroSubheadline;
   const fullDescription = description || defaultDescription;
   
   const baseUrl = window.location.origin;
@@ -59,7 +59,7 @@ export function SEOHead({
     updateMetaTag('og:type', type, true);
     updateMetaTag('og:url', fullUrl, true);
     updateMetaTag('og:image', image, true);
-    updateMetaTag('og:site_name', photographerInfo.name, true);
+    updateMetaTag('og:site_name', siteData.name, true);
     
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
@@ -68,8 +68,8 @@ export function SEOHead({
     updateMetaTag('twitter:image', image);
 
     // Additional SEO tags
-    updateMetaTag('author', photographerInfo.name);
-    updateMetaTag('keywords', `photography, ${photographerInfo.name}, professional photographer, ${photographerInfo.tagline}`);
+    updateMetaTag('author', siteData.name);
+    updateMetaTag('keywords', `Unternehmer, ${siteData.name}, KI, Immobilien, Unternehmertum, Comeback`);
   }, [fullTitle, fullDescription, fullUrl, image, type]);
 
   return null;
