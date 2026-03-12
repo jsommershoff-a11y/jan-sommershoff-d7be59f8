@@ -66,8 +66,8 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Dein Unternehmen brennt? Ich habe meins abgefackelt — und neu aufgebaut.
-              <span className="block mt-1 text-white/60 text-base">Mit Struktur, Klarheit und KI.</span>
+              Ich baue mein Unternehmen wieder auf — mit den richtigen Systemen, Struktur und KI.
+              <span className="block mt-1 text-white/60 text-base">Und zeige anderen Unternehmern, wie sie es auch schaffen.</span>
             </motion.p>
 
             <motion.div
