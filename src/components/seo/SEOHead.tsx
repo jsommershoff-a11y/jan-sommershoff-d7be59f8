@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { photographerInfo } from '@/data/photographer';
+import { siteData } from '@/data/siteData';
 
 interface SEOHeadProps {
   title?: string;
