@@ -23,10 +23,10 @@ export function SEOHead({
   const location = useLocation();
   
   const fullTitle = title 
-    ? `${title} | ${photographerInfo.name}` 
-    : `${photographerInfo.name} - ${photographerInfo.tagline}`;
+    ? `${title} | ${siteData.name}` 
+    : `${siteData.name} - ${siteData.tagline}`;
   
-  const defaultDescription = photographerInfo.heroIntroduction;
+  const defaultDescription = siteData.heroSubheadline;
   const fullDescription = description || defaultDescription;
   
   const baseUrl = window.location.origin;
