@@ -75,7 +75,7 @@ export default function Datenschutz() {
           <p>Die Verarbeitung erfolgt ausschließlich zum Zweck der inhaltlichen Analyse und Entscheidungsunterstützung für den Nutzer. Eine Speicherung oder Zuordnung zu einer identifizierbaren Person findet nicht statt.</p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">3. Keine automatische Datenspeicherung oder Weitergabe</h3>
-          <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und nicht automatisch an die SMB Consulting UG (haftungsbeschränkt) oder Dritte übermittelt.</p></p>
+          <p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und nicht automatisch an die SMB Consulting UG (haftungsbeschränkt) oder Dritte übermittelt.</p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">4. Freiwillige Weiterleitung zur Beratung</h3>
           <p>Am Ende der Analyse besteht für Nutzer die freiwillige Möglichkeit, sich für eine persönliche Beratung zu entscheiden. Erst nach einer aktiven Entscheidung des Nutzers erfolgt eine Weiterleitung auf eine externe Seite.</p>
