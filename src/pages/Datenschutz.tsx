@@ -37,7 +37,7 @@ export default function Datenschutz() {
           <h3 className="text-lg font-semibold text-foreground mt-4">Hinweis zur verantwortlichen Stelle</h3>
           <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
           <p><strong>SMB Consulting UG (haftungsbeschränkt)</strong><br />Westerwaldstr. 146<br />53773 Hennef<br />Deutschland</p>
-          <p>Telefon: +49 175 1127114<br />E-Mail: info@krsimmobilien.de</p>
+          <p>Telefon: +49 175 1127114<br />E-Mail: j.s@jan-sommershoff.de</p>
 
           <h3 className="text-lg font-semibold text-foreground mt-4">Speicherdauer</h3>
           <p>Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt.</p>
