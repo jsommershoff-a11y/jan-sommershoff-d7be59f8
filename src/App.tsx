@@ -13,6 +13,7 @@ import { LoadingFallback } from "@/components/ui/LoadingFallback";
 const Home = lazy(() => import("./pages/Home"));
 const Impressum = lazy(() => import("./pages/Impressum"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const AGB = lazy(() => import("./pages/AGB"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Upsell = lazy(() => import("./pages/Upsell"));
 const NotFound = lazy(() => import("./pages/NotFound"));
