@@ -90,7 +90,7 @@ export function PersonalContactSection() {
               <div className="flex flex-col sm:flex-row gap-4">
                 {/* WhatsApp Button */}
                 <a
-                  href="https://wa.me/491751127114"
+                  href="https://wa.me/message/VSNLCZXNWTSKO1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative inline-flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold text-base px-8 py-4 rounded-full shadow-[0_4px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_6px_30px_rgba(37,211,102,0.5)] hover:-translate-y-0.5 transition-all duration-300"

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Phone, Mail, Calendar, X } from 'lucide-react';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 
-const WHATSAPP_URL = 'https://wa.me/491751127114';
+const WHATSAPP_URL = 'https://wa.me/message/VSNLCZXNWTSKO1';
 const BOOKING_URL = 'https://krs-signature.de/auth?src=jan';
 const PHONE = '+49 175 1127114';
 const EMAIL = 'j.s@jan-sommershoff.de';
