@@ -1,11 +1,19 @@
 
 
-## Plan: Hero-Bild ersetzen
+# Fix: Doppelter `<p>`-Tag in Datenschutz.tsx
 
-Das hochgeladene Bild zeigt Jan vor einem dunklen Hintergrund im schwarzen T-Shirt -- genau der richtige Stil für den Hero. Es ersetzt das aktuelle `hero-jan.jpeg` (blaues Pullover-Bild).
+## Problem
+Zeile 78 in `src/pages/Datenschutz.tsx` enthält verschachtelte `<p>`-Tags mit dupliziertem Text:
+```html
+<p>...nicht mit personenbezogenen Daten verknüpft und <p>Die im Rahmen...</p></p>
+```
 
-### Schritte
+## Fix
+Zeile 78 ersetzen durch einen einzigen, korrekten `<p>`-Tag:
+```tsx
+<p>Die im Rahmen der Analyse eingegebenen Inhalte werden nicht dauerhaft gespeichert, nicht mit personenbezogenen Daten verknüpft und nicht automatisch an die SMB Consulting UG (haftungsbeschränkt) oder Dritte übermittelt.</p>
+```
 
-1. **Bild kopieren**: Das hochgeladene Bild als `src/assets/hero-jan-new.png` speichern
-2. **HeroSection.tsx aktualisieren**: Import auf das neue Bild ändern und ggf. das Overlay-Gradient anpassen, da das neue Bild bereits einen dunklen Hintergrund hat (leichteres Overlay reicht)
+## Scope
+- 1 Datei, 1 Zeile
 
