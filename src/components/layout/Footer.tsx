@@ -62,6 +62,9 @@ export function Footer() {
             <Link to="/datenschutz" className="text-xs text-muted-foreground hover:text-primary transition-colors">
               Datenschutz
             </Link>
+            <Link to="/agb" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+              AGB
+            </Link>
             <a
               href={`mailto:${siteData.email}`}
               className="text-xs text-muted-foreground hover:text-primary transition-colors"
