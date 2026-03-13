@@ -6,7 +6,7 @@ export const siteData = {
     'Dein Unternehmen steckt fest? Ich zeige dir den Weg raus – mit Struktur, Klarheit und KI.',
   scrollTeaser:
     'Wie ich 7-stellige Schulden überwinde — und bereits 6-stellig hinter mir gelassen habe.',
-  email: 'info@krsimmobilien.de',
+  email: 'j.s@jan-sommershoff.de',
   location: 'Deutschland',
   socialLinks: {
     linkedin: 'https://www.linkedin.com/in/jan-niklas-sommershoff-719787218',

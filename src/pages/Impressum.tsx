@@ -21,7 +21,7 @@ export default function Impressum() {
 
         <section>
           <h2 className="text-lg font-semibold text-foreground">Kontakt</h2>
-          <p>Telefon: +49 175 1127114<br />E-Mail: <a href="mailto:info@krsimmobilien.de" className="text-accent hover:underline">info@krsimmobilien.de</a></p>
+          <p>Telefon: +49 175 1127114<br />E-Mail: <a href="mailto:j.s@jan-sommershoff.de" className="text-accent hover:underline">j.s@jan-sommershoff.de</a></p>
         </section>
 
         <section>
