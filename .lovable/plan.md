@@ -1,11 +1,30 @@
 
 
-## Plan: Hero-Bild ersetzen
+# AGB-Seite hinzufügen
 
-Das hochgeladene Bild zeigt Jan vor einem dunklen Hintergrund im schwarzen T-Shirt -- genau der richtige Stil für den Hero. Es ersetzt das aktuelle `hero-jan.jpeg` (blaues Pullover-Bild).
+## Prüfungsergebnis E-Mail
+Die E-Mail `j.s@jan-sommershoff.de` ist korrekt in Impressum, Datenschutz und Footer.
 
-### Schritte
+## Neue Seite: AGB
 
-1. **Bild kopieren**: Das hochgeladene Bild als `src/assets/hero-jan-new.png` speichern
-2. **HeroSection.tsx aktualisieren**: Import auf das neue Bild ändern und ggf. das Overlay-Gradient anpassen, da das neue Bild bereits einen dunklen Hintergrund hat (leichteres Overlay reicht)
+### 1. `src/pages/AGB.tsx` (neu)
+Allgemeine Geschäftsbedingungen der SMB Consulting UG (haftungsbeschränkt) mit folgenden Abschnitten:
+- Geltungsbereich
+- Vertragsgegenstand
+- Vertragsschluss
+- Leistungen / Beratung
+- Vergütung und Zahlung
+- Haftung
+- Widerrufsrecht
+- Datenschutz (Verweis auf /datenschutz)
+- Schlussbestimmungen (Gerichtsstand, salvatorische Klausel)
+
+Gleicher Seitenstil wie Impressum/Datenschutz (max-w-3xl, prose, sections).
+
+### 2. `src/App.tsx`
+- Lazy-Import für AGB hinzufügen
+- Route `/agb` mit Layout registrieren
+
+### 3. `src/components/layout/Footer.tsx`
+- Link zu `/agb` (AGB) zwischen Datenschutz und E-Mail einfügen
 
