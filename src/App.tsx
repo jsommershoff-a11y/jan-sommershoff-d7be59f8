@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieBanner } from "@/components/CookieBanner";
+import { FloatingCta } from "@/components/FloatingCta";
 import { lazy, Suspense } from "react";
 import { LoadingFallback } from "@/components/ui/LoadingFallback";
 
@@ -43,6 +44,7 @@ const App = () => (
               </Routes>
             </Suspense>
             <CookieBanner />
+            <FloatingCta />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
