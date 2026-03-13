@@ -44,6 +44,7 @@ const App = () => (
               </Routes>
             </Suspense>
             <CookieBanner />
+            <FloatingCta />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
