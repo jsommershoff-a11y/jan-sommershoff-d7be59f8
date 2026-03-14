@@ -140,7 +140,7 @@ export default function Leistungen() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             );
           })}
         </div>
