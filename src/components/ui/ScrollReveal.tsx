@@ -8,26 +8,22 @@ interface ScrollRevealProps {
 }
 
 export function ScrollReveal({ children, delay = 0, className }: ScrollRevealProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.05 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{ 
-        duration: 0.6,
-        delay,
-        ease: [0.4, 0, 0.2, 1]
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={className}>
+      <motion.div
+        style={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+        animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+        transition={{ 
+          duration: 0.5,
+          delay: isInView ? delay : 0,
+          ease: [0.4, 0, 0.2, 1]
+        }}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
 }
