@@ -14,18 +14,15 @@ export function ScrollReveal({ children, delay = 0, className }: ScrollRevealPro
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0 },
-      }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ 
         duration: 0.6,
-        delay,
+        delay: isInView ? delay : 0,
         ease: [0.4, 0, 0.2, 1]
       }}
       className={className}
+      style={{ minHeight: 1 }}
     >
       {children}
     </motion.div>
