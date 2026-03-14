@@ -1,11 +1,12 @@
 
 
-## Plan: Hero-Bild ersetzen
+# Impressum korrigieren
 
-Das hochgeladene Bild zeigt Jan vor einem dunklen Hintergrund im schwarzen T-Shirt -- genau der richtige Stil für den Hero. Es ersetzt das aktuelle `hero-jan.jpeg` (blaues Pullover-Bild).
+Zwei inhaltliche Änderungen im Vergleich zum aktuellen Code:
 
-### Schritte
+1. **§ 18 Abs. 2 MStV → § 55 Abs. 2 RStV** – Die Rechtsgrundlage für "Verantwortlich für den Inhalt" ändern
+2. **Abschnitte entfernen**: EU-Streitschlichtung, Verbraucherstreitbeilegung, Haftung für Inhalte, Haftung für Links, Urheberrecht – diese sind im vom User gelieferten Text nicht enthalten
 
-1. **Bild kopieren**: Das hochgeladene Bild als `src/assets/hero-jan-new.png` speichern
-2. **HeroSection.tsx aktualisieren**: Import auf das neue Bild ändern und ggf. das Overlay-Gradient anpassen, da das neue Bild bereits einen dunklen Hintergrund hat (leichteres Overlay reicht)
+### Datei
+- `src/pages/Impressum.tsx` – Inhalt an die vom User bereitgestellte Version anpassen (6 Abschnitte statt 11)
 
