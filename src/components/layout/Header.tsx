@@ -10,6 +10,7 @@ import logoIcon from '@/assets/logo-icon.png';
 
 const navLinks = [
   { name: 'Meine Geschichte', href: '#story' },
+  { name: 'Leistungen', href: '/leistungen' },
   { name: 'Expertise', href: '#expertise' },
   { name: 'Projekte', href: '#projects' },
   { name: 'Kontakt', href: '#contact' },

@@ -38,6 +38,7 @@ const App = () => (
 
                 {/* Main site pages */}
                 <Route path="/" element={<Layout><Home /></Layout>} />
+                <Route path="/leistungen" element={<Layout><Leistungen /></Layout>} />
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
