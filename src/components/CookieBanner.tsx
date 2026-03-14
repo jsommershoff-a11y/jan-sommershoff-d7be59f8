@@ -35,21 +35,21 @@ export function CookieBanner() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-[35] p-4 md:p-6"
+          className="fixed bottom-0 left-0 right-0 z-[60] p-3 md:p-4"
         >
-          <div className="max-w-4xl mx-auto bg-background/95 backdrop-blur-lg border border-border rounded-2xl p-6 shadow-2xl">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <p className="text-sm text-muted-foreground flex-1">
-                Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Weitere Informationen finden Sie in unserer{' '}
+          <div className="max-w-3xl mx-auto bg-background/95 backdrop-blur-lg border border-border rounded-xl p-4 shadow-2xl">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <p className="text-xs sm:text-sm text-muted-foreground flex-1 leading-snug">
+                Wir verwenden Cookies für die bestmögliche Erfahrung.{' '}
                 <Link to="/datenschutz" className="text-accent hover:underline font-medium">
-                  Datenschutzerklärung
-                </Link>.
+                  Mehr erfahren
+                </Link>
               </p>
-              <div className="flex gap-3 shrink-0">
-                <Button variant="outline" size="sm" onClick={handleDecline}>
+              <div className="flex gap-2 shrink-0">
+                <Button variant="outline" size="sm" onClick={handleDecline} className="h-8 px-3 text-xs">
                   Ablehnen
                 </Button>
-                <Button size="sm" onClick={handleAccept}>
+                <Button size="sm" onClick={handleAccept} className="h-8 px-3 text-xs">
                   Akzeptieren
                 </Button>
               </div>
