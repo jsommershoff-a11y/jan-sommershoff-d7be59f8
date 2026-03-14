@@ -17,6 +17,7 @@ const Datenschutz = lazy(() => import("./pages/Datenschutz"));
 const AGB = lazy(() => import("./pages/AGB"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Upsell = lazy(() => import("./pages/Upsell"));
+const Leistungen = lazy(() => import("./pages/Leistungen"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
 
                 {/* Main site pages */}
                 <Route path="/" element={<Layout><Home /></Layout>} />
+                <Route path="/leistungen" element={<Layout><Leistungen /></Layout>} />
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
