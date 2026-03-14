@@ -49,6 +49,7 @@ export function FloatingCta() {
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/5 text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
