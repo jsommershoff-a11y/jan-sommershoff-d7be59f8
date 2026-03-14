@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 pb-24">
         {/* Top: Logo + Contact + Social */}
         <div className="flex flex-col items-center gap-8 mb-8">
           <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-2.5">
