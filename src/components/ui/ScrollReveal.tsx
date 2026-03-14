@@ -9,7 +9,7 @@ interface ScrollRevealProps {
 
 export function ScrollReveal({ children, delay = 0, className }: ScrollRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+  const isInView = useInView(ref, { once: true, margin: "200px 0px -20px 0px" });
 
   return (
     <motion.div
