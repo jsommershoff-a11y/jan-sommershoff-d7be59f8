@@ -20,7 +20,7 @@ function highlightText(text: string) {
   const parts = text.split(regex);
   return parts.map((part, i) =>
     sorted.some(h => h === part)
-      ? <span key={i} className="text-[#0F3D2E] font-semibold">{part}</span>
+      ? <span key={i} className="text-primary font-semibold">{part}</span>
       : part
   );
 }
@@ -75,7 +75,7 @@ export function SituationsSection() {
     <section className="py-20 md:py-28 px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F3D2E] mb-4 leading-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 leading-tight">
             Vielleicht kennst du diese Situationen.
           </h2>
           <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
@@ -91,10 +91,10 @@ export function SituationsSection() {
             return (
               <ScrollReveal key={index} delay={index * 0.08}>
                 <div
-                  className={`bg-white rounded-2xl border-2 transition-all duration-300 ${
+                  className={`bg-card rounded-2xl border-2 transition-all duration-300 ${
                     isOpen
-                      ? 'shadow-lg border-[#0F3D2E] -translate-y-0.5'
-                      : 'shadow-sm border-transparent hover:shadow-lg hover:border-[#0F3D2E] hover:-translate-y-1'
+                      ? 'shadow-lg border-primary -translate-y-0.5'
+                      : 'shadow-sm border-transparent hover:shadow-lg hover:border-primary hover:-translate-y-1'
                   }`}
                 >
                   <button
@@ -102,7 +102,7 @@ export function SituationsSection() {
                     className="w-full flex items-center gap-5 p-6 md:p-7 text-left"
                   >
                     <div className={`shrink-0 size-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
-                      isOpen ? 'bg-[#0F3D2E] text-white' : 'bg-[#0F3D2E]/10 text-[#0F3D2E]'
+                      isOpen ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'
                     }`}>
                       <Icon className="size-5" />
                     </div>
@@ -131,12 +131,12 @@ export function SituationsSection() {
                               <p key={i}>{highlightText(p)}</p>
                             ))}
                           </div>
-                          <p className="text-[#0F3D2E] font-semibold leading-relaxed">
+                          <p className="text-primary font-semibold leading-relaxed">
                             {highlightText(item.insight)}
                           </p>
                           <button
                             onClick={scrollToContact}
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0F3D2E] hover:underline underline-offset-4 transition-all mt-1"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline underline-offset-4 transition-all mt-1"
                           >
                             Darüber können wir sprechen →
                           </button>
