@@ -45,21 +45,28 @@ export function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    if (href.startsWith('#')) {
-      if (location.pathname !== '/') {
-        navigate('/');
-        setTimeout(() => {
+    
+    // Small delay to let menu close animation start before navigating
+    const doNavigate = () => {
+      if (href.startsWith('#')) {
+        if (location.pathname !== '/') {
+          navigate('/');
+          setTimeout(() => {
+            const el = document.querySelector(href);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 300);
+        } else {
           const el = document.querySelector(href);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
+        }
       } else {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        navigate(href);
+        window.scrollTo({ top: 0 });
       }
-    } else {
-      navigate(href);
-      window.scrollTo({ top: 0 });
-    }
+    };
+
+    // Allow menu to close before navigating
+    setTimeout(doNavigate, 50);
   };
 
   return (
