@@ -17,6 +17,7 @@ const Datenschutz = lazy(() => import("./pages/Datenschutz"));
 const AGB = lazy(() => import("./pages/AGB"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Upsell = lazy(() => import("./pages/Upsell"));
+const Leistungen = lazy(() => import("./pages/Leistungen"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
