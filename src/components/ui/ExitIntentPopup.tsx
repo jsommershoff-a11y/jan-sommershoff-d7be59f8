@@ -25,11 +25,15 @@ export function ExitIntentPopup() {
       if (e.clientY <= 0) trigger();
     };
 
-    // Mobile: inactivity timeout (15s)
+    // Mobile: inactivity timeout (30s, only when no overlay is open)
     let inactivityTimer: ReturnType<typeof setTimeout>;
     const resetTimer = () => {
       clearTimeout(inactivityTimer);
-      inactivityTimer = setTimeout(trigger, 15000);
+      inactivityTimer = setTimeout(() => {
+        // Don't trigger if a mobile menu or modal overlay is visible
+        const mobileMenuOpen = document.querySelector('[aria-label="Menü schließen"]');
+        if (!mobileMenuOpen) trigger();
+      }, 30000);
     };
 
     document.addEventListener('mouseleave', handleMouseLeave);
