@@ -82,7 +82,7 @@ export default function Leistungen() {
             const isEven = index % 2 === 1;
 
             return (
-              <div>
+              <ScrollReveal key={service.title} delay={0.1}>
                 <div
                   className={`flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-10 md:gap-16 items-start`}
                 >
