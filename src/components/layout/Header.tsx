@@ -39,11 +39,27 @@ export function Header() {
   const isTransparent = !isScrolled && !mobileMenuOpen;
   const activeSection = useActiveSection(sectionIds);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
     setMobileMenuOpen(false);
+    if (href.startsWith('#')) {
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.querySelector(href);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+      } else {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(href);
+      window.scrollTo({ top: 0 });
+    }
   };
 
   return (
