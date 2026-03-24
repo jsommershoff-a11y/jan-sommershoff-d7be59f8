@@ -1,93 +1,38 @@
 
 
-# Homepage erweitern: Conversion-optimierter One-Pager
+# Hochwertige KI-generierte Visuals für die Website
 
 ## Zusammenfassung
-Die bestehende Homepage wird um neue Sektionen erweitert und bestehende Sektionen werden inhaltlich geschärft, um die Positionierung als KI- und Prozessautomatisierungs-Experte zu verstärken. Das vorhandene Design-System (Farben, Animationen, ScrollReveal) bleibt erhalten, wird aber um die geforderten Akzente (Orange CTAs, Baulig-Stil Copywriting) ergänzt.
+3 KI-generierte Visuals werden erstellt und in die wichtigsten Conversion-Sektionen eingebaut: Problem Section, KRS Signature Section und Social Proof / Ergebnisse. Die About/Story Section behält das echte Foto. Hero Section behält ebenfalls das echte Foto von Jan.
 
-## Neue Sektionen
+## Visuals (3 Stück, einheitlicher Stil)
 
-### 1. Hero Section überarbeiten (`HeroSection.tsx`)
-- Headline: "Skalierbare Unternehmensprozesse durch KI & Automatisierung."
-- Subheadline mit KRS Signature Positioning
-- CTA "Jetzt Potenzialanalyse anfragen" (Orange-Akzent, Link zum Kontaktformular `#contact`)
-- Trust-Zeile darunter: "150+ implementierte Systeme | 50+ Mitarbeiter geführt | Praxis statt Theorie"
-- Bisheriges Hero-Bild bleibt erhalten
+### Visual 1 — Problem Section
+**Prompt:** Split screen showing chaotic business operations (messy sticky notes, overflowing inbox, confusion) vs structured automated system with clean dark dashboard and organized workflows, dark background with subtle green (#0F3D2E) glowing highlights, strong contrast, minimalistic SaaS aesthetic, cinematic lighting, 4k
+**Platzierung:** Oberhalb der Problem-Karten als Full-Width-Bild mit abgerundeten Ecken und Overlay-Gradient
 
-### 2. Neue Problem-Awareness Section (`ProblemSection.tsx`)
-- Headline: "Jeder Tag ohne System kostet dich Geld, Kunden und Wachstum."
-- 4 Problem-Boxen als Karten-Grid (Chaos im Vertrieb, Abhängigkeit, Ineffizienz, Fazit)
-- Einbau nach ScrollTeaser, vor TrustSection
+### Visual 2 — KRS Signature Section (Kernvisual)
+**Prompt:** High-end business automation system dashboard with connected modules showing CRM, marketing automation and sales pipeline, glowing green (#0F3D2E) data flows connecting nodes, dark UI background, minimalistic SaaS interface design, ultra clean professional look, cinematic lighting, 4k
+**Platzierung:** Zwischen Headline und den 3 Säulen-Kacheln als zentrales Visual
 
-### 3. Neue KRS Signature Lösungs-Section (`KrsSignatureSection.tsx`)
-- Headline: "Operative Exzellenz durch KRS Signature."
-- 3 Säulen als Icon-Kacheln: Prozess-Audit, KI & Automatisierung, Struktur & Skalierung
-- CTA zu krs-signature.de und Erstgespräch
-- Einbau nach TrustSection
-
-### 4. About/Authority Section überarbeiten (`StorySection.tsx`)
-- Headline ändern zu: "Aus der Praxis. Nicht aus dem Lehrbuch."
-- Kompaktere Story-Version mit Fokus auf Praxis-Credibility
-- Bestehende ausführliche Story bleibt als Ergänzung erhalten
-
-### 5. Testimonials erweitern (`TestimonialsSection.tsx` + `siteData.ts`)
-- René Schreiner Testimonial hinzufügen mit dem spezifischen Zitat
-- Headline: "Ergebnisse unserer Partner."
-
-### 6. Lead-Magnet Section überarbeiten (`LeadMagnetSection.tsx`)
-- Headline: "Der KI-Notfallkoffer für Unternehmer."
-- Subtext: "Hol dir 10 KI Prompts und 3 Automatisierungs-Workflows..."
-- Einfaches E-Mail-Formular statt externer Link (nutzt bestehendes Supabase Edge Function)
-- Button: "Jetzt kostenlos anfordern"
-
-### 7. Footer erweitern (`Footer.tsx`)
-- Links zu KRS Digital und KRS Signature hinzufügen
-- LinkedIn Icon behält bestehenden Link
-
-## Angepasste Seitenreihenfolge in `Home.tsx`
-
-```text
-Hero (überarbeitet)
-ScrollTeaser
-ProblemSection (NEU)
-TrustSection
-KrsSignatureSection (NEU)
-SocialProofSection
-StorySection (überarbeitet als Authority)
-PersonalFactsSection
-SituationsSection
-MistakesSection
-PhilosophySection
-ExpertiseSection
-TestimonialsSection (erweitert)
-KiZukunftSection
-ProjectsSection
-LeadMagnetSection (mit Formular)
-ClosingSection
-InstagramSection
-PersonalContactSection
-ContactSection
-CtaSection
-```
+### Visual 3 — Social Proof Section
+**Prompt:** Modern business analytics dashboard with increasing revenue charts, performance metrics and growth KPI indicators, dark UI with green (#0F3D2E) highlights and accents, minimalistic SaaS style, high clarity, cinematic lighting, ultra sharp, 4k
+**Platzierung:** Als Hintergrund-Visual hinter den Stats mit niedrigem Opacity-Overlay
 
 ## Dateien
 
 | Datei | Aktion |
 |---|---|
-| `src/components/sections/HeroSection.tsx` | Inhalt überarbeiten |
-| `src/components/sections/ProblemSection.tsx` | Neu erstellen |
-| `src/components/sections/KrsSignatureSection.tsx` | Neu erstellen |
-| `src/components/sections/StorySection.tsx` | Headline + Intro anpassen |
-| `src/components/sections/TestimonialsSection.tsx` | Headline anpassen |
-| `src/components/sections/LeadMagnetSection.tsx` | E-Mail-Formular statt Link |
-| `src/data/siteData.ts` | Testimonial + Lead Magnet Text aktualisieren |
-| `src/components/layout/Footer.tsx` | KRS Links ergänzen |
-| `src/pages/Home.tsx` | Neue Sektionen einbauen + SectionTransitions |
+| AI Image Generation (3x) | Bilder via Lovable AI generieren, speichern als `src/assets/visual-*.png` |
+| `src/components/sections/ProblemSection.tsx` | Visual oberhalb der Karten einfügen |
+| `src/components/sections/KrsSignatureSection.tsx` | Dashboard-Visual zwischen Headline und Säulen |
+| `src/components/sections/SocialProofSection.tsx` | Hintergrund-Visual mit Overlay |
 
 ## Technische Details
-- Alle neuen Sektionen nutzen bestehendes ScrollReveal + Framer Motion
-- Orange-Akzent (`--accent: hsl(22 92% 54%)`) ist bereits als CSS-Variable vorhanden und passt zum geforderten `#f6711f`
-- CTAs verlinken auf `#contact` (internes Kontaktformular) statt leere `#` Links
-- Externer CTA zu krs-signature.de bleibt für "Erfahre mehr über KRS Signature"
-- Mobile-first: alle neuen Sektionen responsiv mit bestehenden Tailwind-Breakpoints
+- Bilder werden über die Lovable AI Gateway mit `google/gemini-3-pro-image-preview` generiert (höchste Qualität)
+- Bilder als PNG in `src/assets/` gespeichert und per Import referenziert
+- Responsive: Bilder mit `object-cover`, `rounded-2xl`, und passenden max-width Constraints
+- Performance: Bilder werden über Vite optimiert (statischer Import)
+- Kein Orange-Akzent in den Bildern — nur Grün (#0F3D2E) als Highlight-Farbe
+- Dark Mode kompatibel durch dunkle Bildästhetik
 
