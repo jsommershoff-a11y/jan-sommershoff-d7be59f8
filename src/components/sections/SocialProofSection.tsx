@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Building2, Users, Brain, TrendingUp, UsersRound, GraduationCap } from 'lucide-react';
+import visualSocialProof from '@/assets/visual-social-proof.jpg';
 
 const stats = [
   { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
