@@ -19,6 +19,7 @@ import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
 import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
+import { AppointmentSection } from '@/components/sections/AppointmentSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
 import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
