@@ -227,6 +227,7 @@ export function Header() {
                   href="https://krs-signature.de/auth?src=jan"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.4)]"
                 >
                   Gespräch starten
