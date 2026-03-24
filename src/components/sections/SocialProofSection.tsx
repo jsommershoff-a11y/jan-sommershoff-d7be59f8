@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Building2, Users, Brain, TrendingUp, UsersRound, GraduationCap } from 'lucide-react';
+import visualSocialProof from '@/assets/visual-social-proof.jpg';
 
 const stats = [
   { value: '5+', label: 'Jahre Unternehmertum', icon: TrendingUp },
@@ -12,8 +13,17 @@ const stats = [
 
 export function SocialProofSection() {
   return (
-    <section className="py-16 md:py-20 px-6 lg:px-8 bg-[#0F3D2E]">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative py-16 md:py-20 px-6 lg:px-8 bg-[#0F3D2E] overflow-hidden">
+      <img
+        src={visualSocialProof}
+        alt=""
+        loading="lazy"
+        width={1920}
+        height={864}
+        className="absolute inset-0 w-full h-full object-cover opacity-10"
+        aria-hidden="true"
+      />
+      <div className="relative max-w-7xl mx-auto">
         <div className="flex flex-wrap justify-center">
           {stats.map((stat, index) => (
             <ScrollReveal key={stat.label} delay={index * 0.1}>

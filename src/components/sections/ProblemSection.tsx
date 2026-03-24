@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { AlertTriangle, UserX, Clock, Quote } from 'lucide-react';
+import visualProblem from '@/assets/visual-problem.jpg';
 
 const problems = [
   {
@@ -33,6 +34,20 @@ export function ProblemSection() {
               <br className="hidden md:block" />
               <span className="text-accent"> Geld, Kunden und Wachstum.</span>
             </h2>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="relative rounded-2xl overflow-hidden mb-12">
+            <img
+              src={visualProblem}
+              alt="Chaos vs. strukturierte Systeme"
+              loading="lazy"
+              width={1920}
+              height={864}
+              className="w-full h-48 md:h-72 lg:h-80 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           </div>
         </ScrollReveal>
 

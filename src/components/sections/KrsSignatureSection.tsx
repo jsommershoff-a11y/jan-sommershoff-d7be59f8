@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Search, Bot, TrendingUp, ArrowRight } from 'lucide-react';
+import visualKrs from '@/assets/visual-krs-signature.jpg';
 
 const pillars = [
   {
@@ -39,6 +40,20 @@ export function KrsSignatureSection() {
             <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">
               Done-with-you oder Done-for-you – wir setzen um, damit du dich auf das Wesentliche konzentrieren kannst.
             </p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.2}>
+          <div className="relative rounded-2xl overflow-hidden mb-12 shadow-[0_8px_40px_rgba(15,61,46,0.3)]">
+            <img
+              src={visualKrs}
+              alt="KRS Signature Automatisierungs-Dashboard"
+              loading="lazy"
+              width={1920}
+              height={960}
+              className="w-full h-56 md:h-80 lg:h-96 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-muted via-transparent to-transparent opacity-60" />
           </div>
         </ScrollReveal>
 
