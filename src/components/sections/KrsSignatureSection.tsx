@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Search, Bot, TrendingUp, ArrowRight } from 'lucide-react';
+import visualKrs from '@/assets/visual-krs-signature.jpg';
 
 const pillars = [
   {
