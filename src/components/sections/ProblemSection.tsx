@@ -38,7 +38,7 @@ export function ProblemSection() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="relative rounded-2xl overflow-hidden mb-12">
+          <div className="relative rounded-2xl overflow-hidden mb-16 shadow-[0_4px_30px_rgba(0,0,0,0.15)]">
             <img
               src={visualProblem}
               alt="Chaos vs. strukturierte Systeme"
@@ -48,6 +48,7 @@ export function ProblemSection() {
               className="w-full h-48 md:h-72 lg:h-80 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/30 to-transparent" />
           </div>
         </ScrollReveal>
 
