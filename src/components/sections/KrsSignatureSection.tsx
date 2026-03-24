@@ -43,6 +43,20 @@ export function KrsSignatureSection() {
           </div>
         </ScrollReveal>
 
+        <ScrollReveal delay={0.2}>
+          <div className="relative rounded-2xl overflow-hidden mb-12 shadow-[0_8px_40px_rgba(15,61,46,0.3)]">
+            <img
+              src={visualKrs}
+              alt="KRS Signature Automatisierungs-Dashboard"
+              loading="lazy"
+              width={1920}
+              height={960}
+              className="w-full h-56 md:h-80 lg:h-96 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-muted via-transparent to-transparent opacity-60" />
+          </div>
+        </ScrollReveal>
+
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
           {pillars.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12}>

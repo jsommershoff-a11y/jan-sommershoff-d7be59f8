@@ -37,6 +37,20 @@ export function ProblemSection() {
           </div>
         </ScrollReveal>
 
+        <ScrollReveal>
+          <div className="relative rounded-2xl overflow-hidden mb-12">
+            <img
+              src={visualProblem}
+              alt="Chaos vs. strukturierte Systeme"
+              loading="lazy"
+              width={1920}
+              height={864}
+              className="w-full h-48 md:h-72 lg:h-80 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+          </div>
+        </ScrollReveal>
+
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
           {problems.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12}>
