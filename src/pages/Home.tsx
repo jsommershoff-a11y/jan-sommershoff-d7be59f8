@@ -99,8 +99,12 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
 
-        {/* Contact */}
+        {/* Appointment */}
         <SectionTransition from="#111111" to="var(--background)" height={80} />
+        <AppointmentSection />
+
+        {/* Contact */}
+        <SectionTransition from="var(--background)" to="var(--background)" height={48} />
         <ContactSection />
 
         {/* Final CTA */}
