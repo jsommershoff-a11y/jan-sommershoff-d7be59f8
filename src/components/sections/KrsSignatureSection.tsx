@@ -44,7 +44,7 @@ export function KrsSignatureSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
-          <div className="relative rounded-2xl overflow-hidden mb-12 shadow-[0_8px_40px_rgba(15,61,46,0.3)]">
+          <div className="relative rounded-2xl overflow-hidden mb-16 max-w-5xl mx-auto shadow-[0_8px_40px_rgba(15,61,46,0.3)] hover:shadow-[0_12px_60px_rgba(15,61,46,0.5)] hover:scale-[1.02] transition-all duration-500">
             <img
               src={visualKrs}
               alt="KRS Signature Automatisierungs-Dashboard"
@@ -54,6 +54,7 @@ export function KrsSignatureSection() {
               className="w-full h-56 md:h-80 lg:h-96 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-muted via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,61,46,0.15)_0%,_transparent_70%)]" />
           </div>
         </ScrollReveal>
 

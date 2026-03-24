@@ -20,9 +20,10 @@ export function SocialProofSection() {
         loading="lazy"
         width={1920}
         height={864}
-        className="absolute inset-0 w-full h-full object-cover opacity-10"
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.08] blur-sm"
         aria-hidden="true"
       />
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-[#0F3D2E]" aria-hidden="true" />
       <div className="relative max-w-7xl mx-auto">
         <div className="flex flex-wrap justify-center">
           {stats.map((stat, index) => (
