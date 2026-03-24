@@ -89,7 +89,13 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © {currentYear} SMB Consulting UG (haftungsbeschränkt) – Alle Rechte vorbehalten.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 md:gap-6">
+            <a href="https://krs-signature.de" target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
+              KRS Signature
+            </a>
+            <a href="https://krs-digital.de" target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
+              KRS Digital
+            </a>
             <Link to="/impressum" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
               Impressum
             </Link>

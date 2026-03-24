@@ -1,7 +1,9 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { ScrollTeaser } from '@/components/sections/ScrollTeaser';
+import { ProblemSection } from '@/components/sections/ProblemSection';
 import { TrustSection } from '@/components/sections/TrustSection';
+import { KrsSignatureSection } from '@/components/sections/KrsSignatureSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { PersonalFactsSection } from '@/components/sections/PersonalFactsSection';
@@ -26,61 +28,84 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="Jan Sommershoff – Comeback, KI & Unternehmertum"
-        description="Ich begleite Unternehmer dabei, aus Chaos wieder ein System zu bauen – mit klaren Strukturen und KI als Hebel für bessere Entscheidungen."
+        title="Jan Sommershoff – KI, Automatisierung & Unternehmertum"
+        description="Skalierbare Unternehmensprozesse durch KI & Automatisierung. Ich helfe Unternehmern, operative Exzellenz durch die KRS Signature Programme zu erreichen."
       />
       <div className="min-h-screen">
         <HeroSection />
-        {/* Scroll-Teaser Hook */}
         <ScrollTeaser />
-        {/* Teaser → Trust */}
+
+        {/* Problem Awareness */}
+        <ProblemSection />
+
+        {/* Trust */}
         <SectionTransition from="var(--background)" to="var(--primary)" height={64} />
         <TrustSection />
         <SocialProofSection />
-        {/* SocialProof → Story */}
-        <SectionTransition from="#0F3D2E" to="var(--background)" height={80} />
+
+        {/* KRS Signature Solution */}
+        <SectionTransition from="#0F3D2E" to="var(--muted)" height={80} />
+        <KrsSignatureSection />
+
+        {/* Authority / Story */}
+        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <StorySection />
-        {/* Story → PersonalFacts */}
+
+        {/* Personal Facts */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <PersonalFactsSection />
-        {/* PersonalFacts → Situations */}
+
+        {/* Situations */}
         <SituationsSection />
-        {/* Situations → Mistakes */}
+
+        {/* Mistakes */}
         <SectionTransition from="var(--muted)" to="#111111" height={80} />
         <MistakesSection />
-        {/* Mistakes → Philosophy */}
+
+        {/* Philosophy */}
         <SectionTransition from="#111111" to="var(--muted)" height={80} />
         <PhilosophySection />
-        {/* Philosophy → Expertise */}
+
+        {/* Expertise */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <ExpertiseSection />
-        {/* Expertise → Testimonials */}
+
+        {/* Testimonials */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <TestimonialsSection />
-        {/* Testimonials → KiZukunft */}
+
+        {/* KI & Zukunft */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <KiZukunftSection />
-        {/* KiZukunft → Projects */}
+
+        {/* Projects */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <ProjectsSection />
-        {/* Projects → LeadMagnet */}
+
+        {/* Lead Magnet */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <LeadMagnetSection />
-        {/* LeadMagnet → Closing */}
+
+        {/* Closing */}
         <SectionTransition from="var(--background)" to="#0F3D2E" height={80} />
         <ClosingSection />
-        {/* Closing → Instagram */}
+
+        {/* Instagram */}
         <SectionTransition from="#0a2e21" to="var(--background)" height={64} />
         <InstagramSection />
-        {/* Instagram → PersonalContact */}
+
+        {/* Personal Contact */}
         <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
-        {/* PersonalContact → Contact */}
+
+        {/* Contact */}
         <SectionTransition from="#111111" to="var(--background)" height={80} />
         <ContactSection />
-        {/* Contact → CTA */}
+
+        {/* Final CTA */}
         <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
         <CtaSection />
+
         <StickyCta />
         <ExitIntentPopup />
       </div>

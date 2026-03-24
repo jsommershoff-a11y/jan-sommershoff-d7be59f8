@@ -113,6 +113,12 @@ export const siteData = {
   ],
   testimonials: [
     {
+      quote: 'Neue Website, eigenes CRM, Planungs-, Mitarbeiter- und Kundenportal implementiert. Die gesamten Prozesse wurden extrem erleichtert. Der Value ist unmessbar.',
+      name: 'René Schreiner',
+      role: 'Geschäftsführer',
+      stars: 5,
+    },
+    {
       quote: 'Jan hat mir geholfen, in einer der schwierigsten Phasen meines Unternehmens wieder Klarheit zu finden. Seine Kombination aus echtem Verständnis und strukturiertem Denken ist einzigartig.',
       name: 'M. Richter',
       role: 'Geschäftsführer, Mittelstand',

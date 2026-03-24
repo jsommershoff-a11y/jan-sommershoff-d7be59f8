@@ -12,7 +12,7 @@ export function TestimonialsSection() {
               Stimmen
             </p>
             <h2 className="text-2xl md:text-4xl font-bold text-foreground">
-              Was Unternehmer sagen
+              Ergebnisse unserer Partner.
             </h2>
           </div>
         </ScrollReveal>
