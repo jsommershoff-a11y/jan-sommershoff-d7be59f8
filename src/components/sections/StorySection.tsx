@@ -18,8 +18,11 @@ export function StorySection() {
                 Über mich
               </p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                {siteData.story.headline}
+                Aus der Praxis. Nicht aus dem Lehrbuch.
               </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Ich habe selbst Unternehmen aufgebaut, 7-stellige Schulden gemanagt und mich durch Systeme, Struktur und KI zurückgekämpft. Meine Arbeit basiert auf echten Entscheidungen, nicht auf Theorie.
+              </p>
               <div className="space-y-4">
                 {siteData.story.paragraphs.map((p, i) => {
                   const isHighlight =
