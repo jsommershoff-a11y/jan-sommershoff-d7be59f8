@@ -19,6 +19,7 @@ import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
 import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
+import { AppointmentSection } from '@/components/sections/AppointmentSection';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
 import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
@@ -98,8 +99,12 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
 
-        {/* Contact */}
+        {/* Appointment */}
         <SectionTransition from="#111111" to="var(--background)" height={80} />
+        <AppointmentSection />
+
+        {/* Contact */}
+        <SectionTransition from="var(--background)" to="var(--background)" height={48} />
         <ContactSection />
 
         {/* Final CTA */}
