@@ -1,5 +1,6 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { AlertTriangle, UserX, Clock, Quote } from 'lucide-react';
+import visualProblem from '@/assets/visual-problem.jpg';
 
 const problems = [
   {
