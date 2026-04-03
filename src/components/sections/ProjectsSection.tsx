@@ -19,7 +19,7 @@ export function ProjectsSection() {
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+        <div className="max-w-xl mx-auto">
           {siteData.projects.map((project, index) => {
             const Icon = iconMap[project.icon];
             return (
