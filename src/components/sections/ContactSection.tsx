@@ -174,7 +174,7 @@ export function ContactSection() {
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
                   „Der Unterschied zwischen dauerhaftem Erfolg und dauerhaftem Chaos
                   liegt selten im Talent. Er liegt fast immer in Struktur, Systemen
-                  und den Entscheidungen, die man in schwierigen Momenten trifft."
+                  und den Entscheidungen, die man in entscheidenden Momenten trifft."
                 </p>
               </div>
             </div>

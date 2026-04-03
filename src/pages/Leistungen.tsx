@@ -37,7 +37,7 @@ const services = [
     title: 'Workshops & Vorträge',
     subtitle: 'Impulse, die bewegen',
     description:
-      'Keynotes und Workshops zu Unternehmertum, Comeback-Strategien und KI-Integration. Authentisch, praxisnah und aus echten Erfahrungen – nicht aus dem Lehrbuch.',
+      'Keynotes und Workshops zu Unternehmertum, Zukunftsstrategien und KI-Integration. Authentisch, praxisnah und aus echten Erfahrungen – nicht aus dem Lehrbuch.',
     features: [
       'Keynotes für Events und Konferenzen',
       'Workshops für Unternehmergruppen',

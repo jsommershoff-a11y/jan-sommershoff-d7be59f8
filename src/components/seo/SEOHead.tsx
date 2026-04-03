@@ -69,7 +69,7 @@ export function SEOHead({
 
     // Additional SEO tags
     updateMetaTag('author', siteData.name);
-    updateMetaTag('keywords', `Unternehmer, ${siteData.name}, KI, Immobilien, Unternehmertum, Comeback`);
+    updateMetaTag('keywords', `Unternehmer, ${siteData.name}, KI, Automatisierung, Datensicherheit, Unternehmertum, Zukunftsfähigkeit`);
   }, [fullTitle, fullDescription, fullUrl, image, type]);
 
   return null;
