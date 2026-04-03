@@ -54,8 +54,12 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <SituationsSection />
 
+        {/* Data Sovereignty */}
+        <SectionTransition from="var(--muted)" to="#111111" height={64} />
+        <DataSovereigntySection />
+
         {/* Expertise */}
-        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
+        <SectionTransition from="#111111" to="var(--background)" height={64} />
         <ExpertiseSection />
 
         {/* Testimonials */}
