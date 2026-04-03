@@ -7,7 +7,7 @@ const columns = [
   {
     icon: Briefcase,
     title: 'Unternehmer-Erfahrung',
-    text: 'Ich habe selbst Unternehmen aufgebaut, geführt und durch Krisen navigiert. Ich kenne die Realität unternehmerischer Verantwortung.',
+    text: 'Ich habe selbst Unternehmen aufgebaut, geführt und erfolgreich skaliert. Ich kenne die Realität unternehmerischer Verantwortung.',
   },
   {
     icon: Target,

@@ -7,9 +7,9 @@ const services = [
   {
     icon: Users,
     title: '1:1 Unternehmer-Beratung',
-    subtitle: 'Klarheit in schwierigen Phasen',
+    subtitle: 'Klarheit für nachhaltiges Wachstum',
     description:
-      'Persönliche Beratung für Unternehmer, die in einer Krise stecken oder ihr Unternehmen auf ein neues Level bringen wollen. Ich begleite dich mit Struktur, Erfahrung und klaren Entscheidungen.',
+      'Persönliche Beratung für Unternehmer, die sich effizienter aufstellen wollen oder ihr Unternehmen auf ein neues Level bringen wollen. Ich begleite dich mit Struktur, Erfahrung und klaren Entscheidungen.',
     features: [
       'Analyse deiner aktuellen Situation',
       'Entwicklung einer klaren Strategie',
@@ -37,7 +37,7 @@ const services = [
     title: 'Workshops & Vorträge',
     subtitle: 'Impulse, die bewegen',
     description:
-      'Keynotes und Workshops zu Unternehmertum, Comeback-Strategien und KI-Integration. Authentisch, praxisnah und aus echten Erfahrungen – nicht aus dem Lehrbuch.',
+      'Keynotes und Workshops zu Unternehmertum, Zukunftsstrategien und KI-Integration. Authentisch, praxisnah und aus echten Erfahrungen – nicht aus dem Lehrbuch.',
     features: [
       'Keynotes für Events und Konferenzen',
       'Workshops für Unternehmergruppen',

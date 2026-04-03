@@ -39,7 +39,7 @@ export function LeadMagnetSection() {
   const items = [
     '10 KI Prompts für Unternehmer',
     '3 Automatisierungs-Workflows',
-    'Ein Entscheidungs-Framework für schwierige Situationen',
+    'Ein Entscheidungs-Framework für strategische Entscheidungen',
   ];
 
   return (

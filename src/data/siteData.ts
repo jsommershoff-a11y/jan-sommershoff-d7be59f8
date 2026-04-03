@@ -97,7 +97,7 @@ export const siteData = {
       stars: 5,
     },
     {
-      quote: 'Jan hat mir geholfen, in einer der schwierigsten Phasen meines Unternehmens wieder Klarheit zu finden. Seine Kombination aus echtem Verständnis und strukturiertem Denken ist einzigartig.',
+      quote: 'Jan hat mir geholfen, in einer der herausforderndsten Wachstumsphasen meines Unternehmens wieder Klarheit zu finden. Seine Kombination aus echtem Verständnis und strukturiertem Denken ist einzigartig.',
       name: 'M. Richter',
       role: 'Geschäftsführer, Mittelstand',
       stars: 5,

@@ -18,6 +18,11 @@ export function PersonalContactSection() {
                   className="w-full rounded-2xl shadow-2xl"
                 />
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#111111] via-[#111111]/90 to-transparent rounded-b-2xl flex items-end justify-center pb-4">
+                  <span className="text-white/90 text-sm font-semibold tracking-[0.2em] uppercase">
+                    Automatisierung. Struktur. KI.
+                  </span>
+                </div>
               </div>
               <div className="mt-4 text-center md:text-left">
                 <p className="text-white font-bold text-lg">Jan Sommershoff</p>
