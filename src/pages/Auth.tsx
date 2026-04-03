@@ -127,7 +127,7 @@ export default function Auth() {
             <span className="text-white/60 font-light">für Unternehmer</span>
           </h1>
           <p className="text-lg text-white/70 leading-relaxed mb-12 max-w-md">
-            Dein digitaler Erste-Hilfe-Kasten für unternehmerische Krisensituationen – 
+            Dein digitaler Werkzeugkasten für strategische Entscheidungen – 
             powered by künstlicher Intelligenz.
           </p>
 
