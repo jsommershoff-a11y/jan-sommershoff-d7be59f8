@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      companies: {
+        Row: {
+          address: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          employee_count: number | null
+          id: number
+          industry: string | null
+          label: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          revenue: number | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          employee_count?: number | null
+          id?: number
+          industry?: string | null
+          label?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          revenue?: number | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          employee_count?: number | null
+          id?: number
+          industry?: string | null
+          label?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          revenue?: number | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
@@ -45,6 +102,7 @@ export type Database = {
         Row: {
           address: string | null
           company: string | null
+          company_id: number | null
           created_at: string
           email: string | null
           id: number
@@ -65,6 +123,7 @@ export type Database = {
         Insert: {
           address?: string | null
           company?: string | null
+          company_id?: number | null
           created_at?: string
           email?: string | null
           id?: number
@@ -85,6 +144,7 @@ export type Database = {
         Update: {
           address?: string | null
           company?: string | null
+          company_id?: number | null
           created_at?: string
           email?: string | null
           id?: number
@@ -102,7 +162,315 @@ export type Database = {
           user_id?: string
           website?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contacts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          category: string | null
+          closed_at: string | null
+          company_id: number | null
+          contact_id: number | null
+          created_at: string
+          currency: string | null
+          expected_close: string | null
+          id: number
+          notes: string | null
+          probability: number | null
+          source: string | null
+          stage: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          value: number | null
+        }
+        Insert: {
+          category?: string | null
+          closed_at?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          currency?: string | null
+          expected_close?: string | null
+          id?: number
+          notes?: string | null
+          probability?: number | null
+          source?: string | null
+          stage?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+          value?: number | null
+        }
+        Update: {
+          category?: string | null
+          closed_at?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          currency?: string | null
+          expected_close?: string | null
+          id?: number
+          notes?: string | null
+          probability?: number | null
+          source?: string | null
+          stage?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          category: string | null
+          company_id: number | null
+          contact_id: number | null
+          created_at: string
+          deal_id: number | null
+          description: string | null
+          file_key: string | null
+          file_size: number | null
+          file_url: string | null
+          id: number
+          mime_type: string | null
+          name: string
+          tags: string[] | null
+          ticket_id: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          file_key?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: number
+          mime_type?: string | null
+          name: string
+          tags?: string[] | null
+          ticket_id?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          file_key?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: number
+          mime_type?: string | null
+          name?: string
+          tags?: string[] | null
+          ticket_id?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interactions: {
+        Row: {
+          channel: string | null
+          company_id: number | null
+          contact_id: number | null
+          content: string | null
+          created_at: string
+          direction: string | null
+          id: number
+          occurred_at: string
+          status: string | null
+          subject: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          content?: string | null
+          created_at?: string
+          direction?: string | null
+          id?: number
+          occurred_at?: string
+          status?: string | null
+          subject?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          channel?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          content?: string | null
+          created_at?: string
+          direction?: string | null
+          id?: number
+          occurred_at?: string
+          status?: string | null
+          subject?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          category: string | null
+          company_id: number | null
+          contact_id: number | null
+          created_at: string
+          deal_id: number | null
+          description: string | null
+          due_date: string | null
+          id: number
+          priority: string | null
+          resolution: string | null
+          resolved_at: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          due_date?: string | null
+          id?: number
+          priority?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          category?: string | null
+          company_id?: number | null
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          due_date?: string | null
+          id?: number
+          priority?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

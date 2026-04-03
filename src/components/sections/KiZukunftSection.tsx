@@ -25,9 +25,10 @@ export function KiZukunftSection() {
           <div className="space-y-5">
             {siteData.kiZukunft.paragraphs.map((p, i) => {
               const isHighlight =
-                p.startsWith('Strategie.') ||
-                p.startsWith('Fehlerquoten') ||
-                p.startsWith('Wer heute');
+                p.startsWith('Genau hier') ||
+                p.startsWith('Wer heute') ||
+                p.startsWith('Wer wartet') ||
+                p.startsWith('Unternehmen, die KI');
               return (
                 <p
                   key={i}

@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { ChevronDown, TrendingUp, Workflow, Users, LayoutList, ShieldAlert, Compass } from 'lucide-react';
+import { ChevronDown, Clock, Database, TrendingDown, LayoutList, ShieldAlert, Compass } from 'lucide-react';
 
-// Key phrases to highlight in brand color
 const highlights = [
-  'Strukturen', 'Chaos', 'KI-gestützt', 'beschleunigtes Chaos',
-  'zu früh abgeben', 'KI automatisiert', 'strukturiert und dokumentiert',
-  'Struktur', 'Systeme', 'KI', 'Selbstführung', 'Kontrolle',
-  'Kontrollprozesse', 'Datenüberwachung', 'automatisierte Kontrollsysteme',
-  'neutrale Perspektive', 'Risiken abzuwägen',
+  'KI', 'Automatisierung', 'automatisieren', 'strukturiert', 'Struktur',
+  'Systeme', '30 Stunden', 'Zeitersparnis', 'Datensicherheit', 'zukunftssicher',
+  'skalierbar', 'Wettbewerbsvorteil', 'KI-gestützt', 'datenbasiert',
 ];
 
 function highlightText(text: string) {
-  // Sort by length descending to match longer phrases first
   const sorted = [...highlights].sort((a, b) => b.length - a.length);
   const pattern = sorted.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   const regex = new RegExp(`(${pattern})`, 'g');
@@ -27,40 +23,40 @@ function highlightText(text: string) {
 
 const situations = [
   {
-    icon: TrendingUp,
-    headline: 'Du wächst schneller als deine Strukturen.',
-    story: 'Manchmal wächst ein Unternehmen schneller, als man selbst Strukturen aufbauen kann.\n\nGenau das ist mir passiert.\n\nIch habe Entscheidungen getroffen, Aufgaben abgegeben und Verantwortung verteilt – ohne die Prozesse wirklich sauber aufgebaut zu haben.\n\nDas Ergebnis war Chaos, Missverständnisse und viele Probleme, die vermeidbar gewesen wären.',
-    insight: 'Heute weiß ich: Wachstum ohne Struktur ist kein Wachstum. Es ist nur beschleunigtes Chaos. Saubere Prozesse und klare Systeme – oft auch KI-gestützt – sorgen dafür, dass Wachstum stabil bleibt.',
+    icon: Clock,
+    headline: 'Dein Team verbringt zu viel Zeit mit manuellen Aufgaben.',
+    story: 'Rechnungen manuell erfassen, E-Mails sortieren, Daten von A nach B kopieren.\n\nDas sind Aufgaben, die täglich Stunden kosten – und die sich automatisieren lassen.\n\nViele Unternehmen unterschätzen, wie viel Zeit durch Routinearbeit verloren geht.',
+    insight: 'Durch gezielte Automatisierung lassen sich bis zu 30 Stunden pro Woche einsparen. Zeit, die dein Team für wertschöpfende Arbeit nutzen kann.',
   },
   {
-    icon: Workflow,
-    headline: 'Du gibst Aufgaben ab, die du selbst noch nicht vollständig verstanden hast.',
-    story: 'Ein Fehler, den viele Unternehmer machen: Dinge zu früh abgeben.\n\nIch habe Aufgaben delegiert, die ich selbst noch nicht vollständig durchdrungen hatte.\n\nDadurch konnten Mitarbeiter sie nicht sauber umsetzen.\n\nDie Verantwortung lag letztendlich trotzdem bei mir.',
-    insight: 'Heute arbeite ich anders: Prozesse werden zuerst verstanden, strukturiert und dokumentiert. Erst danach werden sie delegiert – oder durch KI automatisiert.',
+    icon: Database,
+    headline: 'Deine Unternehmensdaten sind nicht zukunftssicher.',
+    story: 'Daten liegen verstreut in verschiedenen Tools, Excel-Tabellen und E-Mail-Postfächern.\n\nNiemand hat einen vollständigen Überblick.\n\nWenn KI in Zukunft Entscheidungen unterstützen soll, braucht sie saubere, strukturiert aufbereitete Daten.',
+    insight: 'Wir sorgen dafür, dass deine Daten strukturiert, sicher und KI-ready aufgestellt werden – damit du jederzeit datenbasiert entscheiden kannst.',
   },
   {
-    icon: Users,
-    headline: 'Mitarbeiter werden mit Aufgaben alleine gelassen.',
-    story: 'Viele Unternehmer erwarten Ergebnisse, ohne die nötige Struktur zu liefern.\n\nAuch ich habe diesen Fehler gemacht.\n\nMitarbeiter bekommen Aufgaben – aber keine klare Einarbeitung, keine Prozesse und keine Kontrolle.\n\nDas Ergebnis ist Frust auf beiden Seiten.',
-    insight: 'Heute weiß ich: Menschen brauchen Systeme. Und KI kann helfen, Prozesse zu dokumentieren, Aufgaben zu kontrollieren und Qualität dauerhaft zu sichern.',
+    icon: TrendingDown,
+    headline: 'Deine Konkurrenz automatisiert bereits.',
+    story: 'Während du noch manuell arbeitest, setzen andere Unternehmen bereits KI ein.\n\nSie treffen schnellere Entscheidungen, haben niedrigere Kosten und skalieren effizienter.\n\nDer Wettbewerbsvorteil durch KI wächst mit jedem Monat, den du wartest.',
+    insight: 'Wer heute nicht handelt, verliert morgen den Anschluss. KI-gestützt Prozesse aufzubauen ist kein Trend – es ist eine strategische Notwendigkeit.',
   },
   {
     icon: LayoutList,
-    headline: 'Deine Organisation entscheidet über deinen Erfolg.',
-    story: 'Unternehmer glauben oft, Erfolg entsteht durch Energie und Einsatz.\n\nDoch langfristig entscheidet etwas anderes: Selbstführung.\n\nIch habe im Verlauf meiner unternehmerischen Reise gelernt, wie entscheidend Tagesorganisation und strukturierte Planung sind.\n\nWer seine eigenen Abläufe nicht kontrolliert, verliert irgendwann die Kontrolle über sein Unternehmen.',
-    insight: 'KI kann hier ein starker Partner sein – bei Planung, Struktur und Kontrolle.',
+    headline: 'Deine Prozesse sind nicht skalierbar.',
+    story: 'Was bei 5 Mitarbeitern funktioniert, bricht bei 20 zusammen.\n\nOhne klare Systeme und automatisierte Abläufe wird jedes Wachstum zum Risiko.\n\nSkalierung braucht Struktur – und Struktur braucht Systeme.',
+    insight: 'Wir bauen mit dir Prozesse auf, die mitwachsen. Durch Automatisierung und KI werden deine Abläufe skalierbar und stabil.',
   },
   {
     icon: ShieldAlert,
-    headline: 'Du schützt dein Unternehmen nicht ausreichend.',
-    story: 'Einer meiner größten Fehler war, mein Unternehmen nicht ausreichend abzusichern.\n\nIn schwierigen Zeiten können Menschen Entscheidungen treffen, die für dein Unternehmen schädlich sind.\n\nOhne klare Kontrollprozesse, Datenüberwachung und Struktur entstehen Risiken, die viele Unternehmer unterschätzen.',
-    insight: 'Heute lassen sich viele dieser Prozesse technisch absichern – auch mit KI. Zum Beispiel durch Monitoring von Datenbewegungen oder automatisierte Kontrollsysteme.',
+    headline: 'Du weißt nicht, wo deine Daten wirklich liegen.',
+    story: 'Kundendaten, Verträge, interne Dokumente – in den meisten Unternehmen ist nicht klar, wer auf was Zugriff hat.\n\nOhne klare Datensicherheit und Struktur entstehen Risiken, die viele unterschätzen.',
+    insight: 'Datensicherheit ist kein IT-Thema – es ist ein Unternehmerthema. Wir helfen dir, Ordnung zu schaffen und deine Daten zukunftssicher aufzustellen.',
   },
   {
     icon: Compass,
-    headline: 'Du triffst Entscheidungen alleine.',
-    story: 'Je größer dein Unternehmen wird, desto weniger Menschen gibt es, mit denen du offen über Entscheidungen sprechen kannst.\n\nViele Gespräche im Business haben eigene Interessen.\n\nManchmal hilft es enorm, eine neutrale Perspektive auf Entscheidungen zu bekommen.',
-    insight: 'Heute nutze ich dafür strukturierte Systeme – und auch KI – um Entscheidungen zu reflektieren, Risiken abzuwägen und neue Perspektiven zu prüfen.',
+    headline: 'Du triffst Entscheidungen ohne Datengrundlage.',
+    story: 'Viele unternehmerische Entscheidungen werden aus dem Bauch heraus getroffen.\n\nDas funktioniert manchmal – aber nicht systematisch.\n\nKI kann dir helfen, Entscheidungen auf Basis von echten Daten zu treffen.',
+    insight: 'Mit den richtigen Systemen triffst du bessere Entscheidungen – schneller und datenbasiert. Das verschafft dir einen echten Wettbewerbsvorteil.',
   },
 ];
 
@@ -76,10 +72,10 @@ export function SituationsSection() {
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 leading-tight">
-            Vielleicht kennst du diese Situationen.
+            Erkennst du dein Unternehmen wieder?
           </h2>
           <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
-            Unternehmertum bringt Phasen mit, in denen Erfahrung und Struktur den Unterschied machen.
+            Die häufigsten Herausforderungen, die Unternehmen daran hindern, ihr volles Potenzial auszuschöpfen.
           </p>
         </ScrollReveal>
 
@@ -138,7 +134,7 @@ export function SituationsSection() {
                             onClick={scrollToContact}
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline underline-offset-4 transition-all mt-1"
                           >
-                            Darüber können wir sprechen →
+                            Jetzt Potenzialanalyse anfragen →
                           </button>
                         </div>
                       </motion.div>

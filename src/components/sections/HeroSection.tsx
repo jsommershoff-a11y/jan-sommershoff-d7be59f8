@@ -13,7 +13,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Jan Sommershoff auf der Bühne"
+          alt="Jan Sommershoff – KI & Automatisierung"
           className="w-full h-full object-cover scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/[0.92] via-black/[0.80] to-black/[0.65]" />
@@ -49,15 +49,14 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="block">Skalierbare</span>
-              <span className="block mt-1 md:mt-2">Unternehmensprozesse</span>
+              <span className="block">Mach dein Unternehmen</span>
               <motion.span
                 className="block mt-1 md:mt-2 text-primary"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7, type: 'spring', stiffness: 200 }}
               >
-                durch KI & Automatisierung.
+                KI-fit. Bevor es zu spät ist.
               </motion.span>
             </motion.h1>
 
@@ -67,7 +66,7 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Ich helfe Unternehmern, operative Exzellenz durch die KRS Signature Programme zu erreichen – für mehr Freiheit, Struktur und messbares Wachstum.
+              Automatisierungen sparen deinem Team bis zu 30 Stunden pro Woche. Wir sichern deine Daten und machen dein Unternehmen zukunftsfähig.
             </motion.p>
 
             <motion.div
@@ -102,11 +101,11 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.9 }}
             >
-              <span>150+ implementierte Systeme</span>
+              <span>150+ automatisierte Prozesse</span>
               <span className="hidden sm:inline">|</span>
-              <span>50+ Mitarbeiter in der Spitze geführt</span>
+              <span>Bis zu 30 Std. Zeitersparnis/Woche</span>
               <span className="hidden sm:inline">|</span>
-              <span>Praxis statt Theorie</span>
+              <span>Datensicherheit & Zukunftsfähigkeit</span>
             </motion.div>
           </motion.div>
         </div>

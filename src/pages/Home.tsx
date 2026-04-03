@@ -6,10 +6,7 @@ import { TrustSection } from '@/components/sections/TrustSection';
 import { KrsSignatureSection } from '@/components/sections/KrsSignatureSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
-import { PersonalFactsSection } from '@/components/sections/PersonalFactsSection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
-import { MistakesSection } from '@/components/sections/MistakesSection';
-import { PhilosophySection } from '@/components/sections/PhilosophySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { KiZukunftSection } from '@/components/sections/KiZukunftSection';
@@ -29,8 +26,8 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="Jan Sommershoff – KI, Automatisierung & Unternehmertum"
-        description="Skalierbare Unternehmensprozesse durch KI & Automatisierung. Ich helfe Unternehmern, operative Exzellenz durch die KRS Signature Programme zu erreichen."
+        title="Jan Sommershoff – KI, Automatisierung & Zukunftssicherheit für Unternehmen"
+        description="Wir machen dein Unternehmen KI-fit. Automatisierungen sparen bis zu 30 Std./Woche. Datensicherheit & skalierbare Prozesse durch die KRS Signature Programme."
       />
       <div className="min-h-screen">
         <HeroSection />
@@ -52,20 +49,9 @@ export default function Home() {
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <StorySection />
 
-        {/* Personal Facts */}
+        {/* Situations / Challenges */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
-        <PersonalFactsSection />
-
-        {/* Situations */}
         <SituationsSection />
-
-        {/* Mistakes */}
-        <SectionTransition from="var(--muted)" to="#111111" height={80} />
-        <MistakesSection />
-
-        {/* Philosophy */}
-        <SectionTransition from="#111111" to="var(--muted)" height={80} />
-        <PhilosophySection />
 
         {/* Expertise */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
