@@ -55,7 +55,7 @@ export default function Auth() {
   };
 
   const benefits = [
-    { icon: Shield, text: 'Sofortmaßnahmen bei Unternehmenskrisen' },
+    { icon: Shield, text: 'Sofortmaßnahmen bei unternehmerischen Herausforderungen' },
     { icon: Brain, text: 'KI-gestützte Entscheidungsvorlagen' },
     { icon: Zap, text: 'Automatisierte Prozessanalyse' },
   ];
