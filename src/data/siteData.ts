@@ -115,6 +115,7 @@ export const siteData = {
       stars: 5,
     },
   ],
+  personalFacts: [] as { icon: string; label: string; detail: string }[],
   leadMagnet: {
     headline: 'KI Starter Kit für Unternehmer',
     paragraphs: [
