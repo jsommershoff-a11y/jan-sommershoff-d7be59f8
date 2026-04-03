@@ -7,6 +7,7 @@ import { KrsSignatureSection } from '@/components/sections/KrsSignatureSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
+import { DataSovereigntySection } from '@/components/sections/DataSovereigntySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { KiZukunftSection } from '@/components/sections/KiZukunftSection';
