@@ -77,12 +77,6 @@ export const siteData = {
         'Das Programm für Unternehmer, die ihre Prozesse durch KI und Automatisierung zukunftssicher machen wollen.',
       icon: 'Monitor',
     },
-    {
-      name: 'KRS Digital',
-      description:
-        'Digitale Strategien, KI-Implementierung und skalierbare Unternehmensstrukturen.',
-      icon: 'Monitor',
-    },
   ],
   cta: {
     headline: 'Dein Unternehmen verdient Zukunftssicherheit.',
