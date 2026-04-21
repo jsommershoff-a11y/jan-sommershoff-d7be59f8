@@ -473,6 +473,19 @@ export default function Admin() {
           )}
         </div>
       </div>
+
+      <InboxDialog open={inboxOpen} onOpenChange={setInboxOpen} />
+      <SendMailDialog
+        open={!!mailTarget}
+        onOpenChange={(o) => !o && setMailTarget(null)}
+        to={mailTarget?.email || ''}
+        recipientName={mailTarget?.name}
+        defaultSubject={
+          mailTarget?.type === 'lead_magnet'
+            ? 'Dein KI Notfallkoffer'
+            : 'Re: Deine Anfrage'
+        }
+      />
     </div>
   );
 }
