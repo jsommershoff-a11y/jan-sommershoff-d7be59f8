@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/select';
 import { Download, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 
 interface Submission {
   id: string;
@@ -343,6 +344,8 @@ export default function Admin() {
             </Button>
           </div>
         </div>
+
+        <SubmissionsChart submissions={submissions} />
 
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
