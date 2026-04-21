@@ -43,7 +43,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
             </motion.div>
           </Link>
         ) : (
-          <div className="p-8 md:p-12">
+          <div className="p-6 sm:p-8 md:p-12">
             <div className="flex items-center gap-3 text-muted-foreground">
               <ArrowLeft className="size-5" />
               <span className="text-sm font-light tracking-wide uppercase">No Previous Project</span>
