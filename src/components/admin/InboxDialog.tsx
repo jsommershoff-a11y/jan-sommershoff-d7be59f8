@@ -102,6 +102,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
         prev.map((m) => (m.id === messageId ? { ...m, isRead: true } : m)),
       );
       setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: true } : prev));
+      setUnreadCount((c) => (c !== null ? Math.max(0, c - 1) : c));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected?.id]);
