@@ -95,6 +95,113 @@ async function logInteraction(
   }
 }
 
+interface OutlookListMessage {
+  id: string;
+  subject?: string;
+  bodyPreview?: string;
+  receivedDateTime?: string;
+  from?: { emailAddress?: { name?: string; address?: string } };
+}
+
+async function logInboundMessages(
+  serviceClient: ReturnType<typeof createClient>,
+  userId: string,
+  messages: OutlookListMessage[],
+) {
+  if (!messages.length) return;
+
+  const addresses = Array.from(
+    new Set(
+      messages
+        .map((m) => m.from?.emailAddress?.address?.toLowerCase().trim())
+        .filter((a): a is string => !!a),
+    ),
+  );
+  if (!addresses.length) return;
+
+  const { data: contactRows } = await serviceClient
+    .from('contacts')
+    .select('id, email')
+    .eq('user_id', userId)
+    .in('email', addresses);
+
+  const matched = new Map<string, number>();
+  (contactRows || []).forEach((c: { id: number; email: string | null }) => {
+    if (c.email) matched.set(c.email.toLowerCase(), c.id);
+  });
+
+  // Fallback for case-mismatched stored emails
+  const unmatched = addresses.filter((a) => !matched.has(a));
+  for (const addr of unmatched) {
+    const { data: row } = await serviceClient
+      .from('contacts')
+      .select('id, email')
+      .eq('user_id', userId)
+      .ilike('email', addr)
+      .maybeSingle();
+    if (row?.id) matched.set(addr, row.id);
+  }
+
+  if (matched.size === 0) return;
+
+  const candidates = messages
+    .map((m) => {
+      const addr = m.from?.emailAddress?.address?.toLowerCase().trim();
+      if (!addr) return null;
+      const contactId = matched.get(addr);
+      if (!contactId) return null;
+      const occurredAt = m.receivedDateTime
+        ? new Date(m.receivedDateTime).toISOString()
+        : new Date().toISOString();
+      return {
+        user_id: userId,
+        contact_id: contactId,
+        type: 'email',
+        channel: 'outlook',
+        direction: 'inbound',
+        subject: m.subject || '(kein Betreff)',
+        content: m.bodyPreview || null,
+        status: 'received',
+        occurred_at: occurredAt,
+      };
+    })
+    .filter((r): r is NonNullable<typeof r> => !!r);
+
+  if (!candidates.length) return;
+
+  // Idempotency by (contact_id, occurred_at) — Graph timestamps uniquely identify
+  const occurredTimes = candidates.map((c) => c.occurred_at);
+  const contactIds = Array.from(new Set(candidates.map((c) => c.contact_id)));
+  const { data: existing } = await serviceClient
+    .from('interactions')
+    .select('contact_id, occurred_at')
+    .eq('user_id', userId)
+    .eq('type', 'email')
+    .eq('direction', 'inbound')
+    .in('contact_id', contactIds)
+    .in('occurred_at', occurredTimes);
+
+  const existingKeys = new Set(
+    (existing || []).map(
+      (e: { contact_id: number | null; occurred_at: string }) =>
+        `${e.contact_id}|${new Date(e.occurred_at).toISOString()}`,
+    ),
+  );
+
+  const toInsert = candidates.filter(
+    (c) => !existingKeys.has(`${c.contact_id}|${c.occurred_at}`),
+  );
+
+  if (!toInsert.length) return;
+
+  const { error } = await serviceClient.from('interactions').insert(toInsert);
+  if (error) {
+    console.warn('logInboundMessages insert failed:', error.message);
+  } else {
+    console.log(`Logged ${toInsert.length} inbound mail(s) as interactions`);
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -169,6 +276,19 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Auto-log inbound messages from known contacts (best-effort, non-blocking)
+      try {
+        const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+        if (serviceKey) {
+          const serviceClient = createClient(supabaseUrl, serviceKey);
+          const messages = (data as { value?: OutlookListMessage[] })?.value || [];
+          await logInboundMessages(serviceClient, user.id, messages);
+        }
+      } catch (e) {
+        console.warn('Inbound logging error:', e);
+      }
+
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
