@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      budgets: {
+        Row: {
+          category: string
+          created_at: string
+          id: number
+          month: number | null
+          notes: string | null
+          period: string
+          planned_amount: number
+          updated_at: string
+          user_id: string
+          year: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: number
+          month?: number | null
+          notes?: string | null
+          period?: string
+          planned_amount: number
+          updated_at?: string
+          user_id: string
+          year: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: number
+          month?: number | null
+          notes?: string | null
+          period?: string
+          planned_amount?: number
+          updated_at?: string
+          user_id?: string
+          year?: number
+        }
+        Relationships: []
+      }
       companies: {
         Row: {
           address: string | null
@@ -333,6 +372,51 @@ export type Database = {
           },
         ]
       }
+      expenses: {
+        Row: {
+          amount: number
+          budget_id: number | null
+          category: string
+          created_at: string
+          date: string
+          description: string
+          id: number
+          notes: string | null
+          payment_method: string | null
+          receipt_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          budget_id?: number | null
+          category: string
+          created_at?: string
+          date?: string
+          description: string
+          id?: number
+          notes?: string | null
+          payment_method?: string | null
+          receipt_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          budget_id?: number | null
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: number
+          notes?: string | null
+          payment_method?: string | null
+          receipt_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       interactions: {
         Row: {
           channel: string | null
@@ -395,6 +479,195 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      invoices: {
+        Row: {
+          amount: number
+          contact_id: number | null
+          created_at: string
+          deal_id: number | null
+          description: string | null
+          direction: string | null
+          due_date: string
+          entity: string | null
+          forwarded_at: string | null
+          forwarded_to: string | null
+          id: number
+          invoice_number: string
+          notes: string | null
+          paid_at: string | null
+          payment_method: string | null
+          reminder_count: number | null
+          reminder_sent_at: string | null
+          sender_email: string | null
+          sender_name: string | null
+          source_email_subject: string | null
+          source_mailbox: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          direction?: string | null
+          due_date: string
+          entity?: string | null
+          forwarded_at?: string | null
+          forwarded_to?: string | null
+          id?: number
+          invoice_number: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          reminder_count?: number | null
+          reminder_sent_at?: string | null
+          sender_email?: string | null
+          sender_name?: string | null
+          source_email_subject?: string | null
+          source_mailbox?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          contact_id?: number | null
+          created_at?: string
+          deal_id?: number | null
+          description?: string | null
+          direction?: string | null
+          due_date?: string
+          entity?: string | null
+          forwarded_at?: string | null
+          forwarded_to?: string | null
+          id?: number
+          invoice_number?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string | null
+          reminder_count?: number | null
+          reminder_sent_at?: string | null
+          sender_email?: string | null
+          sender_name?: string | null
+          source_email_subject?: string | null
+          source_mailbox?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      recurring_transactions: {
+        Row: {
+          amount: number
+          auto_create: boolean
+          category: string
+          created_at: string
+          day_of_month: number | null
+          day_of_week: number | null
+          description: string | null
+          frequency: Database["public"]["Enums"]["recurring_frequency"]
+          id: number
+          invoice_number_pattern: string | null
+          last_created_date: string | null
+          next_due_date: string
+          notes: string | null
+          payment_method: string | null
+          type: Database["public"]["Enums"]["recurring_transaction_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          auto_create?: boolean
+          category: string
+          created_at?: string
+          day_of_month?: number | null
+          day_of_week?: number | null
+          description?: string | null
+          frequency: Database["public"]["Enums"]["recurring_frequency"]
+          id?: never
+          invoice_number_pattern?: string | null
+          last_created_date?: string | null
+          next_due_date: string
+          notes?: string | null
+          payment_method?: string | null
+          type: Database["public"]["Enums"]["recurring_transaction_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          auto_create?: boolean
+          category?: string
+          created_at?: string
+          day_of_month?: number | null
+          day_of_week?: number | null
+          description?: string | null
+          frequency?: Database["public"]["Enums"]["recurring_frequency"]
+          id?: never
+          invoice_number_pattern?: string | null
+          last_created_date?: string | null
+          next_due_date?: string
+          notes?: string | null
+          payment_method?: string | null
+          type?: Database["public"]["Enums"]["recurring_transaction_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          due_date: string | null
+          google_event_id: string | null
+          id: number
+          priority: string
+          related_contact_id: number | null
+          related_deal_id: number | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          google_event_id?: string | null
+          id?: number
+          priority?: string
+          related_contact_id?: number | null
+          related_deal_id?: number | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          google_event_id?: string | null
+          id?: number
+          priority?: string
+          related_contact_id?: number | null
+          related_deal_id?: number | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       tickets: {
         Row: {
@@ -472,6 +745,78 @@ export type Database = {
           },
         ]
       }
+      transactions: {
+        Row: {
+          amount: number
+          category: string
+          contact_id: number | null
+          created_at: string
+          date: string
+          deal_id: number | null
+          description: string | null
+          id: number
+          invoice_number: string | null
+          notes: string | null
+          payment_method: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          contact_id?: number | null
+          created_at?: string
+          date: string
+          deal_id?: number | null
+          description?: string | null
+          id?: number
+          invoice_number?: string | null
+          notes?: string | null
+          payment_method?: string | null
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          contact_id?: number | null
+          created_at?: string
+          date?: string
+          deal_id?: number | null
+          description?: string | null
+          id?: number
+          invoice_number?: string | null
+          notes?: string | null
+          payment_method?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_mappings: {
+        Row: {
+          created_at: string
+          id: number
+          mysql_id: number
+          supabase_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          mysql_id: number
+          supabase_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          mysql_id?: number
+          supabase_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -480,7 +825,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      recurring_frequency:
+        | "daily"
+        | "weekly"
+        | "biweekly"
+        | "monthly"
+        | "quarterly"
+        | "yearly"
+      recurring_transaction_type: "income" | "expense"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -607,6 +959,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      recurring_frequency: [
+        "daily",
+        "weekly",
+        "biweekly",
+        "monthly",
+        "quarterly",
+        "yearly",
+      ],
+      recurring_transaction_type: ["income", "expense"],
+    },
   },
 } as const
