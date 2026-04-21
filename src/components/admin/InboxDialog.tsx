@@ -81,6 +81,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
       setUnreadOnly(false);
       setSearch('');
       load({ q: '', pageIdx: 0, unread: false });
+      loadUnreadCount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
