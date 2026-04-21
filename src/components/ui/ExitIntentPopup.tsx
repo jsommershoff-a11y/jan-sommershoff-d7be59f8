@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Gift } from 'lucide-react';
+import { trackEvent } from '@/lib/tracking';
 
 export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,15 +10,18 @@ export function ExitIntentPopup() {
 
   const trigger = useCallback(() => {
     if (hasTriggered) return;
-    // Don't show if dismissed before (session)
     if (sessionStorage.getItem('exit-popup-dismissed')) return;
     setIsOpen(true);
     setHasTriggered(true);
+    trackEvent('popup_shown', { popup_id: 'exit_intent_notfallkoffer' });
   }, [hasTriggered]);
 
-  const dismiss = () => {
+  const dismiss = (reason: 'backdrop' | 'close_button' | 'cta_click' = 'close_button') => {
     setIsOpen(false);
     sessionStorage.setItem('exit-popup-dismissed', 'true');
+    if (reason !== 'cta_click') {
+      trackEvent('popup_dismissed', { popup_id: 'exit_intent_notfallkoffer', dismiss_reason: reason });
+    }
   };
 
   useEffect(() => {
@@ -60,7 +64,7 @@ export function ExitIntentPopup() {
           exit={{ opacity: 0 }}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={dismiss} />
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => dismiss('backdrop')} />
 
           {/* Modal */}
           <motion.div
@@ -71,7 +75,7 @@ export function ExitIntentPopup() {
             transition={{ duration: 0.3 }}
           >
             <button
-              onClick={dismiss}
+              onClick={() => dismiss('close_button')}
               className="absolute top-4 right-4 p-1 text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Schließen"
             >
@@ -92,7 +96,10 @@ export function ExitIntentPopup() {
             <Link
               to="/kontakt?ziel=notfallkoffer"
               className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all text-base"
-              onClick={dismiss}
+              onClick={() => {
+                trackEvent('popup_cta_click', { popup_id: 'exit_intent_notfallkoffer', cta: 'notfallkoffer_anfragen' });
+                dismiss('cta_click');
+              }}
             >
               Notfallkoffer anfragen
               <ArrowRight className="size-5" />
