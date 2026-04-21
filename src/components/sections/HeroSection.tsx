@@ -5,9 +5,6 @@ import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import heroImage from '@/assets/hero-jan.jpeg';
 
 export function HeroSection() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
@@ -76,19 +73,19 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <button
-                onClick={() => scrollTo('contact')}
+              <Link
+                to="/kontakt?ziel=potenzialanalyse"
                 className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 bg-accent text-white text-base md:text-lg font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(246,113,31,0.4)] hover:shadow-[0_8px_40px_rgba(246,113,31,0.5)] hover:-translate-y-1 duration-300"
               >
                 <span className="absolute inset-0 rounded-xl bg-accent animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-20" />
-                <span className="relative">Jetzt Potenzialanalyse anfragen</span>
+                <span className="relative">Potenzialanalyse anfragen</span>
                 <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
               <Link
-                to="/auth"
+                to="/kontakt?ziel=notfallkoffer"
                 className="group inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 border-2 border-white/40 text-white text-base md:text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
               >
-                KI Notfallkoffer holen
+                Notfallkoffer anfragen
                 <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>

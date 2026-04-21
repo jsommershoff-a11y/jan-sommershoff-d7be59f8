@@ -1,5 +1,6 @@
 import { siteData } from '@/data/siteData';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { Link } from 'react-router-dom';
 import { Building, Monitor, ArrowRight } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = { Building, Monitor };
@@ -25,12 +26,8 @@ export function ProjectsSection() {
             return (
               <ScrollReveal key={project.name} delay={index * 0.15} className="h-full [&>div]:h-full">
                 <div className="h-full">
-                  <a
-                    href="#contact"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                  <Link
+                    to="/kontakt?ziel=potenzialanalyse"
                     className="group flex flex-col h-full bg-card p-6 md:p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300"
                   >
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 md:mb-6 group-hover:bg-primary/20 transition-colors">
@@ -46,7 +43,7 @@ export function ProjectsSection() {
                       <span>Mehr erfahren</span>
                       <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </ScrollReveal>
             );

@@ -4,7 +4,7 @@ import { MessageCircle, Phone, Mail, Calendar, X } from 'lucide-react';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 
 const WHATSAPP_URL = 'https://wa.me/message/VSNLCZXNWTSKO1';
-const BOOKING_URL = '/#contact';
+const BOOKING_URL = '/kontakt?ziel=potenzialanalyse';
 const PHONE = '+49 175 1127114';
 const EMAIL = 'j.s@jan-sommershoff.de';
 
@@ -54,8 +54,8 @@ export function FloatingCta() {
                   <Calendar className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <span className="text-sm font-medium">Termin buchen</span>
-                  <span className="block text-xs text-muted-foreground">Kostenlose Analyse</span>
+                  <span className="text-sm font-medium">Potenzialanalyse anfragen</span>
+                  <span className="block text-xs text-muted-foreground">Kostenfrei</span>
                 </div>
               </a>
 

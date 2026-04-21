@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -16,26 +16,15 @@ const Impressum = lazy(() => import("./pages/Impressum"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz"));
 const AGB = lazy(() => import("./pages/AGB"));
 const Auth = lazy(() => import("./pages/Auth"));
-const Upsell = lazy(() => import("./pages/Upsell"));
 const Leistungen = lazy(() => import("./pages/Leistungen"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-
-// Conversion goals
-const Potenzialanalyse = lazy(() => import("./pages/Potenzialanalyse"));
-const Notfallkoffer = lazy(() => import("./pages/Notfallkoffer"));
-const Termin = lazy(() => import("./pages/Termin"));
-
-// Campaign landing pages
-const LpKiAnalyse = lazy(() => import("./pages/lp/LpKiAnalyse"));
-const LpNotfallkoffer = lazy(() => import("./pages/lp/LpNotfallkoffer"));
+const Kontakt = lazy(() => import("./pages/Kontakt"));
 
 // Thank-you pages
 const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
 const DankeLead = lazy(() => import("./pages/danke/DankeLead"));
-const DankeKauf = lazy(() => import("./pages/danke/DankeKauf"));
-const DankeTermin = lazy(() => import("./pages/danke/DankeTermin"));
 
 const queryClient = new QueryClient();
 
@@ -51,7 +40,7 @@ const App = () => (
               <Routes>
                 {/* Funnel pages – no main layout */}
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/upsell" element={<Upsell />} />
+                <Route path="/kontakt" element={<Kontakt />} />
 
                 {/* Admin – no main layout */}
                 <Route path="/admin" element={<Admin />} />
@@ -63,20 +52,14 @@ const App = () => (
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
-                {/* Conversion-Goal Routen (Tracking-URLs) */}
-                <Route path="/potenzialanalyse" element={<Potenzialanalyse />} />
-                <Route path="/notfallkoffer" element={<Notfallkoffer />} />
-                <Route path="/termin" element={<Termin />} />
 
-                {/* Kampagnen-Landingpages */}
-                <Route path="/lp/ki-analyse" element={<LpKiAnalyse />} />
-                <Route path="/lp/notfallkoffer" element={<LpNotfallkoffer />} />
+                {/* Legacy Conversion-Goal Routen → Kontakt mit Quell-Param */}
+                <Route path="/potenzialanalyse" element={<Navigate to="/kontakt?ziel=potenzialanalyse" replace />} />
+                <Route path="/notfallkoffer" element={<Navigate to="/kontakt?ziel=notfallkoffer" replace />} />
 
                 {/* Danke-Seiten (Conversion-Trigger) */}
                 <Route path="/danke/kontakt" element={<DankeKontakt />} />
                 <Route path="/danke/lead" element={<DankeLead />} />
-                <Route path="/danke/kauf" element={<DankeKauf />} />
-                <Route path="/danke/termin" element={<DankeTermin />} />
 
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
