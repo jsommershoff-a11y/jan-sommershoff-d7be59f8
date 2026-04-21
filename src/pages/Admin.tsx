@@ -518,7 +518,8 @@ export default function Admin() {
           <span className="text-muted-foreground mr-1">Sortieren:</span>
           {([
             { key: 'date', label: 'Datum' },
-            { key: 'name', label: 'Name' },
+            { key: 'last_name', label: 'Nachname' },
+            { key: 'first_name', label: 'Vorname' },
             { key: 'type', label: 'Typ' },
           ] as const).map(({ key, label }) => {
             const active = sortBy === key;
