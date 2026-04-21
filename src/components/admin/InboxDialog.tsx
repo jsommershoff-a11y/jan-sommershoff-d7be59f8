@@ -40,6 +40,16 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
   const [selected, setSelected] = useState<OutlookMessage | null>(null);
   const [reply, setReply] = useState('');
   const [sending, setSending] = useState(false);
+  const [unreadCount, setUnreadCount] = useState<number | null>(null);
+
+  const loadUnreadCount = async () => {
+    const { data, error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'unreadCount' },
+    });
+    if (error) return;
+    const c = (data as { count?: number })?.count;
+    if (typeof c === 'number') setUnreadCount(c);
+  };
 
   const load = async (opts?: { q?: string; pageIdx?: number; unread?: boolean }) => {
     const q = opts?.q ?? search;
