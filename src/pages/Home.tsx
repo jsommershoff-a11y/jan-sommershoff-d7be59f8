@@ -73,16 +73,16 @@ export default function Home() {
                   position: 1,
                   name: 'Potenzialanalyse',
                   description:
-                    'Kostenfreie KI-Potenzialanalyse für dein Unternehmen.',
+                    'Kostenfreie KI-Potenzialanalyse anfragen über das Kontaktformular.',
                   url: 'https://jan-sommershoff.de/#kontakt',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 2,
-                  name: 'Leistungen',
+                  name: 'KI System Analyse',
                   description:
-                    'KI-Beratung, Automatisierung und Systemarchitektur.',
-                  url: 'https://jan-sommershoff.de/#expertise',
+                    'Tiefenanalyse deiner Prozesse & KI-Roadmap (499 €).',
+                  url: 'https://jan-sommershoff.de/upsell',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -97,7 +97,7 @@ export default function Home() {
                   name: 'KI Notfallkoffer',
                   description:
                     'Kostenloser Lead-Magnet: Sofort-Hilfe für KI-Einsteiger.',
-                  url: 'https://jan-sommershoff.de/auth',
+                  url: 'https://jan-sommershoff.de/#lead-magnet',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -110,9 +110,9 @@ export default function Home() {
                 {
                   '@type': 'SiteNavigationElement',
                   position: 6,
-                  name: 'Kontakt',
-                  description: 'Direkt Kontakt aufnehmen oder Termin buchen.',
-                  url: 'https://jan-sommershoff.de/#kontakt',
+                  name: 'WhatsApp Kontakt',
+                  description: 'Direkter Chat über WhatsApp Business.',
+                  url: 'https://wa.me/message/VSNLCZXNWTSKO1',
                 },
               ],
             },
