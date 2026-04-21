@@ -27,7 +27,7 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="relative h-full flex items-center px-6 lg:px-8">
+      <div className="relative h-full flex items-center px-4 md:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             className="max-w-3xl space-y-4 md:space-y-6"
@@ -36,7 +36,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <motion.p
-              className="text-sm md:text-base font-bold tracking-[0.3em] uppercase text-accent"
+              className="text-xs md:text-base font-bold tracking-[0.25em] md:tracking-[0.3em] uppercase text-accent"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
