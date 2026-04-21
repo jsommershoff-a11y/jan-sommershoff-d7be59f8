@@ -230,7 +230,12 @@ export default function Datenschutz() {
           </div>
           <p className="mt-2">Weitere Informationen: <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.facebook.com/privacy/policy</a></p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4">10.4 Widerruf Ihrer Einwilligung</h3>
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.4 Google Consent Mode v2</h3>
+          <p>Wir setzen den <strong>Google Consent Mode v2</strong> ein. Das bedeutet: Google-Tags (insbesondere Google Analytics 4 und – falls aktiviert – Google Ads) werden auf unserer Website grundsätzlich mit dem Standardstatus „<strong>denied</strong>" für die Signale <code>ad_storage</code>, <code>ad_user_data</code>, <code>ad_personalization</code> und <code>analytics_storage</code> geladen. Erst nach Ihrer aktiven Einwilligung im Cookie-Banner werden die jeweils freigegebenen Signale per <code>consent update</code> auf „granted" gesetzt.</p>
+          <p>Ohne Ihre Einwilligung werden <strong>keine Cookies gesetzt</strong> und <strong>keine identifizierenden Daten</strong> übertragen. Es können in diesem Modus jedoch sogenannte <em>cookielose Pings</em> (anonyme, aggregierte Signale ohne Geräte- oder Nutzer-IDs) an Google gesendet werden, die ausschließlich der statistischen Modellierung von Conversion- und Reichweiten-Lücken dienen. Eine Wiedererkennung Ihrer Person ist auf dieser Basis nicht möglich.</p>
+          <p>Zusätzlich aktivieren wir die Google-Einstellungen <code>ads_data_redaction</code> (Schwärzung werbebezogener Daten bei fehlender Einwilligung) und <code>url_passthrough</code> (cookielose Weitergabe von Klick-Parametern).</p>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.5 Widerruf Ihrer Einwilligung</h3>
           <p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen oder anpassen. Klicken Sie dazu auf den Cookie-Button (Symbol unten links auf jeder Seite) oder auf den Link „Cookie-Einstellungen" im Footer. Nach Widerruf werden die zugehörigen Skripte nicht mehr geladen; bereits gesetzte Drittanbieter-Cookies können Sie zusätzlich in den Einstellungen Ihres Browsers löschen.</p>
         </section>
 
