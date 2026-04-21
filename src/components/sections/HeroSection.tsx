@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import heroImage from '@/assets/hero-jan.jpeg';
