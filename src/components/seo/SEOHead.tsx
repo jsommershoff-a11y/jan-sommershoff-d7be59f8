@@ -7,70 +7,101 @@ interface SEOHeadProps {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  /** Override the canonical URL (defaults to the current pathname). */
+  canonicalPath?: string;
+  /** Optional JSON-LD object — will be embedded as application/ld+json. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Set to true to discourage indexing (e.g. for /auth, /admin). */
+  noIndex?: boolean;
 }
 
+const SITE_URL = 'https://jan-sommershoff.de';
+const DEFAULT_OG = `${SITE_URL}/og-image.png`;
+
 /**
- * SEO component for managing page meta tags
- * Handles title, description, and Open Graph tags
+ * SEO meta-tag manager. Handles title, description, Open Graph, Twitter,
+ * canonical, robots and optional JSON-LD structured data.
  */
-export function SEOHead({ 
-  title, 
-  description, 
-  // Photo by Oyemike Princewill on Unsplash
-  image = 'https://images.unsplash.com/photo-1662333085102-f6ae3be21c91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjB8&ixlib=rb-4.1.0&q=80&w=1080',
-  type = 'website'
+export function SEOHead({
+  title,
+  description,
+  image = DEFAULT_OG,
+  type = 'website',
+  canonicalPath,
+  jsonLd,
+  noIndex = false,
 }: SEOHeadProps) {
   const location = useLocation();
-  
-  const fullTitle = title 
-    ? `${title} | ${siteData.name}` 
-    : `${siteData.name} - ${siteData.tagline}`;
-  
-  const defaultDescription = siteData.heroSubheadline;
-  const fullDescription = description || defaultDescription;
-  
-  const baseUrl = window.location.origin;
-  const fullUrl = `${baseUrl}${location.pathname}`;
+
+  const fullTitle = title
+    ? `${title} | ${siteData.name}`
+    : `${siteData.name} – ${siteData.tagline}`;
+
+  const fullDescription = description || siteData.heroSubheadline;
+  const path = canonicalPath ?? location.pathname;
+  const canonicalUrl = `${SITE_URL}${path}`;
 
   useEffect(() => {
-    // Update document title
     document.title = fullTitle;
 
-    // Update or create meta tags
-    const updateMetaTag = (name: string, content: string, isProperty = false) => {
-      const attribute = isProperty ? 'property' : 'name';
-      let element = document.querySelector(`meta[${attribute}="${name}"]`);
-      
-      if (!element) {
-        element = document.createElement('meta');
-        element.setAttribute(attribute, name);
-        document.head.appendChild(element);
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const attr = isProperty ? 'property' : 'name';
+      let el = document.head.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
       }
-      
-      element.setAttribute('content', content);
+      el.setAttribute('content', content);
     };
 
-    // Standard meta tags
-    updateMetaTag('description', fullDescription);
-    
-    // Open Graph tags
-    updateMetaTag('og:title', fullTitle, true);
-    updateMetaTag('og:description', fullDescription, true);
-    updateMetaTag('og:type', type, true);
-    updateMetaTag('og:url', fullUrl, true);
-    updateMetaTag('og:image', image, true);
-    updateMetaTag('og:site_name', siteData.name, true);
-    
-    // Twitter Card tags
-    updateMetaTag('twitter:card', 'summary_large_image');
-    updateMetaTag('twitter:title', fullTitle);
-    updateMetaTag('twitter:description', fullDescription);
-    updateMetaTag('twitter:image', image);
+    setMeta('description', fullDescription);
+    setMeta('author', siteData.name);
+    setMeta(
+      'keywords',
+      'Jan Sommershoff, KI Beratung, Künstliche Intelligenz Unternehmer, Automatisierung, Prozessoptimierung, KI-Strategie, Datensicherheit, Digitalisierung Mittelstand',
+    );
+    setMeta('robots', noIndex ? 'noindex, nofollow' : 'index, follow');
 
-    // Additional SEO tags
-    updateMetaTag('author', siteData.name);
-    updateMetaTag('keywords', `Unternehmer, ${siteData.name}, KI, Automatisierung, Datensicherheit, Unternehmertum, Zukunftsfähigkeit`);
-  }, [fullTitle, fullDescription, fullUrl, image, type]);
+    // Open Graph
+    setMeta('og:title', fullTitle, true);
+    setMeta('og:description', fullDescription, true);
+    setMeta('og:type', type, true);
+    setMeta('og:url', canonicalUrl, true);
+    setMeta('og:image', image, true);
+    setMeta('og:site_name', siteData.name, true);
+    setMeta('og:locale', 'de_DE', true);
+
+    // Twitter
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', fullTitle);
+    setMeta('twitter:description', fullDescription);
+    setMeta('twitter:image', image);
+
+    // Canonical
+    let canonical = document.head.querySelector(
+      'link[rel="canonical"]',
+    ) as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', canonicalUrl);
+
+    // JSON-LD
+    const existing = document.head.querySelector(
+      'script[data-seo-jsonld="true"]',
+    );
+    if (existing) existing.remove();
+    if (jsonLd) {
+      const script = document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.setAttribute('data-seo-jsonld', 'true');
+      script.text = JSON.stringify(jsonLd);
+      document.head.appendChild(script);
+    }
+  }, [fullTitle, fullDescription, canonicalUrl, image, type, noIndex, jsonLd]);
 
   return null;
 }
