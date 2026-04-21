@@ -4,7 +4,37 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, LogOut, Mail, Package, ShieldAlert } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Loader2, LogOut, Mail, Package, Plus, ShieldAlert, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Submission {
@@ -23,6 +53,28 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
 
+  // Add dialog state
+  const [addOpen, setAddOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [form, setForm] = useState({
+    type: 'contact',
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const loadSubmissions = async () => {
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      toast.error('Fehler beim Laden der Einsendungen');
+    } else {
+      setSubmissions(data || []);
+    }
+  };
+
   useEffect(() => {
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -31,7 +83,6 @@ export default function Admin() {
         return;
       }
 
-      // Check admin role
       const { data: roleData } = await supabase
         .from('user_roles')
         .select('role')
@@ -46,17 +97,7 @@ export default function Admin() {
       }
 
       setIsAdmin(true);
-
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        toast.error('Fehler beim Laden der Einsendungen');
-      } else {
-        setSubmissions(data || []);
-      }
+      await loadSubmissions();
       setLoading(false);
     };
 
@@ -71,6 +112,43 @@ export default function Admin() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/admin/login');
+  };
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from('contact_submissions').delete().eq('id', id);
+    if (error) {
+      toast.error('Löschen fehlgeschlagen');
+      return;
+    }
+    setSubmissions((prev) => prev.filter((s) => s.id !== id));
+    toast.success('Eintrag gelöscht');
+  };
+
+  const handleAdd = async () => {
+    if (!form.name.trim() || !form.email.trim()) {
+      toast.error('Name und E-Mail sind Pflicht');
+      return;
+    }
+    setAdding(true);
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert({
+        type: form.type,
+        name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim() || null,
+      })
+      .select()
+      .single();
+    setAdding(false);
+    if (error) {
+      toast.error('Hinzufügen fehlgeschlagen');
+      return;
+    }
+    setSubmissions((prev) => [data as Submission, ...prev]);
+    setForm({ type: 'contact', name: '', email: '', message: '' });
+    setAddOpen(false);
+    toast.success('Eintrag hinzugefügt');
   };
 
   const filtered = submissions.filter((s) => filter === 'all' || s.type === filter);
@@ -103,17 +181,86 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-muted py-10 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Lead-Übersicht</h1>
             <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="size-4 mr-2" /> Abmelden
-          </Button>
+          <div className="flex gap-2">
+            <Dialog open={addOpen} onOpenChange={setAddOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="size-4 mr-2" /> Neuer Eintrag
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Neuen Kontakt hinzufügen</DialogTitle>
+                  <DialogDescription>
+                    Manuell einen Lead oder Kontakt zur Übersicht hinzufügen.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="type">Typ</Label>
+                    <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
+                      <SelectTrigger id="type">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="contact">Kontakt</SelectItem>
+                        <SelectItem value="lead_magnet">Lead-Magnet</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name *</Label>
+                    <Input
+                      id="name"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      maxLength={100}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">E-Mail *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      maxLength={255}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Nachricht / Notiz</Label>
+                    <Textarea
+                      id="message"
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      maxLength={5000}
+                      rows={4}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setAddOpen(false)} disabled={adding}>
+                    Abbrechen
+                  </Button>
+                  <Button onClick={handleAdd} disabled={adding}>
+                    {adding && <Loader2 className="size-4 mr-2 animate-spin" />}
+                    Hinzufügen
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="size-4 mr-2" /> Abmelden
+            </Button>
+          </div>
         </div>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-6 flex-wrap">
           <Button size="sm" variant={filter === 'all' ? 'default' : 'outline'} onClick={() => setFilter('all')}>
             Alle ({submissions.length})
           </Button>
@@ -142,7 +289,7 @@ export default function Admin() {
             filtered.map((s) => (
               <Card key={s.id} className="p-5">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <Badge variant={s.type === 'lead_magnet' ? 'default' : 'secondary'}>
                       {s.type === 'lead_magnet' ? '🎯 Lead-Magnet' : '📩 Kontakt'}
                     </Badge>
@@ -153,12 +300,38 @@ export default function Admin() {
                       })}
                     </span>
                   </div>
-                  <a
-                    href={`mailto:${s.email}`}
-                    className="text-sm text-primary hover:underline font-medium"
-                  >
-                    {s.email}
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={`mailto:${s.email}`}
+                      className="text-sm text-primary hover:underline font-medium"
+                    >
+                      {s.email}
+                    </a>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Eintrag löschen?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Der Eintrag von <strong>{s.name}</strong> ({s.email}) wird unwiderruflich gelöscht.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDelete(s.id)}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            Löschen
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </div>
                 <p className="font-semibold text-foreground">{s.name}</p>
                 {s.message && (
