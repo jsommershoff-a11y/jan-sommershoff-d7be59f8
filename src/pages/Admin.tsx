@@ -69,6 +69,10 @@ export default function Admin() {
     message: '',
   });
 
+  // Outlook mail state
+  const [inboxOpen, setInboxOpen] = useState(false);
+  const [mailTarget, setMailTarget] = useState<Submission | null>(null);
+
   const loadSubmissions = async () => {
     const { data, error } = await supabase
       .from('contact_submissions')
