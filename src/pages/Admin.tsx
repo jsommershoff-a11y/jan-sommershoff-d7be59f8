@@ -345,6 +345,8 @@ export default function Admin() {
           </div>
         </div>
 
+        <SubmissionsChart submissions={submissions} />
+
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
           <Input
