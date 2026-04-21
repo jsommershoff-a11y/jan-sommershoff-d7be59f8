@@ -305,9 +305,16 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
                 />
               </div>
             </div>
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-2">
               <Button variant="outline" onClick={() => setSelected(null)} disabled={sending}>
                 Abbrechen
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleMarkUnread}
+                disabled={sending || !selected.isRead}
+              >
+                Als ungelesen markieren
               </Button>
               <Button onClick={handleReply} disabled={sending || !reply.trim()}>
                 {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
