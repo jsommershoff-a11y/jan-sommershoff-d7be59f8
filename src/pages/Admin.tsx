@@ -163,12 +163,15 @@ export default function Admin() {
       const s = (v ?? '').toString().replace(/"/g, '""');
       return `"${s}"`;
     };
-    const header = ['Datum', 'Typ', 'Name', 'E-Mail', 'Nachricht'];
+    const header = ['Datum', 'Typ', 'Vorname', 'Nachname', 'Name', 'E-Mail', 'Telefon', 'Nachricht'];
     const rows = filtered.map((s) => [
       new Date(s.created_at).toLocaleString('de-DE'),
       s.type,
+      s.first_name ?? '',
+      s.last_name ?? '',
       s.name,
       s.email,
+      s.phone ?? '',
       s.message,
     ]);
     const csv = [header, ...rows].map((r) => r.map((c) => escape(c as string | null)).join(',')).join('\n');
