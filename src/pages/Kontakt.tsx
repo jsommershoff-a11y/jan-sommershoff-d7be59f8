@@ -236,10 +236,29 @@ export default function Kontakt() {
               />
             </div>
 
+            <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 p-3">
+              <input
+                id="privacy"
+                type="checkbox"
+                checked={acceptedPrivacy}
+                onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                disabled={isSubmitting}
+                required
+                className="mt-1 size-4 rounded border-border accent-primary cursor-pointer shrink-0"
+              />
+              <label htmlFor="privacy" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+                Ich habe die{' '}
+                <Link to="/datenschutz" target="_blank" className="text-accent underline hover:text-foreground">
+                  Datenschutzerklärung
+                </Link>{' '}
+                gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu. *
+              </label>
+            </div>
+
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full inline-flex items-center justify-center gap-2 px-6 h-14 bg-accent text-white font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-60 shadow-lg"
+              disabled={isSubmitting || !acceptedPrivacy}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 h-14 bg-accent text-white font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
             >
               {isSubmitting ? (
                 <Loader2 className="size-5 animate-spin" />
