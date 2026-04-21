@@ -74,6 +74,21 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+      <SEOHead
+        title="KI Notfallkoffer – Kostenloser Zugang"
+        description="Sichere dir den kostenlosen KI Notfallkoffer für Unternehmer: Prompts, Workflows und Entscheidungs-Frameworks."
+        canonicalPath="/auth"
+        noIndex
+      />
+      {submitted && (
+        <div className="border-b border-white/10 bg-[#0F3D2E]/30 py-6 px-6 text-center">
+          <MailCheck className="size-8 text-[#6fcfab] mx-auto mb-2" />
+          <p className="text-white font-semibold">Bitte bestätige deine E-Mail-Adresse.</p>
+          <p className="text-white/60 text-sm mt-1">
+            Wir haben dir einen Bestätigungslink an <strong>{email}</strong> gesendet. Sobald du klickst, schalten wir den Notfallkoffer frei.
+          </p>
+        </div>
+      )}
       {/* Conversion section */}
       <section className="border-b border-white/5 py-16 md:py-24 px-6">
         <div className="max-w-3xl mx-auto text-center">
