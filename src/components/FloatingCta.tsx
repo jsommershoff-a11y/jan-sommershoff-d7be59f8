@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Phone, Mail, Calendar, X } from 'lucide-react';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
+import { trackEvent } from '@/lib/tracking';
 
 const WHATSAPP_URL = 'https://wa.me/message/VSNLCZXNWTSKO1';
 const BOOKING_URL = '/kontakt?ziel=potenzialanalyse';
@@ -13,6 +14,21 @@ export function FloatingCta() {
   const { isScrolled } = useScrollPosition();
 
   if (!isScrolled) return null;
+
+  const handleWhatsApp = () => {
+    trackEvent('whatsapp_click', { source: 'floating_cta' });
+    setOpen(false);
+  };
+
+  const handlePhone = () => {
+    trackEvent('phone_click', { source: 'floating_cta' });
+    setOpen(false);
+  };
+
+  const handleEmail = () => {
+    trackEvent('email_click', { source: 'floating_cta' });
+    setOpen(false);
+  };
 
   return (
     <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3">
@@ -31,7 +47,7 @@ export function FloatingCta() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
+                onClick={handleWhatsApp}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#25D366]/10 hover:bg-[#25D366]/20 text-foreground transition-colors group"
               >
                 <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
@@ -61,7 +77,7 @@ export function FloatingCta() {
 
               <a
                 href={`tel:${PHONE.replace(/\s/g, '')}`}
-                onClick={() => setOpen(false)}
+                onClick={handlePhone}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/5 text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -75,7 +91,7 @@ export function FloatingCta() {
 
               <a
                 href={`mailto:${EMAIL}`}
-                onClick={() => setOpen(false)}
+                onClick={handleEmail}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/5 text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">

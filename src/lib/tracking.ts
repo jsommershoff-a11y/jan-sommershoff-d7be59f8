@@ -1,16 +1,19 @@
 /**
- * Conversion-Tracking Helper für GA4 + Meta Pixel.
+ * Conversion-Tracking Helper.
  *
- * - Lädt Scripts erst NACH Cookie-Consent (DSGVO-konform).
- * - Granularer Consent: Analytics (GA4) + Marketing (Meta Pixel) getrennt.
- * - IDs als Platzhalter — bitte unten eintragen.
+ * Architektur: Google Tag Manager (GTM-NTNNDTMQ) regiert GA4.
+ * - Das GTM-Snippet und der Consent-Mode-v2-Default werden direkt in index.html geladen.
+ * - GA4-Messung (G-VEFRVXT0HK) läuft über den GTM-Container via Google-Tag.
+ * - Events werden als dataLayer.push an GTM übergeben (trackEvent).
+ * - Meta Pixel bleibt optional und wird bei marketing-Consent separat geladen.
  */
 
 // ============================================================
-// 👉 HIER DEINE IDs EINTRAGEN
+// Konstanten — dokumentarisch und für Referenz
 // ============================================================
-export const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // z.B. G-ABC123DEF4
-export const META_PIXEL_ID = '946900904715972';
+export const GTM_CONTAINER_ID = 'GTM-NTNNDTMQ';
+export const GA4_MEASUREMENT_ID = 'G-VEFRVXT0HK';
+export const META_PIXEL_ID = 'XXXXXXXXXXXXXXXX'; // 15-16-stellige Zahl — noch nicht aktiv
 // ============================================================
 
 type TrackParams = Record<string, string | number | boolean | undefined>;
@@ -30,19 +33,13 @@ declare global {
     gtag?: (...args: unknown[]) => void;
     fbq?: ((...args: unknown[]) => void) & { callMethod?: unknown; queue?: unknown[] };
     _fbq?: unknown;
-    __ga4Loaded?: boolean;
     __metaLoaded?: boolean;
   }
 }
 
 const isPlaceholder = (id: string) => id.includes('XXXX');
 
-/**
- * Consent Mode v2 — Default-Signal.
- * Wird einmalig beim Modul-Load gesetzt, BEVOR irgendein gtag('config') läuft.
- * Standard: alles "denied" (EU-konform). Update bei Consent via gtagConsentUpdate().
- */
-let consentDefaultSet = false;
+/** dataLayer + gtag-Stub sicherstellen (GTM bootet dataLayer bereits in index.html). */
 function ensureGtagStub() {
   if (typeof window === 'undefined') return;
   window.dataLayer = window.dataLayer || [];
@@ -53,23 +50,10 @@ function ensureGtagStub() {
   }
 }
 
-function setConsentDefault() {
-  if (consentDefaultSet || typeof window === 'undefined') return;
-  consentDefaultSet = true;
-  ensureGtagStub();
-  window.gtag!('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    functionality_storage: 'granted',
-    security_storage: 'granted',
-    wait_for_update: 500,
-  });
-  window.gtag!('set', 'ads_data_redaction', true);
-  window.gtag!('set', 'url_passthrough', true);
-}
-
+/**
+ * Consent-Update an Google Consent Mode v2 senden.
+ * Der Default („denied") wird bereits in index.html gesetzt, BEVOR GTM lädt.
+ */
 function gtagConsentUpdate(state: ConsentState) {
   if (typeof window === 'undefined') return;
   ensureGtagStub();
@@ -80,9 +64,6 @@ function gtagConsentUpdate(state: ConsentState) {
     analytics_storage: state.analytics ? 'granted' : 'denied',
   });
 }
-
-// Setze Default sofort beim Modul-Import.
-setConsentDefault();
 
 export function readConsent(): ConsentState | null {
   if (typeof window === 'undefined') return null;
@@ -110,7 +91,6 @@ export function readConsent(): ConsentState | null {
 export function writeConsent(state: ConsentState) {
   try {
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
-    // Legacy-Key für Rückwärtskompatibilität
     localStorage.setItem(
       CONSENT_LEGACY_KEY,
       state.analytics || state.marketing ? 'accepted' : 'declined',
@@ -124,23 +104,7 @@ export function writeConsent(state: ConsentState) {
   }
 }
 
-/** Lädt nur GA4. */
-export function loadGA4() {
-  if (typeof window === 'undefined' || window.__ga4Loaded) return;
-  if (isPlaceholder(GA4_MEASUREMENT_ID)) return;
-  window.__ga4Loaded = true;
-
-  const gaScript = document.createElement('script');
-  gaScript.async = true;
-  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
-  document.head.appendChild(gaScript);
-
-  ensureGtagStub();
-  window.gtag!('js', new Date());
-  window.gtag!('config', GA4_MEASUREMENT_ID, { send_page_view: true });
-}
-
-/** Lädt nur Meta Pixel. */
+/** Lädt Meta Pixel (wenn marketing-Consent und Pixel-ID gesetzt). */
 export function loadMetaPixel() {
   if (typeof window === 'undefined' || window.__metaLoaded) return;
   if (isPlaceholder(META_PIXEL_ID)) return;
@@ -169,16 +133,20 @@ export function loadMetaPixel() {
   window.fbq?.('track', 'PageView');
 }
 
-/** Wendet einen Consent-State an: aktualisiert Consent Mode + lädt zugestimmte Scripts. */
+/**
+ * Wendet einen Consent-State an:
+ *  - Consent-Mode-v2-Update an GTM / Google
+ *  - Meta Pixel laden wenn marketing-Consent
+ *
+ * GA4 wird durch GTM selbst gesteuert, wir senden nur das Consent-Signal.
+ */
 export function applyConsent(state: ConsentState) {
   gtagConsentUpdate(state);
-  if (state.analytics) loadGA4();
   if (state.marketing) loadMetaPixel();
 
   if (import.meta.env.DEV) {
     // eslint-disable-next-line no-console
     console.debug('[tracking] consent applied', state, {
-      ga4Active: !!window.__ga4Loaded,
       metaActive: !!window.__metaLoaded,
     });
   }
@@ -190,14 +158,14 @@ export function initTrackingIfConsented() {
   if (state) applyConsent(state);
 }
 
-/** Generisches Event an GA4 + dataLayer. */
+/**
+ * Generisches Event an den dataLayer pushen — GTM fängt es ab
+ * und leitet es an GA4 / Ads / Meta weiter (gemäß Container-Konfiguration).
+ */
 export function trackEvent(event: string, params: TrackParams = {}) {
   try {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...params });
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', event, params);
-    }
     if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
       console.debug('[track]', event, params);
@@ -209,13 +177,10 @@ export function trackEvent(event: string, params: TrackParams = {}) {
 
 export function trackPageView(path: string, title?: string) {
   trackEvent('page_view', { page_path: path, page_title: title });
-  if (typeof window.gtag === 'function' && !isPlaceholder(GA4_MEASUREMENT_ID)) {
-    window.gtag('config', GA4_MEASUREMENT_ID, { page_path: path, page_title: title });
-  }
 }
 
 /**
- * Triggert eine Conversion auf GA4 + Meta Pixel gleichzeitig.
+ * Triggert eine Conversion auf GA4 (via GTM) + Meta Pixel (direkt) gleichzeitig.
  */
 export function trackConversion(
   eventName: string,
@@ -236,7 +201,19 @@ export function trackConversion(
   }
 }
 
-/** Backwards-compat: lädt alle Scripts (volle Zustimmung). */
+/** Backwards-compat: volle Zustimmung anwenden. */
 export function loadTrackingScripts() {
   applyConsent({ analytics: true, marketing: true });
+}
+
+/**
+ * Alias für alten Code, der noch `loadGA4` importiert haben könnte.
+ * GA4 wird jetzt durch GTM geladen — diese Funktion ist ein No-op,
+ * gibt aber in DEV einen Hinweis.
+ */
+export function loadGA4() {
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.debug('[tracking] loadGA4() ist ein No-op — GA4 läuft über GTM (' + GTM_CONTAINER_ID + ').');
+  }
 }
