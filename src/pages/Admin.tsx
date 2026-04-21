@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, FileText, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
@@ -42,6 +42,8 @@ import { InboxDialog } from '@/components/admin/InboxDialog';
 import { useUnreadMailCount } from '@/hooks/useUnreadMailCount';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
 import { MailTimeline } from '@/components/admin/MailTimeline';
+import { TemplatePicker } from '@/components/admin/TemplatePicker';
+import { TemplatesManagerDialog } from '@/components/admin/TemplatesManagerDialog';
 
 interface Submission {
   id: string;
@@ -83,6 +85,9 @@ export default function Admin() {
   const { count: unreadMail, setCount: setUnreadMail, refresh: refreshUnreadMail } = useUnreadMailCount(true, true);
   const [mailTarget, setMailTarget] = useState<Submission | null>(null);
   const [expandedTimeline, setExpandedTimeline] = useState<Set<string>>(new Set());
+
+  // Templates manager
+  const [templatesOpen, setTemplatesOpen] = useState(false);
 
   const toggleTimeline = (id: string) => {
     setExpandedTimeline((prev) => {
@@ -353,6 +358,13 @@ export default function Admin() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <TemplatePicker
+                      kind="contact_preset"
+                      label="Vorlage anwenden"
+                      onPick={({ body }) => setForm((f) => ({ ...f, message: f.message ? `${f.message}\n${body}` : body }))}
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="type">Typ</Label>
                     <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
@@ -440,6 +452,9 @@ export default function Admin() {
                   {unreadMail}
                 </Badge>
               )}
+            </Button>
+            <Button variant="outline" onClick={() => setTemplatesOpen(true)}>
+              <FileText className="size-4 mr-2" /> Vorlagen
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="size-4 mr-2" /> Abmelden
@@ -613,6 +628,7 @@ export default function Admin() {
         setUnreadCount={setUnreadMail}
         refreshUnread={refreshUnreadMail}
       />
+      <TemplatesManagerDialog open={templatesOpen} onOpenChange={setTemplatesOpen} />
       <SendMailDialog
         open={!!mailTarget}
         onOpenChange={(o) => !o && setMailTarget(null)}

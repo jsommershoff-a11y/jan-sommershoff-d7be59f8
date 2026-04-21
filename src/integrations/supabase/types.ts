@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_templates: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          is_default: boolean
+          kind: string
+          name: string
+          sort_order: number
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          kind: string
+          name: string
+          sort_order?: number
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          kind?: string
+          name?: string
+          sort_order?: number
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       budgets: {
         Row: {
           category: string

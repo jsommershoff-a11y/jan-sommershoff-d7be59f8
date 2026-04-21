@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Loader2, Send } from 'lucide-react';
 import { toast } from 'sonner';
+import { TemplatePicker } from '@/components/admin/TemplatePicker';
 
 interface Props {
   open: boolean;
@@ -72,7 +73,22 @@ export const SendMailDialog = ({
             <Input value={to} disabled />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="mail-subject">Betreff *</Label>
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="mail-subject">Betreff *</Label>
+              <TemplatePicker
+                kind="followup_email"
+                vars={{
+                  first_name: recipientName?.split(' ')[0] ?? '',
+                  name: recipientName ?? '',
+                  email: to,
+                  subject: defaultSubject ?? '',
+                }}
+                onPick={({ subject: s, body: b }) => {
+                  if (s) setSubject(s);
+                  setBody(b);
+                }}
+              />
+            </div>
             <Input
               id="mail-subject"
               value={subject}
