@@ -39,13 +39,13 @@ export const TemplatePicker = ({
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button type="button" variant={variant} size={size} disabled={loading}>
+        <Button type="button" variant={variant} size={size} disabled={loading} className="min-h-11">
           <FileText className="size-4 mr-2" />
           {label}
           <ChevronDown className="size-3 ml-1 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-72 max-h-80 overflow-y-auto bg-popover">
+      <DropdownMenuContent align="end" className="w-[calc(100vw-2rem)] sm:w-72 max-h-[60vh] sm:max-h-80 overflow-y-auto bg-popover">
         <DropdownMenuLabel className="text-xs">
           {templates.length === 0 ? 'Keine Vorlagen' : `${templates.length} Vorlage(n)`}
         </DropdownMenuLabel>
@@ -64,11 +64,11 @@ export const TemplatePicker = ({
               );
               setOpen(false);
             }}
-            className="flex flex-col items-start gap-0.5 py-2 cursor-pointer"
+            className="flex flex-col items-start gap-0.5 py-3 min-h-11 cursor-pointer"
           >
-            <span className="font-medium text-sm">{t.name}</span>
+            <span className="font-medium text-sm break-words">{t.name}</span>
             {t.subject && (
-              <span className="text-xs text-muted-foreground line-clamp-1">
+              <span className="text-xs text-muted-foreground line-clamp-1 break-all">
                 {applyTemplateVars(t.subject, vars)}
               </span>
             )}
