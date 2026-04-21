@@ -4,10 +4,10 @@ export default function Impressum() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 lg:px-8 py-24">
-      <h1 className="text-3xl font-bold mb-8 text-foreground">Impressum</h1>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Impressum</h1>
       
-      <div className="prose prose-sm dark:prose-invert max-w-none space-y-6 text-muted-foreground">
+      <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
         <section>
           <h2 className="text-lg font-semibold text-foreground">Angaben gemäß § 5 TMG</h2>
           <p><strong>SMB Consulting UG (haftungsbeschränkt)</strong></p>
