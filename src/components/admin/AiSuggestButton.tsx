@@ -45,19 +45,40 @@ interface Props {
   size?: 'sm' | 'default';
 }
 
+type Tone = 'friendly' | 'professional' | 'shorter';
+
+const TONE_INSTRUCTIONS: Record<Tone, string> = {
+  friendly:
+    'Schreibe den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung um – freundlicher, wärmer, persönlicher im Ton. Keine neuen Inhalte, keine neuen Zusagen.',
+  professional:
+    'Schreibe den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung um – professioneller, klarer, geschäftlich seriöser. Keine neuen Inhalte, keine neuen Zusagen.',
+  shorter:
+    'Kürze den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung deutlich – knapper, präziser, max. 5 Sätze. Alle Kernaussagen behalten, keine neuen Inhalte.',
+};
+
 export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
-  const [loading, setLoading] = useState<null | 'suggestions' | 'draft'>(null);
+  const [loading, setLoading] = useState<null | 'suggestions' | 'draft' | Tone>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [instruction, setInstruction] = useState('');
 
-  const callAi = async (mode: 'suggestions' | 'draft') => {
-    setLoading(mode);
+  const callAi = async (
+    mode: 'suggestions' | 'draft',
+    extraInstruction?: string,
+    loadingKey?: 'suggestions' | 'draft' | Tone,
+  ) => {
+    setLoading(loadingKey ?? mode);
     try {
+      const combinedInstruction = [extraInstruction, instruction.trim() || undefined]
+        .filter(Boolean)
+        .join(' | ');
       const { data, error } = await supabase.functions.invoke('ai-suggest-reply', {
         body: {
           mode,
-          context: { ...context, instruction: instruction.trim() || undefined },
+          context: {
+            ...context,
+            instruction: combinedInstruction || undefined,
+          },
         },
       });
       if (error) throw error;
@@ -66,7 +87,7 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
       if (mode === 'draft') {
         if (data?.subject !== undefined && data?.body) {
           onApply({ subject: data.subject ?? '', body: data.body });
-          toast.success('KI-Entwurf eingefügt');
+          toast.success(loadingKey && loadingKey !== 'draft' ? 'Tonalität angepasst' : 'KI-Entwurf eingefügt');
         } else {
           throw new Error('Ungültige KI-Antwort');
         }
@@ -87,7 +108,16 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
     }
   };
 
+  const refineTone = (tone: Tone) => {
+    if (!context.currentDraft?.trim()) {
+      toast.error('Bitte zuerst etwas in das Antwort-Feld schreiben.');
+      return;
+    }
+    callAi('draft', TONE_INSTRUCTIONS[tone], tone);
+  };
+
   const isLoading = loading !== null;
+  const hasDraft = !!context.currentDraft?.trim();
 
   return (
     <>
