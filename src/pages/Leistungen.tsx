@@ -131,10 +131,10 @@ export default function Leistungen() {
                         {service.description.slice(0, 120)}…
                       </p>
                       <Link
-                        to="/#contact"
+                        to="/kontakt?ziel=potenzialanalyse"
                         className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                       >
-                        Gespräch starten <ArrowRight className="size-4" />
+                        Potenzialanalyse anfragen <ArrowRight className="size-4" />
                       </Link>
                     </div>
                   </div>
@@ -157,10 +157,10 @@ export default function Leistungen() {
             </p>
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
               <Link
-                to="/#contact"
+                to="/kontakt?ziel=potenzialanalyse"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary font-bold text-base tracking-wide hover:bg-white/90 transition-colors shadow-xl"
               >
-                Gespräch anfragen
+                Potenzialanalyse anfragen
                 <ArrowRight className="size-5" />
               </Link>
             </motion.div>

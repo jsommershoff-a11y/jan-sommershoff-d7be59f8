@@ -19,10 +19,6 @@ export function StickyCta() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   if (isDismissed) return null;
 
   return (
@@ -37,14 +33,14 @@ export function StickyCta() {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <p className="text-primary-foreground text-sm md:text-base font-medium hidden sm:block">
-              Hol dir den kostenlosen KI-Notfallkoffer.
+              Sichere dir den kostenlosen KI-Notfallkoffer.
             </p>
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <Link
-                to="/auth"
+                to="/kontakt?ziel=notfallkoffer"
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-white text-primary font-bold rounded-lg hover:bg-white/90 transition-all shadow-[0_2px_15px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_20px_rgba(255,255,255,0.35)] hover:-translate-y-0.5 text-sm"
               >
-                Kostenlos starten
+                Notfallkoffer anfragen
                 <ArrowRight className="size-4" />
               </Link>
               <button

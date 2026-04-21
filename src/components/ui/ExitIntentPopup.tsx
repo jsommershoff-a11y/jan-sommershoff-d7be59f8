@@ -90,11 +90,11 @@ export function ExitIntentPopup() {
             </p>
 
             <Link
-              to="/auth"
+              to="/kontakt?ziel=notfallkoffer"
               className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all text-base"
               onClick={dismiss}
             >
-              Kostenlos sichern
+              Notfallkoffer anfragen
               <ArrowRight className="size-5" />
             </Link>
 

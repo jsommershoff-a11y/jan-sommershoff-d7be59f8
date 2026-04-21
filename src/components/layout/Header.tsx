@@ -14,7 +14,7 @@ const navLinks = [
   { name: 'Leistungen', href: '/leistungen' },
   { name: 'Expertise', href: '#expertise' },
   { name: 'Projekte', href: '#projects' },
-  { name: 'Kontakt', href: '#contact' },
+  { name: 'Kontakt', href: '/kontakt?ziel=potenzialanalyse' },
 ];
 
 const sectionIds = navLinks.map((l) => l.href.slice(1));
@@ -225,20 +225,15 @@ export function Header() {
                 className="mt-6"
               >
                 <a
-                  href="#contact"
+                  href="/kontakt?ziel=potenzialanalyse"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobileMenuOpen(false);
-                    if (location.pathname !== '/') {
-                      navigate('/');
-                      setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 300);
-                    } else {
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    setTimeout(() => navigate('/kontakt?ziel=potenzialanalyse'), 50);
                   }}
                   className="inline-flex items-center gap-2 px-7 py-3 min-h-12 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.4)]"
                 >
-                  Gespräch starten
+                  Potenzialanalyse anfragen
                   <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                 </a>
               </motion.div>
