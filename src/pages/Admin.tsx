@@ -223,17 +223,17 @@ export default function Admin() {
             <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
           </div>
           <div className="flex gap-2">
-            <Dialog open={addOpen} onOpenChange={setAddOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="size-4 mr-2" /> Neuer Eintrag
-                </Button>
-              </DialogTrigger>
+            <Button onClick={openAdd}>
+              <Plus className="size-4 mr-2" /> Neuer Eintrag
+            </Button>
+            <Dialog open={formOpen} onOpenChange={setFormOpen}>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Neuen Kontakt hinzufügen</DialogTitle>
+                  <DialogTitle>{editingId ? 'Eintrag bearbeiten' : 'Neuen Kontakt hinzufügen'}</DialogTitle>
                   <DialogDescription>
-                    Manuell einen Lead oder Kontakt zur Übersicht hinzufügen.
+                    {editingId
+                      ? 'Ändere die Daten des bestehenden Eintrags.'
+                      : 'Manuell einen Lead oder Kontakt zur Übersicht hinzufügen.'}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
@@ -280,12 +280,12 @@ export default function Admin() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setAddOpen(false)} disabled={adding}>
+                  <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving}>
                     Abbrechen
                   </Button>
-                  <Button onClick={handleAdd} disabled={adding}>
-                    {adding && <Loader2 className="size-4 mr-2 animate-spin" />}
-                    Hinzufügen
+                  <Button onClick={handleSave} disabled={saving}>
+                    {saving && <Loader2 className="size-4 mr-2 animate-spin" />}
+                    {editingId ? 'Speichern' : 'Hinzufügen'}
                   </Button>
                 </DialogFooter>
               </DialogContent>
