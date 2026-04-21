@@ -34,7 +34,12 @@ interface ReplyBody {
   messageId: string;
   comment: string;
 }
-type RequestBody = ListBody | GetBody | SendBody | ReplyBody;
+interface MarkReadBody {
+  action: 'markRead';
+  messageId: string;
+  isRead?: boolean;
+}
+type RequestBody = ListBody | GetBody | SendBody | ReplyBody | MarkReadBody;
 
 async function gatewayFetch(
   path: string,
@@ -303,6 +308,23 @@ Deno.serve(async (req) => {
         OUTLOOK_API_KEY,
       );
       return new Response(JSON.stringify(data), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (body.action === 'markRead') {
+      if (!body.messageId) throw new Error('messageId required');
+      await gatewayFetch(
+        `/me/messages/${encodeURIComponent(body.messageId)}`,
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isRead: body.isRead ?? true }),
+        },
+        LOVABLE_API_KEY,
+        OUTLOOK_API_KEY,
+      );
+      return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
