@@ -21,7 +21,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
         {prev ? (
           <Link
             to={`/project/${prev.slug}`}
-            className="group block p-8 md:p-12 hover:bg-accent transition-colors duration-300"
+            className="group block p-6 sm:p-8 md:p-12 min-h-11 hover:bg-accent transition-colors duration-300"
           >
             <motion.div
               className="space-y-4"
@@ -33,7 +33,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
                 <span className="text-sm font-light tracking-wide uppercase">Previous Project</span>
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-light tracking-wide text-foreground">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-light tracking-wide text-foreground break-words">
                   {prev.title}
                 </h3>
                 <p className="text-sm text-muted-foreground font-light mt-2 capitalize">
@@ -43,7 +43,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
             </motion.div>
           </Link>
         ) : (
-          <div className="p-8 md:p-12">
+          <div className="p-6 sm:p-8 md:p-12">
             <div className="flex items-center gap-3 text-muted-foreground">
               <ArrowLeft className="size-5" />
               <span className="text-sm font-light tracking-wide uppercase">No Previous Project</span>
@@ -57,7 +57,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
         {next ? (
           <Link
             to={`/project/${next.slug}`}
-            className="group block p-8 md:p-12 hover:bg-accent transition-colors duration-300"
+            className="group block p-6 sm:p-8 md:p-12 min-h-11 hover:bg-accent transition-colors duration-300"
           >
             <motion.div
               className="space-y-4 text-right"
@@ -69,7 +69,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
                 <ArrowRight className="size-5" />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-light tracking-wide text-foreground">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-light tracking-wide text-foreground break-words">
                   {next.title}
                 </h3>
                 <p className="text-sm text-muted-foreground font-light mt-2 capitalize">
@@ -79,7 +79,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
             </motion.div>
           </Link>
         ) : (
-          <div className="p-8 md:p-12 text-right">
+          <div className="p-6 sm:p-8 md:p-12 text-right">
             <div className="flex items-center justify-end gap-3 text-muted-foreground">
               <span className="text-sm font-light tracking-wide uppercase">No Next Project</span>
               <ArrowRight className="size-5" />

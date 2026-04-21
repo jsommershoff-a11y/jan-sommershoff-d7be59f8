@@ -59,14 +59,14 @@ export function ProjectCard({
             onLoad={() => setIsLoaded(true)}
           />
           
-          {/* Overlay with gradient and text */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="absolute bottom-0 left-0 right-0 p-6 space-y-2">
-              <h3 className="text-white text-xl md:text-2xl font-light tracking-wide">
+          {/* Overlay with gradient and text - always visible on mobile, hover on desktop */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 space-y-2">
+              <h3 className="text-white text-lg sm:text-xl md:text-2xl font-light tracking-wide">
                 {project.title}
               </h3>
               {showCategory && (
-                <div className="flex items-center gap-3 text-sm text-white/80 font-light tracking-wide">
+                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/80 font-light tracking-wide">
                   <span className="capitalize">{project.category}</span>
                   <span>•</span>
                   <span>{project.year}</span>
