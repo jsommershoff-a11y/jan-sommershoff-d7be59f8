@@ -125,31 +125,66 @@ export default function Admin() {
     toast.success('Eintrag gelöscht');
   };
 
-  const handleAdd = async () => {
+  const openAdd = () => {
+    setEditingId(null);
+    setForm({ type: 'contact', name: '', email: '', message: '' });
+    setFormOpen(true);
+  };
+
+  const openEdit = (s: Submission) => {
+    setEditingId(s.id);
+    setForm({
+      type: s.type,
+      name: s.name,
+      email: s.email,
+      message: s.message ?? '',
+    });
+    setFormOpen(true);
+  };
+
+  const handleSave = async () => {
     if (!form.name.trim() || !form.email.trim()) {
       toast.error('Name und E-Mail sind Pflicht');
       return;
     }
-    setAdding(true);
-    const { data, error } = await supabase
-      .from('contact_submissions')
-      .insert({
-        type: form.type,
-        name: form.name.trim(),
-        email: form.email.trim(),
-        message: form.message.trim() || null,
-      })
-      .select()
-      .single();
-    setAdding(false);
-    if (error) {
-      toast.error('Hinzufügen fehlgeschlagen');
-      return;
+    setSaving(true);
+    const payload = {
+      type: form.type,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim() || null,
+    };
+
+    if (editingId) {
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .update(payload)
+        .eq('id', editingId)
+        .select()
+        .single();
+      setSaving(false);
+      if (error) {
+        toast.error('Speichern fehlgeschlagen');
+        return;
+      }
+      setSubmissions((prev) => prev.map((s) => (s.id === editingId ? (data as Submission) : s)));
+      setFormOpen(false);
+      toast.success('Eintrag aktualisiert');
+    } else {
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .insert(payload)
+        .select()
+        .single();
+      setSaving(false);
+      if (error) {
+        toast.error('Hinzufügen fehlgeschlagen');
+        return;
+      }
+      setSubmissions((prev) => [data as Submission, ...prev]);
+      setFormOpen(false);
+      toast.success('Eintrag hinzugefügt');
     }
-    setSubmissions((prev) => [data as Submission, ...prev]);
-    setForm({ type: 'contact', name: '', email: '', message: '' });
-    setAddOpen(false);
-    toast.success('Eintrag hinzugefügt');
   };
 
   const filtered = submissions.filter((s) => filter === 'all' || s.type === filter);
