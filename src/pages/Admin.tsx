@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Loader2, LogOut, Mail, Package, Plus, ShieldAlert, Trash2 } from 'lucide-react';
+import { Loader2, LogOut, Mail, Package, Pencil, Plus, ShieldAlert, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Submission {
