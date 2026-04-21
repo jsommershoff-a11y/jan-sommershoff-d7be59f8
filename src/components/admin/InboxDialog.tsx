@@ -1,0 +1,208 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Loader2, Mail, Reply, Search, X } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface OutlookMessage {
+  id: string;
+  subject: string;
+  bodyPreview: string;
+  receivedDateTime: string;
+  isRead: boolean;
+  from?: { emailAddress?: { name?: string; address?: string } };
+}
+
+interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const InboxDialog = ({ open, onOpenChange }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState<OutlookMessage[]>([]);
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<OutlookMessage | null>(null);
+  const [reply, setReply] = useState('');
+  const [sending, setSending] = useState(false);
+
+  const load = async (q?: string) => {
+    setLoading(true);
+    const { data, error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'list', top: 25, search: q || undefined },
+    });
+    setLoading(false);
+    if (error) {
+      toast.error('Posteingang konnte nicht geladen werden');
+      return;
+    }
+    setMessages((data as { value?: OutlookMessage[] })?.value || []);
+  };
+
+  useEffect(() => {
+    if (open) {
+      setSelected(null);
+      setReply('');
+      load();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const handleReply = async () => {
+    if (!selected || !reply.trim()) return;
+    setSending(true);
+    const { error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'reply', messageId: selected.id, comment: reply },
+    });
+    setSending(false);
+    if (error) {
+      toast.error('Antwort konnte nicht gesendet werden');
+      return;
+    }
+    toast.success('Antwort gesendet');
+    setReply('');
+    setSelected(null);
+    load(search);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Mail className="size-5" /> Outlook Posteingang
+          </DialogTitle>
+        </DialogHeader>
+
+        {!selected ? (
+          <>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && load(search)}
+                placeholder="Suche (Enter zum Suchen)…"
+                className="pl-9 pr-9"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch('');
+                    load();
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="overflow-y-auto flex-1 space-y-2 mt-2">
+              {loading ? (
+                <div className="flex items-center justify-center py-12 text-muted-foreground">
+                  <Loader2 className="size-5 animate-spin mr-2" /> Lade…
+                </div>
+              ) : messages.length === 0 ? (
+                <Card className="p-8 text-center text-muted-foreground">
+                  Keine Nachrichten gefunden
+                </Card>
+              ) : (
+                messages.map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setSelected(m)}
+                    className="w-full text-left"
+                  >
+                    <Card className="p-3 hover:bg-muted/50 transition">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            {!m.isRead && (
+                              <Badge variant="default" className="h-5 text-[10px]">
+                                NEU
+                              </Badge>
+                            )}
+                            <span className="text-sm font-medium truncate">
+                              {m.from?.emailAddress?.name || m.from?.emailAddress?.address || 'Unbekannt'}
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold truncate">{m.subject || '(kein Betreff)'}</p>
+                          <p className="text-xs text-muted-foreground truncate mt-0.5">
+                            {m.bodyPreview}
+                          </p>
+                        </div>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                          {new Date(m.receivedDateTime).toLocaleString('de-DE', {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                          })}
+                        </span>
+                      </div>
+                    </Card>
+                  </button>
+                ))
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="overflow-y-auto flex-1">
+              <Button variant="ghost" size="sm" onClick={() => setSelected(null)} className="mb-2">
+                ← Zurück zum Posteingang
+              </Button>
+              <Card className="p-4 mb-3">
+                <p className="text-xs text-muted-foreground">
+                  Von:{' '}
+                  <strong className="text-foreground">
+                    {selected.from?.emailAddress?.name} &lt;{selected.from?.emailAddress?.address}&gt;
+                  </strong>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {new Date(selected.receivedDateTime).toLocaleString('de-DE')}
+                </p>
+                <h3 className="font-semibold mt-2">{selected.subject}</h3>
+                <p className="text-sm mt-3 whitespace-pre-wrap text-muted-foreground">
+                  {selected.bodyPreview}
+                </p>
+              </Card>
+              <div className="space-y-2">
+                <label className="text-sm font-medium flex items-center gap-2">
+                  <Reply className="size-4" /> Antworten
+                </label>
+                <Textarea
+                  value={reply}
+                  onChange={(e) => setReply(e.target.value)}
+                  rows={6}
+                  placeholder="Deine Antwort…"
+                  maxLength={10000}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setSelected(null)} disabled={sending}>
+                Abbrechen
+              </Button>
+              <Button onClick={handleReply} disabled={sending || !reply.trim()}>
+                {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
+                Antwort senden
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+};

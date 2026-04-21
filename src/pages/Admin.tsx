@@ -34,10 +34,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Download, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, ShieldAlert, Trash2, X } from 'lucide-react';
+import { Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
+import { InboxDialog } from '@/components/admin/InboxDialog';
+import { SendMailDialog } from '@/components/admin/SendMailDialog';
 
 interface Submission {
   id: string;
@@ -66,6 +68,10 @@ export default function Admin() {
     email: '',
     message: '',
   });
+
+  // Outlook mail state
+  const [inboxOpen, setInboxOpen] = useState(false);
+  const [mailTarget, setMailTarget] = useState<Submission | null>(null);
 
   const loadSubmissions = async () => {
     const { data, error } = await supabase
@@ -340,6 +346,9 @@ export default function Admin() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            <Button variant="outline" onClick={() => setInboxOpen(true)}>
+              <Inbox className="size-4 mr-2" /> Posteingang
+            </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="size-4 mr-2" /> Abmelden
             </Button>
@@ -418,6 +427,14 @@ export default function Admin() {
                     >
                       {s.email}
                     </a>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setMailTarget(s)}
+                      title="E-Mail via Outlook senden"
+                    >
+                      <Send className="size-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" onClick={() => openEdit(s)}>
                       <Pencil className="size-4" />
                     </Button>
@@ -456,6 +473,19 @@ export default function Admin() {
           )}
         </div>
       </div>
+
+      <InboxDialog open={inboxOpen} onOpenChange={setInboxOpen} />
+      <SendMailDialog
+        open={!!mailTarget}
+        onOpenChange={(o) => !o && setMailTarget(null)}
+        to={mailTarget?.email || ''}
+        recipientName={mailTarget?.name}
+        defaultSubject={
+          mailTarget?.type === 'lead_magnet'
+            ? 'Dein KI Notfallkoffer'
+            : 'Re: Deine Anfrage'
+        }
+      />
     </div>
   );
 }
