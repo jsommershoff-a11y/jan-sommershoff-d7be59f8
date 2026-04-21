@@ -149,6 +149,58 @@ Deno.serve(async (req) => {
       console.error('Resend error:', emailData);
     }
 
+    // Auto-confirmation for regular contact submissions
+    let confirmationSent = false;
+    if (!isLeadMagnet) {
+      const confirmationHtml = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+          <div style="text-align: center; padding: 32px 0; border-bottom: 3px solid #0F3D2E;">
+            <h1 style="color: #0F3D2E; font-size: 26px; margin: 0; font-weight: 700;">Vielen Dank für deine Nachricht!</h1>
+          </div>
+          <div style="padding: 32px 0;">
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">Hi ${safeName},</p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">
+              deine Anfrage ist bei mir eingegangen. Ich melde mich in der Regel innerhalb von <strong>24 Stunden</strong> persönlich bei dir.
+            </p>
+            ${safeMessage ? `
+            <div style="background-color: #f3f4f3; border-left: 4px solid #0F3D2E; padding: 16px 20px; margin: 24px 0; border-radius: 4px;">
+              <p style="font-size: 13px; color: #666; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">Deine Nachricht</p>
+              <p style="font-size: 15px; color: #333; line-height: 1.6; margin: 0;">${safeMessage}</p>
+            </div>` : ''}
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 24px 0 0;">
+              Falls es dringend ist, erreichst du mich auch direkt per Antwort auf diese E-Mail.
+            </p>
+            <p style="font-size: 16px; color: #333; margin: 32px 0 0;">
+              Beste Grüße<br><strong>Jan Sommershoff</strong>
+            </p>
+          </div>
+          <div style="text-align: center; padding-top: 24px; border-top: 1px solid #eee; margin-top: 24px;">
+            <p style="color: #999; font-size: 12px; margin: 0;">jan-sommershoff.de · Automatisierung · Struktur · KI</p>
+          </div>
+        </div>
+      `;
+
+      const confirmRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Jan Sommershoff <info@jan-sommershoff.de>',
+          to: [email],
+          subject: 'Deine Nachricht ist angekommen ✓',
+          html: confirmationHtml,
+          reply_to: 'j.s@krsimmobilien.de',
+        }),
+      });
+      const confirmData = await confirmRes.json();
+      confirmationSent = confirmRes.ok;
+      if (!confirmRes.ok) {
+        console.error('Contact confirmation email error:', confirmData);
+      }
+    }
+
     // For lead magnet: send confirmation email to the lead with download link
     let leadEmailSent = false;
     if (isLeadMagnet) {
