@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { ChevronLeft, ChevronRight, Loader2, Mail, Reply, Search, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { TemplatePicker } from '@/components/admin/TemplatePicker';
 
 interface OutlookMessage {
   id: string;
@@ -328,9 +329,21 @@ export const InboxDialog = ({
                 </p>
               </Card>
               <div className="space-y-2">
-                <label className="text-sm font-medium flex items-center gap-2">
-                  <Reply className="size-4" /> Antworten
-                </label>
+                <div className="flex items-center justify-between gap-2">
+                  <label className="text-sm font-medium flex items-center gap-2">
+                    <Reply className="size-4" /> Antworten
+                  </label>
+                  <TemplatePicker
+                    kind="inbox_reply"
+                    vars={{
+                      first_name: selected.from?.emailAddress?.name?.split(' ')[0] ?? '',
+                      name: selected.from?.emailAddress?.name ?? '',
+                      email: selected.from?.emailAddress?.address ?? '',
+                      subject: selected.subject ?? '',
+                    }}
+                    onPick={({ body }) => setReply((prev) => (prev ? `${prev}\n\n${body}` : body))}
+                  />
+                </div>
                 <Textarea
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
