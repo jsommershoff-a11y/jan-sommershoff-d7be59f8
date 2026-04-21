@@ -10,34 +10,57 @@ import { toast } from 'sonner';
 import { trackEvent } from '@/lib/tracking';
 
 export function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Basic client-side validation
+    if (!form.first_name.trim() || !form.last_name.trim()) {
+      toast.error('Bitte Vor- und Nachnamen angeben.');
+      return;
+    }
+    if (!/^[+\d][\d\s\-/().]{3,49}$/.test(form.phone.trim())) {
+      toast.error('Bitte eine gültige Telefonnummer angeben.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: {
           type: 'contact',
-          name: form.name,
-          email: form.email,
+          first_name: form.first_name.trim(),
+          last_name: form.last_name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
           message: form.message,
         },
       });
 
       if (error) throw error;
+      if ((data as { error?: string })?.error) {
+        throw new Error((data as { error: string }).error);
+      }
 
       trackEvent('contact_submit', { funnel: 'potenzialanalyse' });
       setIsSuccess(true);
-      setForm({ name: '', email: '', message: '' });
+      setForm({ first_name: '', last_name: '', email: '', phone: '', message: '' });
       toast.success('Bitte bestätige deine E-Mail-Adresse.');
       setTimeout(() => setIsSuccess(false), 8000);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Submit error:', error);
-      toast.error('Fehler beim Senden. Bitte versuche es erneut.');
+      const msg = error instanceof Error ? error.message : 'Fehler beim Senden. Bitte versuche es erneut.';
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -69,26 +92,60 @@ export function ContactSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    placeholder="Dein Name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    required
-                    disabled={isSubmitting}
-                  />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="first_name">Vorname *</Label>
+                    <Input
+                      id="first_name"
+                      placeholder="Max"
+                      autoComplete="given-name"
+                      value={form.first_name}
+                      onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                      required
+                      maxLength={100}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="last_name">Nachname *</Label>
+                    <Input
+                      id="last_name"
+                      placeholder="Mustermann"
+                      autoComplete="family-name"
+                      value={form.last_name}
+                      onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                      required
+                      maxLength={100}
+                      disabled={isSubmitting}
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">E-Mail</Label>
+                  <Label htmlFor="email">E-Mail *</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="deine@email.de"
+                    autoComplete="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
+                    maxLength={255}
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Telefon *</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="+49 170 1234567"
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    required
+                    maxLength={50}
                     disabled={isSubmitting}
                   />
                 </div>
@@ -100,7 +157,7 @@ export function ContactSection() {
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    required
+                    maxLength={5000}
                     disabled={isSubmitting}
                   />
                 </div>
