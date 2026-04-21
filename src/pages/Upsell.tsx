@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { trackEvent, trackPageView } from '@/lib/tracking';
 
-const PAYMENT_LINK = '#'; // TODO: Replace with actual payment link
+// Stripe Payment-Link — bei Stripe als "After Payment → Confirmation page → Custom URL"
+// die folgende Seite hinterlegen:  https://jan-sommershoff.de/danke/kauf
+const PAYMENT_LINK = '#'; // TODO: Replace with actual Stripe Payment Link URL
 
 const features = [
   { icon: BarChart3, title: 'Vollständige Geschäftsprozess-Analyse', desc: 'Identifikation aller Automatisierungspotenziale in deinem Unternehmen.' },

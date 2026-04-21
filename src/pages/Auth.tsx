@@ -31,7 +31,7 @@ export default function Auth() {
           options: {
             data: { full_name: name },
             // Double-Opt-In: user must confirm via email link
-            emailRedirectTo: window.location.origin + '/upsell',
+            emailRedirectTo: window.location.origin + '/danke/lead',
           },
         });
         if (error) throw error;
@@ -49,6 +49,8 @@ export default function Auth() {
         trackEvent('signup_submit', { funnel: 'notfallkoffer', method: 'email' });
         setSubmitted(true);
         toast.success('Bitte bestätige deine E-Mail-Adresse.');
+        // Redirect zur Danke-Seite (feuert Lead-Conversion-Event)
+        setTimeout(() => { window.location.href = '/danke/lead'; }, 1500);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;

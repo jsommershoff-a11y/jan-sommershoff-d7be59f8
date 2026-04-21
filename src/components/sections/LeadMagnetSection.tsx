@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { CheckCircle, Package, Loader2, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -7,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 export function LeadMagnetSection() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,12 +35,13 @@ export function LeadMagnetSection() {
         },
       });
       if (error) throw error;
-      setIsSuccess(true);
       setFirstName('');
       setLastName('');
       setEmail('');
       setPhone('');
-      toast.success('Anfrage erfolgreich! Du hörst bald von uns.');
+      // Redirect zur Danke-Seite (feuert Conversion-Event automatisch)
+      navigate('/danke/lead');
+      return;
     } catch (error) {
       console.error('Submit error:', error);
       toast.error('Fehler beim Senden. Bitte versuche es erneut.');
