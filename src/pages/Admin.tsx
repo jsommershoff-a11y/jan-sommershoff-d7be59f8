@@ -64,7 +64,7 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
   const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState<'date' | 'name' | 'type'>('date');
+  const [sortBy, setSortBy] = useState<'date' | 'last_name' | 'first_name' | 'type'>('date');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
   // Form dialog state (for add + edit)
