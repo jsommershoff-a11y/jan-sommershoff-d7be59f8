@@ -126,6 +126,9 @@ Deno.serve(async (req) => {
       : `📩 Neue Kontaktanfrage: ${escapeHtml(name)}`;
 
     const safeName = escapeHtml(name);
+    const safeFirst = escapeHtml(first_name);
+    const safeLast = escapeHtml(last_name);
+    const safePhone = escapeHtml(phone);
     const safeEmail = escapeHtml(email);
     const safeMessage = message ? escapeHtml(message).replace(/\n/g, '<br>') : '';
 
@@ -134,12 +137,20 @@ Deno.serve(async (req) => {
         <h2 style="color: #333;">${isLeadMagnet ? 'Neue KI-Notfallkoffer Anfrage' : 'Neue Kontaktanfrage'}</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #555;">Name:</td>
-            <td style="padding: 8px 0;">${safeName}</td>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Vorname:</td>
+            <td style="padding: 8px 0;">${safeFirst}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Nachname:</td>
+            <td style="padding: 8px 0;">${safeLast}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; font-weight: bold; color: #555;">E-Mail:</td>
             <td style="padding: 8px 0;"><a href="mailto:${safeEmail}">${safeEmail}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Telefon:</td>
+            <td style="padding: 8px 0;"><a href="tel:${safePhone}">${safePhone}</a></td>
           </tr>
           ${safeMessage ? `
           <tr>
