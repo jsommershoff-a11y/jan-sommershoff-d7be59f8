@@ -47,6 +47,9 @@ interface Submission {
   id: string;
   type: string;
   name: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
   email: string;
   message: string | null;
   created_at: string;
@@ -68,8 +71,10 @@ export default function Admin() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     type: 'contact',
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
+    phone: '',
     message: '',
   });
 
@@ -158,12 +163,15 @@ export default function Admin() {
       const s = (v ?? '').toString().replace(/"/g, '""');
       return `"${s}"`;
     };
-    const header = ['Datum', 'Typ', 'Name', 'E-Mail', 'Nachricht'];
+    const header = ['Datum', 'Typ', 'Vorname', 'Nachname', 'Name', 'E-Mail', 'Telefon', 'Nachricht'];
     const rows = filtered.map((s) => [
       new Date(s.created_at).toLocaleString('de-DE'),
       s.type,
+      s.first_name ?? '',
+      s.last_name ?? '',
       s.name,
       s.email,
+      s.phone ?? '',
       s.message,
     ]);
     const csv = [header, ...rows].map((r) => r.map((c) => escape(c as string | null)).join(',')).join('\n');
@@ -182,31 +190,50 @@ export default function Admin() {
 
   const openAdd = () => {
     setEditingId(null);
-    setForm({ type: 'contact', name: '', email: '', message: '' });
+    setForm({ type: 'contact', first_name: '', last_name: '', email: '', phone: '', message: '' });
     setFormOpen(true);
   };
 
   const openEdit = (s: Submission) => {
     setEditingId(s.id);
+    // Backfill from "name" if first/last not yet stored
+    const parts = (s.name ?? '').trim().split(/\s+/);
+    const fallbackFirst = parts[0] ?? '';
+    const fallbackLast = parts.slice(1).join(' ') ?? '';
     setForm({
       type: s.type,
-      name: s.name,
+      first_name: s.first_name ?? fallbackFirst,
+      last_name: s.last_name ?? fallbackLast,
       email: s.email,
+      phone: s.phone ?? '',
       message: s.message ?? '',
     });
     setFormOpen(true);
   };
 
   const handleSave = async () => {
-    if (!form.name.trim() || !form.email.trim()) {
-      toast.error('Name und E-Mail sind Pflicht');
+    const first_name = form.first_name.trim();
+    const last_name = form.last_name.trim();
+    const email = form.email.trim();
+    const phone = form.phone.trim();
+
+    if (!first_name || !last_name || !email || !phone) {
+      toast.error('Vorname, Nachname, E-Mail und Telefon sind Pflicht');
       return;
     }
+    if (!/^[+\d][\d\s\-/().]{3,49}$/.test(phone)) {
+      toast.error('Bitte eine gültige Telefonnummer angeben');
+      return;
+    }
+
     setSaving(true);
     const payload = {
       type: form.type,
-      name: form.name.trim(),
-      email: form.email.trim(),
+      name: `${first_name} ${last_name}`.trim(),
+      first_name,
+      last_name,
+      email,
+      phone,
       message: form.message.trim() || null,
     };
 
@@ -338,23 +365,50 @@ export default function Admin() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      maxLength={100}
-                    />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="first_name">Vorname *</Label>
+                      <Input
+                        id="first_name"
+                        autoComplete="given-name"
+                        value={form.first_name}
+                        onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                        maxLength={100}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="last_name">Nachname *</Label>
+                      <Input
+                        id="last_name"
+                        autoComplete="family-name"
+                        value={form.last_name}
+                        onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                        maxLength={100}
+                      />
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">E-Mail *</Label>
                     <Input
                       id="email"
                       type="email"
+                      autoComplete="email"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       maxLength={255}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Telefon *</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="+49 170 1234567"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      maxLength={50}
                     />
                   </div>
                   <div className="space-y-2">

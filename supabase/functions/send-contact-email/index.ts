@@ -20,12 +20,20 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { type, name, email, message } = await req.json();
+    const body = await req.json();
+    const type: string | undefined = body.type;
+    const email: string | undefined = body.email?.trim();
+    const first_name: string | undefined = body.first_name?.trim() || body.firstName?.trim();
+    const last_name: string | undefined = body.last_name?.trim() || body.lastName?.trim();
+    const phone: string | undefined = body.phone?.trim();
+    const message: string | undefined = body.message;
+    // Combined display name (used for emails + DB legacy "name" column)
+    const name: string = [first_name, last_name].filter(Boolean).join(' ').trim() || (body.name?.trim() ?? '');
 
     // Validate required fields
-    if (!type || !name || !email) {
+    if (!type || !first_name || !last_name || !email || !phone) {
       return new Response(
-        JSON.stringify({ error: 'type, name, and email are required' }),
+        JSON.stringify({ error: 'Vorname, Nachname, E-Mail und Telefon sind Pflicht.' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -47,8 +55,23 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Validate phone (digits, spaces, +, -, /, parentheses; 4-50 chars)
+    const phoneRegex = /^[+\d][\d\s\-/().]{3,49}$/;
+    if (!phoneRegex.test(phone)) {
+      return new Response(
+        JSON.stringify({ error: 'Bitte eine gültige Telefonnummer angeben.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Validate input lengths
-    if (name.length > 100 || email.length > 255 || (message && message.length > 5000)) {
+    if (
+      first_name.length > 100 ||
+      last_name.length > 100 ||
+      name.length > 200 ||
+      email.length > 255 ||
+      (message && message.length > 5000)
+    ) {
       return new Response(
         JSON.stringify({ error: 'Input exceeds maximum allowed length' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -77,7 +100,7 @@ Deno.serve(async (req) => {
     // Save to database
     const { error: dbError } = await supabase
       .from('contact_submissions')
-      .insert({ type, name, email, message: message || null });
+      .insert({ type, name, first_name, last_name, phone, email, message: message || null });
 
     if (dbError) {
       console.error('Database error:', dbError);
@@ -103,6 +126,9 @@ Deno.serve(async (req) => {
       : `📩 Neue Kontaktanfrage: ${escapeHtml(name)}`;
 
     const safeName = escapeHtml(name);
+    const safeFirst = escapeHtml(first_name);
+    const safeLast = escapeHtml(last_name);
+    const safePhone = escapeHtml(phone);
     const safeEmail = escapeHtml(email);
     const safeMessage = message ? escapeHtml(message).replace(/\n/g, '<br>') : '';
 
@@ -111,12 +137,20 @@ Deno.serve(async (req) => {
         <h2 style="color: #333;">${isLeadMagnet ? 'Neue KI-Notfallkoffer Anfrage' : 'Neue Kontaktanfrage'}</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #555;">Name:</td>
-            <td style="padding: 8px 0;">${safeName}</td>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Vorname:</td>
+            <td style="padding: 8px 0;">${safeFirst}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Nachname:</td>
+            <td style="padding: 8px 0;">${safeLast}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; font-weight: bold; color: #555;">E-Mail:</td>
             <td style="padding: 8px 0;"><a href="mailto:${safeEmail}">${safeEmail}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; font-weight: bold; color: #555;">Telefon:</td>
+            <td style="padding: 8px 0;"><a href="tel:${safePhone}">${safePhone}</a></td>
           </tr>
           ${safeMessage ? `
           <tr>
@@ -158,7 +192,7 @@ Deno.serve(async (req) => {
             <h1 style="color: #0F3D2E; font-size: 26px; margin: 0; font-weight: 700;">Vielen Dank für deine Nachricht!</h1>
           </div>
           <div style="padding: 32px 0;">
-            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">Hi ${safeName},</p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">Hi ${safeFirst},</p>
             <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">
               deine Anfrage ist bei mir eingegangen. Ich melde mich in der Regel innerhalb von <strong>24 Stunden</strong> persönlich bei dir.
             </p>
