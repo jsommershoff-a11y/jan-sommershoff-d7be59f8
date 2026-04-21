@@ -132,27 +132,27 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-3xl max-h-[90vh] sm:max-h-[85vh] flex flex-col p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
               <FileText className="size-5" /> Vorlagen verwalten
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-xs sm:text-sm break-words">
               Antwort-, Mail- und Kontakt-Vorlagen für deinen Workflow. Platzhalter: {PLACEHOLDERS}
             </DialogDescription>
           </DialogHeader>
 
-          <Tabs value={activeKind} onValueChange={(v) => setActiveKind(v as TemplateKind)} className="flex-1 flex flex-col overflow-hidden">
-            <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="inbox_reply">Posteingang</TabsTrigger>
-              <TabsTrigger value="followup_email">Follow-ups</TabsTrigger>
-              <TabsTrigger value="contact_preset">Kontakte</TabsTrigger>
+          <Tabs value={activeKind} onValueChange={(v) => setActiveKind(v as TemplateKind)} className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <TabsList className="grid grid-cols-3 h-auto">
+              <TabsTrigger value="inbox_reply" className="min-h-11 text-xs sm:text-sm px-1">Posteingang</TabsTrigger>
+              <TabsTrigger value="followup_email" className="min-h-11 text-xs sm:text-sm px-1">Follow-ups</TabsTrigger>
+              <TabsTrigger value="contact_preset" className="min-h-11 text-xs sm:text-sm px-1">Kontakte</TabsTrigger>
             </TabsList>
 
             {(['inbox_reply', 'followup_email', 'contact_preset'] as TemplateKind[]).map((k) => (
-              <TabsContent key={k} value={k} className="flex-1 overflow-y-auto mt-4 space-y-2">
+              <TabsContent key={k} value={k} className="flex-1 overflow-y-auto mt-4 space-y-2 min-h-0">
                 <div className="flex justify-end">
-                  <Button size="sm" onClick={openNew}>
+                  <Button size="sm" onClick={openNew} className="min-h-11">
                     <Plus className="size-4 mr-1" /> Neue Vorlage
                   </Button>
                 </div>
@@ -166,28 +166,28 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
                   </p>
                 ) : (
                   filtered.map((t) => (
-                    <Card key={t.id} className="p-3 flex items-start justify-between gap-3">
+                    <Card key={t.id} className="p-3 flex items-start justify-between gap-2 sm:gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-medium text-sm">{t.name}</span>
+                          <span className="font-medium text-sm break-words">{t.name}</span>
                           {t.is_default && (
                             <Badge variant="secondary" className="text-[10px]">Standard</Badge>
                           )}
                         </div>
                         {t.subject && (
-                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1 break-all">
                             Betreff: {t.subject}
                           </p>
                         )}
-                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2 whitespace-pre-wrap">
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2 whitespace-pre-wrap break-words">
                           {t.body}
                         </p>
                       </div>
                       <div className="flex gap-1 shrink-0">
-                        <Button size="icon" variant="ghost" onClick={() => openEdit(t)} aria-label="Bearbeiten">
+                        <Button size="icon" variant="ghost" onClick={() => openEdit(t)} aria-label="Bearbeiten" className="size-11">
                           <Pencil className="size-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" onClick={() => handleDelete(t)} aria-label="Löschen">
+                        <Button size="icon" variant="ghost" onClick={() => handleDelete(t)} aria-label="Löschen" className="size-11">
                           <Trash2 className="size-4 text-destructive" />
                         </Button>
                       </div>
@@ -202,16 +202,16 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
 
       {/* Add / Edit form */}
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle>{editing ? 'Vorlage bearbeiten' : 'Neue Vorlage'}</DialogTitle>
-            <DialogDescription>Platzhalter: {PLACEHOLDERS}</DialogDescription>
+            <DialogTitle className="text-base sm:text-lg">{editing ? 'Vorlage bearbeiten' : 'Neue Vorlage'}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm break-words">Platzhalter: {PLACEHOLDERS}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
               <Label>Kategorie</Label>
               <Select value={form.kind} onValueChange={(v) => setForm({ ...form, kind: v as TemplateKind })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger className="min-h-11"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {(Object.keys(KIND_LABELS) as TemplateKind[]).map((k) => (
                     <SelectItem key={k} value={k}>{KIND_LABELS[k]}</SelectItem>
@@ -221,21 +221,21 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="t-name">Name *</Label>
-              <Input id="t-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} />
+              <Input id="t-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} className="min-h-11" />
             </div>
             {form.kind !== 'contact_preset' && (
               <div className="space-y-1.5">
                 <Label htmlFor="t-subject">Betreff</Label>
-                <Input id="t-subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} maxLength={200} placeholder="z. B. Re: {{subject}}" />
+                <Input id="t-subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} maxLength={200} placeholder="z. B. Re: {{subject}}" className="min-h-11" />
               </div>
             )}
             <div className="space-y-1.5">
               <Label htmlFor="t-body">Inhalt *</Label>
               <Textarea id="t-body" value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={8} maxLength={5000} />
             </div>
-            <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={form.is_default} onChange={(e) => setForm({ ...form, is_default: e.target.checked })} />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <label className="flex items-center gap-2 text-sm min-h-11">
+                <input type="checkbox" checked={form.is_default} onChange={(e) => setForm({ ...form, is_default: e.target.checked })} className="size-4" />
                 Als Standard markieren
               </label>
               <div className="flex items-center gap-2 text-sm">
@@ -243,16 +243,16 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
                 <Input
                   id="t-sort"
                   type="number"
-                  className="w-20 h-8"
+                  className="w-20 h-11"
                   value={form.sort_order}
                   onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) || 0 })}
                 />
               </div>
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving}>Abbrechen</Button>
-            <Button onClick={handleSave} disabled={saving}>
+          <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving} className="w-full sm:w-auto min-h-11">Abbrechen</Button>
+            <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto min-h-11">
               {saving && <Loader2 className="size-4 mr-2 animate-spin" />}
               Speichern
             </Button>
