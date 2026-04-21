@@ -26,47 +26,47 @@ export function KrsSignatureSection() {
   };
 
   return (
-    <section className="py-20 md:py-32 px-6 lg:px-8 bg-muted">
+    <section className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-muted">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <div className="text-center mb-12 md:mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-3">
+          <div className="text-center mb-8 md:mb-16">
+            <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-primary mb-3">
               Die Lösung
             </p>
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
               Operative Exzellenz durch
               <span className="text-primary"> KRS Signature.</span>
             </h2>
-            <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-muted-foreground mt-3 md:mt-4 max-w-2xl mx-auto">
               Done-with-you oder Done-for-you – wir setzen um, damit du dich auf das Wesentliche konzentrieren kannst.
             </p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
-          <div className="relative rounded-2xl overflow-hidden mb-16 max-w-5xl mx-auto shadow-[0_8px_40px_rgba(15,61,46,0.3)] hover:shadow-[0_12px_60px_rgba(15,61,46,0.5)] hover:scale-[1.02] transition-all duration-500">
+          <div className="relative rounded-2xl overflow-hidden mb-10 md:mb-16 max-w-5xl mx-auto shadow-[0_8px_40px_rgba(15,61,46,0.3)] hover:shadow-[0_12px_60px_rgba(15,61,46,0.5)] hover:scale-[1.02] transition-all duration-500">
             <img
               src={visualKrs}
               alt="KRS Signature Automatisierungs-Dashboard"
               loading="lazy"
               width={1920}
               height={960}
-              className="w-full h-56 md:h-80 lg:h-96 object-cover"
+              className="w-full h-44 md:h-80 lg:h-96 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-muted via-transparent to-transparent opacity-60" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,61,46,0.15)_0%,_transparent_70%)]" />
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
           {pillars.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12}>
-              <div className="bg-card border border-border rounded-2xl p-6 md:p-8 h-full text-center">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
-                  <p.icon className="size-7 text-primary" />
+              <div className="bg-card border border-border rounded-2xl p-5 md:p-8 h-full text-center">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 md:mb-5">
+                  <p.icon className="size-6 md:size-7 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-3">{p.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{p.text}</p>
+                <h3 className="text-base md:text-lg font-bold text-foreground mb-2 md:mb-3">{p.title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{p.text}</p>
               </div>
             </ScrollReveal>
           ))}
