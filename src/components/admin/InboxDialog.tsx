@@ -27,11 +27,20 @@ interface OutlookMessage {
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  unreadCount?: number | null;
+  setUnreadCount?: React.Dispatch<React.SetStateAction<number | null>>;
+  refreshUnread?: () => void;
 }
 
 const PAGE_SIZE = 25;
 
-export const InboxDialog = ({ open, onOpenChange }: Props) => {
+export const InboxDialog = ({
+  open,
+  onOpenChange,
+  unreadCount: externalUnread,
+  setUnreadCount: externalSetUnread,
+  refreshUnread,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<OutlookMessage[]>([]);
   const [search, setSearch] = useState('');
@@ -40,15 +49,23 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
   const [selected, setSelected] = useState<OutlookMessage | null>(null);
   const [reply, setReply] = useState('');
   const [sending, setSending] = useState(false);
-  const [unreadCount, setUnreadCount] = useState<number | null>(null);
+  const [internalUnread, setInternalUnread] = useState<number | null>(null);
+
+  const unreadCount = externalUnread !== undefined ? externalUnread : internalUnread;
+  const setUnreadCount: React.Dispatch<React.SetStateAction<number | null>> =
+    externalSetUnread ?? setInternalUnread;
 
   const loadUnreadCount = async () => {
+    if (refreshUnread) {
+      refreshUnread();
+      return;
+    }
     const { data, error } = await supabase.functions.invoke('outlook-mail', {
       body: { action: 'unreadCount' },
     });
     if (error) return;
     const c = (data as { count?: number })?.count;
-    if (typeof c === 'number') setUnreadCount(c);
+    if (typeof c === 'number') setInternalUnread(c);
   };
 
   const load = async (opts?: { q?: string; pageIdx?: number; unread?: boolean }) => {
