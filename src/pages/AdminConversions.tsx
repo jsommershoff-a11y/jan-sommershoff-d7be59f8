@@ -306,7 +306,9 @@ export default function AdminConversions() {
                               ? 'bg-accent/15 text-accent'
                               : c.goalType === 'Contact'
                                 ? 'bg-primary/15 text-primary'
-                                : 'bg-muted text-muted-foreground'
+                                : c.goalType === 'Engagement'
+                                  ? 'bg-primary/10 text-primary/80'
+                                  : 'bg-muted text-muted-foreground'
                           }`}
                         >
                           {c.goalType}
@@ -355,15 +357,23 @@ export default function AdminConversions() {
               </h2>
               <ol className="list-decimal pl-5 space-y-1.5 text-sm text-muted-foreground">
                 <li>
-                  Events Manager → Datenquellen → Pixel öffnen → Events prüfen:{' '}
+                  Events Manager → Datenquellen → Pixel öffnen → Standard-Events prüfen:{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">PageView</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>,{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">CompleteRegistration</code>.
                 </li>
                 <li>
-                  In Ads Manager → Custom Conversions: Lead-Quelle über URL-Parameter{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">?ziel=…</code> aufschlüsseln.
+                  <strong>Lead</strong> feuert auf{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/kontakt</code> (Potenzialanalyse, value 1 EUR).
                 </li>
-                <li>Aggregated Event Measurement: <strong>Lead</strong> als priorisiertes Event.</li>
+                <li>
+                  <strong>CompleteRegistration</strong> feuert auf{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/lead</code> (Notfallkoffer Lead-Magnet).
+                </li>
+                <li>
+                  Beide Events sind via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
+                </li>
+                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1, <strong>CompleteRegistration</strong> Slot 2.</li>
               </ol>
               <a
                 href="https://business.facebook.com/events_manager"
