@@ -135,12 +135,9 @@ export function loadGA4() {
   gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
   document.head.appendChild(gaScript);
 
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer!.push(args as unknown as Record<string, unknown>);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: true });
+  ensureGtagStub();
+  window.gtag!('js', new Date());
+  window.gtag!('config', GA4_MEASUREMENT_ID, { send_page_view: true });
 }
 
 /** Lädt nur Meta Pixel. */
