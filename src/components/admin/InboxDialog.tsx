@@ -95,6 +95,23 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected?.id]);
 
+  const handleMarkUnread = async () => {
+    if (!selected) return;
+    const messageId = selected.id;
+    const { error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'markRead', messageId, isRead: false },
+    });
+    if (error) {
+      toast.error('Konnte nicht als ungelesen markiert werden');
+      return;
+    }
+    setMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, isRead: false } : m)),
+    );
+    setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: false } : prev));
+    toast.success('Als ungelesen markiert');
+  };
+
   const handleReply = async () => {
     if (!selected || !reply.trim()) return;
     setSending(true);
@@ -288,9 +305,16 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
                 />
               </div>
             </div>
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-2">
               <Button variant="outline" onClick={() => setSelected(null)} disabled={sending}>
                 Abbrechen
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleMarkUnread}
+                disabled={sending || !selected.isRead}
+              >
+                Als ungelesen markieren
               </Button>
               <Button onClick={handleReply} disabled={sending || !reply.trim()}>
                 {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
