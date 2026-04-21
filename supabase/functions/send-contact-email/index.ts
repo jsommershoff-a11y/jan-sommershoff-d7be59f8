@@ -251,21 +251,24 @@ Deno.serve(async (req) => {
               .ilike('email', email)
               .maybeSingle();
 
-            const { error: interactionError } = await supabase
-              .from('interactions')
-              .insert({
-                type: 'email',
-                direction: 'outbound',
-                channel: 'outlook',
-                status: 'sent',
-                subject: 'Deine Nachricht ist angekommen ✓',
-                content: `Automatische Bestätigungsmail an ${email}`,
-                contact_id: contactRow?.id ?? null,
-                occurred_at: new Date().toISOString(),
-              });
+            // Only log interaction if we have a contact target (DB constraint requires contact_id OR company_id)
+            if (contactRow?.id) {
+              const { error: interactionError } = await supabase
+                .from('interactions')
+                .insert({
+                  type: 'email',
+                  direction: 'outbound',
+                  channel: 'outlook',
+                  status: 'sent',
+                  subject: 'Deine Nachricht ist angekommen ✓',
+                  content: `Automatische Bestätigungsmail an ${email}`,
+                  contact_id: contactRow.id,
+                  occurred_at: new Date().toISOString(),
+                });
 
-            if (interactionError) {
-              console.error('Interaction log error:', interactionError);
+              if (interactionError) {
+                console.error('Interaction log error:', interactionError);
+              }
             }
           } catch (logErr) {
             console.error('Failed to log confirmation interaction:', logErr);
