@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Download, Loader2, LogOut, Mail, Package, Pencil, Plus, ShieldAlert, Trash2 } from 'lucide-react';
+import { Download, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Submission {
@@ -52,6 +52,7 @@ export default function Admin() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
+  const [search, setSearch] = useState('');
 
   // Form dialog state (for add + edit)
   const [formOpen, setFormOpen] = useState(false);
@@ -218,7 +219,16 @@ export default function Admin() {
     }
   };
 
-  const filtered = submissions.filter((s) => filter === 'all' || s.type === filter);
+  const q = search.trim().toLowerCase();
+  const filtered = submissions.filter((s) => {
+    if (filter !== 'all' && s.type !== filter) return false;
+    if (!q) return true;
+    return (
+      s.name.toLowerCase().includes(q) ||
+      s.email.toLowerCase().includes(q) ||
+      (s.message?.toLowerCase().includes(q) ?? false)
+    );
+  });
 
   if (loading) {
     return (
@@ -251,7 +261,11 @@ export default function Admin() {
         <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Lead-Übersicht</h1>
-            <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
+            <p className="text-muted-foreground mt-1">
+              {filtered.length === submissions.length
+                ? `${submissions.length} Einsendungen insgesamt`
+                : `${filtered.length} von ${submissions.length} Einsendungen`}
+            </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={handleExportCsv}>
@@ -330,7 +344,29 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="flex gap-2 mb-6 flex-wrap">
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+          <Input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Suche nach Name, E-Mail oder Nachricht…"
+            className="pl-9 pr-9"
+            maxLength={200}
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Suche zurücksetzen"
+            >
+              <X className="size-4" />
+            </button>
+          )}
+        </div>
+
+        <div className="flex gap-2 mb-6 flex-wrap items-center">
           <Button size="sm" variant={filter === 'all' ? 'default' : 'outline'} onClick={() => setFilter('all')}>
             Alle ({submissions.length})
           </Button>
