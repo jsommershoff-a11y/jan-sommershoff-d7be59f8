@@ -17,7 +17,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Card } from '@/components/ui/card';
-import { Sparkles, Loader2, ChevronDown, Check } from 'lucide-react';
+import { Sparkles, Loader2, ChevronDown, Check, Wand2, Smile, Briefcase, Scissors } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
