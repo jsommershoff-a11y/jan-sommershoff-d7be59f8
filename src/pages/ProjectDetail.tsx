@@ -46,7 +46,7 @@ export default function ProjectDetail() {
       <div className="min-h-screen">
         {/* Hero Image - 70vh */}
       <motion.div
-        className="relative w-full h-[70vh] overflow-hidden bg-muted"
+        className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] overflow-hidden bg-muted"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -63,19 +63,19 @@ export default function ProjectDetail() {
       </motion.div>
 
       {/* Project Info Section */}
-      <section className="max-w-4xl mx-auto px-6 lg:px-8 py-12 md:py-16">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
         <motion.div
-          className="space-y-8"
+          className="space-y-6 sm:space-y-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Title and Category */}
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-wide">
+          <div className="space-y-3 sm:space-y-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-wide break-words">
               {project.title}
             </h1>
-            <div className="flex flex-wrap gap-6 text-sm text-muted-foreground font-light">
+            <div className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-6 text-sm text-muted-foreground font-light">
               <div className="flex items-center gap-2">
                 <Calendar className="size-4" />
                 <span>{project.year}</span>
@@ -86,7 +86,7 @@ export default function ProjectDetail() {
               </div>
               {project.location && (
                 <>
-                  <span>•</span>
+                  <span className="hidden sm:inline">•</span>
                   <div className="flex items-center gap-2">
                     <MapPin className="size-4" />
                     <span>{project.location}</span>
@@ -100,13 +100,13 @@ export default function ProjectDetail() {
 
           {/* Description */}
           <div className="space-y-4">
-            <p className="text-lg md:text-xl font-light leading-relaxed text-foreground">
+            <p className="text-base sm:text-lg md:text-xl font-light leading-relaxed text-foreground">
               {project.description}
             </p>
           </div>
 
           {/* Technical Details */}
-          <div className="grid md:grid-cols-2 gap-6 pt-4">
+          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 pt-4">
             {project.camera && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm font-light tracking-wide uppercase text-muted-foreground">
