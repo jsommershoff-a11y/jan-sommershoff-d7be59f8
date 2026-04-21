@@ -64,6 +64,36 @@ async function gatewayFetch(
   return data;
 }
 
+async function logInteraction(
+  client: ReturnType<typeof createClient>,
+  userId: string,
+  args: { recipientEmail: string; subject: string; content: string; direction: 'outbound' | 'inbound' },
+) {
+  try {
+    // Find matching contact for this user (case-insensitive email match)
+    const { data: contact } = await client
+      .from('contacts')
+      .select('id')
+      .eq('user_id', userId)
+      .ilike('email', args.recipientEmail)
+      .maybeSingle();
+
+    await client.from('interactions').insert({
+      user_id: userId,
+      contact_id: contact?.id ?? null,
+      type: 'email',
+      channel: 'outlook',
+      direction: args.direction,
+      subject: args.subject,
+      content: args.content,
+      status: 'sent',
+      occurred_at: new Date().toISOString(),
+    });
+  } catch (e) {
+    console.warn('logInteraction failed:', e);
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -179,6 +209,15 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Log as interaction
+      await logInteraction(userClient, user.id, {
+        recipientEmail: body.to,
+        subject: body.subject,
+        content: body.body,
+        direction: 'outbound',
+      });
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -198,6 +237,28 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Lookup original message to get recipient (the original sender we reply to)
+      try {
+        const orig = await gatewayFetch(
+          `/me/messages/${encodeURIComponent(body.messageId)}?$select=subject,from`,
+          { method: 'GET' },
+          LOVABLE_API_KEY,
+          OUTLOOK_API_KEY,
+        ) as { subject?: string; from?: { emailAddress?: { address?: string } } };
+        const replyTo = orig?.from?.emailAddress?.address;
+        if (replyTo) {
+          await logInteraction(userClient, user.id, {
+            recipientEmail: replyTo,
+            subject: orig.subject ? `Re: ${orig.subject}` : 'Antwort',
+            content: body.comment,
+            direction: 'outbound',
+          });
+        }
+      } catch (e) {
+        console.warn('Reply interaction logging failed:', e);
+      }
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
