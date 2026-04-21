@@ -74,21 +74,36 @@ export const SendMailDialog = ({
             <Input value={to} disabled />
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <Label htmlFor="mail-subject">Betreff *</Label>
-              <TemplatePicker
-                kind="followup_email"
-                vars={{
-                  first_name: recipientName?.split(' ')[0] ?? '',
-                  name: recipientName ?? '',
-                  email: to,
-                  subject: defaultSubject ?? '',
-                }}
-                onPick={({ subject: s, body: b }) => {
-                  if (s) setSubject(s);
-                  setBody(b);
-                }}
-              />
+              <div className="flex items-center gap-2">
+                <AiSuggestButton
+                  context={{
+                    type: 'follow_up',
+                    senderName: recipientName,
+                    senderEmail: to,
+                    incomingSubject: defaultSubject,
+                    currentDraft: body || undefined,
+                  }}
+                  onApply={({ subject: s, body: b }) => {
+                    if (s) setSubject(s);
+                    setBody(b);
+                  }}
+                />
+                <TemplatePicker
+                  kind="followup_email"
+                  vars={{
+                    first_name: recipientName?.split(' ')[0] ?? '',
+                    name: recipientName ?? '',
+                    email: to,
+                    subject: defaultSubject ?? '',
+                  }}
+                  onPick={({ subject: s, body: b }) => {
+                    if (s) setSubject(s);
+                    setBody(b);
+                  }}
+                />
+              </div>
             </div>
             <Input
               id="mail-subject"
