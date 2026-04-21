@@ -23,7 +23,7 @@ export function FloatingCta() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.25 }}
-            className="bg-background border border-border rounded-2xl shadow-2xl p-4 mb-2 w-64"
+            className="bg-background border border-border rounded-2xl shadow-2xl p-4 mb-2 w-[min(18rem,calc(100vw-2rem))]"
           >
             <p className="text-sm font-semibold text-foreground mb-3">Direkt Kontakt aufnehmen</p>
             <div className="flex flex-col gap-2">
