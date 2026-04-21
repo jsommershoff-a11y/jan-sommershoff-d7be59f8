@@ -628,6 +628,7 @@ export default function Admin() {
         setUnreadCount={setUnreadMail}
         refreshUnread={refreshUnreadMail}
       />
+      <TemplatesManagerDialog open={templatesOpen} onOpenChange={setTemplatesOpen} />
       <SendMailDialog
         open={!!mailTarget}
         onOpenChange={(o) => !o && setMailTarget(null)}
