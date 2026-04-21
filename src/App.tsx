@@ -19,6 +19,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Leistungen = lazy(() => import("./pages/Leistungen"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminConversions = lazy(() => import("./pages/AdminConversions"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Kontakt = lazy(() => import("./pages/Kontakt"));
 
