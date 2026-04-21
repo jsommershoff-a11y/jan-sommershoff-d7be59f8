@@ -1,6 +1,7 @@
 import { Instagram, Linkedin, Youtube, Podcast, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { siteData } from '@/data/siteData';
+import { openCookieSettings } from '@/components/CookieBanner';
 import logoIcon from '@/assets/logo-icon.png';
 
 export function Footer() {
@@ -97,6 +98,13 @@ export function Footer() {
             <Link to="/agb" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline px-2 py-2 min-h-11 inline-flex items-center">
               AGB
             </Link>
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline px-2 py-2 min-h-11 inline-flex items-center"
+            >
+              Cookie-Einstellungen
+            </button>
             <Link to="/admin/login" className="text-xs text-muted-foreground/60 hover:text-primary transition-colors px-2 py-2 min-h-11 inline-flex items-center">
               Admin
             </Link>
