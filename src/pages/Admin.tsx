@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/select';
 import { Download, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 
 interface Submission {
   id: string;
