@@ -3,6 +3,8 @@ import { Check, ArrowRight, Clock, BarChart3, Cpu, FileText, Sparkles } from 'lu
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { SEOHead } from '@/components/seo/SEOHead';
+import { trackEvent, trackPageView } from '@/lib/tracking';
 
 const PAYMENT_LINK = '#'; // TODO: Replace with actual payment link
 
@@ -27,6 +29,8 @@ export default function Upsell() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
+    trackPageView('/upsell', 'Upsell – KI System Analyse');
+    trackEvent('upsell_view', { funnel: 'ki_system_analyse' });
     supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });

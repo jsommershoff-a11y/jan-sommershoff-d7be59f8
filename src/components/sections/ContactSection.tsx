@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Mail, MapPin, Send, Loader2, CheckCircle, Linkedin, Instagram, Youtube, Podcast } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { trackEvent } from '@/lib/tracking';
 
 export function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -29,10 +30,11 @@ export function ContactSection() {
 
       if (error) throw error;
 
+      trackEvent('contact_submit', { funnel: 'potenzialanalyse' });
       setIsSuccess(true);
       setForm({ name: '', email: '', message: '' });
-      toast.success('Nachricht erfolgreich gesendet!');
-      setTimeout(() => setIsSuccess(false), 5000);
+      toast.success('Bitte bestätige deine E-Mail-Adresse.');
+      setTimeout(() => setIsSuccess(false), 8000);
     } catch (error) {
       console.error('Submit error:', error);
       toast.error('Fehler beim Senden. Bitte versuche es erneut.');
@@ -60,9 +62,9 @@ export function ContactSection() {
             {isSuccess ? (
               <div className="flex flex-col items-center justify-center text-center space-y-4 py-12">
                 <CheckCircle className="size-16 text-primary" />
-                <h3 className="text-2xl font-semibold text-foreground">Nachricht gesendet!</h3>
+                <h3 className="text-2xl font-semibold text-foreground">Nachricht eingegangen!</h3>
                 <p className="text-muted-foreground">
-                  Vielen Dank für deine Nachricht. Ich melde mich schnellstmöglich.
+                  Wir haben dir gerade eine Bestätigungsmail geschickt. Erst nach Klick auf den Bestätigungslink erhältst du den Zugang zur Potenzialanalyse.
                 </p>
               </div>
             ) : (
