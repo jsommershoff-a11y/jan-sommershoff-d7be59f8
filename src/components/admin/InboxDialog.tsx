@@ -168,6 +168,11 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Mail className="size-5" /> Outlook Posteingang
+            {unreadCount !== null && unreadCount > 0 && (
+              <Badge variant="default" className="ml-1">
+                {unreadCount} ungelesen
+              </Badge>
+            )}
           </DialogTitle>
         </DialogHeader>
 
