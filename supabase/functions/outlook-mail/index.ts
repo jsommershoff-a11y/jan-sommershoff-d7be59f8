@@ -64,6 +64,36 @@ async function gatewayFetch(
   return data;
 }
 
+async function logInteraction(
+  client: ReturnType<typeof createClient>,
+  userId: string,
+  args: { recipientEmail: string; subject: string; content: string; direction: 'outbound' | 'inbound' },
+) {
+  try {
+    // Find matching contact for this user (case-insensitive email match)
+    const { data: contact } = await client
+      .from('contacts')
+      .select('id')
+      .eq('user_id', userId)
+      .ilike('email', args.recipientEmail)
+      .maybeSingle();
+
+    await client.from('interactions').insert({
+      user_id: userId,
+      contact_id: contact?.id ?? null,
+      type: 'email',
+      channel: 'outlook',
+      direction: args.direction,
+      subject: args.subject,
+      content: args.content,
+      status: 'sent',
+      occurred_at: new Date().toISOString(),
+    });
+  } catch (e) {
+    console.warn('logInteraction failed:', e);
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
