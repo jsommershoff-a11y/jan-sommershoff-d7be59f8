@@ -61,6 +61,7 @@ export default function Kontakt() {
     phone: '',
     message: '',
   });
+  const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
