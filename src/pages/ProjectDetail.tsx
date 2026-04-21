@@ -130,8 +130,8 @@ export default function ProjectDetail() {
       </section>
 
         {/* Image Gallery - Edge to edge */}
-        <section className="py-12 md:py-16">
-          <div className="space-y-8 md:space-y-12">
+        <section className="py-8 sm:py-12 md:py-16 px-2 sm:px-0">
+          <div className="space-y-4 sm:space-y-8 md:space-y-12">
             {project.images.map((image, index) => (
               <ScrollReveal key={image.id} delay={index * 0.1}>
                 <ImageWithLightbox
@@ -139,7 +139,7 @@ export default function ProjectDetail() {
                   onClick={() => openLightbox(index)}
                   priority={index === 0}
                   index={0}
-                  className="w-full"
+                  className="w-full min-h-11"
                 />
               </ScrollReveal>
             ))}
