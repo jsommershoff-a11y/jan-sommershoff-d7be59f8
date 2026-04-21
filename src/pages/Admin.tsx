@@ -254,6 +254,9 @@ export default function Admin() {
             <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" onClick={handleExportCsv}>
+              <Download className="size-4 mr-2" /> CSV-Export
+            </Button>
             <Button onClick={openAdd}>
               <Plus className="size-4 mr-2" /> Neuer Eintrag
             </Button>
