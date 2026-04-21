@@ -334,26 +334,26 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-muted py-10 px-4">
+    <div className="min-h-screen bg-muted py-6 sm:py-10 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 sm:mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Lead-Übersicht</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Lead-Übersicht</h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
               {filtered.length === submissions.length
                 ? `${submissions.length} Einsendungen insgesamt`
                 : `${filtered.length} von ${submissions.length} Einsendungen`}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleExportCsv}>
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+            <Button variant="outline" onClick={handleExportCsv} className="min-h-11">
               <Download className="size-4 mr-2" /> CSV-Export
             </Button>
-            <Button onClick={openAdd}>
+            <Button onClick={openAdd} className="min-h-11">
               <Plus className="size-4 mr-2" /> Neuer Eintrag
             </Button>
             <Dialog open={formOpen} onOpenChange={setFormOpen}>
-              <DialogContent>
+              <DialogContent className="max-h-[90vh] overflow-y-auto w-[calc(100vw-1.5rem)] sm:w-full">
                 <DialogHeader>
                   <DialogTitle>{editingId ? 'Eintrag bearbeiten' : 'Neuen Kontakt hinzufügen'}</DialogTitle>
                   <DialogDescription>
@@ -439,18 +439,18 @@ export default function Admin() {
                     />
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving}>
+                <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving} className="w-full sm:w-auto min-h-11">
                     Abbrechen
                   </Button>
-                  <Button onClick={handleSave} disabled={saving}>
+                  <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto min-h-11">
                     {saving && <Loader2 className="size-4 mr-2 animate-spin" />}
                     {editingId ? 'Speichern' : 'Hinzufügen'}
                   </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-            <Button variant="outline" onClick={() => setInboxOpen(true)} className="relative">
+            <Button variant="outline" onClick={() => setInboxOpen(true)} className="relative min-h-11">
               <Inbox className="size-4 mr-2" /> Posteingang
               {unreadMail !== null && unreadMail > 0 && (
                 <Badge variant="default" className="ml-2 h-5 px-1.5 text-[10px]">
@@ -458,10 +458,10 @@ export default function Admin() {
                 </Badge>
               )}
             </Button>
-            <Button variant="outline" onClick={() => setTemplatesOpen(true)}>
+            <Button variant="outline" onClick={() => setTemplatesOpen(true)} className="min-h-11">
               <FileText className="size-4 mr-2" /> Vorlagen
             </Button>
-            <Button variant="outline" onClick={handleLogout}>
+            <Button variant="outline" onClick={handleLogout} className="min-h-11">
               <LogOut className="size-4 mr-2" /> Abmelden
             </Button>
           </div>
@@ -543,34 +543,35 @@ export default function Admin() {
             <Card className="p-12 text-center text-muted-foreground">Keine Einträge</Card>
           ) : (
             filtered.map((s) => (
-              <Card key={s.id} className="p-5">
+              <Card key={s.id} className="p-4 sm:p-5">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                     <Badge variant={s.type === 'lead_magnet' ? 'default' : 'secondary'}>
                       {s.type === 'lead_magnet' ? '🎯 Lead-Magnet' : '📩 Kontakt'}
                     </Badge>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs sm:text-sm text-muted-foreground">
                       {new Date(s.created_at).toLocaleString('de-DE', {
                         dateStyle: 'medium',
                         timeStyle: 'short',
                       })}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 flex-wrap">
+                  <div className="flex items-center gap-1 flex-wrap -mr-2 md:mr-0">
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => setMailTarget(s)}
                       title="E-Mail via Outlook senden"
+                      className="size-11"
                     >
                       <Send className="size-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(s)}>
+                    <Button variant="ghost" size="icon" onClick={() => openEdit(s)} className="size-11">
                       <Pencil className="size-4" />
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive size-11">
                           <Trash2 className="size-4" />
                         </Button>
                       </AlertDialogTrigger>
@@ -594,7 +595,7 @@ export default function Admin() {
                     </AlertDialog>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-3 text-sm">
                   <div className="min-w-0">
                     <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Vorname</p>
                     <p className="font-medium text-foreground truncate">{s.first_name ?? '—'}</p>

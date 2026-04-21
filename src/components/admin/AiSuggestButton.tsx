@@ -121,7 +121,7 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
 
   return (
     <>
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:flex-wrap w-full">
         <Input
           type="text"
           value={instruction}
@@ -129,11 +129,11 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
           placeholder="Vorgabe (z.B. kurz halten, Termin Donnerstag)"
           maxLength={200}
           disabled={isLoading}
-          className="h-9 text-sm w-full sm:w-64"
+          className="h-10 text-sm w-full sm:w-64"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button type="button" variant="outline" size={size} disabled={isLoading}>
+            <Button type="button" variant="outline" size={size} disabled={isLoading} className="w-full sm:w-auto min-h-10">
               {isLoading ? (
                 <Loader2 className="size-4 mr-2 animate-spin" />
               ) : (
@@ -171,6 +171,7 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
               size={size}
               disabled={isLoading || !hasDraft}
               title={!hasDraft ? 'Schreibe zuerst etwas in das Antwort-Feld' : 'Tonalität deines Entwurfs verbessern'}
+              className="w-full sm:w-auto min-h-10"
             >
               {loading && (loading === 'friendly' || loading === 'professional' || loading === 'shorter') ? (
                 <Loader2 className="size-4 mr-2 animate-spin" />
@@ -210,7 +211,7 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
       </div>
 
       <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl w-[calc(100vw-1.5rem)] sm:w-full max-h-[85vh] overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Sparkles className="size-5 text-primary" /> KI-Antwortvorschläge
