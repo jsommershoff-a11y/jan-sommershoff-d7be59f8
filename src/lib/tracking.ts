@@ -37,6 +37,53 @@ declare global {
 
 const isPlaceholder = (id: string) => id.includes('XXXX');
 
+/**
+ * Consent Mode v2 — Default-Signal.
+ * Wird einmalig beim Modul-Load gesetzt, BEVOR irgendein gtag('config') läuft.
+ * Standard: alles "denied" (EU-konform). Update bei Consent via gtagConsentUpdate().
+ */
+let consentDefaultSet = false;
+function ensureGtagStub() {
+  if (typeof window === 'undefined') return;
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function gtag(...args: unknown[]) {
+      window.dataLayer!.push(args as unknown as Record<string, unknown>);
+    };
+  }
+}
+
+function setConsentDefault() {
+  if (consentDefaultSet || typeof window === 'undefined') return;
+  consentDefaultSet = true;
+  ensureGtagStub();
+  window.gtag!('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+  window.gtag!('set', 'ads_data_redaction', true);
+  window.gtag!('set', 'url_passthrough', true);
+}
+
+function gtagConsentUpdate(state: ConsentState) {
+  if (typeof window === 'undefined') return;
+  ensureGtagStub();
+  window.gtag!('consent', 'update', {
+    ad_storage: state.marketing ? 'granted' : 'denied',
+    ad_user_data: state.marketing ? 'granted' : 'denied',
+    ad_personalization: state.marketing ? 'granted' : 'denied',
+    analytics_storage: state.analytics ? 'granted' : 'denied',
+  });
+}
+
+// Setze Default sofort beim Modul-Import.
+setConsentDefault();
+
 export function readConsent(): ConsentState | null {
   if (typeof window === 'undefined') return null;
   try {
