@@ -132,27 +132,27 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-3xl max-h-[90vh] sm:max-h-[85vh] flex flex-col p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
               <FileText className="size-5" /> Vorlagen verwalten
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-xs sm:text-sm break-words">
               Antwort-, Mail- und Kontakt-Vorlagen für deinen Workflow. Platzhalter: {PLACEHOLDERS}
             </DialogDescription>
           </DialogHeader>
 
-          <Tabs value={activeKind} onValueChange={(v) => setActiveKind(v as TemplateKind)} className="flex-1 flex flex-col overflow-hidden">
-            <TabsList className="grid grid-cols-3">
-              <TabsTrigger value="inbox_reply">Posteingang</TabsTrigger>
-              <TabsTrigger value="followup_email">Follow-ups</TabsTrigger>
-              <TabsTrigger value="contact_preset">Kontakte</TabsTrigger>
+          <Tabs value={activeKind} onValueChange={(v) => setActiveKind(v as TemplateKind)} className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <TabsList className="grid grid-cols-3 h-auto">
+              <TabsTrigger value="inbox_reply" className="min-h-11 text-xs sm:text-sm px-1">Posteingang</TabsTrigger>
+              <TabsTrigger value="followup_email" className="min-h-11 text-xs sm:text-sm px-1">Follow-ups</TabsTrigger>
+              <TabsTrigger value="contact_preset" className="min-h-11 text-xs sm:text-sm px-1">Kontakte</TabsTrigger>
             </TabsList>
 
             {(['inbox_reply', 'followup_email', 'contact_preset'] as TemplateKind[]).map((k) => (
-              <TabsContent key={k} value={k} className="flex-1 overflow-y-auto mt-4 space-y-2">
+              <TabsContent key={k} value={k} className="flex-1 overflow-y-auto mt-4 space-y-2 min-h-0">
                 <div className="flex justify-end">
-                  <Button size="sm" onClick={openNew}>
+                  <Button size="sm" onClick={openNew} className="min-h-11">
                     <Plus className="size-4 mr-1" /> Neue Vorlage
                   </Button>
                 </div>
@@ -166,28 +166,28 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
                   </p>
                 ) : (
                   filtered.map((t) => (
-                    <Card key={t.id} className="p-3 flex items-start justify-between gap-3">
+                    <Card key={t.id} className="p-3 flex items-start justify-between gap-2 sm:gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-medium text-sm">{t.name}</span>
+                          <span className="font-medium text-sm break-words">{t.name}</span>
                           {t.is_default && (
                             <Badge variant="secondary" className="text-[10px]">Standard</Badge>
                           )}
                         </div>
                         {t.subject && (
-                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1 break-all">
                             Betreff: {t.subject}
                           </p>
                         )}
-                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2 whitespace-pre-wrap">
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2 whitespace-pre-wrap break-words">
                           {t.body}
                         </p>
                       </div>
                       <div className="flex gap-1 shrink-0">
-                        <Button size="icon" variant="ghost" onClick={() => openEdit(t)} aria-label="Bearbeiten">
+                        <Button size="icon" variant="ghost" onClick={() => openEdit(t)} aria-label="Bearbeiten" className="size-11">
                           <Pencil className="size-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" onClick={() => handleDelete(t)} aria-label="Löschen">
+                        <Button size="icon" variant="ghost" onClick={() => handleDelete(t)} aria-label="Löschen" className="size-11">
                           <Trash2 className="size-4 text-destructive" />
                         </Button>
                       </div>
