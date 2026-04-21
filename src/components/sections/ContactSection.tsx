@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { siteData } from '@/data/siteData';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,7 @@ import { toast } from 'sonner';
 import { trackEvent } from '@/lib/tracking';
 
 export function ContactSection() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -53,10 +55,10 @@ export function ContactSection() {
       }
 
       trackEvent('contact_submit', { funnel: 'potenzialanalyse' });
-      setIsSuccess(true);
       setForm({ first_name: '', last_name: '', email: '', phone: '', message: '' });
-      toast.success('Bitte bestätige deine E-Mail-Adresse.');
-      setTimeout(() => setIsSuccess(false), 8000);
+      // Redirect zur Danke-Seite (feuert Conversion-Event automatisch)
+      navigate('/danke/kontakt');
+      return;
     } catch (error: unknown) {
       console.error('Submit error:', error);
       const msg = error instanceof Error ? error.message : 'Fehler beim Senden. Bitte versuche es erneut.';
