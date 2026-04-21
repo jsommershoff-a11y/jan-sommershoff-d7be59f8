@@ -180,24 +180,35 @@ Deno.serve(async (req) => {
         </div>
       `;
 
-      const confirmRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Jan Sommershoff <info@jan-sommershoff.de>',
-          to: [email],
+      // Send confirmation via Microsoft Outlook (Graph) so it appears in the "Sent" folder
+      const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+      const OUTLOOK_API_KEY = Deno.env.get('MICROSOFT_OUTLOOK_API_KEY');
+
+      if (!LOVABLE_API_KEY || !OUTLOOK_API_KEY) {
+        console.error('Outlook keys not configured – cannot send confirmation');
+      } else {
+        const outlookMessage = {
           subject: 'Deine Nachricht ist angekommen ✓',
-          html: confirmationHtml,
-          reply_to: 'j.s@krsimmobilien.de',
-        }),
-      });
-      const confirmData = await confirmRes.json();
-      confirmationSent = confirmRes.ok;
-      if (!confirmRes.ok) {
-        console.error('Contact confirmation email error:', confirmData);
+          body: { contentType: 'HTML', content: confirmationHtml },
+          toRecipients: [{ emailAddress: { address: email } }],
+        };
+        const confirmRes = await fetch(
+          'https://connector-gateway.lovable.dev/microsoft_outlook/me/sendMail',
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${LOVABLE_API_KEY}`,
+              'X-Connection-Api-Key': OUTLOOK_API_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: outlookMessage, saveToSentItems: true }),
+          },
+        );
+        confirmationSent = confirmRes.ok;
+        if (!confirmRes.ok) {
+          const errText = await confirmRes.text();
+          console.error('Outlook confirmation error:', confirmRes.status, errText);
+        }
       }
     }
 
