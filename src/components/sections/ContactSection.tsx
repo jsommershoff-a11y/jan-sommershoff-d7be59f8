@@ -67,20 +67,20 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 px-6 lg:px-8 bg-background">
+    <section id="contact" className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-background">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal>
-          <div className="text-center mb-16 space-y-4">
-            <p className="text-sm font-semibold tracking-widest uppercase text-primary">
+          <div className="text-center mb-10 md:mb-16 space-y-3 md:space-y-4">
+            <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-primary">
               Kontakt
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground">
               Lass uns sprechen
             </h2>
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-16">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16">
           <ScrollReveal delay={0.1}>
             {isSuccess ? (
               <div className="flex flex-col items-center justify-center text-center space-y-4 py-12">

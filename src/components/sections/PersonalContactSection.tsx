@@ -4,7 +4,7 @@ import aboutImage from '@/assets/hero-jan-new.png';
 
 export function PersonalContactSection() {
   return (
-    <section className="py-20 md:py-28 px-6 lg:px-8 bg-[#111111] relative overflow-hidden">
+    <section className="py-16 md:py-28 px-4 md:px-6 lg:px-8 bg-[#111111] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(15,61,46,0.08),transparent_60%)] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10">
@@ -33,19 +33,19 @@ export function PersonalContactSection() {
 
           <div>
             <ScrollReveal>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 leading-tight">
                 Lass uns gemeinsam prüfen, wo KI sofort Wirkung zeigt.
               </h2>
-              <div className="w-16 h-0.5 bg-[#0F3D2E] mb-10" />
+              <div className="w-16 h-0.5 bg-[#0F3D2E] mb-6 md:mb-10" />
             </ScrollReveal>
 
             <ScrollReveal delay={0.1}>
-              <div className="text-white/65 text-lg leading-relaxed space-y-6">
+              <div className="text-white/65 text-base md:text-lg leading-relaxed space-y-5 md:space-y-6">
                 <p>
                   Jedes Unternehmen hat Prozesse, die unnötig Zeit kosten. Aufgaben, die automatisiert werden können. Daten, die besser genutzt werden sollten.
                 </p>
 
-                <p className="text-white font-semibold text-xl">
+                <p className="text-white font-semibold text-lg md:text-xl">
                   Die Frage ist: Weißt du, wo dein größtes Potenzial liegt?
                 </p>
 

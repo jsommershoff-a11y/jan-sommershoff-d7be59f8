@@ -54,32 +54,32 @@ export function LeadMagnetSection() {
   ];
 
   return (
-    <section id="lead-magnet" className="py-24 md:py-32 px-6 lg:px-8 bg-muted">
+    <section id="lead-magnet" className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
-          <div className="bg-card rounded-3xl p-10 md:p-16 shadow-lg border border-primary/10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Package className="size-6 text-primary" />
+          <div className="bg-card rounded-2xl md:rounded-3xl p-6 md:p-16 shadow-lg border border-primary/10">
+            <div className="flex items-center gap-3 mb-4 md:mb-6">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Package className="size-5 md:size-6 text-primary" />
               </div>
-              <p className="text-sm font-semibold tracking-widest uppercase text-primary">
+              <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-primary">
                 Kostenlos
               </p>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-foreground mb-3 md:mb-4">
               Der KI-Notfallkoffer für Unternehmer.
             </h2>
 
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6 md:mb-8">
               Hol dir 10 KI Prompts und 3 Automatisierungs-Workflows, die du heute noch implementieren kannst.
             </p>
 
-            <div className="space-y-4 mb-10">
+            <div className="space-y-3 md:space-y-4 mb-8 md:mb-10">
               {items.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <CheckCircle className="size-5 text-primary mt-0.5 shrink-0" />
-                  <span className="text-foreground font-medium">{item}</span>
+                  <span className="text-sm md:text-base text-foreground font-medium">{item}</span>
                 </div>
               ))}
             </div>

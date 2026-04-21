@@ -27,29 +27,29 @@ const risks = [
 
 export function DataSovereigntySection() {
   return (
-    <section className="relative py-20 md:py-32 px-5 md:px-6 lg:px-8 bg-[#111111] text-white overflow-hidden">
+    <section className="relative py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-[#111111] text-white overflow-hidden">
       {/* Subtle glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <ScrollReveal>
-          <div className="text-center mb-14 md:mb-20">
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-primary/80 mb-4">
+          <div className="text-center mb-10 md:mb-20">
+            <p className="text-xs font-semibold tracking-[0.25em] md:tracking-[0.3em] uppercase text-primary/80 mb-3 md:mb-4">
               Datensouveränität
             </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 md:mb-6">
               Deine Daten gehören dir.{' '}
               <span className="text-white/40">Oder?</span>
             </h2>
-            <p className="text-white/60 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white/60 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
               Die meisten Unternehmer merken erst im Ernstfall, dass sie keine Kontrolle über ihre eigenen Daten haben.
             </p>
           </div>
         </ScrollReveal>
 
         {/* Risk Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-16 md:mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-10 md:mb-20">
           {risks.map((risk, i) => {
             const Icon = risk.icon;
             return (
@@ -83,14 +83,14 @@ export function DataSovereigntySection() {
               </span>
             </div>
 
-            <p className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-snug">
+            <p className="text-lg md:text-2xl lg:text-3xl font-bold text-white leading-snug">
               Wer in Zukunft KI nutzen will, braucht eine{' '}
               <span className="text-primary">zentrale Datenbank</span> aller
               Unternehmensinformationen — sicher, strukturiert, unter eigener
               Kontrolle.
             </p>
 
-            <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-white/60 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto">
               Nur so funktioniert personalisierte Kundenansprache. Nur so
               funktioniert KI. Denn Personality bleibt das Wichtigste — und die
               erreichst du nur, wenn deine Daten zentral bei dir liegen und du
