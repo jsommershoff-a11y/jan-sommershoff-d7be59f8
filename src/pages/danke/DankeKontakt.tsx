@@ -5,8 +5,8 @@ export default function DankeKontakt() {
     <ThankYou
       title="Danke für deine Nachricht!"
       subtitle="Wir haben deine Anfrage erhalten und melden uns innerhalb von 24 Stunden bei dir."
-      eventName="contact_submitted"
-      metaEvent="Contact"
+      eventName="contact_submit"
+      metaEvent="Lead"
     />
   );
 }
