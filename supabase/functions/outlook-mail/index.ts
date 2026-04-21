@@ -315,6 +315,25 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (body.action === 'unreadCount') {
+      const params = new URLSearchParams({
+        $filter: 'isRead eq false',
+        $count: 'true',
+        $top: '1',
+        $select: 'id',
+      });
+      const data = await gatewayFetch(
+        `/me/mailFolders/Inbox/messages?${params.toString()}`,
+        { method: 'GET', headers: { ConsistencyLevel: 'eventual' } },
+        LOVABLE_API_KEY,
+        OUTLOOK_API_KEY,
+      );
+      const count = (data as { '@odata.count'?: number })?.['@odata.count'] ?? 0;
+      return new Response(JSON.stringify({ count }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     if (body.action === 'markRead') {
       if (!body.messageId) throw new Error('messageId required');
       await gatewayFetch(
