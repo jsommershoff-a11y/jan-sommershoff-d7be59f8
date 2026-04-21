@@ -169,6 +169,19 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Auto-log inbound messages from known contacts (best-effort, non-blocking)
+      try {
+        const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+        if (serviceKey) {
+          const serviceClient = createClient(supabaseUrl, serviceKey);
+          const messages = (data as { value?: OutlookListMessage[] })?.value || [];
+          await logInboundMessages(serviceClient, user.id, messages);
+        }
+      } catch (e) {
+        console.warn('Inbound logging error:', e);
+      }
+
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
