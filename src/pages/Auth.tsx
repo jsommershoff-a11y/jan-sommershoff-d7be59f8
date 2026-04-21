@@ -81,22 +81,22 @@ export default function Auth() {
         noIndex
       />
       {submitted && (
-        <div className="border-b border-white/10 bg-[#0F3D2E]/30 py-6 px-6 text-center">
-          <MailCheck className="size-8 text-[#6fcfab] mx-auto mb-2" />
-          <p className="text-white font-semibold">Bitte bestätige deine E-Mail-Adresse.</p>
-          <p className="text-white/60 text-sm mt-1">
-            Wir haben dir einen Bestätigungslink an <strong>{email}</strong> gesendet. Sobald du klickst, schalten wir den Notfallkoffer frei.
+        <div className="border-b border-white/10 bg-[#0F3D2E]/30 py-5 sm:py-6 px-4 sm:px-6 text-center">
+          <MailCheck className="size-7 sm:size-8 text-[#6fcfab] mx-auto mb-2" />
+          <p className="text-white font-semibold text-sm sm:text-base">Bitte bestätige deine E-Mail-Adresse.</p>
+          <p className="text-white/60 text-xs sm:text-sm mt-1 break-words">
+            Wir haben dir einen Bestätigungslink an <strong className="break-all">{email}</strong> gesendet. Sobald du klickst, schalten wir den Notfallkoffer frei.
           </p>
         </div>
       )}
       {/* Conversion section */}
-      <section className="border-b border-white/5 py-16 md:py-24 px-6">
+      <section className="border-b border-white/5 py-12 sm:py-16 md:py-24 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug mb-8"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-snug mb-6 sm:mb-8"
           >
             Wenn du gerade merkst, dass dein Unternehmen dich mehr belastet als es dir Freiheit gibt, dann ist jetzt der richtige Moment, etwas zu verändern.
           </motion.h2>
@@ -105,7 +105,7 @@ export default function Auth() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-4 text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-10"
+            className="space-y-4 text-sm sm:text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 sm:mb-10"
           >
             <p>Viele Unternehmer merken erst zu spät, dass sie ihre Zeit mit den falschen Aufgaben verbringen.</p>
             <p className="text-white/80 font-medium">KI kann dir genau hier helfen.</p>
@@ -122,7 +122,7 @@ export default function Auth() {
               e.preventDefault();
               document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#0F3D2E] hover:bg-[#174d3a] text-white font-medium rounded-xl transition-colors text-sm tracking-wide"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-4 min-h-12 bg-[#0F3D2E] hover:bg-[#174d3a] text-white font-medium rounded-xl transition-colors text-sm tracking-wide"
           >
             Kostenlose KI Analyse starten
             <Zap className="w-4 h-4" />
@@ -178,7 +178,7 @@ export default function Auth() {
       </div>
 
       {/* Right: Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-5 sm:p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -186,22 +186,22 @@ export default function Auth() {
           className="w-full max-w-md"
         >
           {/* Mobile header */}
-          <div className="lg:hidden mb-10 text-center">
+          <div className="lg:hidden mb-8 text-center">
             <p className="text-xs tracking-[0.3em] uppercase text-white/40 mb-3">Kostenlos</p>
-            <h1 className="text-3xl font-bold mb-2">KI Notfallkoffer</h1>
-            <p className="text-white/50">für Unternehmer</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">KI Notfallkoffer</h1>
+            <p className="text-white/50 text-sm">für Unternehmer</p>
           </div>
 
-          <div className="mb-8">
-            <a href="/" className="text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/50 transition-colors">
+          <div className="mb-6 sm:mb-8">
+            <a href="/" className="text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/50 transition-colors inline-flex items-center min-h-11 py-2">
               ← jan-sommershoff.de
             </a>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
             {mode === 'register' ? 'Kostenlosen Zugang sichern' : 'Anmelden'}
           </h2>
-          <p className="text-white/50 text-sm mb-8">
+          <p className="text-white/50 text-sm mb-6 sm:mb-8">
             {mode === 'register'
               ? 'Registriere dich und erhalte sofort Zugang zum KI Notfallkoffer.'
               : 'Melde dich an, um auf deine Ressourcen zuzugreifen.'}
@@ -256,7 +256,7 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-[#0F3D2E] hover:bg-[#174d3a] text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 mt-6"
+              className="w-full py-4 min-h-12 bg-[#0F3D2E] hover:bg-[#174d3a] text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 mt-6"
             >
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -272,14 +272,14 @@ export default function Auth() {
             {mode === 'register' ? (
               <>
                 Bereits registriert?{' '}
-                <button onClick={() => setMode('login')} className="text-white/70 hover:text-white underline transition-colors">
+                <button onClick={() => setMode('login')} className="text-white/70 hover:text-white underline transition-colors py-2 px-1 inline-flex items-center min-h-11">
                   Anmelden
                 </button>
               </>
             ) : (
               <>
                 Noch kein Konto?{' '}
-                <button onClick={() => setMode('register')} className="text-white/70 hover:text-white underline transition-colors">
+                <button onClick={() => setMode('register')} className="text-white/70 hover:text-white underline transition-colors py-2 px-1 inline-flex items-center min-h-11">
                   Registrieren
                 </button>
               </>
