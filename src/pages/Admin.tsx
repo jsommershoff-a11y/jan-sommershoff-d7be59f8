@@ -39,6 +39,8 @@ import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
 import { InboxDialog } from '@/components/admin/InboxDialog';
+import { Badge } from '@/components/ui/badge';
+import { useUnreadMailCount } from '@/hooks/useUnreadMailCount';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
 import { MailTimeline } from '@/components/admin/MailTimeline';
 
@@ -74,6 +76,7 @@ export default function Admin() {
 
   // Outlook mail state
   const [inboxOpen, setInboxOpen] = useState(false);
+  const { count: unreadMail, setCount: setUnreadMail, refresh: refreshUnreadMail } = useUnreadMailCount(true, true);
   const [mailTarget, setMailTarget] = useState<Submission | null>(null);
   const [expandedTimeline, setExpandedTimeline] = useState<Set<string>>(new Set());
 
@@ -377,8 +380,13 @@ export default function Admin() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-            <Button variant="outline" onClick={() => setInboxOpen(true)}>
+            <Button variant="outline" onClick={() => setInboxOpen(true)} className="relative">
               <Inbox className="size-4 mr-2" /> Posteingang
+              {unreadMail !== null && unreadMail > 0 && (
+                <Badge variant="default" className="ml-2 h-5 px-1.5 text-[10px]">
+                  {unreadMail}
+                </Badge>
+              )}
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="size-4 mr-2" /> Abmelden
@@ -545,7 +553,13 @@ export default function Admin() {
         </div>
       </div>
 
-      <InboxDialog open={inboxOpen} onOpenChange={setInboxOpen} />
+      <InboxDialog
+        open={inboxOpen}
+        onOpenChange={setInboxOpen}
+        unreadCount={unreadMail}
+        setUnreadCount={setUnreadMail}
+        refreshUnread={refreshUnreadMail}
+      />
       <SendMailDialog
         open={!!mailTarget}
         onOpenChange={(o) => !o && setMailTarget(null)}
