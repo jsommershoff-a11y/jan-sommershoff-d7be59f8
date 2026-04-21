@@ -53,9 +53,10 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
 
-  // Add dialog state
-  const [addOpen, setAddOpen] = useState(false);
-  const [adding, setAdding] = useState(false);
+  // Form dialog state (for add + edit)
+  const [formOpen, setFormOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     type: 'contact',
     name: '',
