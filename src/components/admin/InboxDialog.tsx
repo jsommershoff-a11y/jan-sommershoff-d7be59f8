@@ -121,6 +121,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
       prev.map((m) => (m.id === messageId ? { ...m, isRead: false } : m)),
     );
     setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: false } : prev));
+    setUnreadCount((c) => (c !== null ? c + 1 : c));
     toast.success('Als ungelesen markiert');
   };
 
