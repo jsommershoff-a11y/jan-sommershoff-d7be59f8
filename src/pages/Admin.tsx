@@ -39,7 +39,6 @@ import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
 import { InboxDialog } from '@/components/admin/InboxDialog';
-import { Badge } from '@/components/ui/badge';
 import { useUnreadMailCount } from '@/hooks/useUnreadMailCount';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
 import { MailTimeline } from '@/components/admin/MailTimeline';
