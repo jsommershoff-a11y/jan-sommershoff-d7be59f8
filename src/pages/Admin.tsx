@@ -346,6 +346,9 @@ export default function Admin() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            <Button variant="outline" onClick={() => setInboxOpen(true)}>
+              <Inbox className="size-4 mr-2" /> Posteingang
+            </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="size-4 mr-2" /> Abmelden
             </Button>
@@ -424,6 +427,14 @@ export default function Admin() {
                     >
                       {s.email}
                     </a>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setMailTarget(s)}
+                      title="E-Mail via Outlook senden"
+                    >
+                      <Send className="size-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" onClick={() => openEdit(s)}>
                       <Pencil className="size-4" />
                     </Button>
