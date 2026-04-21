@@ -22,11 +22,11 @@ const problems = [
 
 export function ProblemSection() {
   return (
-    <section className="py-20 md:py-32 px-6 lg:px-8 bg-background">
+    <section className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-background">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <div className="text-center mb-12 md:mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase text-accent mb-3">
+          <div className="text-center mb-8 md:mb-16">
+            <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-accent mb-3">
               Das Problem
             </p>
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
@@ -38,38 +38,38 @@ export function ProblemSection() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="relative rounded-2xl overflow-hidden mb-16 shadow-[0_4px_30px_rgba(0,0,0,0.15)]">
+          <div className="relative rounded-2xl overflow-hidden mb-10 md:mb-16 shadow-[0_4px_30px_rgba(0,0,0,0.15)]">
             <img
               src={visualProblem}
               alt="Chaos vs. strukturierte Systeme"
               loading="lazy"
               width={1920}
               height={864}
-              className="w-full h-48 md:h-72 lg:h-80 object-cover"
+              className="w-full h-40 md:h-72 lg:h-80 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
             <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/30 to-transparent" />
           </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
           {problems.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12}>
-              <div className="bg-card border border-border rounded-2xl p-6 md:p-8 h-full">
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
-                  <p.icon className="size-6 text-accent" />
+              <div className="bg-card border border-border rounded-2xl p-5 md:p-8 h-full">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 md:mb-5">
+                  <p.icon className="size-5 md:size-6 text-accent" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-3">{p.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{p.text}</p>
+                <h3 className="text-base md:text-lg font-bold text-foreground mb-2 md:mb-3">{p.title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{p.text}</p>
               </div>
             </ScrollReveal>
           ))}
         </div>
 
         <ScrollReveal delay={0.4}>
-          <div className="flex items-start gap-4 max-w-2xl mx-auto bg-muted rounded-2xl p-6 md:p-8">
-            <Quote className="size-6 text-accent shrink-0 mt-1" />
-            <p className="text-lg md:text-xl font-semibold text-foreground leading-relaxed">
+          <div className="flex items-start gap-3 md:gap-4 max-w-2xl mx-auto bg-muted rounded-2xl p-5 md:p-8">
+            <Quote className="size-5 md:size-6 text-accent shrink-0 mt-1" />
+            <p className="text-base md:text-xl font-semibold text-foreground leading-relaxed">
               Du bist nicht gestartet, um der beste Mitarbeiter in deinem eigenen Unternehmen zu sein.
             </p>
           </div>

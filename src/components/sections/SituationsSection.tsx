@@ -68,18 +68,18 @@ export function SituationsSection() {
   };
 
   return (
-    <section className="py-20 md:py-28 px-6 lg:px-8 bg-muted">
+    <section className="py-16 md:py-28 px-4 md:px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 leading-tight">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-primary mb-3 md:mb-4 leading-tight">
             Erkennst du dein Unternehmen wieder?
           </h2>
-          <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
+          <p className="text-muted-foreground text-base md:text-lg mb-8 md:mb-12 max-w-2xl">
             Die häufigsten Herausforderungen, die Unternehmen daran hindern, ihr volles Potenzial auszuschöpfen.
           </p>
         </ScrollReveal>
 
-        <div className="space-y-5">
+        <div className="space-y-3 md:space-y-5">
           {situations.map((item, index) => {
             const isOpen = openIndex === index;
             const Icon = item.icon;
@@ -95,14 +95,14 @@ export function SituationsSection() {
                 >
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full flex items-center gap-5 p-6 md:p-7 text-left"
+                    className="w-full flex items-center gap-3 md:gap-5 p-4 md:p-7 text-left"
                   >
-                    <div className={`shrink-0 size-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                    <div className={`shrink-0 size-10 md:size-12 rounded-full flex items-center justify-center transition-colors duration-300 ${
                       isOpen ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'
                     }`}>
-                      <Icon className="size-5" />
+                      <Icon className="size-4 md:size-5" />
                     </div>
-                    <span className="flex-1 text-lg md:text-xl font-bold text-foreground leading-snug">
+                    <span className="flex-1 text-base md:text-xl font-bold text-foreground leading-snug">
                       {item.headline}
                     </span>
                     <ChevronDown
@@ -121,7 +121,7 @@ export function SituationsSection() {
                         transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 md:px-7 pb-7 pt-0 ml-0 md:ml-[4.25rem] space-y-4">
+                        <div className="px-4 md:px-7 pb-5 md:pb-7 pt-0 ml-0 md:ml-[4.25rem] space-y-3 md:space-y-4 text-sm md:text-base">
                           <div className="text-muted-foreground leading-relaxed space-y-3">
                             {item.story.split('\n\n').map((p, i) => (
                               <p key={i}>{highlightText(p)}</p>
