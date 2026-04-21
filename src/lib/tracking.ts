@@ -10,7 +10,7 @@
 // 👉 HIER DEINE IDs EINTRAGEN
 // ============================================================
 export const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // z.B. G-ABC123DEF4
-export const META_PIXEL_ID = 'XXXXXXXXXXXXXXXX';  // 15-16-stellige Zahl
+export const META_PIXEL_ID = '946900904715972';
 // ============================================================
 
 type TrackParams = Record<string, string | number | boolean | undefined>;
