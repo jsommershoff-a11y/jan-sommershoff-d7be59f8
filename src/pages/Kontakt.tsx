@@ -79,6 +79,10 @@ export default function Kontakt() {
       toast.error('Bitte eine gültige Telefonnummer angeben.');
       return;
     }
+    if (!acceptedPrivacy) {
+      toast.error('Bitte stimme der Datenschutzerklärung zu.');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
