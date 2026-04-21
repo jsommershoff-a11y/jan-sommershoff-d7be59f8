@@ -312,6 +312,23 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (body.action === 'markRead') {
+      if (!body.messageId) throw new Error('messageId required');
+      await gatewayFetch(
+        `/me/messages/${encodeURIComponent(body.messageId)}`,
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isRead: body.isRead ?? true }),
+        },
+        LOVABLE_API_KEY,
+        OUTLOOK_API_KEY,
+      );
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     if (body.action === 'send') {
       if (!body.to || !body.subject || !body.body) {
         throw new Error('to, subject, body required');
