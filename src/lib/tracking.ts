@@ -13,7 +13,7 @@
 // ============================================================
 export const GTM_CONTAINER_ID = 'GTM-NTNNDTMQ';
 export const GA4_MEASUREMENT_ID = 'G-VEFRVXT0HK';
-export const META_PIXEL_ID = 'XXXXXXXXXXXXXXXX'; // 15-16-stellige Zahl — noch nicht aktiv
+export const META_PIXEL_ID = '946900904715972';
 // ============================================================
 
 type TrackParams = Record<string, string | number | boolean | undefined>;
