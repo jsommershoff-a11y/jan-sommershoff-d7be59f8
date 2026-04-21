@@ -1,25 +1,38 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '@/components/ui/dialog';
-import { Mail } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2, Mail, Reply, Search, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { InboxList } from './inbox/InboxList';
-import { InboxDetail } from './inbox/InboxDetail';
-import { OutlookMessage, PAGE_SIZE } from './inbox/types';
+
+interface OutlookMessage {
+  id: string;
+  subject: string;
+  bodyPreview: string;
+  receivedDateTime: string;
+  isRead: boolean;
+  from?: { emailAddress?: { name?: string; address?: string } };
+}
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   unreadCount?: number | null;
-  setUnreadCount?: (updater: (prev: number | null) => number | null) => void;
+  setUnreadCount?: React.Dispatch<React.SetStateAction<number | null>>;
   refreshUnread?: () => void;
 }
+
+const PAGE_SIZE = 25;
 
 export const InboxDialog = ({
   open,
@@ -39,10 +52,8 @@ export const InboxDialog = ({
   const [internalUnread, setInternalUnread] = useState<number | null>(null);
 
   const unreadCount = externalUnread !== undefined ? externalUnread : internalUnread;
-  const setUnreadCount = (updater: (prev: number | null) => number | null) => {
-    if (externalSetUnread) externalSetUnread(updater);
-    else setInternalUnread(updater);
-  };
+  const setUnreadCount: React.Dispatch<React.SetStateAction<number | null>> =
+    externalSetUnread ?? setInternalUnread;
 
   const loadUnreadCount = async () => {
     if (refreshUnread) {
@@ -92,6 +103,7 @@ export const InboxDialog = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
+  // Auto-mark as read when a message is opened in the detail view
   useEffect(() => {
     if (!selected || selected.isRead) return;
     const messageId = selected.id;
@@ -154,7 +166,7 @@ export const InboxDialog = ({
     load({ pageIdx: next });
   };
   const goNext = () => {
-    if (messages.length < PAGE_SIZE) return;
+    if (messages.length < PAGE_SIZE) return; // last page
     const next = page + 1;
     setPage(next);
     load({ pageIdx: next });
@@ -182,37 +194,169 @@ export const InboxDialog = ({
         </DialogHeader>
 
         {!selected ? (
-          <InboxList
-            loading={loading}
-            messages={messages}
-            search={search}
-            setSearch={setSearch}
-            unreadOnly={unreadOnly}
-            page={page}
-            onSelect={setSelected}
-            onSearchSubmit={() => {
-              setPage(0);
-              load({ pageIdx: 0 });
-            }}
-            onClearSearch={() => {
-              setSearch('');
-              setPage(0);
-              load({ q: '', pageIdx: 0 });
-            }}
-            onToggleUnread={toggleUnread}
-            onPrev={goPrev}
-            onNext={goNext}
-          />
+          <>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setPage(0);
+                      load({ pageIdx: 0 });
+                    }
+                  }}
+                  placeholder="Suche (Enter zum Suchen)…"
+                  className="pl-9 pr-9"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch('');
+                      setPage(0);
+                      load({ q: '', pageIdx: 0 });
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="size-4" />
+                  </button>
+                )}
+              </div>
+              <Button
+                type="button"
+                variant={unreadOnly ? 'default' : 'outline'}
+                onClick={toggleUnread}
+                disabled={!!search}
+                title={search ? 'Filter nicht mit Suche kombinierbar' : undefined}
+              >
+                Nur ungelesen
+              </Button>
+            </div>
+
+            <div className="overflow-y-auto flex-1 space-y-2 mt-2">
+              {loading ? (
+                <div className="flex items-center justify-center py-12 text-muted-foreground">
+                  <Loader2 className="size-5 animate-spin mr-2" /> Lade…
+                </div>
+              ) : messages.length === 0 ? (
+                <Card className="p-8 text-center text-muted-foreground">
+                  Keine Nachrichten gefunden
+                </Card>
+              ) : (
+                messages.map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setSelected(m)}
+                    className="w-full text-left"
+                  >
+                    <Card className="p-3 hover:bg-muted/50 transition">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            {!m.isRead && (
+                              <Badge variant="default" className="h-5 text-[10px]">
+                                NEU
+                              </Badge>
+                            )}
+                            <span className="text-sm font-medium truncate">
+                              {m.from?.emailAddress?.name || m.from?.emailAddress?.address || 'Unbekannt'}
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold truncate">{m.subject || '(kein Betreff)'}</p>
+                          <p className="text-xs text-muted-foreground truncate mt-0.5">
+                            {m.bodyPreview}
+                          </p>
+                        </div>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                          {new Date(m.receivedDateTime).toLocaleString('de-DE', {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                          })}
+                        </span>
+                      </div>
+                    </Card>
+                  </button>
+                ))
+              )}
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t mt-2">
+              <span className="text-xs text-muted-foreground">
+                Seite {page + 1}
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goPrev}
+                  disabled={loading || page === 0}
+                >
+                  <ChevronLeft className="size-4 mr-1" /> Zurück
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goNext}
+                  disabled={loading || messages.length < PAGE_SIZE}
+                >
+                  Weiter <ChevronRight className="size-4 ml-1" />
+                </Button>
+              </div>
+            </div>
+          </>
         ) : (
-          <InboxDetail
-            selected={selected}
-            reply={reply}
-            setReply={setReply}
-            sending={sending}
-            onBack={() => setSelected(null)}
-            onMarkUnread={handleMarkUnread}
-            onReply={handleReply}
-          />
+          <>
+            <div className="overflow-y-auto flex-1">
+              <Button variant="ghost" size="sm" onClick={() => setSelected(null)} className="mb-2">
+                ← Zurück zum Posteingang
+              </Button>
+              <Card className="p-4 mb-3">
+                <p className="text-xs text-muted-foreground">
+                  Von:{' '}
+                  <strong className="text-foreground">
+                    {selected.from?.emailAddress?.name} &lt;{selected.from?.emailAddress?.address}&gt;
+                  </strong>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {new Date(selected.receivedDateTime).toLocaleString('de-DE')}
+                </p>
+                <h3 className="font-semibold mt-2">{selected.subject}</h3>
+                <p className="text-sm mt-3 whitespace-pre-wrap text-muted-foreground">
+                  {selected.bodyPreview}
+                </p>
+              </Card>
+              <div className="space-y-2">
+                <label className="text-sm font-medium flex items-center gap-2">
+                  <Reply className="size-4" /> Antworten
+                </label>
+                <Textarea
+                  value={reply}
+                  onChange={(e) => setReply(e.target.value)}
+                  rows={6}
+                  placeholder="Deine Antwort…"
+                  maxLength={10000}
+                />
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-2">
+              <Button variant="outline" onClick={() => setSelected(null)} disabled={sending}>
+                Abbrechen
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleMarkUnread}
+                disabled={sending || !selected.isRead}
+              >
+                Als ungelesen markieren
+              </Button>
+              <Button onClick={handleReply} disabled={sending || !reply.trim()}>
+                {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
+                Antwort senden
+              </Button>
+            </DialogFooter>
+          </>
         )}
       </DialogContent>
     </Dialog>

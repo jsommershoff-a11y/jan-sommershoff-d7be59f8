@@ -75,7 +75,7 @@ export default function Admin() {
 
   // Outlook mail state
   const [inboxOpen, setInboxOpen] = useState(false);
-  const { count: unreadMail, setCount: setUnreadMail, refresh: refreshUnreadMail } = useUnreadMailCount();
+  const { count: unreadMail, setCount: setUnreadMail, refresh: refreshUnreadMail } = useUnreadMailCount(true, true);
   const [mailTarget, setMailTarget] = useState<Submission | null>(null);
   const [expandedTimeline, setExpandedTimeline] = useState<Set<string>>(new Set());
 
