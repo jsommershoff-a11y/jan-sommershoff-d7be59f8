@@ -49,12 +49,16 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
   const [loading, setLoading] = useState<null | 'suggestions' | 'draft'>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [instruction, setInstruction] = useState('');
 
   const callAi = async (mode: 'suggestions' | 'draft') => {
     setLoading(mode);
     try {
       const { data, error } = await supabase.functions.invoke('ai-suggest-reply', {
-        body: { mode, context },
+        body: {
+          mode,
+          context: { ...context, instruction: instruction.trim() || undefined },
+        },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
