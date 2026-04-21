@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, Home } from 'lucide-react';
-import { trackConversion } from '@/lib/tracking';
+import { trackEvent } from '@/lib/tracking';
 
 interface ThankYouProps {
   title: string;
   subtitle: string;
   eventName: string;
-  metaEvent: 'Lead' | 'Contact' | 'Schedule' | 'Purchase' | 'CompleteRegistration' | 'ViewContent';
+  /** Nur dokumentarisch — Meta-Conversion-Events werden zentral
+   * vom MetaPixelRouterTracker auf /danke/kontakt bzw. /danke/lead gefeuert. */
+  metaEvent?: 'Lead' | 'Contact' | 'Schedule' | 'Purchase' | 'CompleteRegistration' | 'ViewContent';
   value?: number;
   currency?: string;
   primaryHref?: string;
@@ -18,18 +20,18 @@ export function ThankYou({
   title,
   subtitle,
   eventName,
-  metaEvent,
   value,
   currency,
   primaryHref = '/',
   primaryLabel = 'Zur Startseite',
 }: ThankYouProps) {
   useEffect(() => {
-    trackConversion(eventName, metaEvent, {
+    // Nur GA4 — Meta Lead/CompleteRegistration laufen über MetaPixelRouterTracker.
+    trackEvent(eventName, {
       ...(value !== undefined ? { value } : {}),
       ...(currency ? { currency } : {}),
     });
-  }, [eventName, metaEvent, value, currency]);
+  }, [eventName, value, currency]);
 
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-16">
