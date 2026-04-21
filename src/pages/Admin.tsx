@@ -230,15 +230,33 @@ export default function Admin() {
   };
 
   const q = search.trim().toLowerCase();
-  const filtered = submissions.filter((s) => {
-    if (filter !== 'all' && s.type !== filter) return false;
-    if (!q) return true;
-    return (
-      s.name.toLowerCase().includes(q) ||
-      s.email.toLowerCase().includes(q) ||
-      (s.message?.toLowerCase().includes(q) ?? false)
-    );
-  });
+  const filtered = submissions
+    .filter((s) => {
+      if (filter !== 'all' && s.type !== filter) return false;
+      if (!q) return true;
+      return (
+        s.name.toLowerCase().includes(q) ||
+        s.email.toLowerCase().includes(q) ||
+        (s.message?.toLowerCase().includes(q) ?? false)
+      );
+    })
+    .sort((a, b) => {
+      const dir = sortDir === 'asc' ? 1 : -1;
+      if (sortBy === 'name') return a.name.localeCompare(b.name, 'de') * dir;
+      if (sortBy === 'type') return a.type.localeCompare(b.type) * dir;
+      return (
+        (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) * dir
+      );
+    });
+
+  const toggleSort = (key: 'date' | 'name' | 'type') => {
+    if (sortBy === key) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortBy(key);
+      setSortDir(key === 'date' ? 'desc' : 'asc');
+    }
+  };
 
   if (loading) {
     return (
