@@ -39,7 +39,6 @@ import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
 import { InboxDialog } from '@/components/admin/InboxDialog';
-import { Badge } from '@/components/ui/badge';
 import { useUnreadMailCount } from '@/hooks/useUnreadMailCount';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
 import { MailTimeline } from '@/components/admin/MailTimeline';
@@ -553,7 +552,13 @@ export default function Admin() {
         </div>
       </div>
 
-      <InboxDialog open={inboxOpen} onOpenChange={setInboxOpen} />
+      <InboxDialog
+        open={inboxOpen}
+        onOpenChange={setInboxOpen}
+        unreadCount={unreadMail}
+        setUnreadCount={setUnreadMail}
+        refreshUnread={refreshUnreadMail}
+      />
       <SendMailDialog
         open={!!mailTarget}
         onOpenChange={(o) => !o && setMailTarget(null)}
