@@ -31,7 +31,7 @@ export default function Auth() {
           options: {
             data: { full_name: name },
             // Double-Opt-In: user must confirm via email link
-            emailRedirectTo: window.location.origin + '/upsell',
+            emailRedirectTo: window.location.origin + '/danke/lead',
           },
         });
         if (error) throw error;
