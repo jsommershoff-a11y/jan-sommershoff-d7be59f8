@@ -20,12 +20,20 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { type, name, email, message } = await req.json();
+    const body = await req.json();
+    const type: string | undefined = body.type;
+    const email: string | undefined = body.email?.trim();
+    const first_name: string | undefined = body.first_name?.trim() || body.firstName?.trim();
+    const last_name: string | undefined = body.last_name?.trim() || body.lastName?.trim();
+    const phone: string | undefined = body.phone?.trim();
+    const message: string | undefined = body.message;
+    // Combined display name (used for emails + DB legacy "name" column)
+    const name: string = [first_name, last_name].filter(Boolean).join(' ').trim() || (body.name?.trim() ?? '');
 
     // Validate required fields
-    if (!type || !name || !email) {
+    if (!type || !first_name || !last_name || !email || !phone) {
       return new Response(
-        JSON.stringify({ error: 'type, name, and email are required' }),
+        JSON.stringify({ error: 'Vorname, Nachname, E-Mail und Telefon sind Pflicht.' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -47,8 +55,23 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Validate phone (digits, spaces, +, -, /, parentheses; 4-50 chars)
+    const phoneRegex = /^[+\d][\d\s\-/().]{3,49}$/;
+    if (!phoneRegex.test(phone)) {
+      return new Response(
+        JSON.stringify({ error: 'Bitte eine gültige Telefonnummer angeben.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Validate input lengths
-    if (name.length > 100 || email.length > 255 || (message && message.length > 5000)) {
+    if (
+      first_name.length > 100 ||
+      last_name.length > 100 ||
+      name.length > 200 ||
+      email.length > 255 ||
+      (message && message.length > 5000)
+    ) {
       return new Response(
         JSON.stringify({ error: 'Input exceeds maximum allowed length' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
