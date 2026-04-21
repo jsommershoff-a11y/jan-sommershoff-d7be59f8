@@ -162,6 +162,51 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              size={size}
+              disabled={isLoading || !hasDraft}
+              title={!hasDraft ? 'Schreibe zuerst etwas in das Antwort-Feld' : 'Tonalität deines Entwurfs verbessern'}
+            >
+              {loading && (loading === 'friendly' || loading === 'professional' || loading === 'shorter') ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Wand2 className="size-4 mr-2 text-primary" />
+              )}
+              Tonalität verbessern
+              <ChevronDown className="size-3 ml-1 opacity-60" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-60 bg-popover">
+            <DropdownMenuLabel className="text-xs">Wie umschreiben?</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => refineTone('friendly')} className="cursor-pointer">
+              <Smile className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Freundlicher</span>
+                <span className="text-xs text-muted-foreground">Wärmer, persönlicher</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => refineTone('professional')} className="cursor-pointer">
+              <Briefcase className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Professioneller</span>
+                <span className="text-xs text-muted-foreground">Klarer, geschäftlich seriös</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => refineTone('shorter')} className="cursor-pointer">
+              <Scissors className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Kürzer</span>
+                <span className="text-xs text-muted-foreground">Knapper, max. 5 Sätze</span>
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
