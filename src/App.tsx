@@ -8,6 +8,7 @@ import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieBanner } from "@/components/CookieBanner";
 import { FloatingCta } from "@/components/FloatingCta";
+import { MetaPixelRouterTracker } from "@/components/MetaPixelRouterTracker";
 import { lazy, Suspense } from "react";
 import { LoadingFallback } from "@/components/ui/LoadingFallback";
 
@@ -37,6 +38,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <MetaPixelRouterTracker />
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 {/* Funnel pages – no main layout */}
