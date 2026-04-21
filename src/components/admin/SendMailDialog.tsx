@@ -14,6 +14,7 @@ import {
 import { Loader2, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { TemplatePicker } from '@/components/admin/TemplatePicker';
+import { AiSuggestButton } from '@/components/admin/AiSuggestButton';
 
 interface Props {
   open: boolean;
