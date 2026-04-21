@@ -57,7 +57,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
         {next ? (
           <Link
             to={`/project/${next.slug}`}
-            className="group block p-8 md:p-12 hover:bg-accent transition-colors duration-300"
+            className="group block p-6 sm:p-8 md:p-12 min-h-11 hover:bg-accent transition-colors duration-300"
           >
             <motion.div
               className="space-y-4 text-right"
