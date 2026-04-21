@@ -40,7 +40,7 @@ export function HeroSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              KRS Signature Programme
+              KI für Unternehmer
             </motion.p>
 
             <motion.h1
@@ -83,15 +83,13 @@ export function HeroSection() {
                 <span className="relative">Jetzt Potenzialanalyse anfragen</span>
                 <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <a
-                href="https://krs-signature.de"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/auth"
                 className="group inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 border-2 border-white/40 text-white text-base md:text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
               >
-                KRS Signature entdecken
+                KI Notfallkoffer holen
                 <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </motion.div>
 
             {/* Trust elements */}
