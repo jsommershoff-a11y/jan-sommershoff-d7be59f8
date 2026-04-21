@@ -39,7 +39,10 @@ interface MarkReadBody {
   messageId: string;
   isRead?: boolean;
 }
-type RequestBody = ListBody | GetBody | SendBody | ReplyBody | MarkReadBody;
+interface UnreadCountBody {
+  action: 'unreadCount';
+}
+type RequestBody = ListBody | GetBody | SendBody | ReplyBody | MarkReadBody | UnreadCountBody;
 
 async function gatewayFetch(
   path: string,
