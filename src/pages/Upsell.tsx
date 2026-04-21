@@ -19,7 +19,7 @@ const included = [
   'Geschäftsprozess-Analyse Template',
   'KI Automatisierungs-Guides',
   'Upgrade-Optionen für Betreuung',
-  'Zugang zum KRS Signature Portal',
+  'Zugang zum Member-Portal',
 ];
 
 export default function Upsell() {
@@ -117,7 +117,7 @@ export default function Upsell() {
           >
             <div className="bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 rounded-2xl p-8 sticky top-8">
               <p className="text-xs tracking-[0.2em] uppercase text-[#6fcfab] mb-4">
-                KRS Signature
+                Premium-Angebot
               </p>
               <h3 className="text-xl font-semibold mb-1">KI System Analyse</h3>
               <p className="text-white/40 text-sm mb-6">Einmalzahlung · Sofortzugang</p>
