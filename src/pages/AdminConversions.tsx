@@ -12,7 +12,7 @@ type Conversion = {
   ga4Event: string;
   metaEvent: string;
   params: string;
-  goalType: 'Lead' | 'Contact' | 'Pageview';
+  goalType: 'Lead' | 'Contact' | 'Pageview' | 'Engagement';
   notes?: string;
 };
 
@@ -21,37 +21,37 @@ const CONVERSIONS: Conversion[] = [
     trigger: 'Submit Kontaktformular (Potenzialanalyse)',
     url: '/kontakt?ziel=potenzialanalyse',
     ga4Event: 'lead_submit_potenzialanalyse',
-    metaEvent: 'Lead',
+    metaEvent: '— (siehe /danke/kontakt)',
     params: '{ ziel: "potenzialanalyse" }',
     goalType: 'Lead',
-    notes: 'Wird beim erfolgreichen Submit gefeuert, kurz vor Redirect zu /danke/kontakt.',
+    notes: 'GA4-Event beim Submit, kurz vor Redirect zu /danke/kontakt. Meta Lead feuert dort via Router-Tracker.',
   },
   {
     trigger: 'Submit Kontaktformular (Notfallkoffer)',
     url: '/kontakt?ziel=notfallkoffer',
     ga4Event: 'lead_submit_notfallkoffer',
-    metaEvent: 'Lead',
+    metaEvent: '— (siehe /danke/lead)',
     params: '{ ziel: "notfallkoffer" }',
     goalType: 'Lead',
-    notes: 'Lead-Magnet-Anfrage über das Kontaktformular.',
+    notes: 'Lead-Magnet-Anfrage. Meta CompleteRegistration feuert auf /danke/lead.',
   },
   {
-    trigger: 'Pageview Danke-Seite Kontakt',
-    url: '/danke/kontakt?ziel=…',
+    trigger: '★ Pageview Danke-Seite Kontakt (Hauptconversion)',
+    url: '/danke/kontakt',
     ga4Event: 'page_view',
-    metaEvent: 'Lead (via Pageview)',
-    params: '{ page_path, page_title, ziel }',
-    goalType: 'Pageview',
-    notes: 'Sekundäres Conversion-Goal — kann in GA4 als Key-Event auf page_path = /danke/kontakt gesetzt werden.',
+    metaEvent: 'Lead',
+    params: '{ content_name: "Potenzialanalyse Anfrage", content_category: "High Intent Consulting Lead", value: 1, currency: "EUR" }',
+    goalType: 'Lead',
+    notes: 'Primäres Meta-Conversion-Event. Wird einmal pro Session über MetaPixelRouterTracker gefeuert (sessionStorage-Dedup).',
   },
   {
-    trigger: 'Pageview Danke-Seite Lead',
+    trigger: '★ Pageview Danke-Seite Lead (Hauptconversion)',
     url: '/danke/lead',
     ga4Event: 'page_view',
     metaEvent: 'CompleteRegistration',
-    params: '{ page_path: "/danke/lead" }',
-    goalType: 'Pageview',
-    notes: 'Wird nach erfolgreicher Auth-Registrierung (Notfallkoffer Lead-Magnet) erreicht.',
+    params: '{ content_name: "KI Notfallkoffer", value: 0, currency: "EUR", status: true }',
+    goalType: 'Lead',
+    notes: 'Wird nach erfolgreicher Lead-Magnet-Anfrage erreicht. Einmal pro Session via MetaPixelRouterTracker.',
   },
   {
     trigger: 'Login erfolgreich (Notfallkoffer)',
@@ -70,6 +70,64 @@ const CONVERSIONS: Conversion[] = [
     params: '{ ziel }',
     goalType: 'Pageview',
     notes: 'Soft-Conversion zur Funnel-Analyse (Drop-off zwischen View und Submit).',
+  },
+  {
+    trigger: 'Sticky-CTA eingeblendet',
+    url: 'global (scroll > 30vh)',
+    ga4Event: 'cta_shown',
+    metaEvent: '—',
+    params: '{ cta_id: "sticky_notfallkoffer", placement: "sticky_bottom" }',
+    goalType: 'Engagement',
+    notes: 'Impression-Tracking für die Sticky Bottom-Bar.',
+  },
+  {
+    trigger: 'Sticky-CTA Klick',
+    url: '→ /kontakt?ziel=notfallkoffer',
+    ga4Event: 'cta_click',
+    metaEvent: '—',
+    params: '{ cta_id: "sticky_notfallkoffer", placement: "sticky_bottom", target: "notfallkoffer" }',
+    goalType: 'Engagement',
+  },
+  {
+    trigger: 'Floating-CTA geöffnet',
+    url: 'global (FAB)',
+    ga4Event: 'cta_shown',
+    metaEvent: '—',
+    params: '{ cta_id: "floating_multi_channel", placement: "floating_fab" }',
+    goalType: 'Engagement',
+  },
+  {
+    trigger: 'Floating-CTA Channel-Klick',
+    url: 'WhatsApp / Phone / Email / Potenzialanalyse',
+    ga4Event: 'cta_click',
+    metaEvent: '—',
+    params: '{ cta_id: "floating_multi_channel", channel: "whatsapp|phone|email|potenzialanalyse" }',
+    goalType: 'Engagement',
+    notes: 'Zusätzlich wird channel-spezifisches Event gefeuert (whatsapp_click, phone_click, …).',
+  },
+  {
+    trigger: 'Exit-Intent Popup eingeblendet',
+    url: 'global (30s Inaktivität)',
+    ga4Event: 'popup_shown',
+    metaEvent: '—',
+    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    goalType: 'Engagement',
+  },
+  {
+    trigger: 'Exit-Intent Popup geschlossen',
+    url: 'X-Button',
+    ga4Event: 'popup_dismissed',
+    metaEvent: '—',
+    params: '{ popup_id: "exit_intent_notfallkoffer", dismiss_reason: "close_button" }',
+    goalType: 'Engagement',
+  },
+  {
+    trigger: 'Exit-Intent Popup CTA-Klick',
+    url: '→ /kontakt?ziel=notfallkoffer',
+    ga4Event: 'popup_cta_click',
+    metaEvent: '—',
+    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    goalType: 'Engagement',
   },
 ];
 
@@ -248,7 +306,9 @@ export default function AdminConversions() {
                               ? 'bg-accent/15 text-accent'
                               : c.goalType === 'Contact'
                                 ? 'bg-primary/15 text-primary'
-                                : 'bg-muted text-muted-foreground'
+                                : c.goalType === 'Engagement'
+                                  ? 'bg-primary/10 text-primary/80'
+                                  : 'bg-muted text-muted-foreground'
                           }`}
                         >
                           {c.goalType}
@@ -297,15 +357,23 @@ export default function AdminConversions() {
               </h2>
               <ol className="list-decimal pl-5 space-y-1.5 text-sm text-muted-foreground">
                 <li>
-                  Events Manager → Datenquellen → Pixel öffnen → Events prüfen:{' '}
+                  Events Manager → Datenquellen → Pixel öffnen → Standard-Events prüfen:{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">PageView</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>,{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">CompleteRegistration</code>.
                 </li>
                 <li>
-                  In Ads Manager → Custom Conversions: Lead-Quelle über URL-Parameter{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">?ziel=…</code> aufschlüsseln.
+                  <strong>Lead</strong> feuert auf{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/kontakt</code> (Potenzialanalyse, value 1 EUR).
                 </li>
-                <li>Aggregated Event Measurement: <strong>Lead</strong> als priorisiertes Event.</li>
+                <li>
+                  <strong>CompleteRegistration</strong> feuert auf{' '}
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/lead</code> (Notfallkoffer Lead-Magnet).
+                </li>
+                <li>
+                  Beide Events sind via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
+                </li>
+                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1, <strong>CompleteRegistration</strong> Slot 2.</li>
               </ol>
               <a
                 href="https://business.facebook.com/events_manager"
