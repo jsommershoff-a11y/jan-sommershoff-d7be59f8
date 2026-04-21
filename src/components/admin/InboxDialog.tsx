@@ -95,6 +95,23 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected?.id]);
 
+  const handleMarkUnread = async () => {
+    if (!selected) return;
+    const messageId = selected.id;
+    const { error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'markRead', messageId, isRead: false },
+    });
+    if (error) {
+      toast.error('Konnte nicht als ungelesen markiert werden');
+      return;
+    }
+    setMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, isRead: false } : m)),
+    );
+    setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: false } : prev));
+    toast.success('Als ungelesen markiert');
+  };
+
   const handleReply = async () => {
     if (!selected || !reply.trim()) return;
     setSending(true);
