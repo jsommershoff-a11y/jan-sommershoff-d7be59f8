@@ -2,31 +2,42 @@ import { useState } from 'react';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { CheckCircle, Package, Loader2, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 export function LeadMagnetSection() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim()) return;
     setIsSubmitting(true);
 
     try {
+      const fullName = `${firstName.trim()} ${lastName.trim()}`;
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
           type: 'lead_magnet',
-          name: 'Lead Magnet Anfrage',
+          name: fullName,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
           email: email.trim(),
+          phone: phone.trim(),
           message: 'KI-Notfallkoffer angefordert',
         },
       });
       if (error) throw error;
       setIsSuccess(true);
+      setFirstName('');
+      setLastName('');
       setEmail('');
+      setPhone('');
       toast.success('Anfrage erfolgreich! Du hörst bald von uns.');
     } catch (error) {
       console.error('Submit error:', error);
@@ -80,19 +91,70 @@ export function LeadMagnetSection() {
                 <p className="text-muted-foreground mt-1">Wir melden uns in Kürze bei dir.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <Input
-                  type="email"
-                  required
-                  placeholder="Deine E-Mail-Adresse"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 h-14 text-base px-5"
-                />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="lm-first-name">Vorname *</Label>
+                    <Input
+                      id="lm-first-name"
+                      type="text"
+                      required
+                      minLength={1}
+                      maxLength={100}
+                      placeholder="Max"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="h-12 text-base px-4"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lm-last-name">Nachname *</Label>
+                    <Input
+                      id="lm-last-name"
+                      type="text"
+                      required
+                      minLength={1}
+                      maxLength={100}
+                      placeholder="Mustermann"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="h-12 text-base px-4"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="lm-email">E-Mail *</Label>
+                    <Input
+                      id="lm-email"
+                      type="email"
+                      required
+                      maxLength={255}
+                      placeholder="deine@email.de"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="h-12 text-base px-4"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lm-phone">Telefon *</Label>
+                    <Input
+                      id="lm-phone"
+                      type="tel"
+                      required
+                      minLength={4}
+                      maxLength={50}
+                      placeholder="+49 170 1234567"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="h-12 text-base px-4"
+                    />
+                  </div>
+                </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group inline-flex items-center justify-center gap-2 px-8 h-14 bg-accent text-white font-bold rounded-md hover:opacity-90 transition-all shadow-lg disabled:opacity-60"
+                  className="group w-full inline-flex items-center justify-center gap-2 px-8 h-14 bg-accent text-white font-bold rounded-md hover:opacity-90 transition-all shadow-lg disabled:opacity-60"
                 >
                   {isSubmitting ? (
                     <Loader2 className="size-5 animate-spin" />
