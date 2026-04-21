@@ -39,31 +39,24 @@ export function useUnreadMailCount(enabled = true, notify = false) {
       return;
     }
     const prev = previousRef.current;
-    if (
-      prev !== null &&
-      count > prev &&
-      typeof window !== 'undefined' &&
-      'Notification' in window &&
-      Notification.permission === 'granted' &&
-      document.visibilityState !== 'visible'
-        ? true
-        : prev !== null && count > prev && Notification?.permission === 'granted'
-    ) {
-      const diff = count - prev;
-      try {
-        new Notification(
-          diff === 1 ? 'Neue E-Mail im Posteingang' : `${diff} neue E-Mails im Posteingang`,
-          {
-            body: `Du hast jetzt ${count} ungelesene Nachricht${count === 1 ? '' : 'en'}.`,
-            icon: '/favicon.ico',
-            tag: 'outlook-unread',
-          },
-        );
-      } catch {
-        // ignore
-      }
-    }
     previousRef.current = count;
+    if (prev === null || count <= prev) return;
+    if (typeof window === 'undefined' || !('Notification' in window)) return;
+    if (Notification.permission !== 'granted') return;
+
+    const diff = count - prev;
+    try {
+      new Notification(
+        diff === 1 ? 'Neue E-Mail im Posteingang' : `${diff} neue E-Mails im Posteingang`,
+        {
+          body: `Du hast jetzt ${count} ungelesene Nachricht${count === 1 ? '' : 'en'}.`,
+          icon: '/favicon.ico',
+          tag: 'outlook-unread',
+        },
+      );
+    } catch {
+      // ignore
+    }
   }, [count, notify]);
 
   useEffect(() => {
