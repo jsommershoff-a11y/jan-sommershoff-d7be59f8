@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
@@ -57,6 +57,8 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
   const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState<'date' | 'name' | 'type'>('date');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
   // Form dialog state (for add + edit)
   const [formOpen, setFormOpen] = useState(false);
@@ -228,15 +230,33 @@ export default function Admin() {
   };
 
   const q = search.trim().toLowerCase();
-  const filtered = submissions.filter((s) => {
-    if (filter !== 'all' && s.type !== filter) return false;
-    if (!q) return true;
-    return (
-      s.name.toLowerCase().includes(q) ||
-      s.email.toLowerCase().includes(q) ||
-      (s.message?.toLowerCase().includes(q) ?? false)
-    );
-  });
+  const filtered = submissions
+    .filter((s) => {
+      if (filter !== 'all' && s.type !== filter) return false;
+      if (!q) return true;
+      return (
+        s.name.toLowerCase().includes(q) ||
+        s.email.toLowerCase().includes(q) ||
+        (s.message?.toLowerCase().includes(q) ?? false)
+      );
+    })
+    .sort((a, b) => {
+      const dir = sortDir === 'asc' ? 1 : -1;
+      if (sortBy === 'name') return a.name.localeCompare(b.name, 'de') * dir;
+      if (sortBy === 'type') return a.type.localeCompare(b.type) * dir;
+      return (
+        (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) * dir
+      );
+    });
+
+  const toggleSort = (key: 'date' | 'name' | 'type') => {
+    if (sortBy === key) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortBy(key);
+      setSortDir(key === 'date' ? 'desc' : 'asc');
+    }
+  };
 
   if (loading) {
     return (
@@ -400,6 +420,29 @@ export default function Admin() {
             <Mail className="size-3.5 mr-1.5" />
             Kontakt ({submissions.filter((s) => s.type === 'contact').length})
           </Button>
+        </div>
+
+        <div className="flex gap-2 mb-6 flex-wrap items-center text-sm">
+          <span className="text-muted-foreground mr-1">Sortieren:</span>
+          {([
+            { key: 'date', label: 'Datum' },
+            { key: 'name', label: 'Name' },
+            { key: 'type', label: 'Typ' },
+          ] as const).map(({ key, label }) => {
+            const active = sortBy === key;
+            const Icon = !active ? ArrowUpDown : sortDir === 'asc' ? ArrowUp : ArrowDown;
+            return (
+              <Button
+                key={key}
+                size="sm"
+                variant={active ? 'default' : 'outline'}
+                onClick={() => toggleSort(key)}
+              >
+                {label}
+                <Icon className="size-3.5 ml-1.5" />
+              </Button>
+            );
+          })}
         </div>
 
         <div className="space-y-3">
