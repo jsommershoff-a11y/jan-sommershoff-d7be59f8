@@ -444,6 +444,8 @@ export default function Admin() {
             );
           })}
         </div>
+
+        <div className="space-y-3">
           {filtered.length === 0 ? (
             <Card className="p-12 text-center text-muted-foreground">Keine Einträge</Card>
           ) : (
