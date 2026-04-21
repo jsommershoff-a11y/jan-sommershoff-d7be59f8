@@ -287,14 +287,19 @@ export default function Admin() {
     })
     .sort((a, b) => {
       const dir = sortDir === 'asc' ? 1 : -1;
-      if (sortBy === 'name') return a.name.localeCompare(b.name, 'de') * dir;
+      if (sortBy === 'last_name') {
+        return (a.last_name ?? '').localeCompare(b.last_name ?? '', 'de') * dir;
+      }
+      if (sortBy === 'first_name') {
+        return (a.first_name ?? '').localeCompare(b.first_name ?? '', 'de') * dir;
+      }
       if (sortBy === 'type') return a.type.localeCompare(b.type) * dir;
       return (
         (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) * dir
       );
     });
 
-  const toggleSort = (key: 'date' | 'name' | 'type') => {
+  const toggleSort = (key: 'date' | 'last_name' | 'first_name' | 'type') => {
     if (sortBy === key) {
       setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
