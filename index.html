@@ -71,6 +71,16 @@
 
   <body>
     <div id="root"></div>
+    <!-- Meta Pixel <noscript> Fallback (nur ohne JS — Consent-Mode greift hier nicht, akzeptabler Edge-Case) -->
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=946900904715972&ev=PageView&noscript=1"
+        alt=""
+      />
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
