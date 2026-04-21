@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
     // Save to database
     const { error: dbError } = await supabase
       .from('contact_submissions')
-      .insert({ type, name, email, message: message || null });
+      .insert({ type, name, first_name, last_name, phone, email, message: message || null });
 
     if (dbError) {
       console.error('Database error:', dbError);
