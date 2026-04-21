@@ -82,7 +82,7 @@ export function Header() {
             : 'bg-background/90 backdrop-blur-lg border-b border-border shadow-sm'
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <a
               href="#"
@@ -163,11 +163,11 @@ export function Header() {
             </nav>
 
             {/* Mobile hamburger */}
-            <div className="md:hidden flex items-center gap-3 z-50">
+            <div className="md:hidden flex items-center gap-1 z-50">
               <ThemeToggle />
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="relative p-1 focus:outline-none"
+                className="relative inline-flex items-center justify-center size-11 -mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
                 aria-label={mobileMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
                 aria-expanded={mobileMenuOpen}
               >
@@ -186,9 +186,9 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[55] bg-background/98 backdrop-blur-md flex flex-col"
+            className="fixed inset-0 z-[55] bg-background/98 backdrop-blur-md flex flex-col overflow-y-auto pt-20 pb-8"
           >
-            <nav className="flex-1 flex flex-col justify-center items-center gap-2 px-8">
+            <nav className="flex-1 flex flex-col justify-center items-center gap-1 px-6">
               {navLinks.map((link, i) => {
                 const isActive = activeSection === link.href;
                 return (
@@ -198,12 +198,13 @@ export function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.35, delay: 0.08 * i }}
+                    className="w-full max-w-xs"
                   >
                     <a
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
                       className={cn(
-                        'block text-2xl font-light tracking-wide transition-colors py-4 text-center',
+                        'block text-xl sm:text-2xl font-light tracking-wide transition-colors py-3 text-center min-h-11',
                         isActive
                           ? 'text-[#0F3D2E] dark:text-[#6fcfab]'
                           : 'text-foreground/60 hover:text-[#0F3D2E] dark:hover:text-[#6fcfab]'
@@ -235,7 +236,7 @@ export function Header() {
                       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.4)]"
+                  className="inline-flex items-center gap-2 px-7 py-3 min-h-12 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.4)]"
                 >
                   Gespräch starten
                   <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -244,8 +245,8 @@ export function Header() {
             </nav>
 
             {/* Bottom branding */}
-            <div className="pb-10 text-center">
-              <p className="text-xs text-muted-foreground tracking-widest uppercase">
+            <div className="pt-6 pb-2 text-center px-6">
+              <p className="text-[10px] sm:text-xs text-muted-foreground tracking-widest uppercase">
                 Entrepreneur · Stratege · AI-Systeme
               </p>
             </div>
