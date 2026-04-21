@@ -15,6 +15,7 @@ import {
 import { ChevronLeft, ChevronRight, Loader2, Mail, Reply, Search, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { TemplatePicker } from '@/components/admin/TemplatePicker';
+import { AiSuggestButton } from '@/components/admin/AiSuggestButton';
 
 interface OutlookMessage {
   id: string;
@@ -333,16 +334,29 @@ export const InboxDialog = ({
                   <label className="text-sm font-medium flex items-center gap-2">
                     <Reply className="size-4" /> Antworten
                   </label>
-                  <TemplatePicker
-                    kind="inbox_reply"
-                    vars={{
-                      first_name: selected.from?.emailAddress?.name?.split(' ')[0] ?? '',
-                      name: selected.from?.emailAddress?.name ?? '',
-                      email: selected.from?.emailAddress?.address ?? '',
-                      subject: selected.subject ?? '',
-                    }}
-                    onPick={({ body }) => setReply((prev) => (prev ? `${prev}\n\n${body}` : body))}
-                  />
+                  <div className="flex items-center gap-2">
+                    <AiSuggestButton
+                      context={{
+                        type: 'reply',
+                        senderName: selected.from?.emailAddress?.name,
+                        senderEmail: selected.from?.emailAddress?.address,
+                        incomingSubject: selected.subject ?? undefined,
+                        incomingBody: selected.bodyPreview ?? undefined,
+                        currentDraft: reply || undefined,
+                      }}
+                      onApply={({ body }) => setReply(body)}
+                    />
+                    <TemplatePicker
+                      kind="inbox_reply"
+                      vars={{
+                        first_name: selected.from?.emailAddress?.name?.split(' ')[0] ?? '',
+                        name: selected.from?.emailAddress?.name ?? '',
+                        email: selected.from?.emailAddress?.address ?? '',
+                        subject: selected.subject ?? '',
+                      }}
+                      onPick={({ body }) => setReply((prev) => (prev ? `${prev}\n\n${body}` : body))}
+                    />
+                  </div>
                 </div>
                 <Textarea
                   value={reply}
