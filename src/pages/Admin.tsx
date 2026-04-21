@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, FileText, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
@@ -42,6 +42,8 @@ import { InboxDialog } from '@/components/admin/InboxDialog';
 import { useUnreadMailCount } from '@/hooks/useUnreadMailCount';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
 import { MailTimeline } from '@/components/admin/MailTimeline';
+import { TemplatePicker } from '@/components/admin/TemplatePicker';
+import { TemplatesManagerDialog } from '@/components/admin/TemplatesManagerDialog';
 
 interface Submission {
   id: string;
