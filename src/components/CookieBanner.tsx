@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { initTrackingIfConsented, loadTrackingScripts } from '@/lib/tracking';
 
 const COOKIE_CONSENT_KEY = 'cookie-consent';
 
@@ -11,14 +12,16 @@ export function CookieBanner() {
   useEffect(() => {
     const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
     if (!consent) {
-      // Small delay so it doesn't flash on load
       const timer = setTimeout(() => setVisible(true), 1000);
       return () => clearTimeout(timer);
     }
+    // Bereits zugestimmt → Tracking nachladen
+    initTrackingIfConsented();
   }, []);
 
   const handleAccept = () => {
     localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+    loadTrackingScripts();
     setVisible(false);
   };
 

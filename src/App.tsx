@@ -22,6 +22,21 @@ const Admin = lazy(() => import("./pages/Admin"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Conversion goals
+const Potenzialanalyse = lazy(() => import("./pages/Potenzialanalyse"));
+const Notfallkoffer = lazy(() => import("./pages/Notfallkoffer"));
+const Termin = lazy(() => import("./pages/Termin"));
+
+// Campaign landing pages
+const LpKiAnalyse = lazy(() => import("./pages/lp/LpKiAnalyse"));
+const LpNotfallkoffer = lazy(() => import("./pages/lp/LpNotfallkoffer"));
+
+// Thank-you pages
+const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
+const DankeLead = lazy(() => import("./pages/danke/DankeLead"));
+const DankeKauf = lazy(() => import("./pages/danke/DankeKauf"));
+const DankeTermin = lazy(() => import("./pages/danke/DankeTermin"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -48,6 +63,21 @@ const App = () => (
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
+                {/* Conversion-Goal Routen (Tracking-URLs) */}
+                <Route path="/potenzialanalyse" element={<Potenzialanalyse />} />
+                <Route path="/notfallkoffer" element={<Notfallkoffer />} />
+                <Route path="/termin" element={<Termin />} />
+
+                {/* Kampagnen-Landingpages */}
+                <Route path="/lp/ki-analyse" element={<LpKiAnalyse />} />
+                <Route path="/lp/notfallkoffer" element={<LpNotfallkoffer />} />
+
+                {/* Danke-Seiten (Conversion-Trigger) */}
+                <Route path="/danke/kontakt" element={<DankeKontakt />} />
+                <Route path="/danke/lead" element={<DankeLead />} />
+                <Route path="/danke/kauf" element={<DankeKauf />} />
+                <Route path="/danke/termin" element={<DankeTermin />} />
+
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </Suspense>
