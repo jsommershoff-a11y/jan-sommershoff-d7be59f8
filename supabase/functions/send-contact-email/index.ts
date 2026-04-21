@@ -192,7 +192,7 @@ Deno.serve(async (req) => {
             <h1 style="color: #0F3D2E; font-size: 26px; margin: 0; font-weight: 700;">Vielen Dank für deine Nachricht!</h1>
           </div>
           <div style="padding: 32px 0;">
-            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">Hi ${safeName},</p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">Hi ${safeFirst},</p>
             <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">
               deine Anfrage ist bei mir eingegangen. Ich melde mich in der Regel innerhalb von <strong>24 Stunden</strong> persönlich bei dir.
             </p>
