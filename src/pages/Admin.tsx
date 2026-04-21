@@ -86,6 +86,9 @@ export default function Admin() {
   const [mailTarget, setMailTarget] = useState<Submission | null>(null);
   const [expandedTimeline, setExpandedTimeline] = useState<Set<string>>(new Set());
 
+  // Templates manager
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+
   const toggleTimeline = (id: string) => {
     setExpandedTimeline((prev) => {
       const next = new Set(prev);
@@ -355,6 +358,13 @@ export default function Admin() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <TemplatePicker
+                      kind="contact_preset"
+                      label="Vorlage anwenden"
+                      onPick={({ body }) => setForm((f) => ({ ...f, message: f.message ? `${f.message}\n${body}` : body }))}
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="type">Typ</Label>
                     <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
@@ -442,6 +452,9 @@ export default function Admin() {
                   {unreadMail}
                 </Badge>
               )}
+            </Button>
+            <Button variant="outline" onClick={() => setTemplatesOpen(true)}>
+              <FileText className="size-4 mr-2" /> Vorlagen
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="size-4 mr-2" /> Abmelden
