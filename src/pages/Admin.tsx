@@ -47,6 +47,9 @@ interface Submission {
   id: string;
   type: string;
   name: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
   email: string;
   message: string | null;
   created_at: string;
@@ -68,8 +71,10 @@ export default function Admin() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     type: 'contact',
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
+    phone: '',
     message: '',
   });
 
