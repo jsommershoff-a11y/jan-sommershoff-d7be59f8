@@ -40,6 +40,16 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
   const [selected, setSelected] = useState<OutlookMessage | null>(null);
   const [reply, setReply] = useState('');
   const [sending, setSending] = useState(false);
+  const [unreadCount, setUnreadCount] = useState<number | null>(null);
+
+  const loadUnreadCount = async () => {
+    const { data, error } = await supabase.functions.invoke('outlook-mail', {
+      body: { action: 'unreadCount' },
+    });
+    if (error) return;
+    const c = (data as { count?: number })?.count;
+    if (typeof c === 'number') setUnreadCount(c);
+  };
 
   const load = async (opts?: { q?: string; pageIdx?: number; unread?: boolean }) => {
     const q = opts?.q ?? search;
@@ -71,6 +81,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
       setUnreadOnly(false);
       setSearch('');
       load({ q: '', pageIdx: 0, unread: false });
+      loadUnreadCount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -91,6 +102,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
         prev.map((m) => (m.id === messageId ? { ...m, isRead: true } : m)),
       );
       setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: true } : prev));
+      setUnreadCount((c) => (c !== null ? Math.max(0, c - 1) : c));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected?.id]);
@@ -109,6 +121,7 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
       prev.map((m) => (m.id === messageId ? { ...m, isRead: false } : m)),
     );
     setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: false } : prev));
+    setUnreadCount((c) => (c !== null ? c + 1 : c));
     toast.success('Als ungelesen markiert');
   };
 
@@ -155,6 +168,11 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Mail className="size-5" /> Outlook Posteingang
+            {unreadCount !== null && unreadCount > 0 && (
+              <Badge variant="default" className="ml-1">
+                {unreadCount} ungelesen
+              </Badge>
+            )}
           </DialogTitle>
         </DialogHeader>
 
