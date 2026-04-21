@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Settings, Cookie } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import {
   Dialog,
   DialogContent,
@@ -11,59 +12,66 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { initTrackingIfConsented, loadTrackingScripts } from '@/lib/tracking';
+import {
+  initTrackingIfConsented,
+  readConsent,
+  writeConsent,
+  type ConsentState,
+} from '@/lib/tracking';
 
-const COOKIE_CONSENT_KEY = 'cookie-consent';
-const CONSENT_CHANGED_EVENT = 'cookie-consent-changed';
-
-type Consent = 'accepted' | 'declined' | null;
-
-function readConsent(): Consent {
-  try {
-    const v = localStorage.getItem(COOKIE_CONSENT_KEY);
-    return v === 'accepted' || v === 'declined' ? v : null;
-  } catch {
-    return null;
-  }
-}
+const DEFAULT_CONSENT: ConsentState = { analytics: false, marketing: false };
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [consent, setConsent] = useState<Consent>(null);
+  const [savedConsent, setSavedConsent] = useState<ConsentState | null>(null);
+  const [draft, setDraft] = useState<ConsentState>(DEFAULT_CONSENT);
 
   useEffect(() => {
     const current = readConsent();
-    setConsent(current);
-    if (!current) {
+    setSavedConsent(current);
+    if (current) {
+      setDraft(current);
+      initTrackingIfConsented();
+    } else {
       const timer = setTimeout(() => setVisible(true), 1000);
       return () => clearTimeout(timer);
     }
-    initTrackingIfConsented();
   }, []);
 
-  // Listen für externe Trigger ("Cookie-Einstellungen"-Link, z.B. im Footer)
+  // Sync draft when dialog opens
+  useEffect(() => {
+    if (settingsOpen) {
+      setDraft(savedConsent ?? DEFAULT_CONSENT);
+    }
+  }, [settingsOpen, savedConsent]);
+
+  // Externer Trigger (Footer-Link etc.)
   useEffect(() => {
     const open = () => setSettingsOpen(true);
     window.addEventListener('open-cookie-settings', open);
     return () => window.removeEventListener('open-cookie-settings', open);
   }, []);
 
-  const persist = (value: 'accepted' | 'declined') => {
-    localStorage.setItem(COOKIE_CONSENT_KEY, value);
-    setConsent(value);
-    if (value === 'accepted') loadTrackingScripts();
-    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: value }));
+  const persist = (state: ConsentState) => {
+    writeConsent(state);
+    setSavedConsent(state);
   };
 
-  const handleAccept = () => {
-    persist('accepted');
+  const handleAcceptAll = () => {
+    persist({ analytics: true, marketing: true });
     setVisible(false);
     setSettingsOpen(false);
   };
 
-  const handleDecline = () => {
-    persist('declined');
+  const handleDeclineAll = () => {
+    persist({ analytics: false, marketing: false });
+    setVisible(false);
+    setSettingsOpen(false);
+  };
+
+  const handleSaveSelection = () => {
+    persist(draft);
     setVisible(false);
     setSettingsOpen(false);
   };
@@ -100,14 +108,14 @@ export function CookieBanner() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={handleDecline}
+                    onClick={handleDeclineAll}
                     className="flex-1 sm:flex-none min-h-11 px-4 text-xs"
                   >
                     Ablehnen
                   </Button>
                   <Button
                     size="sm"
-                    onClick={handleAccept}
+                    onClick={handleAcceptAll}
                     className="flex-1 sm:flex-none min-h-11 px-4 text-xs"
                   >
                     Akzeptieren
@@ -140,38 +148,67 @@ export function CookieBanner() {
               Cookie-Einstellungen
             </DialogTitle>
             <DialogDescription className="leading-relaxed">
-              Du kannst deine Zustimmung zu Tracking-Cookies (Google Analytics &
-              Meta Pixel) jederzeit ändern oder widerrufen.
+              Wähle granular, welche Cookies du zulassen möchtest. Du kannst
+              deine Auswahl jederzeit ändern oder widerrufen.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-3 py-2">
+            {/* Notwendig */}
             <div className="rounded-lg border border-border p-3 bg-muted/40">
-              <p className="text-sm font-semibold text-foreground">Notwendig</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Immer aktiv. Erforderlich für den Betrieb der Website.
-              </p>
-            </div>
-            <div className="rounded-lg border border-border p-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-foreground">
-                  Marketing & Analyse
-                </p>
-                <span
-                  className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    consent === 'accepted'
-                      ? 'bg-primary/15 text-primary'
-                      : 'bg-muted text-muted-foreground'
-                  }`}
-                >
-                  {consent === 'accepted' ? 'Aktiv' : 'Inaktiv'}
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-semibold text-foreground">Notwendig</p>
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/15 text-primary">
+                  Immer aktiv
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Google Analytics 4 & Meta Pixel zur Reichweiten- und
-                Kampagnenmessung.
+                Erforderlich für den Betrieb der Website.
               </p>
             </div>
+
+            {/* Analyse (GA4) */}
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center justify-between gap-3">
+                <label
+                  htmlFor="consent-analytics"
+                  className="text-sm font-semibold text-foreground cursor-pointer"
+                >
+                  Analyse
+                </label>
+                <Switch
+                  id="consent-analytics"
+                  checked={draft.analytics}
+                  onCheckedChange={(v) => setDraft((d) => ({ ...d, analytics: v }))}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Google Analytics 4 — anonymisierte Reichweitenmessung &
+                Seitenaufrufe.
+              </p>
+            </div>
+
+            {/* Marketing (Meta Pixel) */}
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center justify-between gap-3">
+                <label
+                  htmlFor="consent-marketing"
+                  className="text-sm font-semibold text-foreground cursor-pointer"
+                >
+                  Marketing
+                </label>
+                <Switch
+                  id="consent-marketing"
+                  checked={draft.marketing}
+                  onCheckedChange={(v) => setDraft((d) => ({ ...d, marketing: v }))}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Meta Pixel — Conversion-Tracking & Kampagnenmessung für
+                Werbeanzeigen.
+              </p>
+            </div>
+
             <p className="text-xs text-muted-foreground">
               Details findest du in der{' '}
               <Link
@@ -186,10 +223,13 @@ export function CookieBanner() {
           </div>
 
           <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
-            <Button variant="outline" onClick={handleDecline} className="min-h-11">
+            <Button variant="ghost" onClick={handleDeclineAll} className="min-h-11">
               Alle ablehnen
             </Button>
-            <Button onClick={handleAccept} className="min-h-11">
+            <Button variant="outline" onClick={handleSaveSelection} className="min-h-11">
+              Auswahl speichern
+            </Button>
+            <Button onClick={handleAcceptAll} className="min-h-11">
               Alle akzeptieren
             </Button>
           </DialogFooter>

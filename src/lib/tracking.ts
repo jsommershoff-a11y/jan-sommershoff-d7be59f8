@@ -2,9 +2,8 @@
  * Conversion-Tracking Helper für GA4 + Meta Pixel.
  *
  * - Lädt Scripts erst NACH Cookie-Consent (DSGVO-konform).
+ * - Granularer Consent: Analytics (GA4) + Marketing (Meta Pixel) getrennt.
  * - IDs als Platzhalter — bitte unten eintragen.
- * - Verwendet window.dataLayer (GTM-ready) und window.gtag (GA4).
- * - Verwendet window.fbq (Meta Pixel).
  */
 
 // ============================================================
@@ -16,85 +15,134 @@ export const META_PIXEL_ID = 'XXXXXXXXXXXXXXXX';  // 15-16-stellige Zahl
 
 type TrackParams = Record<string, string | number | boolean | undefined>;
 
+export type ConsentState = {
+  analytics: boolean;
+  marketing: boolean;
+};
+
+export const CONSENT_STORAGE_KEY = 'cookie-consent-v2';
+export const CONSENT_LEGACY_KEY = 'cookie-consent';
+export const CONSENT_CHANGED_EVENT = 'cookie-consent-changed';
+
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
     gtag?: (...args: unknown[]) => void;
     fbq?: ((...args: unknown[]) => void) & { callMethod?: unknown; queue?: unknown[] };
     _fbq?: unknown;
-    __trackingLoaded?: boolean;
+    __ga4Loaded?: boolean;
+    __metaLoaded?: boolean;
   }
 }
 
 const isPlaceholder = (id: string) => id.includes('XXXX');
 
-/**
- * Lädt GA4 + Meta Pixel Scripts. Wird genau einmal ausgeführt.
- * Aufruf nur nach Cookie-Consent (siehe initTrackingIfConsented).
- */
-export function loadTrackingScripts() {
-  if (typeof window === 'undefined' || window.__trackingLoaded) return;
-  window.__trackingLoaded = true;
+export function readConsent(): ConsentState | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(CONSENT_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === 'object' && parsed !== null) {
+        return {
+          analytics: !!parsed.analytics,
+          marketing: !!parsed.marketing,
+        };
+      }
+    }
+    // Legacy migration
+    const legacy = localStorage.getItem(CONSENT_LEGACY_KEY);
+    if (legacy === 'accepted') return { analytics: true, marketing: true };
+    if (legacy === 'declined') return { analytics: false, marketing: false };
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
 
-  // ---------- GA4 ----------
-  if (!isPlaceholder(GA4_MEASUREMENT_ID)) {
-    const gaScript = document.createElement('script');
-    gaScript.async = true;
-    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
-    document.head.appendChild(gaScript);
+export function writeConsent(state: ConsentState) {
+  try {
+    localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
+    // Legacy-Key für Rückwärtskompatibilität
+    localStorage.setItem(
+      CONSENT_LEGACY_KEY,
+      state.analytics || state.marketing ? 'accepted' : 'declined',
+    );
+  } catch {
+    /* ignore */
+  }
+  applyConsent(state);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: state }));
+  }
+}
 
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer!.push(args as unknown as Record<string, unknown>);
+/** Lädt nur GA4. */
+export function loadGA4() {
+  if (typeof window === 'undefined' || window.__ga4Loaded) return;
+  if (isPlaceholder(GA4_MEASUREMENT_ID)) return;
+  window.__ga4Loaded = true;
+
+  const gaScript = document.createElement('script');
+  gaScript.async = true;
+  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
+  document.head.appendChild(gaScript);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(...args: unknown[]) {
+    window.dataLayer!.push(args as unknown as Record<string, unknown>);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: true });
+}
+
+/** Lädt nur Meta Pixel. */
+export function loadMetaPixel() {
+  if (typeof window === 'undefined' || window.__metaLoaded) return;
+  if (isPlaceholder(META_PIXEL_ID)) return;
+  window.__metaLoaded = true;
+
+  /* eslint-disable */
+  (function (f: any, b: any, e: any, v: any) {
+    if (f.fbq) return;
+    let n: any, t: any, s: any;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
     };
-    window.gtag('js', new Date());
-    window.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: true });
-  }
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+  window.fbq?.('init', META_PIXEL_ID);
+  window.fbq?.('track', 'PageView');
+}
 
-  // ---------- Meta Pixel ----------
-  if (!isPlaceholder(META_PIXEL_ID)) {
-    /* eslint-disable */
-    (function (f: any, b: any, e: any, v: any) {
-      if (f.fbq) return;
-      let n: any, t: any, s: any;
-      n = f.fbq = function () {
-        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s);
-    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-    /* eslint-enable */
-    window.fbq?.('init', META_PIXEL_ID);
-    window.fbq?.('track', 'PageView');
-  }
+/** Wendet einen Consent-State an: lädt zugestimmte Scripts. */
+export function applyConsent(state: ConsentState) {
+  if (state.analytics) loadGA4();
+  if (state.marketing) loadMetaPixel();
 
   if (import.meta.env.DEV) {
     // eslint-disable-next-line no-console
-    console.debug('[tracking] scripts loaded', {
-      ga4: !isPlaceholder(GA4_MEASUREMENT_ID),
-      meta: !isPlaceholder(META_PIXEL_ID),
+    console.debug('[tracking] consent applied', state, {
+      ga4Active: !!window.__ga4Loaded,
+      metaActive: !!window.__metaLoaded,
     });
   }
 }
 
-/** Ruft loadTrackingScripts() nur auf, wenn Cookie-Consent === 'accepted'. */
+/** Beim App-Start: gespeicherten Consent anwenden. */
 export function initTrackingIfConsented() {
-  if (typeof window === 'undefined') return;
-  try {
-    if (localStorage.getItem('cookie-consent') === 'accepted') {
-      loadTrackingScripts();
-    }
-  } catch {
-    /* ignore */
-  }
+  const state = readConsent();
+  if (state) applyConsent(state);
 }
 
 /** Generisches Event an GA4 + dataLayer. */
@@ -123,9 +171,6 @@ export function trackPageView(path: string, title?: string) {
 
 /**
  * Triggert eine Conversion auf GA4 + Meta Pixel gleichzeitig.
- * @param eventName  z.B. 'lead', 'contact', 'schedule', 'purchase'
- * @param metaEvent  Meta-Standard-Event ('Lead' | 'Contact' | 'Schedule' | 'Purchase' | 'CompleteRegistration')
- * @param params     optionale Parameter (z.B. { value: 499, currency: 'EUR' })
  */
 export function trackConversion(
   eventName: string,
@@ -144,4 +189,9 @@ export function trackConversion(
     // eslint-disable-next-line no-console
     console.debug('[conversion]', eventName, metaEvent, params);
   }
+}
+
+/** Backwards-compat: lädt alle Scripts (volle Zustimmung). */
+export function loadTrackingScripts() {
+  applyConsent({ analytics: true, marketing: true });
 }
