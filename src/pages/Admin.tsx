@@ -261,7 +261,11 @@ export default function Admin() {
         <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Lead-Übersicht</h1>
-            <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
+            <p className="text-muted-foreground mt-1">
+              {filtered.length === submissions.length
+                ? `${submissions.length} Einsendungen insgesamt`
+                : `${filtered.length} von ${submissions.length} Einsendungen`}
+            </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={handleExportCsv}>
