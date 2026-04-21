@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Loader2, LogOut, Mail, Package, Plus, ShieldAlert, Trash2 } from 'lucide-react';
+import { Loader2, LogOut, Mail, Package, Pencil, Plus, ShieldAlert, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Submission {
@@ -53,9 +53,10 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
 
-  // Add dialog state
-  const [addOpen, setAddOpen] = useState(false);
-  const [adding, setAdding] = useState(false);
+  // Form dialog state (for add + edit)
+  const [formOpen, setFormOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     type: 'contact',
     name: '',
@@ -124,31 +125,66 @@ export default function Admin() {
     toast.success('Eintrag gelöscht');
   };
 
-  const handleAdd = async () => {
+  const openAdd = () => {
+    setEditingId(null);
+    setForm({ type: 'contact', name: '', email: '', message: '' });
+    setFormOpen(true);
+  };
+
+  const openEdit = (s: Submission) => {
+    setEditingId(s.id);
+    setForm({
+      type: s.type,
+      name: s.name,
+      email: s.email,
+      message: s.message ?? '',
+    });
+    setFormOpen(true);
+  };
+
+  const handleSave = async () => {
     if (!form.name.trim() || !form.email.trim()) {
       toast.error('Name und E-Mail sind Pflicht');
       return;
     }
-    setAdding(true);
-    const { data, error } = await supabase
-      .from('contact_submissions')
-      .insert({
-        type: form.type,
-        name: form.name.trim(),
-        email: form.email.trim(),
-        message: form.message.trim() || null,
-      })
-      .select()
-      .single();
-    setAdding(false);
-    if (error) {
-      toast.error('Hinzufügen fehlgeschlagen');
-      return;
+    setSaving(true);
+    const payload = {
+      type: form.type,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim() || null,
+    };
+
+    if (editingId) {
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .update(payload)
+        .eq('id', editingId)
+        .select()
+        .single();
+      setSaving(false);
+      if (error) {
+        toast.error('Speichern fehlgeschlagen');
+        return;
+      }
+      setSubmissions((prev) => prev.map((s) => (s.id === editingId ? (data as Submission) : s)));
+      setFormOpen(false);
+      toast.success('Eintrag aktualisiert');
+    } else {
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .insert(payload)
+        .select()
+        .single();
+      setSaving(false);
+      if (error) {
+        toast.error('Hinzufügen fehlgeschlagen');
+        return;
+      }
+      setSubmissions((prev) => [data as Submission, ...prev]);
+      setFormOpen(false);
+      toast.success('Eintrag hinzugefügt');
     }
-    setSubmissions((prev) => [data as Submission, ...prev]);
-    setForm({ type: 'contact', name: '', email: '', message: '' });
-    setAddOpen(false);
-    toast.success('Eintrag hinzugefügt');
   };
 
   const filtered = submissions.filter((s) => filter === 'all' || s.type === filter);
@@ -187,17 +223,17 @@ export default function Admin() {
             <p className="text-muted-foreground mt-1">{submissions.length} Einsendungen insgesamt</p>
           </div>
           <div className="flex gap-2">
-            <Dialog open={addOpen} onOpenChange={setAddOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="size-4 mr-2" /> Neuer Eintrag
-                </Button>
-              </DialogTrigger>
+            <Button onClick={openAdd}>
+              <Plus className="size-4 mr-2" /> Neuer Eintrag
+            </Button>
+            <Dialog open={formOpen} onOpenChange={setFormOpen}>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Neuen Kontakt hinzufügen</DialogTitle>
+                  <DialogTitle>{editingId ? 'Eintrag bearbeiten' : 'Neuen Kontakt hinzufügen'}</DialogTitle>
                   <DialogDescription>
-                    Manuell einen Lead oder Kontakt zur Übersicht hinzufügen.
+                    {editingId
+                      ? 'Ändere die Daten des bestehenden Eintrags.'
+                      : 'Manuell einen Lead oder Kontakt zur Übersicht hinzufügen.'}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
@@ -244,12 +280,12 @@ export default function Admin() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setAddOpen(false)} disabled={adding}>
+                  <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving}>
                     Abbrechen
                   </Button>
-                  <Button onClick={handleAdd} disabled={adding}>
-                    {adding && <Loader2 className="size-4 mr-2 animate-spin" />}
-                    Hinzufügen
+                  <Button onClick={handleSave} disabled={saving}>
+                    {saving && <Loader2 className="size-4 mr-2 animate-spin" />}
+                    {editingId ? 'Speichern' : 'Hinzufügen'}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -307,6 +343,9 @@ export default function Admin() {
                     >
                       {s.email}
                     </a>
+                    <Button variant="ghost" size="icon" onClick={() => openEdit(s)}>
+                      <Pencil className="size-4" />
+                    </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
