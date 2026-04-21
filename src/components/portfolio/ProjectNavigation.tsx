@@ -33,7 +33,7 @@ export function ProjectNavigation({ prev, next }: ProjectNavigationProps) {
                 <span className="text-sm font-light tracking-wide uppercase">Previous Project</span>
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-light tracking-wide text-foreground">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-light tracking-wide text-foreground break-words">
                   {prev.title}
                 </h3>
                 <p className="text-sm text-muted-foreground font-light mt-2 capitalize">
