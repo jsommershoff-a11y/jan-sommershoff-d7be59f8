@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Loader2, Mail, Reply, Search, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2, Mail, Reply, Search, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OutlookMessage {
@@ -29,18 +29,31 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
+const PAGE_SIZE = 25;
+
 export const InboxDialog = ({ open, onOpenChange }: Props) => {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<OutlookMessage[]>([]);
   const [search, setSearch] = useState('');
+  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [page, setPage] = useState(0);
   const [selected, setSelected] = useState<OutlookMessage | null>(null);
   const [reply, setReply] = useState('');
   const [sending, setSending] = useState(false);
 
-  const load = async (q?: string) => {
+  const load = async (opts?: { q?: string; pageIdx?: number; unread?: boolean }) => {
+    const q = opts?.q ?? search;
+    const pageIdx = opts?.pageIdx ?? page;
+    const unread = opts?.unread ?? unreadOnly;
     setLoading(true);
     const { data, error } = await supabase.functions.invoke('outlook-mail', {
-      body: { action: 'list', top: 25, search: q || undefined },
+      body: {
+        action: 'list',
+        top: PAGE_SIZE,
+        skip: pageIdx * PAGE_SIZE,
+        search: q || undefined,
+        unreadOnly: unread,
+      },
     });
     setLoading(false);
     if (error) {
@@ -54,7 +67,10 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
     if (open) {
       setSelected(null);
       setReply('');
-      load();
+      setPage(0);
+      setUnreadOnly(false);
+      setSearch('');
+      load({ q: '', pageIdx: 0, unread: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -73,7 +89,27 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
     toast.success('Antwort gesendet');
     setReply('');
     setSelected(null);
-    load(search);
+    load();
+  };
+
+  const goPrev = () => {
+    if (page === 0) return;
+    const next = page - 1;
+    setPage(next);
+    load({ pageIdx: next });
+  };
+  const goNext = () => {
+    if (messages.length < PAGE_SIZE) return; // last page
+    const next = page + 1;
+    setPage(next);
+    load({ pageIdx: next });
+  };
+
+  const toggleUnread = () => {
+    const next = !unreadOnly;
+    setUnreadOnly(next);
+    setPage(0);
+    load({ pageIdx: 0, unread: next });
   };
 
   return (
@@ -87,27 +123,44 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
 
         {!selected ? (
           <>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && load(search)}
-                placeholder="Suche (Enter zum Suchen)…"
-                className="pl-9 pr-9"
-              />
-              {search && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearch('');
-                    load();
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setPage(0);
+                      load({ pageIdx: 0 });
+                    }
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  <X className="size-4" />
-                </button>
-              )}
+                  placeholder="Suche (Enter zum Suchen)…"
+                  className="pl-9 pr-9"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch('');
+                      setPage(0);
+                      load({ q: '', pageIdx: 0 });
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="size-4" />
+                  </button>
+                )}
+              </div>
+              <Button
+                type="button"
+                variant={unreadOnly ? 'default' : 'outline'}
+                onClick={toggleUnread}
+                disabled={!!search}
+                title={search ? 'Filter nicht mit Suche kombinierbar' : undefined}
+              >
+                Nur ungelesen
+              </Button>
             </div>
 
             <div className="overflow-y-auto flex-1 space-y-2 mt-2">
@@ -155,6 +208,30 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
                   </button>
                 ))
               )}
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t mt-2">
+              <span className="text-xs text-muted-foreground">
+                Seite {page + 1}
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goPrev}
+                  disabled={loading || page === 0}
+                >
+                  <ChevronLeft className="size-4 mr-1" /> Zurück
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goNext}
+                  disabled={loading || messages.length < PAGE_SIZE}
+                >
+                  Weiter <ChevronRight className="size-4 ml-1" />
+                </Button>
+              </div>
             </div>
           </>
         ) : (

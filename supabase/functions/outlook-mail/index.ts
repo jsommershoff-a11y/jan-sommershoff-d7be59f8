@@ -14,6 +14,7 @@ interface ListBody {
   top?: number;
   skip?: number;
   search?: string;
+  unreadOnly?: boolean;
 }
 interface GetBody {
   action: 'get';
@@ -120,12 +121,17 @@ Deno.serve(async (req) => {
         $top: String(top),
         $skip: String(skip),
         $orderby: 'receivedDateTime desc',
+        $count: 'true',
         $select:
           'id,subject,from,toRecipients,receivedDateTime,bodyPreview,isRead,hasAttachments',
       });
+      if (body.unreadOnly) {
+        params.set('$filter', 'isRead eq false');
+      }
       if (body.search && body.search.trim()) {
         params.set('$search', `"${body.search.replace(/"/g, '\\"')}"`);
         params.delete('$orderby'); // $search & $orderby not allowed together
+        params.delete('$filter'); // $search & $filter not allowed together
       }
       const data = await gatewayFetch(
         `/me/messages?${params.toString()}`,
