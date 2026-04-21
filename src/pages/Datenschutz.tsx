@@ -120,10 +120,118 @@ export default function Datenschutz() {
         {/* 10. Cookies und Cookie-Consent */}
         <section>
           <h2 className="text-xl font-semibold text-foreground">10. Cookies und Cookie-Consent</h2>
-          <p>Diese Website verwendet technisch notwendige Cookies bzw. lokale Speichermechanismen (localStorage), um die Funktionsfähigkeit der Website sicherzustellen.</p>
-          <p>Beim ersten Besuch der Website wird Ihnen ein Cookie-Banner angezeigt, über das Sie der Verwendung von Cookies zustimmen oder diese ablehnen können. Ihre Entscheidung wird im localStorage Ihres Browsers gespeichert, sodass das Banner bei erneuten Besuchen nicht erneut erscheint.</p>
-          <p>Es werden keine Tracking-Cookies gesetzt und keine personenbezogenen Daten über Cookies erhoben.</p>
-          <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer funktionsfähigen Website) sowie – soweit eine Einwilligung erteilt wird – auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO.</p>
+          <p>Beim ersten Besuch unserer Website erhalten Sie ein Cookie-Banner, über das Sie granular entscheiden können, welche Kategorien von Cookies und vergleichbaren Technologien Sie zulassen möchten. Ihre Auswahl wird in Ihrem Browser (localStorage, Schlüssel <code>cookie-consent-v2</code>) gespeichert und kann jederzeit über den Cookie-Button unten links bzw. den Footer-Link „Cookie-Einstellungen" geändert oder widerrufen werden.</p>
+          <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer funktionsfähigen Website) für notwendige Cookies sowie auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für Analyse- und Marketing-Cookies. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.</p>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.1 Notwendig (immer aktiv)</h3>
+          <p>Diese Speichervorgänge sind technisch erforderlich, damit die Website funktioniert (z. B. Speicherung Ihrer Cookie-Auswahl, Sicherheits-Token, Theme-Einstellung). Sie können nicht deaktiviert werden. Es findet kein Tracking statt.</p>
+          <div className="overflow-x-auto mt-2">
+            <table className="w-full text-xs sm:text-sm border border-border">
+              <thead className="bg-muted/50">
+                <tr className="text-left text-foreground">
+                  <th className="p-2 border border-border">Name</th>
+                  <th className="p-2 border border-border">Anbieter</th>
+                  <th className="p-2 border border-border">Zweck</th>
+                  <th className="p-2 border border-border">Speicherdauer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-2 border border-border"><code>cookie-consent-v2</code></td>
+                  <td className="p-2 border border-border">jan-sommershoff.de</td>
+                  <td className="p-2 border border-border">Speichert Ihre Cookie-Einstellungen</td>
+                  <td className="p-2 border border-border">12 Monate (localStorage)</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>theme</code></td>
+                  <td className="p-2 border border-border">jan-sommershoff.de</td>
+                  <td className="p-2 border border-border">Speichert Ihr bevorzugtes Farbschema (Hell/Dunkel)</td>
+                  <td className="p-2 border border-border">Persistent (localStorage)</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>sb-*-auth-token</code></td>
+                  <td className="p-2 border border-border">Supabase</td>
+                  <td className="p-2 border border-border">Session-Verwaltung bei Login (nur falls Sie sich registrieren)</td>
+                  <td className="p-2 border border-border">Bis Logout / 1 Stunde</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.2 Analyse (optional, nur mit Einwilligung)</h3>
+          <p>Mit Ihrer Einwilligung setzen wir Google Analytics 4 (GA4) ein, um anonymisiert zu messen, wie unsere Website genutzt wird (z. B. Seitenaufrufe, Verweildauer, Geräteklasse). Dies hilft uns, Inhalte und Nutzerführung zu verbessern. Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. IP-Adressen werden vor jeder Verarbeitung gekürzt (IP-Anonymisierung). Eine Übermittlung in Drittländer (insb. USA) ist möglich; Grundlage sind die EU-Standardvertragsklauseln.</p>
+          <div className="overflow-x-auto mt-2">
+            <table className="w-full text-xs sm:text-sm border border-border">
+              <thead className="bg-muted/50">
+                <tr className="text-left text-foreground">
+                  <th className="p-2 border border-border">Name</th>
+                  <th className="p-2 border border-border">Anbieter</th>
+                  <th className="p-2 border border-border">Zweck</th>
+                  <th className="p-2 border border-border">Speicherdauer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-2 border border-border"><code>_ga</code></td>
+                  <td className="p-2 border border-border">Google (GA4)</td>
+                  <td className="p-2 border border-border">Unterscheidung von Besuchern (pseudonyme Client-ID)</td>
+                  <td className="p-2 border border-border">2 Jahre</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>_ga_*</code></td>
+                  <td className="p-2 border border-border">Google (GA4)</td>
+                  <td className="p-2 border border-border">Speichert Sitzungs- und Kampagneninformationen</td>
+                  <td className="p-2 border border-border">2 Jahre</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>_gid</code></td>
+                  <td className="p-2 border border-border">Google (GA4)</td>
+                  <td className="p-2 border border-border">Unterscheidung von Besuchern</td>
+                  <td className="p-2 border border-border">24 Stunden</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2">Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://policies.google.com/privacy</a></p>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.3 Marketing (optional, nur mit Einwilligung)</h3>
+          <p>Mit Ihrer Einwilligung setzen wir den Meta Pixel (Facebook Pixel) ein, um die Wirksamkeit unserer Werbeanzeigen auf Facebook und Instagram zu messen (Conversion-Tracking) und Zielgruppen für Remarketing-Kampagnen zu bilden. Anbieter ist die Meta Platforms Ireland Limited, Merrion Road, Dublin 4, Irland. Eine Übermittlung von Daten an Meta in den USA ist möglich; Grundlage sind die EU-Standardvertragsklauseln.</p>
+          <div className="overflow-x-auto mt-2">
+            <table className="w-full text-xs sm:text-sm border border-border">
+              <thead className="bg-muted/50">
+                <tr className="text-left text-foreground">
+                  <th className="p-2 border border-border">Name</th>
+                  <th className="p-2 border border-border">Anbieter</th>
+                  <th className="p-2 border border-border">Zweck</th>
+                  <th className="p-2 border border-border">Speicherdauer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-2 border border-border"><code>_fbp</code></td>
+                  <td className="p-2 border border-border">Meta (Facebook)</td>
+                  <td className="p-2 border border-border">Identifiziert Browser für Werbe- und Analysezwecke</td>
+                  <td className="p-2 border border-border">3 Monate</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>_fbc</code></td>
+                  <td className="p-2 border border-border">Meta (Facebook)</td>
+                  <td className="p-2 border border-border">Speichert die letzte angeklickte Werbeanzeige (Click-ID)</td>
+                  <td className="p-2 border border-border">3 Monate</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><code>fr</code></td>
+                  <td className="p-2 border border-border">Meta (Facebook)</td>
+                  <td className="p-2 border border-border">Werbe-Targeting und Conversion-Messung</td>
+                  <td className="p-2 border border-border">3 Monate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2">Weitere Informationen: <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.facebook.com/privacy/policy</a></p>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.4 Widerruf Ihrer Einwilligung</h3>
+          <p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen oder anpassen. Klicken Sie dazu auf den Cookie-Button (Symbol unten links auf jeder Seite) oder auf den Link „Cookie-Einstellungen" im Footer. Nach Widerruf werden die zugehörigen Skripte nicht mehr geladen; bereits gesetzte Drittanbieter-Cookies können Sie zusätzlich in den Einstellungen Ihres Browsers löschen.</p>
         </section>
 
         {/* 11. Plugins und Tools */}
