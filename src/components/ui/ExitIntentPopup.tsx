@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Gift } from 'lucide-react';
 
@@ -88,16 +89,14 @@ export function ExitIntentPopup() {
               10 KI-Prompts, 3 Automatisierungs-Workflows und ein Entscheidungs-Framework — kostenlos für Unternehmer.
             </p>
 
-            <a
-              href="https://krs-signature.de/auth?src=jan"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/auth"
               className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all text-base"
               onClick={dismiss}
             >
               Kostenlos sichern
               <ArrowRight className="size-5" />
-            </a>
+            </Link>
 
             <p className="mt-4 text-xs text-muted-foreground">
               Kein Spam. Sofortiger Zugang.

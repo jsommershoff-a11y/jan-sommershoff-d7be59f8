@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X } from 'lucide-react';
 
@@ -36,18 +37,16 @@ export function StickyCta() {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <p className="text-primary-foreground text-sm md:text-base font-medium hidden sm:block">
-              Bereit für den nächsten Schritt? Starte jetzt mit dem KI-Notfallkoffer.
+              Hol dir den kostenlosen KI-Notfallkoffer.
             </p>
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <a
-                href="https://krs-signature.de/auth?src=jan"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/auth"
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-white text-primary font-bold rounded-lg hover:bg-white/90 transition-all shadow-[0_2px_15px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_20px_rgba(255,255,255,0.35)] hover:-translate-y-0.5 text-sm"
               >
                 Kostenlos starten
                 <ArrowRight className="size-4" />
-              </a>
+              </Link>
               <button
                 onClick={() => setIsDismissed(true)}
                 className="p-2 text-primary-foreground/60 hover:text-primary-foreground transition-colors"

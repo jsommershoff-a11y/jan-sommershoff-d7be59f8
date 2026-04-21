@@ -1,6 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Users, Brain, Mic, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 const services = [
@@ -129,14 +130,12 @@ export default function Leistungen() {
                       <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                         {service.description.slice(0, 120)}…
                       </p>
-                      <a
-                        href="https://krs-signature.de/auth?src=jan"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Link
+                        to="/#contact"
                         className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                       >
                         Gespräch starten <ArrowRight className="size-4" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -156,17 +155,15 @@ export default function Leistungen() {
             <p className="text-primary-foreground/80 text-lg mb-10 leading-relaxed">
               Lass uns in einem persönlichen Gespräch herausfinden, wie ich dich unterstützen kann.
             </p>
-            <motion.a
-              href="https://krs-signature.de/auth?src=jan"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary font-bold text-base tracking-wide hover:bg-white/90 transition-colors shadow-xl"
-            >
-              Gespräch anfragen
-              <ArrowRight className="size-5" />
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
+              <Link
+                to="/#contact"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary font-bold text-base tracking-wide hover:bg-white/90 transition-colors shadow-xl"
+              >
+                Gespräch anfragen
+                <ArrowRight className="size-5" />
+              </Link>
+            </motion.div>
           </ScrollReveal>
         </div>
       </section>
