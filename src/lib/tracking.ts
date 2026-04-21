@@ -169,8 +169,9 @@ export function loadMetaPixel() {
   window.fbq?.('track', 'PageView');
 }
 
-/** Wendet einen Consent-State an: lädt zugestimmte Scripts. */
+/** Wendet einen Consent-State an: aktualisiert Consent Mode + lädt zugestimmte Scripts. */
 export function applyConsent(state: ConsentState) {
+  gtagConsentUpdate(state);
   if (state.analytics) loadGA4();
   if (state.marketing) loadMetaPixel();
 
