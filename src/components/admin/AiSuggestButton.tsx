@@ -91,37 +91,48 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button type="button" variant="outline" size={size} disabled={isLoading}>
-            {isLoading ? (
-              <Loader2 className="size-4 mr-2 animate-spin" />
-            ) : (
-              <Sparkles className="size-4 mr-2 text-primary" />
-            )}
-            KI-Vorschlag
-            <ChevronDown className="size-3 ml-1 opacity-60" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-popover">
-          <DropdownMenuLabel className="text-xs">Was soll die KI tun?</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => callAi('suggestions')} className="cursor-pointer">
-            <Sparkles className="size-4 mr-2" />
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">3 Vorschläge</span>
-              <span className="text-xs text-muted-foreground">Auswahl verschiedener Stile</span>
-            </div>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => callAi('draft')} className="cursor-pointer">
-            <Check className="size-4 mr-2" />
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">Vollständiger Entwurf</span>
-              <span className="text-xs text-muted-foreground">Direkt in Feld einfügen</span>
-            </div>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex items-center gap-2 flex-wrap">
+        <Input
+          type="text"
+          value={instruction}
+          onChange={(e) => setInstruction(e.target.value)}
+          placeholder="Vorgabe (z.B. kurz halten, Termin Donnerstag)"
+          maxLength={200}
+          disabled={isLoading}
+          className="h-9 text-sm w-full sm:w-64"
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button type="button" variant="outline" size={size} disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Sparkles className="size-4 mr-2 text-primary" />
+              )}
+              KI-Vorschlag
+              <ChevronDown className="size-3 ml-1 opacity-60" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 bg-popover">
+            <DropdownMenuLabel className="text-xs">Was soll die KI tun?</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => callAi('suggestions')} className="cursor-pointer">
+              <Sparkles className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">3 Vorschläge</span>
+                <span className="text-xs text-muted-foreground">Auswahl verschiedener Stile</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => callAi('draft')} className="cursor-pointer">
+              <Check className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Vollständiger Entwurf</span>
+                <span className="text-xs text-muted-foreground">Direkt in Feld einfügen</span>
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
