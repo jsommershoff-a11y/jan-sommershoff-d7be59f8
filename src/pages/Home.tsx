@@ -6,6 +6,7 @@ import { TrustSection } from '@/components/sections/TrustSection';
 import { KrsSignatureSection } from '@/components/sections/KrsSignatureSection';
 import { SocialProofSection } from '@/components/sections/SocialProofSection';
 import { StorySection } from '@/components/sections/StorySection';
+import { VideoSection } from '@/components/sections/VideoSection';
 import { SituationsSection } from '@/components/sections/SituationsSection';
 import { DataSovereigntySection } from '@/components/sections/DataSovereigntySection';
 import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
@@ -60,6 +61,9 @@ export default function Home() {
         {/* Authority / Story */}
         <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
         <StorySection />
+
+        {/* Marketing Video */}
+        <VideoSection />
 
         {/* Situations / Challenges */}
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
