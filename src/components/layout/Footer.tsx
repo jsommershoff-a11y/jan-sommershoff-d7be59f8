@@ -50,9 +50,7 @@ export function Footer() {
 
           {/* CTA Button */}
           <a
-            href="https://krs-signature.de/auth?src=jan"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/#contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.3)]"
           >
             Kostenlose Analyse starten
@@ -90,12 +88,6 @@ export function Footer() {
             © {currentYear} SMB Consulting UG (haftungsbeschränkt) – Alle Rechte vorbehalten.
           </p>
           <div className="flex flex-wrap items-center gap-4 md:gap-6">
-            <a href="https://krs-signature.de" target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
-              KRS Signature
-            </a>
-            <a href="https://krs-digital.de" target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
-              KRS Digital
-            </a>
             <Link to="/impressum" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
               Impressum
             </Link>

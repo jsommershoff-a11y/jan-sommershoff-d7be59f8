@@ -27,8 +27,19 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="Jan Sommershoff – KI, Automatisierung & Zukunftssicherheit für Unternehmen"
-        description="Wir machen dein Unternehmen KI-fit. Automatisierungen sparen bis zu 30 Std./Woche. Datensicherheit & skalierbare Prozesse durch die KRS Signature Programme."
+        title="KI-Beratung & Automatisierung für Unternehmer"
+        description="KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer. Bis zu 30 Std./Woche Zeitersparnis durch klare Prozesse und intelligente KI-Integration."
+        canonicalPath="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ProfessionalService',
+          name: 'Jan Sommershoff – KI-Beratung',
+          description:
+            'KI-Beratung, Automatisierung und Systemarchitektur für Unternehmer und Mittelstand.',
+          areaServed: 'DE',
+          url: 'https://jan-sommershoff.de',
+          provider: { '@type': 'Person', name: 'Jan Sommershoff' },
+        }}
       />
       <div className="min-h-screen">
         <HeroSection />

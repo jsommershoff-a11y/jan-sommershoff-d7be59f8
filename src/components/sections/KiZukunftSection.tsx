@@ -1,5 +1,6 @@
 import { siteData } from '@/data/siteData';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { Link } from 'react-router-dom';
 import { Cpu, ArrowRight } from 'lucide-react';
 
 export function KiZukunftSection() {
@@ -47,15 +48,13 @@ export function KiZukunftSection() {
 
         <ScrollReveal delay={0.3}>
           <div className="mt-10 text-center">
-            <a
-              href="https://krs-signature.de/auth?src=jan"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/auth"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
             >
               KI Notfallkoffer entdecken
               <ArrowRight className="size-4" />
-            </a>
+            </Link>
           </div>
         </ScrollReveal>
       </div>

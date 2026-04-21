@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Loader2, Shield, Zap, Brain } from 'lucide-react';
+import { Loader2, Shield, Zap, Brain, MailCheck } from 'lucide-react';
+import { SEOHead } from '@/components/seo/SEOHead';
+import { trackEvent, trackPageView } from '@/lib/tracking';
 
 export default function Auth() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<'register' | 'login'>('register');
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    trackPageView('/auth', 'Auth – KI Notfallkoffer');
+    trackEvent('auth_page_view', { funnel: 'notfallkoffer' });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,12 +30,13 @@ export default function Auth() {
           password,
           options: {
             data: { full_name: name },
+            // Double-Opt-In: user must confirm via email link
             emailRedirectTo: window.location.origin + '/upsell',
           },
         });
         if (error) throw error;
 
-        // Track registration via edge function for validation and email notification
+        // Mirror to lead pipeline (validation + admin notification)
         await supabase.functions.invoke('send-contact-email', {
           body: {
             type: 'lead_magnet',
@@ -39,15 +46,20 @@ export default function Auth() {
           },
         });
 
-        toast.success('Registrierung erfolgreich!');
-        navigate('/upsell');
+        trackEvent('signup_submit', { funnel: 'notfallkoffer', method: 'email' });
+        setSubmitted(true);
+        toast.success('Bitte bestätige deine E-Mail-Adresse.');
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        trackEvent('login_success', { funnel: 'notfallkoffer' });
         toast.success('Willkommen zurück!');
-        navigate('/upsell');
+        window.location.href = '/upsell';
       }
     } catch (err: any) {
+      trackEvent(mode === 'register' ? 'signup_error' : 'login_error', {
+        message: err.message,
+      });
       toast.error(err.message || 'Ein Fehler ist aufgetreten');
     } finally {
       setLoading(false);
@@ -62,6 +74,21 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+      <SEOHead
+        title="KI Notfallkoffer – Kostenloser Zugang"
+        description="Sichere dir den kostenlosen KI Notfallkoffer für Unternehmer: Prompts, Workflows und Entscheidungs-Frameworks."
+        canonicalPath="/auth"
+        noIndex
+      />
+      {submitted && (
+        <div className="border-b border-white/10 bg-[#0F3D2E]/30 py-6 px-6 text-center">
+          <MailCheck className="size-8 text-[#6fcfab] mx-auto mb-2" />
+          <p className="text-white font-semibold">Bitte bestätige deine E-Mail-Adresse.</p>
+          <p className="text-white/60 text-sm mt-1">
+            Wir haben dir einen Bestätigungslink an <strong>{email}</strong> gesendet. Sobald du klickst, schalten wir den Notfallkoffer frei.
+          </p>
+        </div>
+      )}
       {/* Conversion section */}
       <section className="border-b border-white/5 py-16 md:py-24 px-6">
         <div className="max-w-3xl mx-auto text-center">

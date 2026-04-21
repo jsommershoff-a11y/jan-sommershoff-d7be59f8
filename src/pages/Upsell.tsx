@@ -3,6 +3,8 @@ import { Check, ArrowRight, Clock, BarChart3, Cpu, FileText, Sparkles } from 'lu
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { SEOHead } from '@/components/seo/SEOHead';
+import { trackEvent, trackPageView } from '@/lib/tracking';
 
 const PAYMENT_LINK = '#'; // TODO: Replace with actual payment link
 
@@ -19,7 +21,7 @@ const included = [
   'Geschäftsprozess-Analyse Template',
   'KI Automatisierungs-Guides',
   'Upgrade-Optionen für Betreuung',
-  'Zugang zum KRS Signature Portal',
+  'Zugang zum Member-Portal',
 ];
 
 export default function Upsell() {
@@ -27,6 +29,8 @@ export default function Upsell() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
+    trackPageView('/upsell', 'Upsell – KI System Analyse');
+    trackEvent('upsell_view', { funnel: 'ki_system_analyse' });
     supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
@@ -117,7 +121,7 @@ export default function Upsell() {
           >
             <div className="bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 rounded-2xl p-8 sticky top-8">
               <p className="text-xs tracking-[0.2em] uppercase text-[#6fcfab] mb-4">
-                KRS Signature
+                Premium-Angebot
               </p>
               <h3 className="text-xl font-semibold mb-1">KI System Analyse</h3>
               <p className="text-white/40 text-sm mb-6">Einmalzahlung · Sofortzugang</p>

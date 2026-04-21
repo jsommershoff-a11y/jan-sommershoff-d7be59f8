@@ -4,7 +4,7 @@ import { MessageCircle, Phone, Mail, Calendar, X } from 'lucide-react';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 
 const WHATSAPP_URL = 'https://wa.me/message/VSNLCZXNWTSKO1';
-const BOOKING_URL = 'https://krs-signature.de/auth?src=jan';
+const BOOKING_URL = '/#contact';
 const PHONE = '+49 175 1127114';
 const EMAIL = 'j.s@jan-sommershoff.de';
 
@@ -47,8 +47,6 @@ export function FloatingCta() {
 
               <a
                 href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/5 text-foreground transition-colors"
               >

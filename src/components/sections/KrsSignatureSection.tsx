@@ -74,20 +74,11 @@ export function KrsSignatureSection() {
 
         <ScrollReveal delay={0.4}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://krs-signature.de"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.4)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.5)] hover:-translate-y-1 duration-300"
-            >
-              Erfahre mehr über KRS Signature
-              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-            </a>
             <button
               onClick={() => scrollTo('contact')}
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary/5 transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.4)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.5)] hover:-translate-y-1 duration-300"
             >
-              Erstgespräch sichern
+              Potenzialanalyse anfragen
               <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

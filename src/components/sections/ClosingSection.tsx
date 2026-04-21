@@ -106,9 +106,11 @@ export function ClosingSection() {
               </div>
 
               <a
-                href="https://krs-signature.de/auth?src=jan"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="group relative inline-flex items-center gap-3 bg-white text-[#0F3D2E] font-bold text-lg md:text-xl px-12 md:px-16 py-5 rounded-xl shadow-[0_4px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(255,255,255,0.25)] hover:-translate-y-1 transition-all duration-300"
               >
                 <span className="absolute inset-0 rounded-xl bg-white animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-10" />

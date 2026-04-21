@@ -87,9 +87,11 @@ export function PersonalContactSection() {
                 </a>
 
                 <a
-                  href="https://krs-signature.de/auth?src=jan"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="group inline-flex items-center justify-center gap-2.5 border-2 border-white/20 text-white font-semibold text-base px-8 py-4 rounded-full hover:border-primary hover:bg-primary/20 transition-all duration-300"
                 >
                   Potenzialanalyse buchen
