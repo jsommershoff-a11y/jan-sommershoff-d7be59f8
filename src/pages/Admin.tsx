@@ -422,7 +422,28 @@ export default function Admin() {
           </Button>
         </div>
 
-        <div className="space-y-3">
+        <div className="flex gap-2 mb-6 flex-wrap items-center text-sm">
+          <span className="text-muted-foreground mr-1">Sortieren:</span>
+          {([
+            { key: 'date', label: 'Datum' },
+            { key: 'name', label: 'Name' },
+            { key: 'type', label: 'Typ' },
+          ] as const).map(({ key, label }) => {
+            const active = sortBy === key;
+            const Icon = !active ? ArrowUpDown : sortDir === 'asc' ? ArrowUp : ArrowDown;
+            return (
+              <Button
+                key={key}
+                size="sm"
+                variant={active ? 'default' : 'outline'}
+                onClick={() => toggleSort(key)}
+              >
+                {label}
+                <Icon className="size-3.5 ml-1.5" />
+              </Button>
+            );
+          })}
+        </div>
           {filtered.length === 0 ? (
             <Card className="p-12 text-center text-muted-foreground">Keine Einträge</Card>
           ) : (
