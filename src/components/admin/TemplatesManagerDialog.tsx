@@ -202,16 +202,16 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
 
       {/* Add / Edit form */}
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle>{editing ? 'Vorlage bearbeiten' : 'Neue Vorlage'}</DialogTitle>
-            <DialogDescription>Platzhalter: {PLACEHOLDERS}</DialogDescription>
+            <DialogTitle className="text-base sm:text-lg">{editing ? 'Vorlage bearbeiten' : 'Neue Vorlage'}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm break-words">Platzhalter: {PLACEHOLDERS}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
               <Label>Kategorie</Label>
               <Select value={form.kind} onValueChange={(v) => setForm({ ...form, kind: v as TemplateKind })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger className="min-h-11"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {(Object.keys(KIND_LABELS) as TemplateKind[]).map((k) => (
                     <SelectItem key={k} value={k}>{KIND_LABELS[k]}</SelectItem>
@@ -221,21 +221,21 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="t-name">Name *</Label>
-              <Input id="t-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} />
+              <Input id="t-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} className="min-h-11" />
             </div>
             {form.kind !== 'contact_preset' && (
               <div className="space-y-1.5">
                 <Label htmlFor="t-subject">Betreff</Label>
-                <Input id="t-subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} maxLength={200} placeholder="z. B. Re: {{subject}}" />
+                <Input id="t-subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} maxLength={200} placeholder="z. B. Re: {{subject}}" className="min-h-11" />
               </div>
             )}
             <div className="space-y-1.5">
               <Label htmlFor="t-body">Inhalt *</Label>
               <Textarea id="t-body" value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={8} maxLength={5000} />
             </div>
-            <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={form.is_default} onChange={(e) => setForm({ ...form, is_default: e.target.checked })} />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <label className="flex items-center gap-2 text-sm min-h-11">
+                <input type="checkbox" checked={form.is_default} onChange={(e) => setForm({ ...form, is_default: e.target.checked })} className="size-4" />
                 Als Standard markieren
               </label>
               <div className="flex items-center gap-2 text-sm">
@@ -243,16 +243,16 @@ export const TemplatesManagerDialog = ({ open, onOpenChange }: Props) => {
                 <Input
                   id="t-sort"
                   type="number"
-                  className="w-20 h-8"
+                  className="w-20 h-11"
                   value={form.sort_order}
                   onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) || 0 })}
                 />
               </div>
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving}>Abbrechen</Button>
-            <Button onClick={handleSave} disabled={saving}>
+          <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setFormOpen(false)} disabled={saving} className="w-full sm:w-auto min-h-11">Abbrechen</Button>
+            <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto min-h-11">
               {saving && <Loader2 className="size-4 mr-2 animate-spin" />}
               Speichern
             </Button>
