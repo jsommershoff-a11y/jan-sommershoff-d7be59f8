@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Gift } from 'lucide-react';
+import { trackEvent } from '@/lib/tracking';
 
 export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,15 +10,18 @@ export function ExitIntentPopup() {
 
   const trigger = useCallback(() => {
     if (hasTriggered) return;
-    // Don't show if dismissed before (session)
     if (sessionStorage.getItem('exit-popup-dismissed')) return;
     setIsOpen(true);
     setHasTriggered(true);
+    trackEvent('popup_shown', { popup_id: 'exit_intent_notfallkoffer' });
   }, [hasTriggered]);
 
-  const dismiss = () => {
+  const dismiss = (reason: 'backdrop' | 'close_button' | 'cta_click' = 'close_button') => {
     setIsOpen(false);
     sessionStorage.setItem('exit-popup-dismissed', 'true');
+    if (reason !== 'cta_click') {
+      trackEvent('popup_dismissed', { popup_id: 'exit_intent_notfallkoffer', dismiss_reason: reason });
+    }
   };
 
   useEffect(() => {
