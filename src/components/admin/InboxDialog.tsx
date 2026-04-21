@@ -15,6 +15,7 @@ import {
 import { ChevronLeft, ChevronRight, Loader2, Mail, Reply, Search, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { TemplatePicker } from '@/components/admin/TemplatePicker';
+import { AiSuggestButton } from '@/components/admin/AiSuggestButton';
 
 interface OutlookMessage {
   id: string;
