@@ -75,6 +75,26 @@ export const InboxDialog = ({ open, onOpenChange }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
+  // Auto-mark as read when a message is opened in the detail view
+  useEffect(() => {
+    if (!selected || selected.isRead) return;
+    const messageId = selected.id;
+    (async () => {
+      const { error } = await supabase.functions.invoke('outlook-mail', {
+        body: { action: 'markRead', messageId, isRead: true },
+      });
+      if (error) {
+        console.error('markRead failed', error);
+        return;
+      }
+      setMessages((prev) =>
+        prev.map((m) => (m.id === messageId ? { ...m, isRead: true } : m)),
+      );
+      setSelected((prev) => (prev && prev.id === messageId ? { ...prev, isRead: true } : prev));
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected?.id]);
+
   const handleReply = async () => {
     if (!selected || !reply.trim()) return;
     setSending(true);
