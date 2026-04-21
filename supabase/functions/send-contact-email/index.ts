@@ -208,6 +208,34 @@ Deno.serve(async (req) => {
         if (!confirmRes.ok) {
           const errText = await confirmRes.text();
           console.error('Outlook confirmation error:', confirmRes.status, errText);
+        } else {
+          // Log confirmation as outbound interaction (linked to contact if found)
+          try {
+            const { data: contactRow } = await supabase
+              .from('contacts')
+              .select('id')
+              .ilike('email', email)
+              .maybeSingle();
+
+            const { error: interactionError } = await supabase
+              .from('interactions')
+              .insert({
+                type: 'email',
+                direction: 'outbound',
+                channel: 'outlook',
+                status: 'sent',
+                subject: 'Deine Nachricht ist angekommen ✓',
+                content: `Automatische Bestätigungsmail an ${email}`,
+                contact_id: contactRow?.id ?? null,
+                occurred_at: new Date().toISOString(),
+              });
+
+            if (interactionError) {
+              console.error('Interaction log error:', interactionError);
+            }
+          } catch (logErr) {
+            console.error('Failed to log confirmation interaction:', logErr);
+          }
         }
       }
     }
