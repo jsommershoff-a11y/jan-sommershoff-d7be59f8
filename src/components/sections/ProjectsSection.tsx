@@ -26,9 +26,11 @@ export function ProjectsSection() {
               <ScrollReveal key={project.name} delay={index * 0.15} className="h-full [&>div]:h-full">
                 <div className="h-full">
                   <a
-                    href="https://krs-signature.de/auth?src=jan"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
                     className="group flex flex-col h-full bg-card p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300"
                   >
                     <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
