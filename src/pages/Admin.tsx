@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
