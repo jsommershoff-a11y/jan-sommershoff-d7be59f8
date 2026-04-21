@@ -52,6 +52,7 @@ export default function Admin() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
+  const [search, setSearch] = useState('');
 
   // Form dialog state (for add + edit)
   const [formOpen, setFormOpen] = useState(false);
