@@ -34,12 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowDown, ArrowUp, ArrowUpDown, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
 import { InboxDialog } from '@/components/admin/InboxDialog';
 import { SendMailDialog } from '@/components/admin/SendMailDialog';
+import { MailTimeline } from '@/components/admin/MailTimeline';
 
 interface Submission {
   id: string;
@@ -74,6 +75,16 @@ export default function Admin() {
   // Outlook mail state
   const [inboxOpen, setInboxOpen] = useState(false);
   const [mailTarget, setMailTarget] = useState<Submission | null>(null);
+  const [expandedTimeline, setExpandedTimeline] = useState<Set<string>>(new Set());
+
+  const toggleTimeline = (id: string) => {
+    setExpandedTimeline((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const loadSubmissions = async () => {
     const { data, error } = await supabase
@@ -510,6 +521,23 @@ export default function Admin() {
                 <p className="font-semibold text-foreground">{s.name}</p>
                 {s.message && (
                   <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">{s.message}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={() => toggleTimeline(s.id)}
+                  className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition"
+                >
+                  {expandedTimeline.has(s.id) ? (
+                    <ChevronDown className="size-3.5" />
+                  ) : (
+                    <ChevronRight className="size-3.5" />
+                  )}
+                  Mail-Verlauf
+                </button>
+                {expandedTimeline.has(s.id) && (
+                  <div className="mt-3 pl-3 border-t pt-3">
+                    <MailTimeline email={s.email} recipientName={s.name} />
+                  </div>
                 )}
               </Card>
             ))
