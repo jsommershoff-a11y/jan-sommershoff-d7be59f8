@@ -54,8 +54,9 @@ export function loadTrackingScripts() {
   // ---------- Meta Pixel ----------
   if (!isPlaceholder(META_PIXEL_ID)) {
     /* eslint-disable */
-    !(function (f: any, b, e, v, n?: any, t?: any, s?: any) {
+    (function (f: any, b: any, e: any, v: any) {
       if (f.fbq) return;
+      let n: any, t: any, s: any;
       n = f.fbq = function () {
         n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
       };
