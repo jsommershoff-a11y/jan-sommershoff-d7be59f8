@@ -105,6 +105,9 @@ export function Footer() {
             <Link to="/agb" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
               AGB
             </Link>
+            <Link to="/admin/login" className="text-xs text-muted-foreground/60 hover:text-primary transition-colors">
+              Admin
+            </Link>
           </div>
         </div>
       </div>
