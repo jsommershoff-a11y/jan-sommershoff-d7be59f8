@@ -183,7 +183,7 @@ export const InboxDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+      <DialogContent className="max-w-3xl w-[calc(100vw-1.5rem)] sm:w-full max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Mail className="size-5" /> Outlook Posteingang
@@ -232,6 +232,7 @@ export const InboxDialog = ({
                 onClick={toggleUnread}
                 disabled={!!search}
                 title={search ? 'Filter nicht mit Suche kombinierbar' : undefined}
+                className="w-full sm:w-auto min-h-11"
               >
                 Nur ungelesen
               </Button>
@@ -367,18 +368,19 @@ export const InboxDialog = ({
                 />
               </div>
             </div>
-            <DialogFooter className="gap-2 sm:gap-2">
-              <Button variant="outline" onClick={() => setSelected(null)} disabled={sending}>
+            <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+              <Button variant="outline" onClick={() => setSelected(null)} disabled={sending} className="w-full sm:w-auto min-h-11">
                 Abbrechen
               </Button>
               <Button
                 variant="secondary"
                 onClick={handleMarkUnread}
                 disabled={sending || !selected.isRead}
+                className="w-full sm:w-auto min-h-11"
               >
                 Als ungelesen markieren
               </Button>
-              <Button onClick={handleReply} disabled={sending || !reply.trim()}>
+              <Button onClick={handleReply} disabled={sending || !reply.trim()} className="w-full sm:w-auto min-h-11">
                 {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
                 Antwort senden
               </Button>

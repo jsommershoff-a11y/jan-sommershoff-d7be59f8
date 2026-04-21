@@ -62,7 +62,7 @@ export const SendMailDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="max-w-xl w-[calc(100vw-1.5rem)] sm:w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Send className="size-5" /> E-Mail senden
@@ -123,11 +123,11 @@ export const SendMailDialog = ({
             />
           </div>
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={sending}>
+        <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={sending} className="w-full sm:w-auto min-h-11">
             Abbrechen
           </Button>
-          <Button onClick={handleSend} disabled={sending}>
+          <Button onClick={handleSend} disabled={sending} className="w-full sm:w-auto min-h-11">
             {sending && <Loader2 className="size-4 mr-2 animate-spin" />}
             Senden
           </Button>
