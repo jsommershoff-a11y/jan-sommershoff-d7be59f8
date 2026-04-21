@@ -84,20 +84,20 @@ export function Footer() {
 
         {/* Bottom: Links + Copyright */}
         <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground text-center md:text-left">
             © {currentYear} SMB Consulting UG (haftungsbeschränkt) – Alle Rechte vorbehalten.
           </p>
-          <div className="flex flex-wrap items-center gap-4 md:gap-6">
-            <Link to="/impressum" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 md:gap-6">
+            <Link to="/impressum" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline px-2 py-2 min-h-11 inline-flex items-center">
               Impressum
             </Link>
-            <Link to="/datenschutz" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
+            <Link to="/datenschutz" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline px-2 py-2 min-h-11 inline-flex items-center">
               Datenschutz
             </Link>
-            <Link to="/agb" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline">
+            <Link to="/agb" className="text-sm text-foreground/70 hover:text-primary transition-colors underline-offset-4 hover:underline px-2 py-2 min-h-11 inline-flex items-center">
               AGB
             </Link>
-            <Link to="/admin/login" className="text-xs text-muted-foreground/60 hover:text-primary transition-colors">
+            <Link to="/admin/login" className="text-xs text-muted-foreground/60 hover:text-primary transition-colors px-2 py-2 min-h-11 inline-flex items-center">
               Admin
             </Link>
           </div>
