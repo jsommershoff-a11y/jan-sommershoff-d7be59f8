@@ -49,6 +49,8 @@ export default function Auth() {
         trackEvent('signup_submit', { funnel: 'notfallkoffer', method: 'email' });
         setSubmitted(true);
         toast.success('Bitte bestätige deine E-Mail-Adresse.');
+        // Redirect zur Danke-Seite (feuert Lead-Conversion-Event)
+        setTimeout(() => { window.location.href = '/danke/lead'; }, 1500);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
