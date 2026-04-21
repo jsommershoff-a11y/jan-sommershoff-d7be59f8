@@ -125,6 +125,37 @@ export default function Admin() {
     toast.success('Eintrag gelöscht');
   };
 
+  const handleExportCsv = () => {
+    if (filtered.length === 0) {
+      toast.error('Keine Einträge zum Exportieren');
+      return;
+    }
+    const escape = (v: string | null) => {
+      const s = (v ?? '').toString().replace(/"/g, '""');
+      return `"${s}"`;
+    };
+    const header = ['Datum', 'Typ', 'Name', 'E-Mail', 'Nachricht'];
+    const rows = filtered.map((s) => [
+      new Date(s.created_at).toLocaleString('de-DE'),
+      s.type,
+      s.name,
+      s.email,
+      s.message,
+    ]);
+    const csv = [header, ...rows].map((r) => r.map((c) => escape(c as string | null)).join(',')).join('\n');
+    // BOM für Excel-UTF8-Kompatibilität
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `einsendungen-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success(`${filtered.length} Einträge exportiert`);
+  };
+
   const openAdd = () => {
     setEditingId(null);
     setForm({ type: 'contact', name: '', email: '', message: '' });
