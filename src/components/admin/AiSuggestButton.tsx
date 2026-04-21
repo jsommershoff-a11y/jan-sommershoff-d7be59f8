@@ -17,7 +17,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Card } from '@/components/ui/card';
-import { Sparkles, Loader2, ChevronDown, Check } from 'lucide-react';
+import { Sparkles, Loader2, ChevronDown, Check, Wand2, Smile, Briefcase, Scissors } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -45,19 +45,40 @@ interface Props {
   size?: 'sm' | 'default';
 }
 
+type Tone = 'friendly' | 'professional' | 'shorter';
+
+const TONE_INSTRUCTIONS: Record<Tone, string> = {
+  friendly:
+    'Schreibe den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung um – freundlicher, wärmer, persönlicher im Ton. Keine neuen Inhalte, keine neuen Zusagen.',
+  professional:
+    'Schreibe den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung um – professioneller, klarer, geschäftlich seriöser. Keine neuen Inhalte, keine neuen Zusagen.',
+  shorter:
+    'Kürze den bisherigen Entwurf des Nutzers OHNE Bedeutungsänderung deutlich – knapper, präziser, max. 5 Sätze. Alle Kernaussagen behalten, keine neuen Inhalte.',
+};
+
 export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
-  const [loading, setLoading] = useState<null | 'suggestions' | 'draft'>(null);
+  const [loading, setLoading] = useState<null | 'suggestions' | 'draft' | Tone>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [instruction, setInstruction] = useState('');
 
-  const callAi = async (mode: 'suggestions' | 'draft') => {
-    setLoading(mode);
+  const callAi = async (
+    mode: 'suggestions' | 'draft',
+    extraInstruction?: string,
+    loadingKey?: 'suggestions' | 'draft' | Tone,
+  ) => {
+    setLoading(loadingKey ?? mode);
     try {
+      const combinedInstruction = [extraInstruction, instruction.trim() || undefined]
+        .filter(Boolean)
+        .join(' | ');
       const { data, error } = await supabase.functions.invoke('ai-suggest-reply', {
         body: {
           mode,
-          context: { ...context, instruction: instruction.trim() || undefined },
+          context: {
+            ...context,
+            instruction: combinedInstruction || undefined,
+          },
         },
       });
       if (error) throw error;
@@ -66,7 +87,7 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
       if (mode === 'draft') {
         if (data?.subject !== undefined && data?.body) {
           onApply({ subject: data.subject ?? '', body: data.body });
-          toast.success('KI-Entwurf eingefügt');
+          toast.success(loadingKey && loadingKey !== 'draft' ? 'Tonalität angepasst' : 'KI-Entwurf eingefügt');
         } else {
           throw new Error('Ungültige KI-Antwort');
         }
@@ -87,7 +108,16 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
     }
   };
 
+  const refineTone = (tone: Tone) => {
+    if (!context.currentDraft?.trim()) {
+      toast.error('Bitte zuerst etwas in das Antwort-Feld schreiben.');
+      return;
+    }
+    callAi('draft', TONE_INSTRUCTIONS[tone], tone);
+  };
+
   const isLoading = loading !== null;
+  const hasDraft = !!context.currentDraft?.trim();
 
   return (
     <>
@@ -128,6 +158,51 @@ export const AiSuggestButton = ({ context, onApply, size = 'sm' }: Props) => {
               <div className="flex flex-col">
                 <span className="text-sm font-medium">Vollständiger Entwurf</span>
                 <span className="text-xs text-muted-foreground">Direkt in Feld einfügen</span>
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              size={size}
+              disabled={isLoading || !hasDraft}
+              title={!hasDraft ? 'Schreibe zuerst etwas in das Antwort-Feld' : 'Tonalität deines Entwurfs verbessern'}
+            >
+              {loading && (loading === 'friendly' || loading === 'professional' || loading === 'shorter') ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Wand2 className="size-4 mr-2 text-primary" />
+              )}
+              Tonalität verbessern
+              <ChevronDown className="size-3 ml-1 opacity-60" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-60 bg-popover">
+            <DropdownMenuLabel className="text-xs">Wie umschreiben?</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => refineTone('friendly')} className="cursor-pointer">
+              <Smile className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Freundlicher</span>
+                <span className="text-xs text-muted-foreground">Wärmer, persönlicher</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => refineTone('professional')} className="cursor-pointer">
+              <Briefcase className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Professioneller</span>
+                <span className="text-xs text-muted-foreground">Klarer, geschäftlich seriös</span>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => refineTone('shorter')} className="cursor-pointer">
+              <Scissors className="size-4 mr-2" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Kürzer</span>
+                <span className="text-xs text-muted-foreground">Knapper, max. 5 Sätze</span>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
