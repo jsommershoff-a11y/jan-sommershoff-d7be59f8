@@ -24,7 +24,6 @@ interface Props {
 
 type Granularity = 'day' | 'week';
 
-// ISO week key, e.g. "2026-W17"
 const isoWeekKey = (d: Date) => {
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   const day = date.getUTCDay() || 7;
@@ -44,7 +43,6 @@ export const SubmissionsChart = ({ submissions }: Props) => {
     const buckets = new Map<string, { key: string; label: string; contact: number; lead_magnet: number }>();
 
     if (granularity === 'day') {
-      // last 14 days
       for (let i = 13; i >= 0; i--) {
         const d = new Date(now);
         d.setDate(d.getDate() - i);
@@ -57,7 +55,6 @@ export const SubmissionsChart = ({ submissions }: Props) => {
         });
       }
     } else {
-      // last 8 weeks
       for (let i = 7; i >= 0; i--) {
         const d = new Date(now);
         d.setDate(d.getDate() - i * 7);
@@ -144,7 +141,7 @@ export const SubmissionsChart = ({ submissions }: Props) => {
               wrapperStyle={{ fontSize: 12 }}
               formatter={(v) => (v === 'contact' ? 'Kontakt' : 'Lead-Magnet')}
             />
-            <Bar dataKey="contact" stackId="a" fill="hsl(var(--primary))" radius={[0, 0, 0, 0]} />
+            <Bar dataKey="contact" stackId="a" fill="hsl(var(--primary))" />
             <Bar dataKey="lead_magnet" stackId="a" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
