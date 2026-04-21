@@ -149,8 +149,90 @@ Deno.serve(async (req) => {
       console.error('Resend error:', emailData);
     }
 
+    // For lead magnet: send confirmation email to the lead with download link
+    let leadEmailSent = false;
+    if (isLeadMagnet) {
+      // TODO: Replace this placeholder URL with the actual download link to your KI-Notfallkoffer
+      const downloadUrl = 'https://jan-sommershoff.de/ki-notfallkoffer-download';
+
+      const leadHtmlBody = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+          <div style="text-align: center; padding: 32px 0; border-bottom: 3px solid #0F3D2E;">
+            <h1 style="color: #0F3D2E; font-size: 28px; margin: 0; font-weight: 700;">Dein KI-Notfallkoffer ist da! 🎯</h1>
+          </div>
+
+          <div style="padding: 32px 0;">
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">
+              Hi,
+            </p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 20px;">
+              vielen Dank für dein Interesse am <strong>KI-Notfallkoffer für Unternehmer</strong>.
+            </p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin: 0 0 24px;">
+              Du erhältst hiermit Zugang zu:
+            </p>
+
+            <ul style="font-size: 16px; color: #333; line-height: 1.8; padding-left: 20px; margin: 0 0 32px;">
+              <li><strong>10 KI-Prompts</strong> für Unternehmer</li>
+              <li><strong>3 Automatisierungs-Workflows</strong> zum direkten Nachbauen</li>
+              <li><strong>Entscheidungs-Framework</strong> für strategische Entscheidungen</li>
+            </ul>
+
+            <div style="text-align: center; margin: 40px 0;">
+              <a href="${downloadUrl}"
+                 style="display: inline-block; background-color: #F6711F; color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 700; font-size: 16px;">
+                Jetzt herunterladen →
+              </a>
+            </div>
+
+            <p style="font-size: 14px; color: #666; line-height: 1.6; margin: 32px 0 0;">
+              Falls der Button nicht funktioniert, kopiere diesen Link in deinen Browser:<br>
+              <a href="${downloadUrl}" style="color: #0F3D2E; word-break: break-all;">${downloadUrl}</a>
+            </p>
+          </div>
+
+          <div style="border-top: 1px solid #eee; padding-top: 24px; margin-top: 32px;">
+            <p style="font-size: 14px; color: #666; line-height: 1.6; margin: 0 0 8px;">
+              Bei Fragen kannst du jederzeit auf diese E-Mail antworten.
+            </p>
+            <p style="font-size: 14px; color: #333; margin: 16px 0 0;">
+              Beste Grüße<br>
+              <strong>Jan Sommershoff</strong>
+            </p>
+          </div>
+
+          <div style="text-align: center; padding-top: 24px; border-top: 1px solid #eee; margin-top: 24px;">
+            <p style="color: #999; font-size: 12px; margin: 0;">
+              jansommershoff.de · KI · Automatisierung · Zukunftssicherheit
+            </p>
+          </div>
+        </div>
+      `;
+
+      const leadEmailRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Jan Sommershoff <info@jan-sommershoff.de>',
+          to: [email],
+          subject: '🎯 Dein KI-Notfallkoffer ist da',
+          html: leadHtmlBody,
+          reply_to: 'j.s@krsimmobilien.de',
+        }),
+      });
+
+      const leadEmailData = await leadEmailRes.json();
+      leadEmailSent = leadEmailRes.ok;
+      if (!leadEmailRes.ok) {
+        console.error('Lead confirmation email error:', leadEmailData);
+      }
+    }
+
     return new Response(
-      JSON.stringify({ success: true, emailSent: emailRes.ok }),
+      JSON.stringify({ success: true, emailSent: emailRes.ok, leadEmailSent }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
