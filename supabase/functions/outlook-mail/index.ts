@@ -34,7 +34,12 @@ interface ReplyBody {
   messageId: string;
   comment: string;
 }
-type RequestBody = ListBody | GetBody | SendBody | ReplyBody;
+interface MarkReadBody {
+  action: 'markRead';
+  messageId: string;
+  isRead?: boolean;
+}
+type RequestBody = ListBody | GetBody | SendBody | ReplyBody | MarkReadBody;
 
 async function gatewayFetch(
   path: string,
