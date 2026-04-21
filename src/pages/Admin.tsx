@@ -219,7 +219,16 @@ export default function Admin() {
     }
   };
 
-  const filtered = submissions.filter((s) => filter === 'all' || s.type === filter);
+  const q = search.trim().toLowerCase();
+  const filtered = submissions.filter((s) => {
+    if (filter !== 'all' && s.type !== filter) return false;
+    if (!q) return true;
+    return (
+      s.name.toLowerCase().includes(q) ||
+      s.email.toLowerCase().includes(q) ||
+      (s.message?.toLowerCase().includes(q) ?? false)
+    );
+  });
 
   if (loading) {
     return (
