@@ -33,13 +33,90 @@ export default function Home() {
         canonicalPath="/"
         jsonLd={{
           '@context': 'https://schema.org',
-          '@type': 'ProfessionalService',
-          name: 'Jan Sommershoff – KI-Beratung',
-          description:
-            'KI-Beratung, Automatisierung und Systemarchitektur für Unternehmer und Mittelstand.',
-          areaServed: 'DE',
-          url: 'https://jan-sommershoff.de',
-          provider: { '@type': 'Person', name: 'Jan Sommershoff' },
+          '@graph': [
+            {
+              '@type': 'ProfessionalService',
+              '@id': 'https://jan-sommershoff.de/#service',
+              name: 'Jan Sommershoff – KI-Beratung',
+              description:
+                'KI-Beratung, Automatisierung und Systemarchitektur für Unternehmer und Mittelstand.',
+              areaServed: 'DE',
+              url: 'https://jan-sommershoff.de',
+              provider: { '@type': 'Person', name: 'Jan Sommershoff' },
+            },
+            {
+              '@type': 'WebSite',
+              '@id': 'https://jan-sommershoff.de/#website',
+              url: 'https://jan-sommershoff.de',
+              name: 'Jan Sommershoff',
+              description:
+                'KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer.',
+              inLanguage: 'de-DE',
+              publisher: { '@type': 'Person', name: 'Jan Sommershoff' },
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate:
+                    'https://jan-sommershoff.de/?s={search_term_string}',
+                },
+                'query-input': 'required name=search_term_string',
+              },
+            },
+            {
+              '@type': 'ItemList',
+              '@id': 'https://jan-sommershoff.de/#sitelinks',
+              name: 'Hauptbereiche',
+              itemListElement: [
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 1,
+                  name: 'Potenzialanalyse',
+                  description:
+                    'Kostenfreie KI-Potenzialanalyse für dein Unternehmen.',
+                  url: 'https://jan-sommershoff.de/#kontakt',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 2,
+                  name: 'Leistungen',
+                  description:
+                    'KI-Beratung, Automatisierung und Systemarchitektur.',
+                  url: 'https://jan-sommershoff.de/#expertise',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 3,
+                  name: 'Projekte',
+                  description: 'Ausgewählte Kundenprojekte und Referenzen.',
+                  url: 'https://jan-sommershoff.de/portfolio',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 4,
+                  name: 'KI Notfallkoffer',
+                  description:
+                    'Kostenloser Lead-Magnet: Sofort-Hilfe für KI-Einsteiger.',
+                  url: 'https://jan-sommershoff.de/auth',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 5,
+                  name: 'Über mich',
+                  description:
+                    'Jan Sommershoff – Unternehmer, KI-Stratege und Systemarchitekt.',
+                  url: 'https://jan-sommershoff.de/#story',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 6,
+                  name: 'Kontakt',
+                  description: 'Direkt Kontakt aufnehmen oder Termin buchen.',
+                  url: 'https://jan-sommershoff.de/#kontakt',
+                },
+              ],
+            },
+          ],
         }}
       />
       <div className="min-h-screen">
