@@ -18,6 +18,8 @@ const AGB = lazy(() => import("./pages/AGB"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Upsell = lazy(() => import("./pages/Upsell"));
 const Leistungen = lazy(() => import("./pages/Leistungen"));
+const Admin = lazy(() => import("./pages/Admin"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -35,6 +37,10 @@ const App = () => (
                 {/* Funnel pages – no main layout */}
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/upsell" element={<Upsell />} />
+
+                {/* Admin – no main layout */}
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* Main site pages */}
                 <Route path="/" element={<Layout><Home /></Layout>} />
