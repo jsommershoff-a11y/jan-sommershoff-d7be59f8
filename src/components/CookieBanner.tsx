@@ -37,8 +37,8 @@ export function CookieBanner() {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="fixed bottom-0 left-0 right-0 z-[60] p-3 md:p-4"
         >
-          <div className="max-w-3xl mx-auto bg-background/95 backdrop-blur-lg border border-border rounded-xl p-4 shadow-2xl">
-            <div className="flex items-center gap-3 sm:gap-4">
+          <div className="max-w-3xl mx-auto bg-background/95 backdrop-blur-lg border border-border rounded-xl p-3 sm:p-4 shadow-2xl">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <p className="text-xs sm:text-sm text-muted-foreground flex-1 leading-snug">
                 Wir verwenden Cookies für die bestmögliche Erfahrung.{' '}
                 <Link to="/datenschutz" className="text-accent hover:underline font-medium">
@@ -46,10 +46,10 @@ export function CookieBanner() {
                 </Link>
               </p>
               <div className="flex gap-2 shrink-0">
-                <Button variant="outline" size="sm" onClick={handleDecline} className="h-8 px-3 text-xs">
+                <Button variant="outline" size="sm" onClick={handleDecline} className="flex-1 sm:flex-none min-h-11 px-4 text-xs">
                   Ablehnen
                 </Button>
-                <Button size="sm" onClick={handleAccept} className="h-8 px-3 text-xs">
+                <Button size="sm" onClick={handleAccept} className="flex-1 sm:flex-none min-h-11 px-4 text-xs">
                   Akzeptieren
                 </Button>
               </div>
