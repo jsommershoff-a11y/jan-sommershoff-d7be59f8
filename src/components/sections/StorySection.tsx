@@ -1,6 +1,7 @@
 import { siteData } from '@/data/siteData';
 import aboutImage from '@/assets/hero-jan-new.png';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export function StorySection() {
@@ -38,18 +39,14 @@ export function StorySection() {
                   );
                 })}
               </div>
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+              <Link
+                to="/kontakt?ziel=potenzialanalyse"
                 className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 px-6 md:px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.4)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.5)] hover:-translate-y-1 duration-300"
               >
                 <span className="absolute inset-0 rounded-xl bg-primary animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-20" />
                 <span className="relative">Potenzialanalyse anfragen</span>
                 <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </div>
             <div className="relative md:sticky md:top-32 hidden md:block">
               <img

@@ -13,13 +13,10 @@ import { ExpertiseSection } from '@/components/sections/ExpertiseSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { KiZukunftSection } from '@/components/sections/KiZukunftSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
-import { LeadMagnetSection } from '@/components/sections/LeadMagnetSection';
 import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
 import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
-import { AppointmentSection } from '@/components/sections/AppointmentSection';
-import { ContactSection } from '@/components/sections/ContactSection';
 import { StickyCta } from '@/components/sections/StickyCta';
 import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
 import { SectionTransition } from '@/components/ui/SectionTransition';
@@ -53,15 +50,6 @@ export default function Home() {
                 'KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer.',
               inLanguage: 'de-DE',
               publisher: { '@type': 'Person', name: 'Jan Sommershoff' },
-              potentialAction: {
-                '@type': 'SearchAction',
-                target: {
-                  '@type': 'EntryPoint',
-                  urlTemplate:
-                    'https://jan-sommershoff.de/?s={search_term_string}',
-                },
-                'query-input': 'required name=search_term_string',
-              },
             },
             {
               '@type': 'ItemList',
@@ -71,37 +59,22 @@ export default function Home() {
                 {
                   '@type': 'SiteNavigationElement',
                   position: 1,
-                  name: 'Potenzialanalyse',
+                  name: 'Potenzialanalyse anfragen',
                   description:
-                    'Kostenfreie KI-Potenzialanalyse anfragen über das Kontaktformular.',
-                  url: 'https://jan-sommershoff.de/#kontakt',
+                    'Kostenfreie KI-Potenzialanalyse für Unternehmer.',
+                  url: 'https://jan-sommershoff.de/kontakt?ziel=potenzialanalyse',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 2,
-                  name: 'KI System Analyse',
+                  name: 'KI Notfallkoffer anfragen',
                   description:
-                    'Tiefenanalyse deiner Prozesse & KI-Roadmap (499 €).',
-                  url: 'https://jan-sommershoff.de/upsell',
+                    'Kostenloser Lead-Magnet: Sofort-Hilfe für KI-Einsteiger.',
+                  url: 'https://jan-sommershoff.de/kontakt?ziel=notfallkoffer',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 3,
-                  name: 'Projekte',
-                  description: 'Ausgewählte Kundenprojekte und Referenzen.',
-                  url: 'https://jan-sommershoff.de/portfolio',
-                },
-                {
-                  '@type': 'SiteNavigationElement',
-                  position: 4,
-                  name: 'KI Notfallkoffer',
-                  description:
-                    'Kostenloser Lead-Magnet: Sofort-Hilfe für KI-Einsteiger.',
-                  url: 'https://jan-sommershoff.de/#lead-magnet',
-                },
-                {
-                  '@type': 'SiteNavigationElement',
-                  position: 5,
                   name: 'Über mich',
                   description:
                     'Jan Sommershoff – Unternehmer, KI-Stratege und Systemarchitekt.',
@@ -109,7 +82,7 @@ export default function Home() {
                 },
                 {
                   '@type': 'SiteNavigationElement',
-                  position: 6,
+                  position: 4,
                   name: 'WhatsApp Kontakt',
                   description: 'Direkter Chat über WhatsApp Business.',
                   url: 'https://wa.me/message/VSNLCZXNWTSKO1',
@@ -166,12 +139,8 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="var(--muted)" height={48} />
         <ProjectsSection />
 
-        {/* Lead Magnet */}
-        <SectionTransition from="var(--muted)" to="var(--background)" height={48} />
-        <LeadMagnetSection />
-
         {/* Closing */}
-        <SectionTransition from="var(--background)" to="#0F3D2E" height={80} />
+        <SectionTransition from="var(--muted)" to="#0F3D2E" height={80} />
         <ClosingSection />
 
         {/* Instagram */}
@@ -182,16 +151,8 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
 
-        {/* Appointment */}
-        <SectionTransition from="#111111" to="var(--background)" height={80} />
-        <AppointmentSection />
-
-        {/* Contact */}
-        <SectionTransition from="var(--background)" to="var(--background)" height={48} />
-        <ContactSection />
-
         {/* Final CTA */}
-        <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
+        <SectionTransition from="#111111" to="var(--primary)" height={80} />
         <CtaSection />
 
         <StickyCta />

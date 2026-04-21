@@ -87,14 +87,10 @@ export function PersonalContactSection() {
                 </a>
 
                 <a
-                  href="#contact"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  href="/kontakt?ziel=potenzialanalyse"
                   className="group inline-flex items-center justify-center gap-2.5 border-2 border-white/20 text-white font-semibold text-base px-8 py-4 rounded-full hover:border-primary hover:bg-primary/20 transition-all duration-300"
                 >
-                  Potenzialanalyse buchen
+                  Potenzialanalyse anfragen
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>

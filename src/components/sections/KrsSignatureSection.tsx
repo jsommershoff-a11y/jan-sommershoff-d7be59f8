@@ -1,4 +1,5 @@
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { Link } from 'react-router-dom';
 import { Search, Bot, TrendingUp, ArrowRight } from 'lucide-react';
 import visualKrs from '@/assets/visual-krs-signature.jpg';
 
@@ -21,10 +22,6 @@ const pillars = [
 ];
 
 export function KrsSignatureSection() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-muted">
       <div className="max-w-6xl mx-auto">
@@ -74,13 +71,13 @@ export function KrsSignatureSection() {
 
         <ScrollReveal delay={0.4}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => scrollTo('contact')}
+            <Link
+              to="/kontakt?ziel=potenzialanalyse"
               className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_4px_30px_rgba(15,61,46,0.4)] hover:shadow-[0_8px_40px_rgba(15,61,46,0.5)] hover:-translate-y-1 duration-300"
             >
               Potenzialanalyse anfragen
               <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </Link>
           </div>
         </ScrollReveal>
       </div>

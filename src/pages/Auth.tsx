@@ -56,7 +56,7 @@ export default function Auth() {
         if (error) throw error;
         trackEvent('login_success', { funnel: 'notfallkoffer' });
         toast.success('Willkommen zurück!');
-        window.location.href = '/upsell';
+        window.location.href = '/danke/lead';
       }
     } catch (err: any) {
       trackEvent(mode === 'register' ? 'signup_error' : 'login_error', {

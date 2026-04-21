@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ChevronDown, Clock, Database, TrendingDown, LayoutList, ShieldAlert, Compass } from 'lucide-react';
 
@@ -62,10 +63,6 @@ const situations = [
 
 export function SituationsSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section className="py-16 md:py-28 px-4 md:px-6 lg:px-8 bg-muted">
@@ -130,12 +127,12 @@ export function SituationsSection() {
                           <p className="text-primary font-semibold leading-relaxed">
                             {highlightText(item.insight)}
                           </p>
-                          <button
-                            onClick={scrollToContact}
+                          <Link
+                            to="/kontakt?ziel=potenzialanalyse"
                             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline underline-offset-4 transition-all mt-1"
                           >
                             Jetzt Potenzialanalyse anfragen →
-                          </button>
+                          </Link>
                         </div>
                       </motion.div>
                     )}

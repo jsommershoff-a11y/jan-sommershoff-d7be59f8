@@ -4,10 +4,6 @@ import { Link } from 'react-router-dom';
 import { Cpu, ArrowRight } from 'lucide-react';
 
 export function KiZukunftSection() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section className="py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-muted">
       <div className="max-w-4xl mx-auto">
@@ -49,10 +45,10 @@ export function KiZukunftSection() {
         <ScrollReveal delay={0.3}>
           <div className="mt-8 md:mt-10 text-center">
             <Link
-              to="/auth"
+              to="/kontakt?ziel=notfallkoffer"
               className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 md:px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
             >
-              KI Notfallkoffer entdecken
+              Notfallkoffer anfragen
               <ArrowRight className="size-4" />
             </Link>
           </div>

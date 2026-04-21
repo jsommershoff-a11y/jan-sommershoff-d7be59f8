@@ -51,7 +51,7 @@ export function Footer() {
 
           {/* CTA Button */}
           <a
-            href="/#contact"
+            href="/kontakt?ziel=potenzialanalyse"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(15,61,46,0.3)]"
           >
             Kostenlose Analyse starten

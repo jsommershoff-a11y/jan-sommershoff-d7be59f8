@@ -106,11 +106,7 @@ export function ClosingSection() {
               </div>
 
               <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                href="/kontakt?ziel=potenzialanalyse"
                 className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-white text-[#0F3D2E] font-bold text-base md:text-xl px-6 md:px-16 py-4 md:py-5 rounded-xl shadow-[0_4px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(255,255,255,0.25)] hover:-translate-y-1 transition-all duration-300"
               >
                 <span className="absolute inset-0 rounded-xl bg-white animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite] opacity-10" />
