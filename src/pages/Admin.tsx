@@ -187,31 +187,50 @@ export default function Admin() {
 
   const openAdd = () => {
     setEditingId(null);
-    setForm({ type: 'contact', name: '', email: '', message: '' });
+    setForm({ type: 'contact', first_name: '', last_name: '', email: '', phone: '', message: '' });
     setFormOpen(true);
   };
 
   const openEdit = (s: Submission) => {
     setEditingId(s.id);
+    // Backfill from "name" if first/last not yet stored
+    const parts = (s.name ?? '').trim().split(/\s+/);
+    const fallbackFirst = parts[0] ?? '';
+    const fallbackLast = parts.slice(1).join(' ') ?? '';
     setForm({
       type: s.type,
-      name: s.name,
+      first_name: s.first_name ?? fallbackFirst,
+      last_name: s.last_name ?? fallbackLast,
       email: s.email,
+      phone: s.phone ?? '',
       message: s.message ?? '',
     });
     setFormOpen(true);
   };
 
   const handleSave = async () => {
-    if (!form.name.trim() || !form.email.trim()) {
-      toast.error('Name und E-Mail sind Pflicht');
+    const first_name = form.first_name.trim();
+    const last_name = form.last_name.trim();
+    const email = form.email.trim();
+    const phone = form.phone.trim();
+
+    if (!first_name || !last_name || !email || !phone) {
+      toast.error('Vorname, Nachname, E-Mail und Telefon sind Pflicht');
       return;
     }
+    if (!/^[+\d][\d\s\-/().]{3,49}$/.test(phone)) {
+      toast.error('Bitte eine gültige Telefonnummer angeben');
+      return;
+    }
+
     setSaving(true);
     const payload = {
       type: form.type,
-      name: form.name.trim(),
-      email: form.email.trim(),
+      name: `${first_name} ${last_name}`.trim(),
+      first_name,
+      last_name,
+      email,
+      phone,
       message: form.message.trim() || null,
     };
 
