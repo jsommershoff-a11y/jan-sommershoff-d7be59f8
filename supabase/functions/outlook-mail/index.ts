@@ -179,6 +179,15 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Log as interaction
+      await logInteraction(userClient, user.id, {
+        recipientEmail: body.to,
+        subject: body.subject,
+        content: body.body,
+        direction: 'outbound',
+      });
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -198,6 +207,28 @@ Deno.serve(async (req) => {
         LOVABLE_API_KEY,
         OUTLOOK_API_KEY,
       );
+
+      // Lookup original message to get recipient (the original sender we reply to)
+      try {
+        const orig = await gatewayFetch(
+          `/me/messages/${encodeURIComponent(body.messageId)}?$select=subject,from`,
+          { method: 'GET' },
+          LOVABLE_API_KEY,
+          OUTLOOK_API_KEY,
+        ) as { subject?: string; from?: { emailAddress?: { address?: string } } };
+        const replyTo = orig?.from?.emailAddress?.address;
+        if (replyTo) {
+          await logInteraction(userClient, user.id, {
+            recipientEmail: replyTo,
+            subject: orig.subject ? `Re: ${orig.subject}` : 'Antwort',
+            content: body.comment,
+            direction: 'outbound',
+          });
+        }
+      } catch (e) {
+        console.warn('Reply interaction logging failed:', e);
+      }
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
