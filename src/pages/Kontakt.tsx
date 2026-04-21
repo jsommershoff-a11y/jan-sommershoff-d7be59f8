@@ -103,7 +103,10 @@ export default function Kontakt() {
         throw new Error((data as { error: string }).error);
       }
 
-      trackConversion(config.conversionEvent, config.metaEvent, { ziel });
+      // GA4-Event feuern; Meta Lead/CompleteRegistration werden zentral
+      // vom MetaPixelRouterTracker auf /danke/kontakt bzw. /danke/lead gefeuert
+      // (sessionStorage-dedupliziert), um Duplikate zu vermeiden.
+      trackEvent(config.conversionEvent, { ziel });
       navigate(`/danke/kontakt?ziel=${ziel}`);
     } catch (error: unknown) {
       console.error('Submit error:', error);
