@@ -9,26 +9,33 @@ const BOOKING_URL = '/kontakt?ziel=potenzialanalyse';
 const PHONE = '+49 175 1127114';
 const EMAIL = 'j.s@jan-sommershoff.de';
 
+const CTA_ID = 'floating_multi_channel';
+const PLACEMENT = 'floating_fab';
+
 export function FloatingCta() {
   const [open, setOpen] = useState(false);
   const { isScrolled } = useScrollPosition();
 
   if (!isScrolled) return null;
 
-  const handleWhatsApp = () => {
-    trackEvent('whatsapp_click', { source: 'floating_cta' });
+  const toggleOpen = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) {
+      trackEvent('cta_shown', { cta_id: CTA_ID, placement: PLACEMENT });
+    }
+  };
+
+  const trackChannel = (channel: string, eventName: string) => {
+    trackEvent(eventName, { source: 'floating_cta' });
+    trackEvent('cta_click', { cta_id: CTA_ID, placement: PLACEMENT, channel });
     setOpen(false);
   };
 
-  const handlePhone = () => {
-    trackEvent('phone_click', { source: 'floating_cta' });
-    setOpen(false);
-  };
-
-  const handleEmail = () => {
-    trackEvent('email_click', { source: 'floating_cta' });
-    setOpen(false);
-  };
+  const handleWhatsApp = () => trackChannel('whatsapp', 'whatsapp_click');
+  const handlePhone = () => trackChannel('phone', 'phone_click');
+  const handleEmail = () => trackChannel('email', 'email_click');
+  const handleBooking = () => trackChannel('potenzialanalyse', 'potenzialanalyse_click');
 
   return (
     <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3">
@@ -63,7 +70,7 @@ export function FloatingCta() {
 
               <a
                 href={BOOKING_URL}
-                onClick={() => setOpen(false)}
+                onClick={handleBooking}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/5 text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -109,7 +116,7 @@ export function FloatingCta() {
 
       {/* Main FAB */}
       <motion.button
-        onClick={() => setOpen(!open)}
+        onClick={toggleOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="relative w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 flex items-center justify-center hover:shadow-xl hover:shadow-[#25D366]/40 transition-shadow"
