@@ -87,7 +87,66 @@
             "url": "https://jan-sommershoff.de",
             "name": "Jan Sommershoff",
             "inLanguage": "de-DE",
-            "publisher": { "@id": "https://jan-sommershoff.de/#person" }
+            "publisher": { "@id": "https://jan-sommershoff.de/#person" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://jan-sommershoff.de/?s={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://jan-sommershoff.de/#sitelinks",
+            "name": "Hauptnavigation Jan Sommershoff",
+            "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "numberOfItems": 6,
+            "itemListElement": [
+              {
+                "@type": "SiteNavigationElement",
+                "position": 1,
+                "name": "Leistungen",
+                "description": "KI-Integration, Automatisierung und Datenstruktur für den Mittelstand.",
+                "url": "https://jan-sommershoff.de/leistungen"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 2,
+                "name": "Posteingang",
+                "description": "KI-gestützte Posteingangs- und E-Mail-Automatisierung.",
+                "url": "https://jan-sommershoff.de/posteingang"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 3,
+                "name": "Kontakt",
+                "description": "Kostenlose Potenzialanalyse anfragen.",
+                "url": "https://jan-sommershoff.de/kontakt"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 4,
+                "name": "Datenschutz",
+                "description": "Datenschutzerklärung gemäß DSGVO.",
+                "url": "https://jan-sommershoff.de/datenschutz"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 5,
+                "name": "Impressum",
+                "description": "Anbieterkennzeichnung gemäß § 5 TMG.",
+                "url": "https://jan-sommershoff.de/impressum"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 6,
+                "name": "AGB",
+                "description": "Allgemeine Geschäftsbedingungen.",
+                "url": "https://jan-sommershoff.de/agb"
+              }
+            ]
           }
         ]
       }
