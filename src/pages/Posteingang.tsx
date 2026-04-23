@@ -105,6 +105,11 @@ const FAQ = [
       'Alle Daten werden in deutschen beziehungsweise europäischen Rechenzentren verarbeitet. Wir schließen mit Ihnen einen Auftragsverarbeitungsvertrag (AV-Vertrag) und setzen technische und organisatorische Maßnahmen gemäß DSGVO um.',
   },
   {
+    question: 'Übernehmen Sie auch das Scannen der Briefe?',
+    answer:
+      'Nein. Wir liefern ausschließlich die Automatisierungslösung und den dahinterliegenden Prozess. Das physische Öffnen und Scannen der Briefpost übernehmen Sie selbst (mit eigenem Scanner) oder Ihr bestehender Scan-Dienstleister. Sobald die Dokumente digital vorliegen, übernimmt unsere Lösung – von OCR über KI-Klassifikation bis zum Routing.',
+  },
+  {
     question: 'Welche Dokumenttypen kann die KI unterscheiden?',
     answer:
       'Unter anderem Rechnungen, Mahnungen, Verträge, Kündigungen, Behördenpost, Lieferscheine, Steuerunterlagen, Versicherungsschreiben und Kundenkorrespondenz. Die Klassifikation wird auf Ihre tatsächlichen Dokumenttypen trainiert.',
@@ -112,7 +117,7 @@ const FAQ = [
   {
     question: 'Brauche ich spezielle Hardware?',
     answer:
-      'Nein. Die Verarbeitung läuft cloud-basiert. Für die Digitalisierung genügt ein handelsüblicher Scanner oder ein Dokumenten-Einzug. Bei Bedarf empfehlen wir passende Hardware.',
+      'Für die Automatisierung selbst nein – sie läuft cloud-basiert. Für die Digitalisierung Ihrer Briefpost benötigen Sie einen handelsüblichen Dokumenten-Scanner oder einen externen Scan-Dienstleister. Auf Wunsch empfehlen wir passende Hardware oder Partner.',
   },
   {
     question: 'Was passiert bei unklaren Klassifikationen?',
@@ -169,10 +174,10 @@ const POSTEINGANG_JSONLD: Record<string, unknown> = {
     {
       '@type': 'Service',
       '@id': `${SITE_URL}${CANONICAL_PATH}#service`,
-      serviceType: 'Briefpost-Eingangsautomatisierung',
-      name: 'Briefpost-Eingangsautomatisierung',
+      serviceType: 'Posteingangs-Automatisierung (Software & Prozess)',
+      name: 'Posteingangs-Automatisierung',
       description:
-        'Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme.',
+        'Automatisierungslösung für den digitalen Posteingang: OCR, KI-Klassifikation und Routing in bestehende Systeme. Reine Software- und Prozessleistung – kein Scan-Service, kein physisches Posthandling.',
       url: `${SITE_URL}${CANONICAL_PATH}`,
       provider: { '@id': `${SITE_URL}/#organization` },
       areaServed: { '@type': 'Country', name: 'Deutschland' },
@@ -186,7 +191,7 @@ const POSTEINGANG_JSONLD: Record<string, unknown> = {
         itemListElement: [
           { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'OCR und Volltext-Indexierung' } },
           { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'KI-Klassifikation und Dokument-Routing' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prozess-Implementierung und Integration' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prozessdesign und Software-Integration' } },
         ],
       },
     },
