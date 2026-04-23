@@ -104,6 +104,14 @@ export function ExitIntentPopup() {
               Notfallkoffer anfragen
               <ArrowRight className="size-5" />
             </Link>
+
+            <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+              Mit dem Absenden stimmst du unserer{' '}
+              <Link to="/datenschutz" className="underline hover:text-foreground transition-colors">
+                Datenschutzerklärung
+              </Link>{' '}
+              zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.
+            </p>
           </motion.div>
         </motion.div>
       )}
