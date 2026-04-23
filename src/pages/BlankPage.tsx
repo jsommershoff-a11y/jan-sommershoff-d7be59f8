@@ -10,16 +10,16 @@ import { useEffect } from 'react';
  *       <Route path="/meine-seite" element={<Layout><MeineSeite /></Layout>} />
  */
 export default function BlankPage() {
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = 'Neue Seite | Jan Sommershoff';
+    return () => {
+      document.title = prevTitle;
+    };
+  }, []);
+
   return (
     <>
-      <Helmet>
-        <title>Neue Seite | Jan Sommershoff</title>
-        <meta
-          name="description"
-          content="Kurzbeschreibung der Seite (max. 160 Zeichen) für SEO."
-        />
-      </Helmet>
-
       <article className="container mx-auto max-w-4xl px-4 py-16 md:py-24">
         <header className="mb-10 md:mb-14">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
