@@ -60,33 +60,50 @@ export default function Home() {
                 {
                   '@type': 'SiteNavigationElement',
                   position: 1,
-                  name: 'Potenzialanalyse anfragen',
+                  name: 'KI-Beratung & Leistungen',
                   description:
-                    'Kostenfreie KI-Potenzialanalyse für Unternehmer.',
-                  url: 'https://jan-sommershoff.de/kontakt?ziel=potenzialanalyse',
+                    'Übersicht aller KI-Beratungs- und Automatisierungs-Leistungen für Unternehmer.',
+                  url: 'https://jan-sommershoff.de/leistungen',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 2,
-                  name: 'KI Notfallkoffer anfragen',
+                  name: 'Postautomatisierung',
                   description:
-                    'Kostenloser Lead-Magnet: Sofort-Hilfe für KI-Einsteiger.',
-                  url: 'https://jan-sommershoff.de/kontakt?ziel=notfallkoffer',
+                    'KI-gestützte Posteingangs-Automatisierung: OCR, Klassifikation und Routing.',
+                  url: 'https://jan-sommershoff.de/postautomatisierung',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 3,
-                  name: 'Über mich',
+                  name: 'Kostenfreie Potenzialanalyse',
                   description:
-                    'Jan Sommershoff – Unternehmer, KI-Stratege und Systemarchitekt.',
-                  url: 'https://jan-sommershoff.de/#story',
+                    'Unverbindliche KI-Potenzialanalyse für Unternehmer und Mittelstand.',
+                  url: 'https://jan-sommershoff.de/kontakt?ziel=potenzialanalyse',
                 },
                 {
                   '@type': 'SiteNavigationElement',
                   position: 4,
-                  name: 'WhatsApp Kontakt',
-                  description: 'Direkter Chat über WhatsApp Business.',
-                  url: 'https://wa.me/message/VSNLCZXNWTSKO1',
+                  name: 'KI Notfallkoffer sichern',
+                  description:
+                    'Kostenloser Lead-Magnet mit Sofort-Hilfe für KI-Einsteiger.',
+                  url: 'https://jan-sommershoff.de/kontakt?ziel=notfallkoffer',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 5,
+                  name: 'Über Jan Sommershoff',
+                  description:
+                    'Unternehmer, KI-Stratege und Systemarchitekt – Werdegang und Mission.',
+                  url: 'https://jan-sommershoff.de/#story',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  position: 6,
+                  name: 'Kontakt aufnehmen',
+                  description:
+                    'Direkter Kontakt per Formular, WhatsApp oder Terminbuchung.',
+                  url: 'https://jan-sommershoff.de/kontakt',
                 },
               ],
             },
