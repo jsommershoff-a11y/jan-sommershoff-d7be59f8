@@ -5,19 +5,35 @@ import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
-import { Instagram } from 'lucide-react';
+import { Instagram, ChevronDown } from 'lucide-react';
 import { siteData } from '@/data/siteData';
 import logoIcon from '@/assets/logo-icon.png';
 
-const navLinks = [
+type ProductChild = { name: string; href: string; description?: string };
+type NavLink =
+  | { name: string; href: string; children?: undefined }
+  | { name: string; href?: undefined; children: ProductChild[] };
+
+const navLinks: NavLink[] = [
   { name: 'Meine Geschichte', href: '#story' },
   { name: 'Leistungen', href: '/leistungen' },
   { name: 'Expertise', href: '#expertise' },
-  { name: 'Projekte', href: '#projects' },
+  {
+    name: 'Produkte',
+    children: [
+      {
+        name: 'Postautomatisierung',
+        href: '/postautomatisierung',
+        description: 'OCR, KI-Klassifikation & Routing für deinen Posteingang.',
+      },
+    ],
+  },
   { name: 'Kontakt', href: '/kontakt?ziel=potenzialanalyse' },
 ];
 
-const sectionIds = navLinks.map((l) => l.href.slice(1));
+const sectionIds = navLinks
+  .filter((l): l is { name: string; href: string } => typeof l.href === 'string' && l.href.startsWith('#'))
+  .map((l) => l.href.slice(1));
 
 function HamburgerIcon({ open, transparent }: { open: boolean; transparent: boolean }) {
   const lineClass = cn(
