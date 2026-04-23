@@ -316,6 +316,44 @@ export default function Datenschutz() {
           <p>Die Entscheidung zur Nutzung der Analyse sowie zu einer späteren Kontaktaufnahme liegt jederzeit vollständig beim Nutzer. Die Nutzung der Website und der Analyse ist auch ohne Kontaktaufnahme uneingeschränkt möglich.</p>
         </section>
 
+        {/* Kontakt & Datenschutz-Links */}
+        <section className="mt-8 rounded-lg border border-border bg-muted/30 p-5 sm:p-6 not-prose">
+          <h2 className="text-xl font-semibold text-foreground mb-3">Kontakt zum Datenschutz</h2>
+          <p className="mb-4">
+            Bei Fragen zum Datenschutz, zur Verarbeitung Ihrer Daten oder zur Ausübung Ihrer Rechte (Auskunft, Berichtigung, Löschung, Widerruf) erreichen Sie uns jederzeit:
+          </p>
+          <ul className="list-none pl-0 space-y-2">
+            <li>
+              <strong className="text-foreground">E-Mail:</strong>{' '}
+              <a href="mailto:j.s@jan-sommershoff.de" className="text-accent hover:underline">
+                j.s@jan-sommershoff.de
+              </a>
+            </li>
+            <li>
+              <strong className="text-foreground">Telefon:</strong>{' '}
+              <a href="tel:+491751127114" className="text-accent hover:underline">
+                +49 175 1127114
+              </a>
+            </li>
+            <li>
+              <strong className="text-foreground">Kontaktformular:</strong>{' '}
+              <Link to="/kontakt" className="text-accent hover:underline">
+                /kontakt
+              </Link>
+            </li>
+            <li>
+              <strong className="text-foreground">Cookie-Einstellungen:</strong>{' '}
+              jederzeit über den Cookie-Button unten links änderbar
+            </li>
+          </ul>
+          <p className="mt-4 text-sm">
+            Weitere rechtliche Hinweise:{' '}
+            <Link to="/impressum" className="text-accent hover:underline">Impressum</Link>
+            {' · '}
+            <Link to="/agb" className="text-accent hover:underline">AGB</Link>
+          </p>
+        </section>
+
         <p className="text-sm text-muted-foreground pt-4">Stand: {new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
       </div>
     </div>
