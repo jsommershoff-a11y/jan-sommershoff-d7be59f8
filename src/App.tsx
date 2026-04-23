@@ -24,6 +24,7 @@ const AdminConversions = lazy(() => import("./pages/AdminConversions"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Kontakt = lazy(() => import("./pages/Kontakt"));
 const Posteingang = lazy(() => import("./pages/Posteingang"));
+const Postautomatisierung = lazy(() => import("./pages/Postautomatisierung"));
 
 // Thank-you pages
 const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
