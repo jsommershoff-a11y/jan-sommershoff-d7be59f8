@@ -36,7 +36,7 @@ const PILLARS = [
     icon: FileText,
     title: 'OCR + Volltext-Indexierung',
     description:
-      'Jeder eingehende Brief wird gescannt, per OCR in Text umgewandelt und in einem durchsuchbaren Volltextindex abgelegt.',
+      'Sobald ein digitalisiertes Dokument (PDF/Scan) im definierten Eingangskanal landet, wird es per OCR in durchsuchbaren Text umgewandelt und indexiert. Den Scan selbst übernehmen Sie oder Ihr bestehender Scan-Dienstleister.',
   },
   {
     icon: Brain,
@@ -46,9 +46,9 @@ const PILLARS = [
   },
   {
     icon: Workflow,
-    title: 'Prozess-Implementierung',
+    title: 'Prozess & Software-Integration',
     description:
-      'Wir integrieren den automatisierten Posteingang in Ihre bestehenden Tools (DMS, CRM, ERP, Mail, Drive, SharePoint) und übernehmen die komplette Einführung.',
+      'Wir liefern Prozessdesign und Automatisierungslösung und integrieren sie in Ihre bestehenden Tools (DMS, CRM, ERP, Mail, Drive, SharePoint). Kein physisches Posthandling, kein Scan-Service.',
   },
 ];
 
@@ -57,35 +57,35 @@ const STEPS = [
     number: '01',
     title: 'Erstgespräch & Ist-Analyse',
     description:
-      'Wir klären Postvolumen, Dokumenttypen, Zielsysteme und bestehende Abläufe. Kostenfrei, unverbindlich.',
+      'Wir klären Postvolumen, Dokumenttypen, Zielsysteme und Ihre Scan-Quelle (eigener Scanner oder externer Dienstleister). Kostenfrei, unverbindlich.',
   },
   {
     number: '02',
     title: 'Prozessdesign & Angebot',
     description:
-      'Sie erhalten einen konkreten Implementierungsplan inklusive Aufwand, Ergebnis und Kosten.',
+      'Sie erhalten einen konkreten Implementierungsplan für die Automatisierungslösung – inklusive Aufwand, Ergebnis und Kosten.',
   },
   {
     number: '03',
     title: 'Einrichtung & Integration',
     description:
-      'OCR-Pipeline, KI-Klassifikation und Routing werden konfiguriert, an Ihre Systeme angebunden und getestet.',
+      'OCR-Pipeline, KI-Klassifikation und Routing werden konfiguriert, an Ihre Systeme angebunden und getestet. Das physische Scannen bleibt bei Ihnen bzw. Ihrem Dienstleister.',
   },
   {
     number: '04',
     title: 'Go-live & Betrieb',
     description:
-      'Schulung, Betriebshandbuch und laufende Optimierung. Der automatisierte Posteingang läuft produktiv.',
+      'Schulung, Betriebshandbuch und laufende Optimierung der Automatisierung. Der digitale Posteingang läuft produktiv.',
   },
 ];
 
 const BENEFITS = [
-  'Jeder Brief digital, durchsuchbar und zugeordnet statt manuell sortiert.',
+  'Jedes digitalisierte Dokument wird automatisch sortiert, klassifiziert und zugeordnet.',
   'Absender, Dokumenttyp und Priorität werden automatisch erkannt.',
   'Direkte Weitergabe an Buchhaltung, Kundendienst, Rechtsabteilung oder Geschäftsführung.',
   'DSGVO-konforme Verarbeitung, Daten in deutschen und europäischen Rechenzentren.',
   'Integration in bestehende Systeme – ohne Werkzeugwechsel für Ihr Team.',
-  'Messbare Zeitersparnis ab dem ersten Monat.',
+  'Reine Software-/Prozessleistung: kein physisches Posthandling, keine Scan-Dienstleistung.',
 ];
 
 const FAQ = [
