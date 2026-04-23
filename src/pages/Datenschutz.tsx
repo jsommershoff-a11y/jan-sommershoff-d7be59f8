@@ -380,6 +380,7 @@ export default function Datenschutz() {
 
         <p className="text-sm text-muted-foreground pt-4">Stand: {new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
       </div>
+      </div>
     </>
   );
 }
