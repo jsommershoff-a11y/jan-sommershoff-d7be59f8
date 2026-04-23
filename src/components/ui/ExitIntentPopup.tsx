@@ -25,6 +25,23 @@ export function ExitIntentPopup() {
     }
   };
 
+  /**
+   * Sendet ein gtag-Event („popup_legal_link_click") und navigiert verzögert
+   * (max. 2s) per React-Router zur Ziel-URL. Schließt das Popup zuerst.
+   */
+  const handleLegalLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    target: string,
+    label: string
+  ) => {
+    e.preventDefault();
+    dismiss('cta_click');
+    gtagSendEventAndNavigate('popup_legal_link_click', target, {
+      params: { popup_id: 'exit_intent_notfallkoffer', link: label },
+      onNavigate: (url) => navigate(url),
+    });
+  };
+
   useEffect(() => {
     // Desktop: mouse leaves viewport top
     const handleMouseLeave = (e: MouseEvent) => {
