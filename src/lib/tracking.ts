@@ -240,7 +240,7 @@ export function gtagSendEventAndNavigate(
   // Netzwerk oder wenn gtag den Callback verschluckt: nach `timeout` ms
   // wird trotzdem navigiert.
   if (typeof window !== 'undefined') {
-    fallbackTimer = window.setTimeout(() => go('timeout'), timeout);
+    fallbackTimer = setTimeout(() => go('timeout'), timeout);
   }
 
   try {
