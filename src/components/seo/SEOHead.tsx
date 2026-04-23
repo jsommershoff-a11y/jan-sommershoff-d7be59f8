@@ -9,29 +9,46 @@ interface SEOHeadProps {
   type?: 'website' | 'article';
   /** Override the canonical URL (defaults to the current pathname). */
   canonicalPath?: string;
+  /** Override the site origin used for canonical + og:url.
+   *  Default: window.location.origin (fallback: https://jan-sommershoff.de). */
+  siteUrl?: string;
   /** Optional JSON-LD object — will be embedded as application/ld+json. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** Set to true to discourage indexing (e.g. for /auth, /admin). */
   noIndex?: boolean;
 }
 
-const SITE_URL = 'https://jan-sommershoff.de';
-const DEFAULT_OG = `${SITE_URL}/og-image.png`;
+const DEFAULT_SITE_URL = 'https://jan-sommershoff.de';
+
+function resolveSiteUrl(explicit?: string): string {
+  if (explicit) return explicit.replace(/\/$/, '');
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return window.location.origin.replace(/\/$/, '');
+  }
+  return DEFAULT_SITE_URL;
+}
 
 /**
  * SEO meta-tag manager. Handles title, description, Open Graph, Twitter,
  * canonical, robots and optional JSON-LD structured data.
+ *
+ * Multi-domain aware: canonical + og:url are derived from either an explicit
+ * `siteUrl` prop (preferred, prevents SSR drift) or `window.location.origin`.
  */
 export function SEOHead({
   title,
   description,
-  image = DEFAULT_OG,
+  image,
   type = 'website',
   canonicalPath,
+  siteUrl,
   jsonLd,
   noIndex = false,
 }: SEOHeadProps) {
   const location = useLocation();
+  const resolvedSiteUrl = resolveSiteUrl(siteUrl);
+  const defaultOg = `${resolvedSiteUrl}/og-image.png`;
+  const resolvedImage = image ?? defaultOg;
 
   const fullTitle = title
     ? `${title} | ${siteData.name}`
@@ -39,7 +56,7 @@ export function SEOHead({
 
   const fullDescription = description || siteData.heroSubheadline;
   const path = canonicalPath ?? location.pathname;
-  const canonicalUrl = `${SITE_URL}${path}`;
+  const canonicalUrl = `${resolvedSiteUrl}${path}`;
 
   useEffect(() => {
     document.title = fullTitle;
@@ -68,7 +85,7 @@ export function SEOHead({
     setMeta('og:description', fullDescription, true);
     setMeta('og:type', type, true);
     setMeta('og:url', canonicalUrl, true);
-    setMeta('og:image', image, true);
+    setMeta('og:image', resolvedImage, true);
     setMeta('og:site_name', siteData.name, true);
     setMeta('og:locale', 'de_DE', true);
 
@@ -76,7 +93,7 @@ export function SEOHead({
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', fullTitle);
     setMeta('twitter:description', fullDescription);
-    setMeta('twitter:image', image);
+    setMeta('twitter:image', resolvedImage);
 
     // Canonical
     let canonical = document.head.querySelector(
@@ -101,7 +118,7 @@ export function SEOHead({
       script.text = JSON.stringify(jsonLd);
       document.head.appendChild(script);
     }
-  }, [fullTitle, fullDescription, canonicalUrl, image, type, noIndex, jsonLd]);
+  }, [fullTitle, fullDescription, canonicalUrl, resolvedImage, type, noIndex, jsonLd]);
 
   return null;
 }

@@ -29,7 +29,7 @@ function trackOncePerSession(
 
 /**
  * Globaler SPA-Tracker für Meta Pixel.
- * - Feuert PageView bei jedem Routenwechsel.
+ * - Feuert PageView bei jedem Routenwechsel (BASE-Pageview wird bereits initial vom fbq('track','PageView') im loader gesetzt).
  * - Feuert Lead / CompleteRegistration einmal pro Session auf den Danke-Seiten.
  */
 export function MetaPixelRouterTracker() {
@@ -53,6 +53,15 @@ export function MetaPixelRouterTracker() {
         value: 0,
         currency: 'EUR',
         status: true,
+      });
+    }
+
+    if (location.pathname === '/danke/posteingang') {
+      trackOncePerSession('Lead', 'meta_lead_tracked_danke_posteingang', {
+        content_name: 'Briefpost-Eingangsautomatisierung Anfrage',
+        content_category: 'High Intent Automation Lead',
+        value: 1,
+        currency: 'EUR',
       });
     }
   }, [location.pathname, location.search]);

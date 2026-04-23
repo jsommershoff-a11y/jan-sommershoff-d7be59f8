@@ -1,4 +1,6 @@
 # https://jan-sommershoff.de
+# https://dein-automatisierungsberater.de
+# build: 2026-04-23
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -8,3 +10,4 @@ Disallow: /auth
 Disallow: /upsell
 
 Sitemap: https://jan-sommershoff.de/sitemap.xml
+Sitemap: https://dein-automatisierungsberater.de/sitemap-automatisierungsberater.xml
