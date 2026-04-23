@@ -127,11 +127,20 @@ export function ExitIntentPopup() {
               Mit dem Absenden stimmst du unserer{' '}
               <Link
                 to="/datenschutz"
-                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap"
+                onClick={(e) => handleLegalLinkClick(e, '/datenschutz', 'datenschutz')}
+                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
               >
                 Datenschutzerklärung
               </Link>{' '}
-              zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.
+              zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.{' '}
+              <Link
+                to="/impressum"
+                onClick={(e) => handleLegalLinkClick(e, '/impressum', 'impressum')}
+                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+              >
+                Impressum
+              </Link>
+              .
             </p>
           </motion.div>
         </motion.div>
