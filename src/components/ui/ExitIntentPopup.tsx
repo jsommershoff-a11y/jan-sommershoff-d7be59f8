@@ -104,10 +104,6 @@ export function ExitIntentPopup() {
               Notfallkoffer anfragen
               <ArrowRight className="size-5" />
             </Link>
-
-            <p className="mt-4 text-xs text-muted-foreground">
-              Kein Spam. Sofortiger Zugang.
-            </p>
           </motion.div>
         </motion.div>
       )}
