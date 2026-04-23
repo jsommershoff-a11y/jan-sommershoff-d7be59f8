@@ -5,19 +5,35 @@ import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '@/lib/utils';
-import { Instagram } from 'lucide-react';
+import { Instagram, ChevronDown } from 'lucide-react';
 import { siteData } from '@/data/siteData';
 import logoIcon from '@/assets/logo-icon.png';
 
-const navLinks = [
+type ProductChild = { name: string; href: string; description?: string };
+type NavLink =
+  | { name: string; href: string; children?: undefined }
+  | { name: string; href?: undefined; children: ProductChild[] };
+
+const navLinks: NavLink[] = [
   { name: 'Meine Geschichte', href: '#story' },
   { name: 'Leistungen', href: '/leistungen' },
   { name: 'Expertise', href: '#expertise' },
-  { name: 'Projekte', href: '#projects' },
+  {
+    name: 'Produkte',
+    children: [
+      {
+        name: 'Postautomatisierung',
+        href: '/postautomatisierung',
+        description: 'OCR, KI-Klassifikation & Routing für deinen Posteingang.',
+      },
+    ],
+  },
   { name: 'Kontakt', href: '/kontakt?ziel=potenzialanalyse' },
 ];
 
-const sectionIds = navLinks.map((l) => l.href.slice(1));
+const sectionIds = navLinks
+  .filter((l): l is { name: string; href: string } => typeof l.href === 'string' && l.href.startsWith('#'))
+  .map((l) => l.href.slice(1));
 
 function HamburgerIcon({ open, transparent }: { open: boolean; transparent: boolean }) {
   const lineClass = cn(
@@ -107,6 +123,53 @@ export function Header() {
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link, i) => {
+                if (link.children) {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 * i }}
+                      className="relative group"
+                    >
+                      <button
+                        type="button"
+                        className={cn(
+                          'inline-flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-300',
+                          isTransparent
+                            ? 'text-white/60 hover:text-white'
+                            : 'text-muted-foreground hover:text-foreground'
+                        )}
+                        aria-haspopup="true"
+                      >
+                        {link.name}
+                        <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" />
+                      </button>
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 focus-within:visible focus-within:opacity-100 focus-within:translate-y-0 transition-all duration-200">
+                        <div className="min-w-[280px] rounded-xl border border-border bg-popover/95 backdrop-blur-md shadow-xl p-2">
+                          {link.children.map((child) => (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              onClick={(e) => handleNavClick(e, child.href)}
+                              className="block rounded-lg px-3 py-2.5 hover:bg-muted transition-colors"
+                            >
+                              <span className="block text-sm font-semibold text-foreground">
+                                {child.name}
+                              </span>
+                              {child.description && (
+                                <span className="mt-0.5 block text-xs text-muted-foreground leading-snug">
+                                  {child.description}
+                                </span>
+                              )}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
                 const isActive = activeSection === link.href;
                 return (
                   <motion.div
@@ -190,6 +253,37 @@ export function Header() {
           >
             <nav className="flex-1 flex flex-col justify-center items-center gap-1 px-6">
               {navLinks.map((link, i) => {
+                if (link.children) {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.35, delay: 0.08 * i }}
+                      className="w-full max-w-xs"
+                    >
+                      <div className="py-2 text-center">
+                        <span className="block text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
+                          {link.name}
+                        </span>
+                        <div className="mt-1 flex flex-col">
+                          {link.children.map((child) => (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              onClick={(e) => handleNavClick(e, child.href)}
+                              className="block text-xl sm:text-2xl font-light tracking-wide py-3 min-h-11 text-foreground/80 hover:text-[#0F3D2E] dark:hover:text-[#6fcfab] transition-colors"
+                            >
+                              {child.name}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
                 const isActive = activeSection === link.href;
                 return (
                   <motion.div
