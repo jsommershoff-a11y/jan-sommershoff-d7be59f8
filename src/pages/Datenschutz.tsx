@@ -6,9 +6,11 @@ export default function Datenschutz() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Datenschutzerklärung</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-foreground tracking-tight">
+        Datenschutzerklärung
+      </h1>
 
-      <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
+      <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none space-y-6 sm:space-y-8 text-muted-foreground break-words leading-relaxed [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-accent [&_a:hover]:text-foreground [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-primary [&_a:focus-visible]:rounded-sm">
 
         {/* 1. Verantwortlicher */}
         <section>
@@ -317,27 +319,41 @@ export default function Datenschutz() {
         </section>
 
         {/* Kontakt & Datenschutz-Links */}
-        <section className="mt-8 rounded-lg border border-border bg-muted/30 p-5 sm:p-6 not-prose">
-          <h2 className="text-xl font-semibold text-foreground mb-3">Kontakt zum Datenschutz</h2>
-          <p className="mb-4">
+        <section
+          aria-labelledby="kontakt-datenschutz"
+          className="mt-8 rounded-lg border border-border bg-muted/30 p-5 sm:p-6 not-prose"
+        >
+          <h2 id="kontakt-datenschutz" className="text-xl sm:text-2xl font-semibold text-foreground mb-3">
+            Kontakt zum Datenschutz
+          </h2>
+          <p className="mb-4 text-muted-foreground leading-relaxed">
             Bei Fragen zum Datenschutz, zur Verarbeitung Ihrer Daten oder zur Ausübung Ihrer Rechte (Auskunft, Berichtigung, Löschung, Widerruf) erreichen Sie uns jederzeit:
           </p>
-          <ul className="list-none pl-0 space-y-2">
+          <ul className="list-none pl-0 space-y-2 text-muted-foreground">
             <li>
               <strong className="text-foreground">E-Mail:</strong>{' '}
-              <a href="mailto:j.s@jan-sommershoff.de" className="text-accent hover:underline">
+              <a
+                href="mailto:j.s@jan-sommershoff.de"
+                className="text-accent underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+              >
                 j.s@jan-sommershoff.de
               </a>
             </li>
             <li>
               <strong className="text-foreground">Telefon:</strong>{' '}
-              <a href="tel:+491751127114" className="text-accent hover:underline">
+              <a
+                href="tel:+491751127114"
+                className="text-accent underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+              >
                 +49 175 1127114
               </a>
             </li>
             <li>
               <strong className="text-foreground">Kontaktformular:</strong>{' '}
-              <Link to="/kontakt" className="text-accent hover:underline">
+              <Link
+                to="/kontakt"
+                className="text-accent underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+              >
                 /kontakt
               </Link>
             </li>
@@ -347,26 +363,38 @@ export default function Datenschutz() {
             </li>
           </ul>
 
-          <div className="mt-5 flex flex-col sm:flex-row gap-3">
+          <nav aria-label="Datenschutz-Aktionen" className="mt-5 flex flex-col sm:flex-row gap-3">
             <Link
               to="/kontakt"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              aria-label="Zum Kontaktformular wechseln"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 sm:py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Zum Kontaktformular
             </Link>
             <a
               href="mailto:j.s@jan-sommershoff.de"
-              className="inline-flex items-center justify-center rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+              aria-label="E-Mail an Datenschutz-Kontakt senden"
+              className="inline-flex items-center justify-center rounded-md border border-border px-5 py-3 sm:py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               E-Mail schreiben
             </a>
-          </div>
+          </nav>
 
-          <p className="mt-4 text-sm">
+          <p className="mt-5 text-sm text-muted-foreground">
             Weitere rechtliche Hinweise:{' '}
-            <Link to="/impressum" className="text-accent hover:underline">Impressum</Link>
+            <Link
+              to="/impressum"
+              className="text-accent underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+            >
+              Impressum
+            </Link>
             {' · '}
-            <Link to="/agb" className="text-accent hover:underline">AGB</Link>
+            <Link
+              to="/agb"
+              className="text-accent underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+            >
+              AGB
+            </Link>
           </p>
         </section>
 
