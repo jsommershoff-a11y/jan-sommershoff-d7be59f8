@@ -26,7 +26,19 @@ export function ThankYou({
   primaryLabel = 'Zur Startseite',
 }: ThankYouProps) {
   useEffect(() => {
+    // Vom Submit übergebene Form-Parameter (event_category, event_label,
+    // lead_type, form_id, …) aus sessionStorage einlesen und einmalig nutzen.
+    let formParams: Record<string, unknown> = {};
+    try {
+      const raw = sessionStorage.getItem('conversion_params');
+      if (raw) {
+        formParams = JSON.parse(raw) ?? {};
+        sessionStorage.removeItem('conversion_params');
+      }
+    } catch { /* ignore */ }
+
     const params = {
+      ...formParams,
       ...(value !== undefined ? { value } : {}),
       ...(currency ? { currency } : {}),
     };
@@ -36,10 +48,11 @@ export function ThankYou({
     trackEvent(eventName, params);
 
     // Generisches Conversion-Page-View-Event für Google Ads / GA4.
-    // Wird auf allen Danke-Seiten gefeuert (zentral hier in ThankYou).
     try {
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('event', 'conversion_event_page_view', {
+          event_category: 'conversion',
+          event_label: eventName,
           ...params,
           page_path: window.location.pathname,
           source_event: eventName,
