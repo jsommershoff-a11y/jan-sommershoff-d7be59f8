@@ -17,6 +17,7 @@ import { CtaSection } from '@/components/sections/CtaSection';
 import { ClosingSection } from '@/components/sections/ClosingSection';
 import { InstagramSection } from '@/components/sections/InstagramSection';
 import { PersonalContactSection } from '@/components/sections/PersonalContactSection';
+import { SitelinksSection } from '@/components/sections/SitelinksSection';
 import { StickyCta } from '@/components/sections/StickyCta';
 import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
 import { SectionTransition } from '@/components/ui/SectionTransition';
@@ -169,8 +170,12 @@ export default function Home() {
         <SectionTransition from="var(--background)" to="#111111" height={64} />
         <PersonalContactSection />
 
+        {/* Sitelinks – sichtbarer Schnellzugriff (mobil-optimiert) */}
+        <SectionTransition from="#111111" to="var(--background)" height={64} />
+        <SitelinksSection />
+
         {/* Final CTA */}
-        <SectionTransition from="#111111" to="var(--primary)" height={80} />
+        <SectionTransition from="var(--background)" to="var(--primary)" height={80} />
         <CtaSection />
 
         <StickyCta />
