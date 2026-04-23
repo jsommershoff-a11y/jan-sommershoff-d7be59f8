@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Gift } from 'lucide-react';
-import { trackEvent } from '@/lib/tracking';
+import { trackEvent, gtagSendEventAndNavigate } from '@/lib/tracking';
 
 export function ExitIntentPopup() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
 
@@ -22,6 +23,23 @@ export function ExitIntentPopup() {
     if (reason !== 'cta_click') {
       trackEvent('popup_dismissed', { popup_id: 'exit_intent_notfallkoffer', dismiss_reason: reason });
     }
+  };
+
+  /**
+   * Sendet ein gtag-Event („popup_legal_link_click") und navigiert verzögert
+   * (max. 2s) per React-Router zur Ziel-URL. Schließt das Popup zuerst.
+   */
+  const handleLegalLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    target: string,
+    label: string
+  ) => {
+    e.preventDefault();
+    dismiss('cta_click');
+    gtagSendEventAndNavigate('popup_legal_link_click', target, {
+      params: { popup_id: 'exit_intent_notfallkoffer', link: label },
+      onNavigate: (url) => navigate(url),
+    });
   };
 
   useEffect(() => {
@@ -109,11 +127,20 @@ export function ExitIntentPopup() {
               Mit dem Absenden stimmst du unserer{' '}
               <Link
                 to="/datenschutz"
-                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap"
+                onClick={(e) => handleLegalLinkClick(e, '/datenschutz', 'datenschutz')}
+                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
               >
                 Datenschutzerklärung
               </Link>{' '}
-              zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.
+              zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.{' '}
+              <Link
+                to="/impressum"
+                onClick={(e) => handleLegalLinkClick(e, '/impressum', 'impressum')}
+                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded-sm"
+              >
+                Impressum
+              </Link>
+              .
             </p>
           </motion.div>
         </motion.div>
