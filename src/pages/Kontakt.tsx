@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { trackConversion, trackEvent, trackPageView } from '@/lib/tracking';
+import { trackConversion, trackEvent, trackPageView, gtagSendEventAndNavigate } from '@/lib/tracking';
 import { siteData } from '@/data/siteData';
 
 type Ziel = 'notfallkoffer' | 'potenzialanalyse';
@@ -103,11 +103,15 @@ export default function Kontakt() {
         throw new Error((data as { error: string }).error);
       }
 
-      // GA4-Event feuern; Meta Lead/CompleteRegistration werden zentral
-      // vom MetaPixelRouterTracker auf /danke/kontakt bzw. /danke/lead gefeuert
-      // (sessionStorage-dedupliziert), um Duplikate zu vermeiden.
-      trackEvent(config.conversionEvent, { ziel });
-      navigate(`/danke/kontakt?ziel=${ziel}`);
+      // GA4-Conversion mit verzögerter Navigation: wartet auf event_callback
+      // (max. 2s), damit das Event sicher bei GA4 ankommt, bevor wir routen.
+      // Meta Lead/CompleteRegistration werden zentral vom MetaPixelRouterTracker
+      // auf /danke/kontakt bzw. /danke/lead gefeuert (sessionStorage-dedupliziert).
+      gtagSendEventAndNavigate(
+        config.conversionEvent,
+        `/danke/kontakt?ziel=${ziel}`,
+        { params: { ziel }, onNavigate: (url) => navigate(url) }
+      );
     } catch (error: unknown) {
       console.error('Submit error:', error);
       const msg = error instanceof Error ? error.message : 'Fehler beim Senden. Bitte versuche es erneut.';

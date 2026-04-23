@@ -19,7 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { trackConversion, trackEvent, trackPageView } from '@/lib/tracking';
+import { trackConversion, trackEvent, trackPageView, gtagSendEventAndNavigate } from '@/lib/tracking';
 
 const CANONICAL_PATH = '/posteingang';
 const SITE_URL = 'https://dein-automatisierungsberater.de';
@@ -263,10 +263,19 @@ export default function Posteingang() {
         throw new Error((data as { error: string }).error);
       }
 
+      // Meta Lead direkt feuern, GA4-Conversion mit verzögerter Navigation,
+      // damit das Event vor dem Route-Wechsel sicher übermittelt wird.
       trackConversion('posteingang_submit', 'Lead', {
         mail_volume: form.mail_volume || 'unbekannt',
       });
-      navigate('/danke/posteingang');
+      gtagSendEventAndNavigate(
+        'conversion_event_submit_lead_form_1',
+        '/danke/posteingang',
+        {
+          params: { mail_volume: form.mail_volume || 'unbekannt' },
+          onNavigate: (url) => navigate(url),
+        }
+      );
     } catch (error: unknown) {
       console.error('Posteingang submit error:', error);
       const msg = error instanceof Error ? error.message : 'Fehler beim Senden. Bitte erneut versuchen.';
