@@ -461,6 +461,25 @@ export function gtagSendEventAndNavigate(
     else if (typeof window !== 'undefined') window.location.href = url;
   };
 
+  // PII-Guard: blockiert den kompletten Conversion-Call (dataLayer + gtag),
+  // wenn `params` Klartext-PII enthält. Verhindert versehentliches Leaken
+  // an GA4/Ads. Hashed PII gehört in `userData`, nicht in `params`.
+  const piiCheck = assertNoPiiInParams(params);
+  if (piiCheck.ok === false) {
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.error(
+        '[gtagNav] BLOCKED — PII in params, navigating ohne Conversion:',
+        eventName,
+        piiCheck.reasons,
+      );
+    }
+    // Trotzdem navigieren, damit der UX-Flow nicht hängenbleibt.
+    if (onNavigate) onNavigate(url);
+    else if (typeof window !== 'undefined') window.location.href = url;
+    return false;
+  }
+
   // Zusätzlich in dataLayer pushen (PII-frei – nur Event-Parameter).
   trackEvent(eventName, params);
 
