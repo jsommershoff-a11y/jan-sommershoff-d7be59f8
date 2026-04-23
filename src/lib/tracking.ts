@@ -224,10 +224,67 @@ export function initTrackingIfConsented() {
 }
 
 /**
+ * Prüft Event-Parameter auf Klartext-PII. Gibt eine Liste der Verstöße
+ * zurück (leeres Array = sauber). Wird vor jedem dataLayer-Push und vor
+ * jedem gtag('event', …)-Call ausgeführt.
+ *
+ * Erkennt:
+ *   • E-Mail-Adressen (… @ …)
+ *   • Telefonnummern (≥ 7 zusammenhängende Ziffern, optional mit „+")
+ *   • Verbotene Schlüssel (email, phone, first_name, last_name, name,
+ *     address, postal_code, city, dob, ip, user_id, customer_id, …)
+ *
+ * Bei Verstoß wird der Call blockiert und in DEV ein console.error geloggt.
+ */
+const FORBIDDEN_PARAM_KEYS = new Set<string>([
+  'email', 'e_mail', 'mail',
+  'phone', 'phone_number', 'tel', 'mobile',
+  'first_name', 'last_name', 'name', 'full_name', 'vorname', 'nachname',
+  'address', 'street', 'postal_code', 'zip', 'city', 'country',
+  'dob', 'birthday', 'birth_date',
+  'ip', 'ip_address',
+  'user_id', 'customer_id', 'client_id',
+]);
+const EMAIL_RE = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+const PHONE_RE = /(?:\+|00)?\d[\d\s().-]{6,}\d/;
+
+export function assertNoPiiInParams(
+  params: TrackParams,
+): { ok: true } | { ok: false; reasons: string[] } {
+  const reasons: string[] = [];
+  for (const [key, value] of Object.entries(params)) {
+    const lowerKey = key.toLowerCase();
+    if (FORBIDDEN_PARAM_KEYS.has(lowerKey)) {
+      reasons.push(`forbidden key: "${key}"`);
+      continue;
+    }
+    if (typeof value !== 'string') continue;
+    // Bereits gehashte Werte (sha256_…) sind explizit erlaubt — sie landen
+    // ohnehin nicht in `params`, sondern im separaten user_data-Slot.
+    if (lowerKey.startsWith('sha256_')) continue;
+    if (EMAIL_RE.test(value)) reasons.push(`email-like value in "${key}"`);
+    else if (PHONE_RE.test(value)) reasons.push(`phone-like value in "${key}"`);
+  }
+  return reasons.length ? { ok: false, reasons } : { ok: true };
+}
+
+/**
  * Generisches Event an den dataLayer pushen — GTM fängt es ab
  * und leitet es an GA4 / Ads / Meta weiter (gemäß Container-Konfiguration).
+ *
+ * BLOCKIERT den Call, wenn `params` Klartext-PII enthält (siehe
+ * `assertNoPiiInParams`). PII gehört ausschließlich gehasht in
+ * `user_data` via `buildHashedUserData`.
  */
 export function trackEvent(event: string, params: TrackParams = {}) {
+  const check = assertNoPiiInParams(params);
+  if (!check.ok) {
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.error('[track] BLOCKED — PII in params:', event, check.reasons, params);
+    }
+    return;
+  }
   try {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...params });
