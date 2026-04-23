@@ -216,9 +216,19 @@ export function gtagSendEventAndNavigate(
   const { params = {}, timeout = 2000, onNavigate } = options;
 
   let navigated = false;
-  const go = () => {
+  let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const go = (reason: 'callback' | 'timeout' | 'no_gtag' | 'error' = 'callback') => {
     if (navigated) return;
     navigated = true;
+    if (fallbackTimer !== undefined) {
+      clearTimeout(fallbackTimer);
+      fallbackTimer = undefined;
+    }
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug('[gtagNav]', eventName, '→', url, '(', reason, ')');
+    }
     if (onNavigate) onNavigate(url);
     else if (typeof window !== 'undefined') window.location.href = url;
   };
@@ -226,21 +236,31 @@ export function gtagSendEventAndNavigate(
   // Zusätzlich in dataLayer pushen, damit GTM-Trigger greifen.
   trackEvent(eventName, params);
 
+  // Sicherheitsnetz IMMER scharf schalten – auch bei Adblockern, fehlendem
+  // Netzwerk oder wenn gtag den Callback verschluckt: nach `timeout` ms
+  // wird trotzdem navigiert.
+  if (typeof window !== 'undefined') {
+    fallbackTimer = setTimeout(() => go('timeout'), timeout);
+  }
+
   try {
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', eventName, {
         ...params,
-        event_callback: go,
+        event_callback: () => go('callback'),
         event_timeout: timeout,
       });
-      // Sicherheitsnetz, falls Callback nie feuert (Adblocker etc.)
-      window.setTimeout(go, timeout);
       return false;
     }
+    // Kein gtag verfügbar → Fallback-Timer läuft bereits, kein Sofort-Sprung.
   } catch {
-    /* fallthrough */
+    // Fehler beim gtag-Aufruf → ebenfalls Timer abwarten, statt sofort zu
+    // springen, damit dataLayer-Push noch verarbeitet werden kann.
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug('[gtagNav] gtag threw, waiting for timeout');
+    }
   }
-  go();
   return false;
 }
 
