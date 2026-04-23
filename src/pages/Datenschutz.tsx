@@ -6,9 +6,11 @@ export default function Datenschutz() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Datenschutzerklärung</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-foreground tracking-tight">
+        Datenschutzerklärung
+      </h1>
 
-      <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
+      <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none space-y-6 sm:space-y-8 text-muted-foreground break-words leading-relaxed [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-accent [&_a:hover]:text-foreground [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-primary [&_a:focus-visible]:rounded-sm">
 
         {/* 1. Verantwortlicher */}
         <section>
