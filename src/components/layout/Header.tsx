@@ -253,6 +253,37 @@ export function Header() {
           >
             <nav className="flex-1 flex flex-col justify-center items-center gap-1 px-6">
               {navLinks.map((link, i) => {
+                if (link.children) {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.35, delay: 0.08 * i }}
+                      className="w-full max-w-xs"
+                    >
+                      <div className="py-2 text-center">
+                        <span className="block text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
+                          {link.name}
+                        </span>
+                        <div className="mt-1 flex flex-col">
+                          {link.children.map((child) => (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              onClick={(e) => handleNavClick(e, child.href)}
+                              className="block text-xl sm:text-2xl font-light tracking-wide py-3 min-h-11 text-foreground/80 hover:text-[#0F3D2E] dark:hover:text-[#6fcfab] transition-colors"
+                            >
+                              {child.name}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
                 const isActive = activeSection === link.href;
                 return (
                   <motion.div
