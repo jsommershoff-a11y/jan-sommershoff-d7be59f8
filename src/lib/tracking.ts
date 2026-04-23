@@ -328,17 +328,36 @@ export async function buildHashedUserData(
     if (h) out.sha256_last_name = h;
   }
 
-  // Telefon: alle Nicht-Ziffern entfernen; +49-Präfix optional voranstellen
-  // wenn deutsche Nummer ohne Ländervorwahl. Google empfiehlt E.164.
-  const rawPhone = input.phone?.replace(/[^\d+]/g, '');
-  if (rawPhone && rawPhone.length >= 6) {
-    const e164 = rawPhone.startsWith('+')
-      ? rawPhone
-      : rawPhone.startsWith('0')
-        ? '+49' + rawPhone.slice(1)
-        : '+' + rawPhone;
-    const h = await sha256Hex(e164);
-    if (h) out.sha256_phone_number = h;
+  // Telefon → E.164 (Google empfiehlt diese Form für Enhanced Conversions).
+  // Regeln (in dieser Reihenfolge):
+  //   1) „+…"  → bereits international, nur Ziffern säubern.
+  //   2) „00…" → internationaler Präfix (z.B. „0049 151…") → „+49 151…".
+  //   3) „0…"  → nationale Form mit Default-Country-Code ersetzen (DE: +49).
+  //   4) Sonst → nackte internationale Form (z.B. „4915112345678") → „+…".
+  // Plausibilität: 8–15 Ziffern Gesamtlänge (E.164-Limit).
+  const DEFAULT_CC = '49'; // Deutschland
+  const raw = input.phone?.trim() ?? '';
+  if (raw) {
+    const hasPlus = raw.startsWith('+');
+    const digits = raw.replace(/\D/g, '');
+    let e164: string | null = null;
+
+    if (hasPlus && digits.length >= 8) {
+      e164 = '+' + digits;
+    } else if (digits.startsWith('00') && digits.length >= 10) {
+      e164 = '+' + digits.slice(2);
+    } else if (digits.startsWith('0') && digits.length >= 7) {
+      e164 = '+' + DEFAULT_CC + digits.slice(1);
+    } else if (digits.length >= 10 && digits.length <= 15) {
+      // Nackte internationale Form ohne „+", z.B. „4915112345678".
+      e164 = '+' + digits;
+    }
+
+    // E.164 erlaubt max. 15 Ziffern → max. 16 Zeichen inkl. „+".
+    if (e164 && e164.length >= 9 && e164.length <= 16) {
+      const h = await sha256Hex(e164);
+      if (h) out.sha256_phone_number = h;
+    }
   }
 
   return out;
