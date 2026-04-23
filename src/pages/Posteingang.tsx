@@ -332,8 +332,8 @@ export default function Posteingang() {
   return (
     <>
       <SEOHead
-        title="Briefpost-Eingang automatisieren – OCR, KI-Klassifikation, Routing"
-        description="Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme. Für Selbstständige, KMU und Agenturen."
+        title="Posteingangs-Automatisierung – OCR, KI-Klassifikation & Routing"
+        description="Automatisierungslösung für Ihren digitalen Posteingang: OCR, KI-Klassifikation und Routing in bestehende Systeme. Reine Software- und Prozessleistung, kein Scan-Service."
         canonicalPath={CANONICAL_PATH}
         siteUrl={SITE_URL}
         jsonLd={POSTEINGANG_JSONLD}
@@ -349,13 +349,13 @@ export default function Posteingang() {
             className="max-w-3xl"
           >
             <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-4">
-              Briefpost-Eingangsautomatisierung
+              Posteingangs-Automatisierung
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-tight">
-              Ihre Briefpost – digital, durchsuchbar und automatisch zugeordnet.
+              Ihr digitaler Posteingang – automatisch klassifiziert und zugeordnet.
             </h1>
             <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
-              Wir automatisieren den Eingang Ihrer Briefpost vom Scan bis zur Zustellung im richtigen System. OCR, KI-Klassifikation und Routing in einem durchgängigen Prozess.
+              Wir liefern den Prozess und die Automatisierungslösung dahinter: OCR, KI-Klassifikation und Routing in Ihre bestehenden Systeme. Das Scannen Ihrer Briefpost übernehmen Sie selbst oder Ihr Scan-Dienstleister – wir kümmern uns um alles, was danach passiert.
             </p>
             <div className="mt-7 flex flex-col sm:flex-row gap-3">
               <button
