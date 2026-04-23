@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { ScrollTeaser } from '@/components/sections/ScrollTeaser';
@@ -21,13 +23,34 @@ import { StickyCta } from '@/components/sections/StickyCta';
 import { ExitIntentPopup } from '@/components/ui/ExitIntentPopup';
 import { SectionTransition } from '@/components/ui/SectionTransition';
 
+/**
+ * Hosts that should render the Posteingang landing page instead of the
+ * Jan-Sommershoff KI-Beratungs-Homepage on `/`.
+ * Prevents duplicate-content and wrong-intent traffic on the automation brand.
+ */
+const POSTEINGANG_HOSTS = new Set([
+  'dein-automatisierungsberater.de',
+  'www.dein-automatisierungsberater.de',
+]);
+
 export default function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const host = window.location.hostname.toLowerCase();
+    if (POSTEINGANG_HOSTS.has(host)) {
+      navigate('/posteingang', { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <>
       <SEOHead
         title="KI-Beratung & Automatisierung für Unternehmer"
         description="KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer. Bis zu 30 Std./Woche Zeitersparnis durch klare Prozesse und intelligente KI-Integration."
         canonicalPath="/"
+        siteUrl="https://jan-sommershoff.de"
         jsonLd={{
           '@context': 'https://schema.org',
           '@graph': [

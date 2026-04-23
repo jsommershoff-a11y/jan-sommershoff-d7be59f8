@@ -24,30 +24,6 @@ import { trackConversion, trackEvent, trackPageView } from '@/lib/tracking';
 const CANONICAL_PATH = '/posteingang';
 const SITE_URL = 'https://dein-automatisierungsberater.de';
 
-const SERVICE_JSONLD = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  serviceType: 'Briefpost-Eingangsautomatisierung',
-  provider: {
-    '@type': 'Organization',
-    name: 'dein-automatisierungsberater.de',
-    url: SITE_URL,
-  },
-  areaServed: { '@type': 'Country', name: 'Deutschland' },
-  description:
-    'Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme.',
-  url: `${SITE_URL}${CANONICAL_PATH}`,
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Leistungen',
-    itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'OCR und Volltext-Indexierung' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'KI-Klassifikation und Dokument-Routing' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prozess-Implementierung und Integration' } },
-    ],
-  },
-};
-
 const PILLARS = [
   {
     icon: FileText,
@@ -156,6 +132,77 @@ const MAIL_VOLUME_OPTIONS = [
   { value: 'ueber-10000', label: 'Über 10.000 Poststücke / Monat' },
 ];
 
+/** Rich structured-data @graph for /posteingang. Includes Organization,
+ * WebSite, Service, BreadcrumbList and FAQPage for rich SERP features. */
+const POSTEINGANG_JSONLD: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'dein-automatisierungsberater.de',
+      url: SITE_URL,
+      logo: `${SITE_URL}/og-image.png`,
+      email: 'j.s@jan-sommershoff.de',
+      areaServed: { '@type': 'Country', name: 'Deutschland' },
+      founder: { '@type': 'Person', name: 'Jan Sommershoff' },
+      sameAs: [
+        'https://www.linkedin.com/in/jan-niklas-sommershoff-719787218',
+        'https://www.instagram.com/jan_sommershoff/',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'dein-automatisierungsberater.de',
+      inLanguage: 'de-DE',
+      publisher: { '@id': `${SITE_URL}/#organization` },
+    },
+    {
+      '@type': 'Service',
+      '@id': `${SITE_URL}${CANONICAL_PATH}#service`,
+      serviceType: 'Briefpost-Eingangsautomatisierung',
+      name: 'Briefpost-Eingangsautomatisierung',
+      description:
+        'Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme.',
+      url: `${SITE_URL}${CANONICAL_PATH}`,
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: { '@type': 'Country', name: 'Deutschland' },
+      audience: {
+        '@type': 'Audience',
+        name: 'Selbstständige, KMU und Agenturen in Deutschland',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Leistungen',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'OCR und Volltext-Indexierung' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'KI-Klassifikation und Dokument-Routing' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prozess-Implementierung und Integration' } },
+        ],
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}${CANONICAL_PATH}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Start', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Briefpost-Eingangsautomatisierung', item: `${SITE_URL}${CANONICAL_PATH}` },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}${CANONICAL_PATH}#faq`,
+      mainEntity: FAQ.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    },
+  ],
+};
+
 export default function Posteingang() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -236,7 +283,7 @@ export default function Posteingang() {
         description="Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme. Für Selbstständige, KMU und Agenturen."
         canonicalPath={CANONICAL_PATH}
         siteUrl={SITE_URL}
-        jsonLd={SERVICE_JSONLD}
+        jsonLd={POSTEINGANG_JSONLD}
       />
 
       {/* HERO */}
