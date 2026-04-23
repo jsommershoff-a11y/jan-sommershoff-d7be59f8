@@ -278,7 +278,7 @@ export function assertNoPiiInParams(
  */
 export function trackEvent(event: string, params: TrackParams = {}) {
   const check = assertNoPiiInParams(params);
-  if (!check.ok) {
+  if (check.ok === false) {
     if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
       console.error('[track] BLOCKED — PII in params:', event, check.reasons, params);
