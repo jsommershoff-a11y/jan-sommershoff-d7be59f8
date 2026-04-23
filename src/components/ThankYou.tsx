@@ -26,11 +26,28 @@ export function ThankYou({
   primaryLabel = 'Zur Startseite',
 }: ThankYouProps) {
   useEffect(() => {
-    // Nur GA4 — Meta Lead/CompleteRegistration laufen über MetaPixelRouterTracker.
-    trackEvent(eventName, {
+    const params = {
       ...(value !== undefined ? { value } : {}),
       ...(currency ? { currency } : {}),
-    });
+    };
+
+    // Spezifisches GA4/dataLayer-Event je Danke-Seite (z.B. contact_submit).
+    // Meta Lead/CompleteRegistration laufen über MetaPixelRouterTracker.
+    trackEvent(eventName, params);
+
+    // Generisches Conversion-Page-View-Event für Google Ads / GA4.
+    // Wird auf allen Danke-Seiten gefeuert (zentral hier in ThankYou).
+    try {
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion_event_page_view', {
+          ...params,
+          page_path: window.location.pathname,
+          source_event: eventName,
+        });
+      }
+    } catch {
+      /* never block UI */
+    }
   }, [eventName, value, currency]);
 
   return (
