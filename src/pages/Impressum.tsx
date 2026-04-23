@@ -1,11 +1,19 @@
 import { useEffect } from 'react';
+import { SEOHead } from '@/components/seo/SEOHead';
 
 export default function Impressum() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Impressum</h1>
+    <>
+      <SEOHead
+        title="Impressum – Jan Sommershoff"
+        description="Impressum gemäß § 5 TMG: Anbieterkennzeichnung, Vertretung und Kontaktdaten der SMB Consulting UG (haftungsbeschränkt)."
+        canonicalPath="/impressum"
+        imageAlt="Impressum – Jan Sommershoff / SMB Consulting UG"
+      />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Impressum</h1>
       
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
         <section>
@@ -76,6 +84,7 @@ export default function Impressum() {
           <p>Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

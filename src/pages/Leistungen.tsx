@@ -55,6 +55,8 @@ export default function Leistungen() {
       <SEOHead
         title="Leistungen – Beratung, KI-Integration & Workshops"
         description="1:1 Unternehmer-Beratung, KI-Integration für Unternehmen und Workshops & Vorträge. Aus echter Erfahrung – für Unternehmer, die handeln wollen."
+        canonicalPath="/leistungen"
+        imageAlt="Leistungen von Jan Sommershoff: KI-Beratung, KI-Integration und Workshops für Unternehmer"
       />
 
       {/* Hero */}

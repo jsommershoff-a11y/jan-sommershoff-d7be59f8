@@ -6,6 +6,8 @@ interface SEOHeadProps {
   title?: string;
   description?: string;
   image?: string;
+  /** Optional alt text for the OG/Twitter image. */
+  imageAlt?: string;
   type?: 'website' | 'article';
   /** Override the canonical URL (defaults to the current pathname). */
   canonicalPath?: string;
@@ -16,6 +18,8 @@ interface SEOHeadProps {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** Set to true to discourage indexing (e.g. for /auth, /admin). */
   noIndex?: boolean;
+  /** Twitter handle for site/creator (with @). Optional. */
+  twitterHandle?: string;
 }
 
 const DEFAULT_SITE_URL = 'https://jan-sommershoff.de';
@@ -39,16 +43,20 @@ export function SEOHead({
   title,
   description,
   image,
+  imageAlt,
   type = 'website',
   canonicalPath,
   siteUrl,
   jsonLd,
   noIndex = false,
+  twitterHandle,
 }: SEOHeadProps) {
   const location = useLocation();
   const resolvedSiteUrl = resolveSiteUrl(siteUrl);
   const defaultOg = `${resolvedSiteUrl}/og-image.png`;
   const resolvedImage = image ?? defaultOg;
+  const resolvedImageAlt =
+    imageAlt ?? (title ? `${title} – ${siteData.name}` : `${siteData.name} – ${siteData.tagline}`);
 
   const fullTitle = title
     ? `${title} | ${siteData.name}`
@@ -86,6 +94,11 @@ export function SEOHead({
     setMeta('og:type', type, true);
     setMeta('og:url', canonicalUrl, true);
     setMeta('og:image', resolvedImage, true);
+    setMeta('og:image:secure_url', resolvedImage, true);
+    setMeta('og:image:alt', resolvedImageAlt, true);
+    setMeta('og:image:type', resolvedImage.endsWith('.jpg') || resolvedImage.endsWith('.jpeg') ? 'image/jpeg' : 'image/png', true);
+    setMeta('og:image:width', '1200', true);
+    setMeta('og:image:height', '630', true);
     setMeta('og:site_name', siteData.name, true);
     setMeta('og:locale', 'de_DE', true);
 
@@ -94,6 +107,11 @@ export function SEOHead({
     setMeta('twitter:title', fullTitle);
     setMeta('twitter:description', fullDescription);
     setMeta('twitter:image', resolvedImage);
+    setMeta('twitter:image:alt', resolvedImageAlt);
+    if (twitterHandle) {
+      setMeta('twitter:site', twitterHandle);
+      setMeta('twitter:creator', twitterHandle);
+    }
 
     // Canonical
     let canonical = document.head.querySelector(
@@ -118,7 +136,7 @@ export function SEOHead({
       script.text = JSON.stringify(jsonLd);
       document.head.appendChild(script);
     }
-  }, [fullTitle, fullDescription, canonicalUrl, resolvedImage, type, noIndex, jsonLd]);
+  }, [fullTitle, fullDescription, canonicalUrl, resolvedImage, resolvedImageAlt, type, noIndex, jsonLd, twitterHandle]);
 
   return null;
 }

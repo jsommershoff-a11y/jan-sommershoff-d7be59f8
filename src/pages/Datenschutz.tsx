@@ -11,6 +11,7 @@ export default function Datenschutz() {
         title="Datenschutzerklärung – Jan Sommershoff"
         description="Datenschutzerklärung gemäß DSGVO: verantwortliche Stelle, Cookies, Hosting, Tracking, Rechte der Betroffenen sowie Kontakt zum Datenschutz."
         canonicalPath="/datenschutz"
+        imageAlt="Datenschutzerklärung – Jan Sommershoff"
         noIndex={false}
       />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">

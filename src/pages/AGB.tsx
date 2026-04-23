@@ -1,12 +1,20 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { SEOHead } from '@/components/seo/SEOHead';
 
 export default function AGB() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Allgemeine Geschäftsbedingungen (AGB)</h1>
+    <>
+      <SEOHead
+        title="AGB – Allgemeine Geschäftsbedingungen"
+        description="Allgemeine Geschäftsbedingungen der SMB Consulting UG (haftungsbeschränkt) für KI-Beratung, Automatisierung und Workshops."
+        canonicalPath="/agb"
+        imageAlt="Allgemeine Geschäftsbedingungen – SMB Consulting UG"
+      />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Allgemeine Geschäftsbedingungen (AGB)</h1>
 
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
         <p>Stand: März 2025</p>
@@ -74,6 +82,7 @@ export default function AGB() {
           <p>Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. Anstelle der unwirksamen Bestimmung gilt eine wirksame Regelung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt.</p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

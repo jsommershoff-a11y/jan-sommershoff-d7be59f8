@@ -336,6 +336,7 @@ export default function Posteingang() {
         description="Automatisierungslösung für Ihren digitalen Posteingang: OCR, KI-Klassifikation und Routing in bestehende Systeme. Reine Software- und Prozessleistung, kein Scan-Service."
         canonicalPath={CANONICAL_PATH}
         siteUrl={SITE_URL}
+        imageAlt="Posteingangs-Automatisierung – OCR, KI-Klassifikation und Routing in bestehende Systeme"
         jsonLd={POSTEINGANG_JSONLD}
       />
 

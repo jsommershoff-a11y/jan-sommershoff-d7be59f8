@@ -30,6 +30,7 @@ export default function Home() {
         description="KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer. Bis zu 30 Std./Woche Zeitersparnis durch klare Prozesse und intelligente KI-Integration."
         canonicalPath="/"
         siteUrl="https://jan-sommershoff.de"
+        imageAlt="Jan Sommershoff – KI-Beratung & Automatisierung für Unternehmer"
         jsonLd={{
           '@context': 'https://schema.org',
           '@graph': [
