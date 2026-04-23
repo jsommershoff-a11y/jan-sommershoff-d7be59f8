@@ -123,6 +123,53 @@ export function Header() {
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link, i) => {
+                if (link.children) {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 * i }}
+                      className="relative group"
+                    >
+                      <button
+                        type="button"
+                        className={cn(
+                          'inline-flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-300',
+                          isTransparent
+                            ? 'text-white/60 hover:text-white'
+                            : 'text-muted-foreground hover:text-foreground'
+                        )}
+                        aria-haspopup="true"
+                      >
+                        {link.name}
+                        <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180" />
+                      </button>
+                      <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 focus-within:visible focus-within:opacity-100 focus-within:translate-y-0 transition-all duration-200">
+                        <div className="min-w-[280px] rounded-xl border border-border bg-popover/95 backdrop-blur-md shadow-xl p-2">
+                          {link.children.map((child) => (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              onClick={(e) => handleNavClick(e, child.href)}
+                              className="block rounded-lg px-3 py-2.5 hover:bg-muted transition-colors"
+                            >
+                              <span className="block text-sm font-semibold text-foreground">
+                                {child.name}
+                              </span>
+                              {child.description && (
+                                <span className="mt-0.5 block text-xs text-muted-foreground leading-snug">
+                                  {child.description}
+                                </span>
+                              )}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
                 const isActive = activeSection === link.href;
                 return (
                   <motion.div
