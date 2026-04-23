@@ -346,6 +346,22 @@ export default function Datenschutz() {
               jederzeit über den Cookie-Button unten links änderbar
             </li>
           </ul>
+
+          <div className="mt-5 flex flex-col sm:flex-row gap-3">
+            <Link
+              to="/kontakt"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Zum Kontaktformular
+            </Link>
+            <a
+              href="mailto:j.s@jan-sommershoff.de"
+              className="inline-flex items-center justify-center rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              E-Mail schreiben
+            </a>
+          </div>
+
           <p className="mt-4 text-sm">
             Weitere rechtliche Hinweise:{' '}
             <Link to="/impressum" className="text-accent hover:underline">Impressum</Link>
