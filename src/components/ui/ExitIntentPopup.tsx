@@ -9,26 +9,6 @@ export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
 
-  /**
-   * Sendet ein gtag-Event und navigiert verzögert (max. 2s) per React-Router
-   * zur Ziel-URL. Schließt zuvor das Popup, damit kein Overlay zurückbleibt.
-   */
-  const handleLegalLinkClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, target: string, label: string) => {
-      e.preventDefault();
-      dismissRef.current?.('cta_click');
-      gtagSendEventAndNavigate(
-        'popup_legal_link_click',
-        target,
-        {
-          params: { popup_id: 'exit_intent_notfallkoffer', link: label },
-          onNavigate: (url) => navigate(url),
-        }
-      );
-    },
-    [navigate]
-  );
-
   const trigger = useCallback(() => {
     if (hasTriggered) return;
     if (sessionStorage.getItem('exit-popup-dismissed')) return;
