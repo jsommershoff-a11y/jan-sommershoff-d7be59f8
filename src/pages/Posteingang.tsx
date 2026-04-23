@@ -327,10 +327,11 @@ export default function Posteingang() {
   return (
     <>
       <SEOHead
-        title="Briefpost-Eingang automatisieren – OCR, KI-Klassifikation, Routing"
-        description="Automatisierte Verarbeitung der eingehenden Briefpost: OCR, Volltext-Indexierung, KI-Klassifikation und Routing an die richtigen Systeme. Für Selbstständige, KMU und Agenturen."
+        title="Posteingangs-Automatisierung – OCR, KI-Klassifikation & Routing"
+        description="Automatisierungslösung für Ihren digitalen Posteingang: OCR, KI-Klassifikation und Routing in bestehende Systeme. Reine Software- und Prozessleistung, kein Scan-Service."
         canonicalPath={CANONICAL_PATH}
         siteUrl={SITE_URL}
+        imageAlt="Posteingangs-Automatisierung – OCR, KI-Klassifikation und Routing in bestehende Systeme"
         jsonLd={POSTEINGANG_JSONLD}
       />
 
