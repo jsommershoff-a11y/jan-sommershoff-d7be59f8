@@ -263,6 +263,24 @@ export default function Posteingang() {
         throw new Error((data as { error: string }).error);
       }
 
+      // Form-Felder als GA4/Ads-Eventparameter mappen.
+      const conversionParams = {
+        event_category: 'lead',
+        event_label: 'posteingang',
+        lead_type: 'posteingang',
+        form_id: 'posteingang',
+        mail_volume: form.mail_volume || 'unbekannt',
+        has_company: form.company.trim().length > 0,
+        has_message: form.message.trim().length > 0,
+      };
+
+      try {
+        sessionStorage.setItem(
+          'conversion_params',
+          JSON.stringify(conversionParams),
+        );
+      } catch { /* ignore */ }
+
       // Meta Lead direkt feuern, GA4-Conversion mit verzögerter Navigation,
       // damit das Event vor dem Route-Wechsel sicher übermittelt wird.
       trackConversion('posteingang_submit', 'Lead', {
@@ -272,7 +290,7 @@ export default function Posteingang() {
         'conversion_event_submit_lead_form_1',
         '/danke/posteingang',
         {
-          params: { mail_volume: form.mail_volume || 'unbekannt' },
+          params: conversionParams,
           onNavigate: (url) => navigate(url),
         }
       );

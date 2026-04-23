@@ -103,6 +103,26 @@ export default function Kontakt() {
         throw new Error((data as { error: string }).error);
       }
 
+      // Form-Felder als GA4/Ads-Eventparameter mappen.
+      const conversionParams = {
+        event_category: 'lead',
+        event_label: ziel,                          // 'potenzialanalyse' | 'notfallkoffer'
+        lead_type: ziel === 'notfallkoffer' ? 'lead_magnet' : 'contact',
+        form_id: 'kontakt',
+        ziel,
+        has_message: form.message.trim().length > 0,
+        has_phone: form.phone.trim().length > 0,
+      };
+
+      // An die Danke-Seite weitergeben, damit conversion_event_page_view
+      // dort dieselben Parameter erhält.
+      try {
+        sessionStorage.setItem(
+          'conversion_params',
+          JSON.stringify(conversionParams),
+        );
+      } catch { /* ignore */ }
+
       // GA4-Conversion mit verzögerter Navigation: wartet auf event_callback
       // (max. 2s), damit das Event sicher bei GA4 ankommt, bevor wir routen.
       // Meta Lead/CompleteRegistration werden zentral vom MetaPixelRouterTracker
@@ -110,7 +130,7 @@ export default function Kontakt() {
       gtagSendEventAndNavigate(
         config.conversionEvent,
         `/danke/kontakt?ziel=${ziel}`,
-        { params: { ziel }, onNavigate: (url) => navigate(url) }
+        { params: conversionParams, onNavigate: (url) => navigate(url) }
       );
     } catch (error: unknown) {
       console.error('Submit error:', error);
