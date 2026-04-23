@@ -57,6 +57,7 @@ const App = () => (
                 <Route path="/" element={<Layout><Home /></Layout>} />
                 <Route path="/leistungen" element={<Layout><Leistungen /></Layout>} />
                 <Route path="/posteingang" element={<Layout><Posteingang /></Layout>} />
+                <Route path="/postautomatisierung" element={<Layout><Postautomatisierung /></Layout>} />
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
