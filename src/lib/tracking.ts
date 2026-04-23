@@ -6,6 +6,71 @@
  * - GA4-Messung (G-VEFRVXT0HK) läuft über den GTM-Container via Google-Tag.
  * - Events werden als dataLayer.push an GTM übergeben (trackEvent).
  * - Meta Pixel bleibt optional und wird bei marketing-Consent separat geladen.
+ *
+ * ============================================================
+ * PII & Enhanced Conversions — Kurzanleitung
+ * ============================================================
+ * Klartext-PII darf NIE in den dataLayer oder in Event-Parameter
+ * geschrieben werden. Erlaubt sind ausschließlich:
+ *
+ *   1) PII-freie Event-Parameter via `trackEvent(name, params)` —
+ *      z.B. `ziel`, `lead_type`, `form_id`, `has_phone` (boolean).
+ *
+ *   2) Gehashte PII im dedizierten `user_data`-Slot von Google
+ *      Enhanced Conversions, gebaut über `buildHashedUserData(...)`.
+ *      NUR mit `marketing`-Consent senden (siehe Beispiel unten).
+ *
+ * Erlaubte Eingabefelder für `buildHashedUserData` (LeadUserDataInput):
+ *
+ *   | Eingabefeld | Normalisierung                      | Output-Key (SHA-256 hex)  |
+ *   |-------------|-------------------------------------|---------------------------|
+ *   | email       | trim + toLowerCase                  | sha256_email_address      |
+ *   | first_name  | trim + toLowerCase                  | sha256_first_name         |
+ *   | last_name   | trim + toLowerCase                  | sha256_last_name          |
+ *   | phone       | nur Ziffern, E.164 (+49 für DE 0…)  | sha256_phone_number       |
+ *
+ * Felder mit leerem/zu kurzem Wert werden weggelassen — es landet
+ * also kein Hash eines leeren Strings im Payload.
+ *
+ * NICHT erlaubt (weder Klartext noch Hash): Adresse, Geburtsdatum,
+ * IP-Adresse, freie Nachricht, Firmenname mit Personenbezug,
+ * interne DB-IDs. Diese Felder gehören NICHT in `user_data`.
+ *
+ * ------------------------------------------------------------
+ * Beispiel — Lead-Submit mit Enhanced Conversions:
+ * ------------------------------------------------------------
+ *   import {
+ *     buildHashedUserData,
+ *     gtagSendEventAndNavigate,
+ *     readConsent,
+ *   } from '@/lib/tracking';
+ *
+ *   const consent = readConsent();
+ *   const userData = consent?.marketing
+ *     ? await buildHashedUserData({
+ *         email: form.email,           // → sha256_email_address
+ *         first_name: form.first_name, // → sha256_first_name
+ *         last_name: form.last_name,   // → sha256_last_name
+ *         phone: form.phone,           // → sha256_phone_number (E.164)
+ *       })
+ *     : undefined;
+ *
+ *   gtagSendEventAndNavigate('lead_submit_potenzialanalyse', '/danke/kontakt', {
+ *     params: {                        // PII-frei, landet im dataLayer
+ *       event_category: 'lead',
+ *       ziel: 'potenzialanalyse',
+ *       form_id: 'kontakt',
+ *       has_phone: form.phone.length > 0,
+ *     },
+ *     userData,                        // gehasht, NUR im gtag user_data-Slot
+ *     onNavigate: (url) => navigate(url),
+ *   });
+ *
+ * Ergebnis:
+ *   • dataLayer.push({ event: 'lead_submit_potenzialanalyse', ziel, form_id, … })
+ *   • gtag('event', 'lead_submit_potenzialanalyse', { …params, user_data: {
+ *       sha256_email_address: '…', sha256_phone_number: '…', … } })
+ * ============================================================
  */
 
 // ============================================================
