@@ -12,7 +12,7 @@ interface SEOHeadProps {
   /** Override the canonical URL (defaults to the current pathname). */
   canonicalPath?: string;
   /** Override the site origin used for canonical + og:url.
-   *  Default: window.location.origin (fallback: https://jan-sommershoff.de). */
+   *  Default: window.location.origin (fallback: https://dein-automatisierungsberater.de). */
   siteUrl?: string;
   /** Optional JSON-LD object — will be embedded as application/ld+json. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
@@ -22,7 +22,7 @@ interface SEOHeadProps {
   twitterHandle?: string;
 }
 
-const DEFAULT_SITE_URL = 'https://jan-sommershoff.de';
+const DEFAULT_SITE_URL = 'https://dein-automatisierungsberater.de';
 
 function resolveSiteUrl(explicit?: string): string {
   if (explicit) return explicit.replace(/\/$/, '');
