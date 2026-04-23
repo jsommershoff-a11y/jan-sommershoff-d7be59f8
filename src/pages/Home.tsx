@@ -29,25 +29,25 @@ export default function Home() {
         title="KI-Beratung & Automatisierung für Unternehmer"
         description="KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer. Bis zu 30 Std./Woche Zeitersparnis durch klare Prozesse und intelligente KI-Integration."
         canonicalPath="/"
-        siteUrl="https://jan-sommershoff.de"
+        siteUrl="https://dein-automatisierungsberater.de"
         imageAlt="Jan Sommershoff – KI-Beratung & Automatisierung für Unternehmer"
         jsonLd={{
           '@context': 'https://schema.org',
           '@graph': [
             {
               '@type': 'ProfessionalService',
-              '@id': 'https://jan-sommershoff.de/#service',
+              '@id': 'https://dein-automatisierungsberater.de/#service',
               name: 'Jan Sommershoff – KI-Beratung',
               description:
                 'KI-Beratung, Automatisierung und Systemarchitektur für Unternehmer und Mittelstand.',
               areaServed: 'DE',
-              url: 'https://jan-sommershoff.de',
+              url: 'https://dein-automatisierungsberater.de',
               provider: { '@type': 'Person', name: 'Jan Sommershoff' },
             },
             {
               '@type': 'WebSite',
-              '@id': 'https://jan-sommershoff.de/#website',
-              url: 'https://jan-sommershoff.de',
+              '@id': 'https://dein-automatisierungsberater.de/#website',
+              url: 'https://dein-automatisierungsberater.de',
               name: 'Jan Sommershoff',
               description:
                 'KI-Beratung, Automatisierung & Systemarchitektur für Unternehmer.',
@@ -56,7 +56,7 @@ export default function Home() {
             },
             {
               '@type': 'ItemList',
-              '@id': 'https://jan-sommershoff.de/#sitelinks',
+              '@id': 'https://dein-automatisierungsberater.de/#sitelinks',
               name: 'Hauptbereiche',
               itemListElement: [
                 {
@@ -65,7 +65,7 @@ export default function Home() {
                   name: 'KI-Beratung & Leistungen',
                   description:
                     'Übersicht aller KI-Beratungs- und Automatisierungs-Leistungen für Unternehmer.',
-                  url: 'https://jan-sommershoff.de/leistungen',
+                  url: 'https://dein-automatisierungsberater.de/leistungen',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -73,7 +73,7 @@ export default function Home() {
                   name: 'Postautomatisierung',
                   description:
                     'KI-gestützte Posteingangs-Automatisierung: OCR, Klassifikation und Routing.',
-                  url: 'https://jan-sommershoff.de/postautomatisierung',
+                  url: 'https://dein-automatisierungsberater.de/postautomatisierung',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -81,7 +81,7 @@ export default function Home() {
                   name: 'Kostenfreie Potenzialanalyse',
                   description:
                     'Unverbindliche KI-Potenzialanalyse für Unternehmer und Mittelstand.',
-                  url: 'https://jan-sommershoff.de/kontakt?ziel=potenzialanalyse',
+                  url: 'https://dein-automatisierungsberater.de/kontakt?ziel=potenzialanalyse',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -89,7 +89,7 @@ export default function Home() {
                   name: 'KI Notfallkoffer sichern',
                   description:
                     'Kostenloser Lead-Magnet mit Sofort-Hilfe für KI-Einsteiger.',
-                  url: 'https://jan-sommershoff.de/kontakt?ziel=notfallkoffer',
+                  url: 'https://dein-automatisierungsberater.de/kontakt?ziel=notfallkoffer',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -97,7 +97,7 @@ export default function Home() {
                   name: 'Über Jan Sommershoff',
                   description:
                     'Unternehmer, KI-Stratege und Systemarchitekt – Werdegang und Mission.',
-                  url: 'https://jan-sommershoff.de/#story',
+                  url: 'https://dein-automatisierungsberater.de/#story',
                 },
                 {
                   '@type': 'SiteNavigationElement',
@@ -105,7 +105,7 @@ export default function Home() {
                   name: 'Kontakt aufnehmen',
                   description:
                     'Direkter Kontakt per Formular, WhatsApp oder Terminbuchung.',
-                  url: 'https://jan-sommershoff.de/kontakt',
+                  url: 'https://dein-automatisierungsberater.de/kontakt',
                 },
               ],
             },
