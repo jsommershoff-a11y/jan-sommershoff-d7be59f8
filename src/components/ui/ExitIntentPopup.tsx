@@ -105,9 +105,12 @@ export function ExitIntentPopup() {
               <ArrowRight className="size-5" />
             </Link>
 
-            <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+            <p className="mt-4 px-2 text-[13px] sm:text-xs text-muted-foreground leading-relaxed text-center max-w-sm mx-auto">
               Mit dem Absenden stimmst du unserer{' '}
-              <Link to="/datenschutz" className="underline hover:text-foreground transition-colors">
+              <Link
+                to="/datenschutz"
+                className="underline underline-offset-2 hover:text-foreground transition-colors whitespace-nowrap"
+              >
                 Datenschutzerklärung
               </Link>{' '}
               zu. Wir nutzen deine Daten ausschließlich zur Bearbeitung deiner Anfrage.
