@@ -84,6 +84,7 @@ export default function Impressum() {
           <p>Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
