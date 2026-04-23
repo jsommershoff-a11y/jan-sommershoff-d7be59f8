@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, Home } from 'lucide-react';
-import { trackEvent } from '@/lib/tracking';
+import { trackEvent, trackPageView } from '@/lib/tracking';
 
 interface ThankYouProps {
   title: string;
@@ -37,24 +37,59 @@ export function ThankYou({
       }
     } catch { /* ignore */ }
 
+    const pagePath = typeof window !== 'undefined' ? window.location.pathname : '';
     const params = {
       ...formParams,
       ...(value !== undefined ? { value } : {}),
       ...(currency ? { currency } : {}),
     };
 
-    // Spezifisches GA4/dataLayer-Event je Danke-Seite (z.B. contact_submit).
-    // Meta Lead/CompleteRegistration laufen über MetaPixelRouterTracker.
-    trackEvent(eventName, params);
+    // -----------------------------------------------------------
+    // Validierungs-Tracking auf Danke-Seiten
+    // -----------------------------------------------------------
+    // 1) GA4 page_view (über GTM/dataLayer) – Standardsignal,
+    //    damit die Danke-Seite als Ziel in GA4-Reports erscheint.
+    trackPageView(pagePath, document.title);
 
-    // Generisches Conversion-Page-View-Event für Google Ads / GA4.
+    // Dedup-Key, damit Reload kein Doppel-Tracking auslöst.
+    const ackKey = `conversion_ack:${pagePath}`;
+    let alreadyAcked = false;
+    try {
+      alreadyAcked = sessionStorage.getItem(ackKey) === '1';
+    } catch { /* ignore */ }
+
+    if (!alreadyAcked) {
+      // 2) Spezifisches GA4/dataLayer-Event je Danke-Seite (z.B. contact_submit).
+      trackEvent(eventName, params);
+
+      // 3) Dediziertes Validierungs-Event – in GA4/GTM leicht filterbar
+      //    und unabhängig vom eigentlichen Conversion-Event messbar.
+      trackEvent('conversion_ack', {
+        ...params,
+        ack_event: eventName,
+        page_path: pagePath,
+      });
+
+      try { sessionStorage.setItem(ackKey, '1'); } catch { /* ignore */ }
+
+      if (import.meta.env.DEV) {
+        // eslint-disable-next-line no-console
+        console.debug('[conversion_ack]', {
+          page: pagePath,
+          source_event: eventName,
+          params,
+        });
+      }
+    }
+
+    // 4) Generisches Conversion-Page-View-Event für Google Ads / GA4.
     try {
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('event', 'conversion_event_page_view', {
           event_category: 'conversion',
           event_label: eventName,
           ...params,
-          page_path: window.location.pathname,
+          page_path: pagePath,
           source_event: eventName,
         });
       }
