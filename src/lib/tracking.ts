@@ -201,6 +201,49 @@ export function trackConversion(
   }
 }
 
+/**
+ * Sendet ein gtag-Event und navigiert anschließend zur übergebenen URL.
+ * Wartet max. `timeout` ms auf den event_callback, damit die Conversion
+ * sicher übermittelt wird, bevor der Browser navigiert. Funktioniert für
+ * interne SPA-Routen (via `onNavigate`-Callback, z.B. React-Router) und
+ * für externe URLs (window.location-Fallback).
+ */
+export function gtagSendEventAndNavigate(
+  eventName: string,
+  url: string,
+  options: { params?: TrackParams; timeout?: number; onNavigate?: (url: string) => void } = {}
+) {
+  const { params = {}, timeout = 2000, onNavigate } = options;
+
+  let navigated = false;
+  const go = () => {
+    if (navigated) return;
+    navigated = true;
+    if (onNavigate) onNavigate(url);
+    else if (typeof window !== 'undefined') window.location.href = url;
+  };
+
+  // Zusätzlich in dataLayer pushen, damit GTM-Trigger greifen.
+  trackEvent(eventName, params);
+
+  try {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', eventName, {
+        ...params,
+        event_callback: go,
+        event_timeout: timeout,
+      });
+      // Sicherheitsnetz, falls Callback nie feuert (Adblocker etc.)
+      window.setTimeout(go, timeout);
+      return false;
+    }
+  } catch {
+    /* fallthrough */
+  }
+  go();
+  return false;
+}
+
 /** Backwards-compat: volle Zustimmung anwenden. */
 export function loadTrackingScripts() {
   applyConsent({ analytics: true, marketing: true });
