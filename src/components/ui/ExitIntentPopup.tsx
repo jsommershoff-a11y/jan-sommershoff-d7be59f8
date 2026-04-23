@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Gift } from 'lucide-react';
-import { trackEvent } from '@/lib/tracking';
+import { trackEvent, gtagSendEventAndNavigate } from '@/lib/tracking';
 
 export function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
