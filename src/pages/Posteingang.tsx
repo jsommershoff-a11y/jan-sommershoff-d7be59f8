@@ -19,7 +19,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { trackConversion, trackEvent, trackPageView, gtagSendEventAndNavigate } from '@/lib/tracking';
+import {
+  trackConversion,
+  trackEvent,
+  trackPageView,
+  gtagSendEventAndNavigate,
+  buildHashedUserData,
+  readConsent,
+} from '@/lib/tracking';
 
 const CANONICAL_PATH = '/posteingang';
 const SITE_URL = 'https://dein-automatisierungsberater.de';
@@ -281,6 +288,19 @@ export default function Posteingang() {
         );
       } catch { /* ignore */ }
 
+      // Enhanced Conversions: PII NUR gehasht und NUR mit marketing-Consent
+      // an Google senden. Klartext bleibt im Browser.
+      const consent = readConsent();
+      const userData =
+        consent?.marketing
+          ? await buildHashedUserData({
+              email: form.email,
+              first_name: form.first_name,
+              last_name: form.last_name,
+              phone: form.phone,
+            })
+          : undefined;
+
       // Meta Lead direkt feuern, GA4-Conversion mit verzögerter Navigation,
       // damit das Event vor dem Route-Wechsel sicher übermittelt wird.
       trackConversion('posteingang_submit', 'Lead', {
@@ -291,6 +311,7 @@ export default function Posteingang() {
         '/danke/posteingang',
         {
           params: conversionParams,
+          userData,
           onNavigate: (url) => navigate(url),
         }
       );

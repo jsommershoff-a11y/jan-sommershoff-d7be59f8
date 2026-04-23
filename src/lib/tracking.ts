@@ -202,18 +202,105 @@ export function trackConversion(
 }
 
 /**
+ * DSGVO-/Google-konformes Hashing für Enhanced Conversions.
+ *
+ * Personenbezogene Daten (Name, E-Mail, Telefon) dürfen NICHT als Klartext
+ * an Google Ads / GA4 übergeben werden. Stattdessen werden sie hier:
+ *   1. normalisiert (lowercase, getrimmt, Telefon E.164-bereinigt)
+ *   2. SHA-256 gehasht (Web Crypto, läuft lokal im Browser)
+ *   3. nur in den dafür vorgesehenen `user_data`-Feldern übergeben
+ *
+ * Hashes verlassen den Browser nur, wenn marketing-Consent erteilt wurde
+ * (siehe Aufrufer in Kontakt.tsx / Posteingang.tsx).
+ */
+async function sha256Hex(input: string): Promise<string> {
+  if (
+    typeof window === 'undefined' ||
+    typeof window.crypto === 'undefined' ||
+    !window.crypto.subtle
+  ) {
+    return '';
+  }
+  const data = new TextEncoder().encode(input);
+  const digest = await window.crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+export type LeadUserDataInput = {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+};
+
+/**
+ * Erzeugt das `user_data`-Objekt für Google Enhanced Conversions.
+ * Alle Felder werden vor dem Hash normalisiert. Leere Werte werden
+ * weggelassen, damit kein leerer Hash übermittelt wird.
+ */
+export async function buildHashedUserData(
+  input: LeadUserDataInput
+): Promise<Record<string, string>> {
+  const out: Record<string, string> = {};
+
+  const email = input.email?.trim().toLowerCase();
+  if (email) {
+    const h = await sha256Hex(email);
+    if (h) out.sha256_email_address = h;
+  }
+
+  const firstName = input.first_name?.trim().toLowerCase();
+  if (firstName) {
+    const h = await sha256Hex(firstName);
+    if (h) out.sha256_first_name = h;
+  }
+
+  const lastName = input.last_name?.trim().toLowerCase();
+  if (lastName) {
+    const h = await sha256Hex(lastName);
+    if (h) out.sha256_last_name = h;
+  }
+
+  // Telefon: alle Nicht-Ziffern entfernen; +49-Präfix optional voranstellen
+  // wenn deutsche Nummer ohne Ländervorwahl. Google empfiehlt E.164.
+  const rawPhone = input.phone?.replace(/[^\d+]/g, '');
+  if (rawPhone && rawPhone.length >= 6) {
+    const e164 = rawPhone.startsWith('+')
+      ? rawPhone
+      : rawPhone.startsWith('0')
+        ? '+49' + rawPhone.slice(1)
+        : '+' + rawPhone;
+    const h = await sha256Hex(e164);
+    if (h) out.sha256_phone_number = h;
+  }
+
+  return out;
+}
+
+/**
  * Sendet ein gtag-Event und navigiert anschließend zur übergebenen URL.
  * Wartet max. `timeout` ms auf den event_callback, damit die Conversion
  * sicher übermittelt wird, bevor der Browser navigiert. Funktioniert für
  * interne SPA-Routen (via `onNavigate`-Callback, z.B. React-Router) und
  * für externe URLs (window.location-Fallback).
+ *
+ * `userData` ist optional und wird – falls gesetzt – als `user_data`
+ * (Enhanced Conversions) übergeben. Es MUSS bereits gehasht sein
+ * (siehe `buildHashedUserData`).
  */
 export function gtagSendEventAndNavigate(
   eventName: string,
   url: string,
-  options: { params?: TrackParams; timeout?: number; onNavigate?: (url: string) => void } = {}
+  options: {
+    params?: TrackParams;
+    timeout?: number;
+    onNavigate?: (url: string) => void;
+    userData?: Record<string, string>;
+  } = {}
 ) {
-  const { params = {}, timeout = 2000, onNavigate } = options;
+  const { params = {}, timeout = 2000, onNavigate, userData } = options;
 
   let navigated = false;
   let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
@@ -233,7 +320,7 @@ export function gtagSendEventAndNavigate(
     else if (typeof window !== 'undefined') window.location.href = url;
   };
 
-  // Zusätzlich in dataLayer pushen, damit GTM-Trigger greifen.
+  // Zusätzlich in dataLayer pushen (PII-frei – nur Event-Parameter).
   trackEvent(eventName, params);
 
   // Sicherheitsnetz IMMER scharf schalten – auch bei Adblockern, fehlendem
@@ -245,11 +332,16 @@ export function gtagSendEventAndNavigate(
 
   try {
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', eventName, {
+      const payload: Record<string, unknown> = {
         ...params,
         event_callback: () => go('callback'),
         event_timeout: timeout,
-      });
+      };
+      // Enhanced Conversions: gehashte PII NUR im dedizierten user_data-Slot.
+      if (userData && Object.keys(userData).length > 0) {
+        payload.user_data = userData;
+      }
+      window.gtag('event', eventName, payload);
       return false;
     }
     // Kein gtag verfügbar → Fallback-Timer läuft bereits, kein Sofort-Sprung.
