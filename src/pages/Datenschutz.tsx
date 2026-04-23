@@ -1,12 +1,20 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { SEOHead } from '@/components/seo/SEOHead';
 
 export default function Datenschutz() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Datenschutzerklärung</h1>
+    <>
+      <SEOHead
+        title="Datenschutzerklärung – Jan Sommershoff"
+        description="Datenschutzerklärung gemäß DSGVO: verantwortliche Stelle, Cookies, Hosting, Tracking, Rechte der Betroffenen sowie Kontakt zum Datenschutz."
+        canonicalPath="/datenschutz"
+        noIndex={false}
+      />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-foreground">Datenschutzerklärung</h1>
 
       <div className="prose prose-sm dark:prose-invert max-w-none space-y-5 sm:space-y-6 text-muted-foreground break-words">
 
@@ -372,6 +380,7 @@ export default function Datenschutz() {
 
         <p className="text-sm text-muted-foreground pt-4">Stand: {new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
