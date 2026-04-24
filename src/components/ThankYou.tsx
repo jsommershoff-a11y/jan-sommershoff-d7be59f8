@@ -110,33 +110,70 @@ export function ThankYou({
     //    erfolgreichem Submit feuern: Voraussetzung ist, dass das Formular
     //    `conversion_params` in sessionStorage abgelegt hat (hadFormSubmit),
     //    plus separater Dedup-Key gegen Reload/Re-Mount.
-    if (leadFormConversionEvent && hadFormSubmit) {
+    if (leadFormConversionEvent) {
       const leadAckKey = `lead_form_conversion_ack:${pagePath}:${leadFormConversionEvent}`;
       let leadAlreadyAcked = false;
       try {
         leadAlreadyAcked = sessionStorage.getItem(leadAckKey) === '1';
       } catch { /* ignore */ }
 
-      if (!leadAlreadyAcked) {
+      const gtagAvailable =
+        typeof window !== 'undefined' && typeof window.gtag === 'function';
+
+      if (!hadFormSubmit) {
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.debug('[lead_form_conversion] skipped — no submit', {
+            event: leadFormConversionEvent,
+            page: pagePath,
+            reason: 'no conversion_params in sessionStorage (kein vorheriger Submit)',
+          });
+        }
+      } else if (leadAlreadyAcked) {
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.debug('[lead_form_conversion] skipped — already fired', {
+            event: leadFormConversionEvent,
+            page: pagePath,
+            ackKey: leadAckKey,
+          });
+        }
+      } else {
+        let fired = false;
         try {
-          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          if (gtagAvailable) {
             window.gtag('event', leadFormConversionEvent, {
               ...params,
               page_path: pagePath,
               source_event: eventName,
             });
+            fired = true;
           }
-        } catch { /* never block UI */ }
+        } catch (err) {
+          if (import.meta.env.DEV) {
+            // eslint-disable-next-line no-console
+            console.error('[lead_form_conversion] gtag threw', err);
+          }
+        }
 
-        try { sessionStorage.setItem(leadAckKey, '1'); } catch { /* ignore */ }
+        if (fired) {
+          try { sessionStorage.setItem(leadAckKey, '1'); } catch { /* ignore */ }
+        }
 
         if (import.meta.env.DEV) {
           // eslint-disable-next-line no-console
-          console.debug('[lead_form_conversion]', {
-            event: leadFormConversionEvent,
-            page: pagePath,
-            params,
-          });
+          console.debug(
+            fired
+              ? '[lead_form_conversion] ✅ fired'
+              : '[lead_form_conversion] ⚠️ NOT fired (gtag unavailable)',
+            {
+              event: leadFormConversionEvent,
+              page: pagePath,
+              gtagAvailable,
+              source_event: eventName,
+              params,
+            },
+          );
         }
       }
     }
