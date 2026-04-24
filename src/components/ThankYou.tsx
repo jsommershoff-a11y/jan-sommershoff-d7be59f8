@@ -14,6 +14,12 @@ interface ThankYouProps {
   currency?: string;
   primaryHref?: string;
   primaryLabel?: string;
+  /** Optionales Google-Ads/GA4-Lead-Form-Conversion-Event, das einmalig
+   *  nach einem erfolgreichen Submit gefeuert wird (z.B.
+   *  'conversion_event_submit_lead_form_2'). Wird nur ausgelöst, wenn
+   *  vom Formular `conversion_params` in sessionStorage hinterlegt wurden,
+   *  damit Direktaufrufe der Danke-Seite kein Conversion-Event triggern. */
+  leadFormConversionEvent?: string;
 }
 
 export function ThankYou({
@@ -24,15 +30,18 @@ export function ThankYou({
   currency,
   primaryHref = '/',
   primaryLabel = 'Zur Startseite',
+  leadFormConversionEvent,
 }: ThankYouProps) {
   useEffect(() => {
     // Vom Submit übergebene Form-Parameter (event_category, event_label,
     // lead_type, form_id, …) aus sessionStorage einlesen und einmalig nutzen.
     let formParams: Record<string, unknown> = {};
+    let hadFormSubmit = false;
     try {
       const raw = sessionStorage.getItem('conversion_params');
       if (raw) {
         formParams = JSON.parse(raw) ?? {};
+        hadFormSubmit = true;
         sessionStorage.removeItem('conversion_params');
       }
     } catch { /* ignore */ }
@@ -96,7 +105,42 @@ export function ThankYou({
     } catch {
       /* never block UI */
     }
-  }, [eventName, value, currency]);
+
+    // 5) Lead-Form-Conversion-Event (z.B. Google Ads). Nur einmal pro
+    //    erfolgreichem Submit feuern: Voraussetzung ist, dass das Formular
+    //    `conversion_params` in sessionStorage abgelegt hat (hadFormSubmit),
+    //    plus separater Dedup-Key gegen Reload/Re-Mount.
+    if (leadFormConversionEvent && hadFormSubmit) {
+      const leadAckKey = `lead_form_conversion_ack:${pagePath}:${leadFormConversionEvent}`;
+      let leadAlreadyAcked = false;
+      try {
+        leadAlreadyAcked = sessionStorage.getItem(leadAckKey) === '1';
+      } catch { /* ignore */ }
+
+      if (!leadAlreadyAcked) {
+        try {
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', leadFormConversionEvent, {
+              ...params,
+              page_path: pagePath,
+              source_event: eventName,
+            });
+          }
+        } catch { /* never block UI */ }
+
+        try { sessionStorage.setItem(leadAckKey, '1'); } catch { /* ignore */ }
+
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.debug('[lead_form_conversion]', {
+            event: leadFormConversionEvent,
+            page: pagePath,
+            params,
+          });
+        }
+      }
+    }
+  }, [eventName, value, currency, leadFormConversionEvent]);
 
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-16">
