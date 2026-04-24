@@ -14,6 +14,12 @@ interface ThankYouProps {
   currency?: string;
   primaryHref?: string;
   primaryLabel?: string;
+  /** Optionales Google-Ads/GA4-Lead-Form-Conversion-Event, das einmalig
+   *  nach einem erfolgreichen Submit gefeuert wird (z.B.
+   *  'conversion_event_submit_lead_form_2'). Wird nur ausgelöst, wenn
+   *  vom Formular `conversion_params` in sessionStorage hinterlegt wurden,
+   *  damit Direktaufrufe der Danke-Seite kein Conversion-Event triggern. */
+  leadFormConversionEvent?: string;
 }
 
 export function ThankYou({
