@@ -30,6 +30,7 @@ const Postautomatisierung = lazy(() => import("./pages/Postautomatisierung"));
 const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
 const DankeLead = lazy(() => import("./pages/danke/DankeLead"));
 const DankePosteingang = lazy(() => import("./pages/danke/DankePosteingang"));
+const TestConversion = lazy(() => import("./pages/TestConversion"));
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,9 @@ const App = () => (
                 <Route path="/danke/kontakt" element={<DankeKontakt />} />
                 <Route path="/danke/lead" element={<DankeLead />} />
                 <Route path="/danke/posteingang" element={<DankePosteingang />} />
+
+                {/* Internes QA-Tool: Conversion-Event Dedup-Test */}
+                <Route path="/test/conversion" element={<TestConversion />} />
 
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
