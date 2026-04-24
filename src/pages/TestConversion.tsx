@@ -61,11 +61,10 @@ export default function TestConversion() {
           }
         } catch { /* ignore */ }
         if (typeof orig === 'function') {
-          // @ts-expect-error - forward args
-          return orig.apply(window, args);
+          return (orig as (...a: unknown[]) => void).apply(window, args);
         }
         // Falls gtag noch nicht da ist, fallback auf dataLayer
-        (window.dataLayer = window.dataLayer || []).push(args);
+        (window.dataLayer = window.dataLayer || []).push(args as unknown as Record<string, unknown>);
       } as typeof window.gtag;
 
       window.gtag = patched;
