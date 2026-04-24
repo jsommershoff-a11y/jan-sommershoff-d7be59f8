@@ -30,15 +30,18 @@ export function ThankYou({
   currency,
   primaryHref = '/',
   primaryLabel = 'Zur Startseite',
+  leadFormConversionEvent,
 }: ThankYouProps) {
   useEffect(() => {
     // Vom Submit übergebene Form-Parameter (event_category, event_label,
     // lead_type, form_id, …) aus sessionStorage einlesen und einmalig nutzen.
     let formParams: Record<string, unknown> = {};
+    let hadFormSubmit = false;
     try {
       const raw = sessionStorage.getItem('conversion_params');
       if (raw) {
         formParams = JSON.parse(raw) ?? {};
+        hadFormSubmit = true;
         sessionStorage.removeItem('conversion_params');
       }
     } catch { /* ignore */ }
