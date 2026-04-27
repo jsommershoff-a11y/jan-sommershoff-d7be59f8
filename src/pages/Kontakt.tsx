@@ -143,49 +143,11 @@ export default function Kontakt() {
             })
           : undefined;
 
-      // ----------------------------------------------------------------
-      // Google Ads Lead-Form Conversion (Submit-Trigger).
-      // Wird ZUSÄTZLICH zum bestehenden GA4-Conversion-Event gefeuert,
-      // direkt im Submit-Handler, mit identischen `conversionParams`
-      // und denselben gehashten `user_data` (Enhanced Conversions).
-      // `send_to` (Conversion-ID/Label) ist optional via
-      // `VITE_GADS_LEAD_FORM_2_SEND_TO` konfigurierbar — wenn nicht
-      // gesetzt, wird der Schlüssel weggelassen.
-      // ----------------------------------------------------------------
-      const LEAD_FORM_2_EVENT = 'conversion_event_submit_lead_form_2';
-      const sendTo = import.meta.env.VITE_GADS_LEAD_FORM_2_SEND_TO as
-        | string
-        | undefined;
-      try {
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          const adsPayload: Record<string, unknown> = {
-            ...conversionParams,
-            ...(sendTo ? { send_to: sendTo } : {}),
-          };
-          if (userData && Object.keys(userData).length > 0) {
-            adsPayload.user_data = userData;
-          }
-          window.gtag('event', LEAD_FORM_2_EVENT, adsPayload);
-          if (import.meta.env.DEV) {
-            // eslint-disable-next-line no-console
-            console.debug('[gads] ✅ fired', LEAD_FORM_2_EVENT, {
-              ...adsPayload,
-              user_data: adsPayload.user_data ? '[hashed]' : undefined,
-            });
-          }
-        } else if (import.meta.env.DEV) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            '[gads] ⚠️ NOT fired — gtag unavailable',
-            LEAD_FORM_2_EVENT,
-          );
-        }
-      } catch (err) {
-        if (import.meta.env.DEV) {
-          // eslint-disable-next-line no-console
-          console.error('[gads] gtag threw', err);
-        }
-      }
+      // Hinweis: Google Ads Lead-Form Conversion (`conversion_event_submit_lead_form_2`)
+      // wird AUSSCHLIESSLICH auf der Danke-Seite (/danke/kontakt) gefeuert
+      // — siehe ThankYou-Komponente, Prop `leadFormConversionEvent`.
+      // Damit ist garantiert, dass das Event nur nach erfolgreicher Navigation
+      // (= echter erfolgreicher Submit) zählt und exakt 1× pro Submit feuert.
 
       // GA4-Conversion mit verzögerter Navigation: wartet auf event_callback
       // (max. 2s), damit das Event sicher bei GA4 ankommt, bevor wir routen.

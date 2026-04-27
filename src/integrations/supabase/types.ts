@@ -50,6 +50,84 @@ export type Database = {
         }
         Relationships: []
       }
+      apollo_credit_log: {
+        Row: {
+          ai_credits_remaining: number | null
+          credits_remaining: number | null
+          credits_used_total: number | null
+          id: number
+          notes: string | null
+          run_at: string
+        }
+        Insert: {
+          ai_credits_remaining?: number | null
+          credits_remaining?: number | null
+          credits_used_total?: number | null
+          id?: number
+          notes?: string | null
+          run_at?: string
+        }
+        Update: {
+          ai_credits_remaining?: number | null
+          credits_remaining?: number | null
+          credits_used_total?: number | null
+          id?: number
+          notes?: string | null
+          run_at?: string
+        }
+        Relationships: []
+      }
+      apollo_daily_runs: {
+        Row: {
+          contacts_created: number | null
+          credits_consumed: number | null
+          details: Json | null
+          drafts_breakup: number | null
+          drafts_first_touch: number | null
+          drafts_followup: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: number
+          leads_enriched: number | null
+          leads_searched: number | null
+          run_date: string
+          started_at: string
+          status: string
+        }
+        Insert: {
+          contacts_created?: number | null
+          credits_consumed?: number | null
+          details?: Json | null
+          drafts_breakup?: number | null
+          drafts_first_touch?: number | null
+          drafts_followup?: number | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: number
+          leads_enriched?: number | null
+          leads_searched?: number | null
+          run_date?: string
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          contacts_created?: number | null
+          credits_consumed?: number | null
+          details?: Json | null
+          drafts_breakup?: number | null
+          drafts_first_touch?: number | null
+          drafts_followup?: number | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: number
+          leads_enriched?: number | null
+          leads_searched?: number | null
+          run_date?: string
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       budgets: {
         Row: {
           category: string
@@ -92,6 +170,8 @@ export type Database = {
       companies: {
         Row: {
           address: string | null
+          apollo_organization_id: string | null
+          apollo_synced_at: string | null
           city: string | null
           country: string | null
           created_at: string
@@ -110,6 +190,8 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          apollo_organization_id?: string | null
+          apollo_synced_at?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
@@ -128,6 +210,8 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          apollo_organization_id?: string | null
+          apollo_synced_at?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
@@ -194,6 +278,11 @@ export type Database = {
       contacts: {
         Row: {
           address: string | null
+          apollo_email_status: string | null
+          apollo_label: string | null
+          apollo_person_id: string | null
+          apollo_pitch: string | null
+          apollo_synced_at: string | null
           company: string | null
           company_id: number | null
           created_at: string
@@ -215,6 +304,11 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          apollo_email_status?: string | null
+          apollo_label?: string | null
+          apollo_person_id?: string | null
+          apollo_pitch?: string | null
+          apollo_synced_at?: string | null
           company?: string | null
           company_id?: number | null
           created_at?: string
@@ -236,6 +330,11 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          apollo_email_status?: string | null
+          apollo_label?: string | null
+          apollo_person_id?: string | null
+          apollo_pitch?: string | null
+          apollo_synced_at?: string | null
           company?: string | null
           company_id?: number | null
           created_at?: string
@@ -338,6 +437,13 @@ export type Database = {
             referencedRelation: "contacts"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "outbound_dashboard"
+            referencedColumns: ["contact_id"]
+          },
         ]
       }
       documents: {
@@ -411,6 +517,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "documents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "outbound_dashboard"
+            referencedColumns: ["contact_id"]
+          },
+          {
             foreignKeyName: "documents_deal_id_fkey"
             columns: ["deal_id"]
             isOneToOne: false
@@ -423,6 +536,51 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tickets"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_opt_outs: {
+        Row: {
+          contact_id: number | null
+          email: string
+          id: number
+          notes: string | null
+          opted_out_at: string
+          reason: string | null
+          source: string | null
+        }
+        Insert: {
+          contact_id?: number | null
+          email: string
+          id?: number
+          notes?: string | null
+          opted_out_at?: string
+          reason?: string | null
+          source?: string | null
+        }
+        Update: {
+          contact_id?: number | null
+          email?: string
+          id?: number
+          notes?: string | null
+          opted_out_at?: string
+          reason?: string | null
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_opt_outs_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_opt_outs_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "outbound_dashboard"
+            referencedColumns: ["contact_id"]
           },
         ]
       }
@@ -479,8 +637,17 @@ export type Database = {
           content: string | null
           created_at: string
           direction: string | null
+          gmail_draft_id: string | null
+          gmail_message_id: string | null
+          gmail_thread_id: string | null
           id: number
           occurred_at: string
+          opened_at: string | null
+          pitch: string | null
+          replied_at: string | null
+          sender_mailbox: string | null
+          sent_at: string | null
+          sequence_step: number | null
           status: string | null
           subject: string | null
           type: string
@@ -494,8 +661,17 @@ export type Database = {
           content?: string | null
           created_at?: string
           direction?: string | null
+          gmail_draft_id?: string | null
+          gmail_message_id?: string | null
+          gmail_thread_id?: string | null
           id?: number
           occurred_at?: string
+          opened_at?: string | null
+          pitch?: string | null
+          replied_at?: string | null
+          sender_mailbox?: string | null
+          sent_at?: string | null
+          sequence_step?: number | null
           status?: string | null
           subject?: string | null
           type?: string
@@ -509,8 +685,17 @@ export type Database = {
           content?: string | null
           created_at?: string
           direction?: string | null
+          gmail_draft_id?: string | null
+          gmail_message_id?: string | null
+          gmail_thread_id?: string | null
           id?: number
           occurred_at?: string
+          opened_at?: string | null
+          pitch?: string | null
+          replied_at?: string | null
+          sender_mailbox?: string | null
+          sent_at?: string | null
+          sequence_step?: number | null
           status?: string | null
           subject?: string | null
           type?: string
@@ -531,6 +716,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "contacts"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interactions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "outbound_dashboard"
+            referencedColumns: ["contact_id"]
           },
         ]
       }
@@ -791,6 +983,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "tickets_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "outbound_dashboard"
+            referencedColumns: ["contact_id"]
+          },
+          {
             foreignKeyName: "tickets_deal_id_fkey"
             columns: ["deal_id"]
             isOneToOne: false
@@ -894,7 +1093,69 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      outbound_dashboard: {
+        Row: {
+          apollo_email_status: string | null
+          apollo_label: string | null
+          apollo_person_id: string | null
+          apollo_pitch: string | null
+          contact_company: string | null
+          contact_created_at: string | null
+          contact_email: string | null
+          contact_id: number | null
+          contact_location: string | null
+          contact_name: string | null
+          contact_position: string | null
+          drafts_open: number | null
+          is_opted_out: boolean | null
+          last_contacted_at: string | null
+          last_reply_at: string | null
+          last_send_at: string | null
+          mails_sent: number | null
+          replies_received: number | null
+        }
+        Insert: {
+          apollo_email_status?: string | null
+          apollo_label?: string | null
+          apollo_person_id?: string | null
+          apollo_pitch?: string | null
+          contact_company?: string | null
+          contact_created_at?: string | null
+          contact_email?: string | null
+          contact_id?: number | null
+          contact_location?: string | null
+          contact_name?: string | null
+          contact_position?: string | null
+          drafts_open?: never
+          is_opted_out?: never
+          last_contacted_at?: string | null
+          last_reply_at?: never
+          last_send_at?: never
+          mails_sent?: never
+          replies_received?: never
+        }
+        Update: {
+          apollo_email_status?: string | null
+          apollo_label?: string | null
+          apollo_person_id?: string | null
+          apollo_pitch?: string | null
+          contact_company?: string | null
+          contact_created_at?: string | null
+          contact_email?: string | null
+          contact_id?: number | null
+          contact_location?: string | null
+          contact_name?: string | null
+          contact_position?: string | null
+          drafts_open?: never
+          is_opted_out?: never
+          last_contacted_at?: string | null
+          last_reply_at?: never
+          last_send_at?: never
+          mails_sent?: never
+          replies_received?: never
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
