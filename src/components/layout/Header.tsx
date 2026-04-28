@@ -280,7 +280,9 @@ export function Header() {
                             <a
                               key={child.href}
                               href={child.href}
-                              onClick={(e) => handleNavClick(e, child.href)}
+                              {...(child.external
+                                ? { target: '_blank', rel: 'noopener noreferrer', onClick: () => setMobileMenuOpen(false) }
+                                : { onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, child.href) })}
                               className="block text-xl sm:text-2xl font-light tracking-wide py-3 min-h-11 text-foreground/80 hover:text-[#0F3D2E] dark:hover:text-[#6fcfab] transition-colors"
                             >
                               {child.name}
