@@ -22,11 +22,6 @@ const navLinks: NavLink[] = [
     name: 'Produkte',
     children: [
       {
-        name: 'Postautomatisierung',
-        href: '/postautomatisierung',
-        description: 'OCR, KI-Klassifikation & Routing für deinen Posteingang.',
-      },
-      {
         name: 'KI-Automationen',
         href: 'https://ki-automationen.io/automatisierungen',
         description: 'Maßgeschneiderte KI-Workflows & Automationen für dein Unternehmen.',
