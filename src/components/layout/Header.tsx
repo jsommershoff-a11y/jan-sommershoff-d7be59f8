@@ -9,7 +9,7 @@ import { Instagram, ChevronDown } from 'lucide-react';
 import { siteData } from '@/data/siteData';
 import logoIcon from '@/assets/logo-icon.png';
 
-type ProductChild = { name: string; href: string; description?: string };
+type ProductChild = { name: string; href: string; description?: string; external?: boolean };
 type NavLink =
   | { name: string; href: string; children?: undefined }
   | { name: string; href?: undefined; children: ProductChild[] };
@@ -25,6 +25,12 @@ const navLinks: NavLink[] = [
         name: 'Postautomatisierung',
         href: '/postautomatisierung',
         description: 'OCR, KI-Klassifikation & Routing für deinen Posteingang.',
+      },
+      {
+        name: 'KI-Automationen',
+        href: 'https://ki-automationen.io/automatisierungen',
+        description: 'Maßgeschneiderte KI-Workflows & Automationen für dein Unternehmen.',
+        external: true,
       },
     ],
   },
