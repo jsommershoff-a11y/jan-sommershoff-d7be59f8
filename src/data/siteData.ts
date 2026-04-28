@@ -77,7 +77,15 @@ export const siteData = {
         'Das Programm für Unternehmer, die ihre Prozesse durch KI und Automatisierung zukunftssicher machen wollen.',
       icon: 'Monitor',
     },
-  ],
+    {
+      name: 'KI-Automationen',
+      description:
+        'Maßgeschneiderte KI-Workflows & Automationen für dein Unternehmen – sofort einsatzbereit.',
+      icon: 'Building',
+      href: 'https://ki-automationen.io/automatisierungen',
+      external: true,
+    },
+  ] as Array<{ name: string; description: string; icon: string; href?: string; external?: boolean }>,
   cta: {
     headline: 'Dein Unternehmen verdient Zukunftssicherheit.',
     text: 'Automatisierung spart deinem Team bis zu 30 Stunden pro Woche.\n\nDeine Daten werden sicher und strukturiert aufgestellt.\n\nDeine Prozesse werden skalierbar und zukunftsfähig.\n\nLass uns gemeinsam prüfen, wo KI in deinem Unternehmen sofort Wirkung zeigt.',
