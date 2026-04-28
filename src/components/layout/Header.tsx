@@ -157,7 +157,9 @@ export function Header() {
                             <a
                               key={child.href}
                               href={child.href}
-                              onClick={(e) => handleNavClick(e, child.href)}
+                              {...(child.external
+                                ? { target: '_blank', rel: 'noopener noreferrer' }
+                                : { onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, child.href) })}
                               className="block rounded-lg px-3 py-2.5 hover:bg-muted transition-colors"
                             >
                               <span className="block text-sm font-semibold text-foreground">
