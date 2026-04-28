@@ -20,30 +20,48 @@ export function ProjectsSection() {
           </div>
         </ScrollReveal>
 
-        <div className="max-w-xl mx-auto">
+        <div className="max-w-xl mx-auto grid gap-6">
           {siteData.projects.map((project, index) => {
             const Icon = iconMap[project.icon];
+            const cardClasses =
+              'group flex flex-col h-full bg-card p-6 md:p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300';
+            const inner = (
+              <>
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 md:mb-6 group-hover:bg-primary/20 transition-colors">
+                  {Icon && <Icon className="size-7 md:size-8 text-accent" />}
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-card-foreground mb-2 md:mb-3">
+                  {project.name}
+                </h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed flex-1">
+                  {project.description}
+                </p>
+                <div className="mt-4 md:mt-6 inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+                  <span>Mehr erfahren</span>
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </>
+            );
             return (
               <ScrollReveal key={project.name} delay={index * 0.15} className="h-full [&>div]:h-full">
                 <div className="h-full">
-                  <Link
-                    to="/kontakt?ziel=potenzialanalyse"
-                    className="group flex flex-col h-full bg-card p-6 md:p-10 rounded-2xl shadow-sm border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300"
-                  >
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 md:mb-6 group-hover:bg-primary/20 transition-colors">
-                      {Icon && <Icon className="size-7 md:size-8 text-accent" />}
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-bold text-card-foreground mb-2 md:mb-3">
-                      {project.name}
-                    </h3>
-                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed flex-1">
-                      {project.description}
-                    </p>
-                    <div className="mt-4 md:mt-6 inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
-                      <span>Mehr erfahren</span>
-                      <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </Link>
+                  {project.external && project.href ? (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cardClasses}
+                    >
+                      {inner}
+                    </a>
+                  ) : (
+                    <Link
+                      to={project.href ?? '/kontakt?ziel=potenzialanalyse'}
+                      className={cardClasses}
+                    >
+                      {inner}
+                    </Link>
+                  )}
                 </div>
               </ScrollReveal>
             );
