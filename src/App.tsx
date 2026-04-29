@@ -26,6 +26,10 @@ const Kontakt = lazy(() => import("./pages/Kontakt"));
 const Posteingang = lazy(() => import("./pages/Posteingang"));
 const Postautomatisierung = lazy(() => import("./pages/Postautomatisierung"));
 
+import { ExternalRedirect } from "@/components/ExternalRedirect";
+
+const GESSNER_SUBDOMAIN = "https://gessner.dein-automatisierungsberater.de";
+
 // Thank-you pages
 const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
 const DankeLead = lazy(() => import("./pages/danke/DankeLead"));
@@ -62,6 +66,11 @@ const App = () => (
                 <Route path="/impressum" element={<Layout><Impressum /></Layout>} />
                 <Route path="/datenschutz" element={<Layout><Datenschutz /></Layout>} />
                 <Route path="/agb" element={<Layout><AGB /></Layout>} />
+
+                {/* Vanity-Redirects → Gessner-Subdomain */}
+                <Route path="/gessner" element={<ExternalRedirect to={GESSNER_SUBDOMAIN} />} />
+                <Route path="/süddeutschland" element={<ExternalRedirect to={GESSNER_SUBDOMAIN} />} />
+                <Route path="/sueddeutschland" element={<ExternalRedirect to={GESSNER_SUBDOMAIN} />} />
 
                 {/* Legacy Conversion-Goal Routen → Kontakt mit Quell-Param */}
                 <Route path="/potenzialanalyse" element={<Navigate to="/kontakt?ziel=potenzialanalyse" replace />} />
