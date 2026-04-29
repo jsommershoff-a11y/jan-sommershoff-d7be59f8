@@ -23,7 +23,7 @@ const navLinks: NavLink[] = [
     children: [
       {
         name: 'KI-Automationen',
-        href: 'https://ki-automationen.io/automatisierungen',
+        href: 'https://jan.dein-automatisierungsberater.de/automatisierungen',
         description: 'Maßgeschneiderte KI-Workflows & Automationen für dein Unternehmen.',
         external: true,
       },

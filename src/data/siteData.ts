@@ -82,7 +82,7 @@ export const siteData = {
       description:
         'Maßgeschneiderte KI-Workflows & Automationen für dein Unternehmen – sofort einsatzbereit.',
       icon: 'Building',
-      href: 'https://ki-automationen.io/automatisierungen',
+      href: 'https://jan.dein-automatisierungsberater.de/automatisierungen',
       external: true,
     },
   ] as Array<{ name: string; description: string; icon: string; href?: string; external?: boolean }>,

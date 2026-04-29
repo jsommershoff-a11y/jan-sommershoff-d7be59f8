@@ -1,58 +1,33 @@
-# Plan: Weiterleitung auf Subdomain einrichten
+# Plan: Domain-Tausch ki-automationen.io → jan.dein-automatisierungsberater.de
 
-## Ziel
-Die beiden Pfade
-- `https://dein-automatisierungsberater.de/gessner`
-- `https://dein-automatisierungsberater.de/süddeutschland`
+## Ja, das klappt — aber zwei getrennte Themen
 
-sollen permanent auf `https://gessner.dein-automatisierungsberater.de` weiterleiten.
+### 1. Code-Änderung (mache ich)
+Die alte Domain ist an genau **2 Stellen** im Code verlinkt (Menüpunkt "Automatisierungen"):
 
-## Wichtiger Hinweis vorab
-Die Subdomain `gessner.dein-automatisierungsberater.de` existiert aktuell **nicht** in den verbundenen Lovable-Domains (verbunden sind nur `jan-sommershoff.de`, `dein-automatisierungsberater.de`, `www.dein-automatisierungsberater.de`).
+| Datei | Zeile | Alt | Neu |
+|---|---|---|---|
+| `src/components/layout/Header.tsx` | 26 | `https://ki-automationen.io/automatisierungen` | `https://jan.dein-automatisierungsberater.de/automatisierungen` |
+| `src/data/siteData.ts` | 85 | `https://ki-automationen.io/automatisierungen` | `https://jan.dein-automatisierungsberater.de/automatisierungen` |
 
-Damit die Weiterleitung ein gültiges Ziel hat, musst du **vorher** die Subdomain entweder
-1. in **Project Settings → Domains** zu diesem Projekt hinzufügen (DNS: A-Record `gessner` → `185.158.133.1`), **oder**
-2. zu einem anderen Lovable-Projekt verbinden (falls Gessner eine eigene Seite bekommt).
+Beide werden im selben Schritt ersetzt.
 
-Ohne existierendes Ziel produziert die Weiterleitung sonst eine kaputte Seite. Sag mir kurz, welche Variante – ich kann mit dem Code-Teil aber unabhängig davon starten.
+### 2. DNS / Subdomain-Setup (musst du machen)
+Damit `jan.dein-automatisierungsberater.de/automatisierungen` tatsächlich erreichbar ist, muss die **Subdomain `jan`** existieren und auf das Projekt zeigen, das die `/automatisierungen`-Seite liefert.
 
-## Umsetzung im Code
+**Aktuell verbunden** (laut Lovable-Domains): nur `dein-automatisierungsberater.de`, `www.dein-automatisierungsberater.de`, `jan-sommershoff.de`.
+→ `jan.dein-automatisierungsberater.de` ist **noch nicht angebunden**.
 
-Da Lovable-Hosting **keine** server-seitigen Redirects unterstützt (kein `_redirects`, `vercel.json` etc.), wird die Weiterleitung client-seitig über React Router realisiert. Das ist für SEO ausreichend in Kombination mit korrekten `<link rel="canonical">`-Tags und Sitemap-Update.
+**Was du tun musst:**
+1. **Project Settings → Domains → Connect Domain** → `jan.dein-automatisierungsberater.de` eingeben
+2. DNS beim Registrar: A-Record `jan` → `185.158.133.1` (+ TXT `_lovable` wie angezeigt)
+3. Sicherstellen, dass auf der Subdomain auch eine Route `/automatisierungen` existiert (entweder dieses Projekt mit angepasster Route, oder ein separates Projekt für Jan-Persönlich)
 
-### 1. Routen in `src/App.tsx` ergänzen
-Zwei neue Routes vor der Catch-all `*`-Route:
+**Wichtig:** Wenn `jan.dein-automatisierungsberater.de` ein **separates** Lovable-Projekt sein soll (Personal Brand getrennt von Beratungs-Brand), muss dort die `/automatisierungen`-Seite gebaut werden — das ist nicht Teil dieses Codeschritts.
 
-```tsx
-<Route
-  path="/gessner"
-  element={<ExternalRedirect to="https://gessner.dein-automatisierungsberater.de" />}
-/>
-<Route
-  path="/süddeutschland"
-  element={<ExternalRedirect to="https://gessner.dein-automatisierungsberater.de" />}
-/>
-```
+## Offene Frage
+Zeigt `jan.dein-automatisierungsberater.de` auf **dieses** Projekt (gleiche Inhalte, nur andere Subdomain) oder auf ein **separates** Projekt? Für den Linktausch im Code ist die Antwort egal — für die Frage, ob der Link am Ende funktioniert, entscheidend.
 
-Zusätzlich URL-encodierte Variante `/s%C3%BCddeutschland` wird durch React Router automatisch auf den dekodierten Pfad gematcht – kein zweiter Eintrag nötig.
-
-### 2. Neue Komponente `src/components/ExternalRedirect.tsx`
-Macht ein hartes `window.location.replace(to)` direkt beim Mount. Zeigt während der Weiterleitung den `LoadingFallback`. Setzt zusätzlich:
-- `<meta http-equiv="refresh" content="0;url=...">` als Fallback ohne JS
-- `<link rel="canonical">` auf die Ziel-URL (SEO-Signal an Google, dass die Subdomain die kanonische Adresse ist)
-
-### 3. Sitemap aktualisieren (`public/sitemap.xml`)
-- Veraltete Pfade entfernen (z.B. `/postautomatisierung` ist im Menü gelöscht, gehört nicht mehr in die Sitemap)
-- Optional: Hinweis, dass `/gessner` und `/süddeutschland` **nicht** in die Sitemap aufgenommen werden – sie sind reine Vanity-Redirects.
-
-## Was nicht funktioniert (zur Klarstellung)
-- **301-Redirects auf Server-Ebene** sind auf Lovable-Hosting nicht konfigurierbar. Der client-seitige Redirect ist die unterstützte Lösung.
-- Für „echte" 301-Header bräuchtest du Cloudflare-Proxy davor mit Page Rules – das ist eine separate Infrastruktur-Entscheidung.
-
-## Dateien, die geändert werden
-- `src/App.tsx` (neue Routen)
-- `src/components/ExternalRedirect.tsx` (neu)
-- `public/sitemap.xml` (Cleanup)
-
-## Offene Frage an dich
-Soll ich die Subdomain `gessner.dein-automatisierungsberater.de` in **diesem** Projekt anbinden (gleiche Seite), oder zeigt sie auf ein **separates** Lovable-Projekt für Gessner? Das beeinflusst nur deine DNS-Schritte, nicht den Code.
+## Nicht Teil dieses Plans
+- Redirects von `ki-automationen.io` selbst (das ist DNS/Registrar-Sache der alten Domain, nicht in diesem Repo konfigurierbar)
+- Anlegen einer neuen `/automatisierungen`-Seite in diesem Projekt
