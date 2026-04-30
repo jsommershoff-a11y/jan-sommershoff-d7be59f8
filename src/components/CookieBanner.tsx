@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Settings, Cookie } from 'lucide-react';
+import { Settings, Cookie, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -223,6 +223,21 @@ export function CookieBanner() {
                 Lädt erst nach aktiver Zustimmung — Widerruf jederzeit möglich.
                 Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO.
               </p>
+              <div className="mt-2 flex items-start gap-2 rounded-md border border-primary/20 bg-primary/5 px-2.5 py-2">
+                <ShieldCheck className="size-3.5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+                <p className="text-[11px] leading-snug text-muted-foreground">
+                  <span className="font-medium text-foreground">AVV-Status:</span>{' '}
+                  Mit Apollo.io besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.{' '}
+                  <Link
+                    to="/datenschutz#avv-apollo"
+                    onClick={() => setSettingsOpen(false)}
+                    className="text-accent hover:underline font-medium"
+                  >
+                    Zum Apollo-Eintrag im AVV-Register
+                  </Link>
+                  .
+                </p>
+              </div>
               <TrackerList category="marketing" onNavigate={() => setSettingsOpen(false)} />
             </div>
 
