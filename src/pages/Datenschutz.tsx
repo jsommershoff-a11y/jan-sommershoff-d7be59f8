@@ -262,7 +262,7 @@ export default function Datenschutz() {
           <p><strong>Weitere Informationen:</strong></p>
           <ul className="list-disc list-inside space-y-1">
             <li>Datenschutzerklärung Apollo: <a href="https://www.apollo.io/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/privacy-policy</a></li>
-            <li>DPA / Auftragsverarbeitung: <a href="https://www.apollo.io/dpa" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/dpa</a></li>
+            <li>DPA / Auftragsverarbeitung: <a href="https://www.apollo.io/dpa" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/dpa</a> · <a href="#avv-apollo" className="text-accent hover:underline">Eintrag im AVV-Register ↓</a></li>
             <li>Opt-out Apollo: <a href="https://www.apollo.io/cookie-settings" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/cookie-settings</a></li>
           </ul>
 
