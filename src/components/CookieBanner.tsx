@@ -18,6 +18,10 @@ import {
   writeConsent,
   type ConsentState,
 } from '@/lib/tracking';
+import {
+  getTrackersByCategory,
+  type TrackerCategory,
+} from '@/data/cookieTrackers';
 
 const DEFAULT_CONSENT: ConsentState = { analytics: false, marketing: false };
 
@@ -153,7 +157,7 @@ export function CookieBanner() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-3 py-2">
+          <div className="space-y-3 py-2 max-h-[60vh] overflow-y-auto pr-1">
             {/* Notwendig */}
             <div className="rounded-lg border border-border p-3 bg-muted/40">
               <div className="flex items-center justify-between gap-3">
@@ -163,11 +167,12 @@ export function CookieBanner() {
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Erforderlich für den Betrieb der Website.
+                Erforderlich für Betrieb &amp; Sicherheit der Website.
               </p>
+              <TrackerList category="necessary" onNavigate={() => setSettingsOpen(false)} />
             </div>
 
-            {/* Analyse (GA4) */}
+            {/* Analyse */}
             <div className="rounded-lg border border-border p-3">
               <div className="flex items-center justify-between gap-3">
                 <label
@@ -183,12 +188,12 @@ export function CookieBanner() {
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Google Analytics 4 — anonymisierte Reichweitenmessung &
-                Seitenaufrufe.
+                Anonymisierte Reichweitenmessung &amp; Seitenaufrufe.
               </p>
+              <TrackerList category="analytics" onNavigate={() => setSettingsOpen(false)} />
             </div>
 
-            {/* Marketing (Meta Pixel + Apollo.io) */}
+            {/* Marketing */}
             <div className="rounded-lg border border-border p-3">
               <div className="flex items-center justify-between gap-3">
                 <label
@@ -204,34 +209,10 @@ export function CookieBanner() {
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Lädt erst nach aktiver Zustimmung — Widerruf jederzeit über diesen Dialog möglich.
+                Lädt erst nach aktiver Zustimmung — Widerruf jederzeit möglich.
+                Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO.
               </p>
-              <ul className="mt-2 space-y-1.5 text-xs text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 inline-block w-1 h-1 rounded-full bg-accent shrink-0" />
-                  <span>
-                    <span className="font-medium text-foreground">Meta Pixel</span> — Conversion-Tracking
-                    &amp; Kampagnenmessung (Meta Platforms Ireland Ltd.).
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-1 inline-block w-1 h-1 rounded-full bg-accent shrink-0" />
-                  <span>
-                    <span className="font-medium text-foreground">Apollo.io</span> — B2B-Besucher-Identifikation
-                    via Reverse-IP-Lookup (Apollo.io Inc., USA — EU-US DPF + SCC).
-                  </span>
-                </li>
-              </ul>
-              <p className="mt-2 text-xs text-muted-foreground">
-                Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO.{' '}
-                <Link
-                  to="/datenschutz#avv"
-                  onClick={() => setSettingsOpen(false)}
-                  className="text-accent hover:underline font-medium"
-                >
-                  AVV-Register ansehen
-                </Link>
-              </p>
+              <TrackerList category="marketing" onNavigate={() => setSettingsOpen(false)} />
             </div>
 
             <p className="text-xs text-muted-foreground">
@@ -267,4 +248,60 @@ export function CookieBanner() {
 /** Helper für Footer-Links etc.: `openCookieSettings()` */
 export function openCookieSettings() {
   window.dispatchEvent(new Event('open-cookie-settings'));
+}
+
+/**
+ * Standardisierte Anbieterliste pro Kategorie.
+ * Datenquelle: src/data/cookieTrackers.ts → src/data/avvRegistry.ts
+ */
+function TrackerList({
+  category,
+  onNavigate,
+}: {
+  category: TrackerCategory;
+  onNavigate?: () => void;
+}) {
+  const items = getTrackersByCategory(category);
+  if (items.length === 0) return null;
+
+  return (
+    <ul className="mt-2.5 space-y-2 border-t border-border/60 pt-2.5">
+      {items.map((t) => (
+        <li key={t.avvId} className="text-xs">
+          <div className="flex items-baseline justify-between gap-2">
+            <span className="font-medium text-foreground">{t.displayName}</span>
+            <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">
+              {t.retention}
+            </span>
+          </div>
+          <p className="text-muted-foreground mt-0.5 leading-snug">
+            {t.shortPurpose}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[11px] text-muted-foreground">
+            <span>
+              {t.avv.vendor}
+              {t.avv.thirdCountry ? ` · ${t.avv.thirdCountry}` : ''}
+            </span>
+            <Link
+              to={`/datenschutz#avv-${t.avvId}`}
+              onClick={onNavigate}
+              className="text-accent hover:underline font-medium"
+            >
+              AVV ↗
+            </Link>
+            {t.avv.privacyUrl && (
+              <a
+                href={t.avv.privacyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:underline font-medium"
+              >
+                Datenschutz ↗
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
 }
