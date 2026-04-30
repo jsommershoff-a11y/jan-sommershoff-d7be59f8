@@ -79,6 +79,7 @@
 export const GTM_CONTAINER_ID = 'GTM-NTNNDTMQ';
 export const GA4_MEASUREMENT_ID = 'G-VEFRVXT0HK';
 export const META_PIXEL_ID = '946900904715972';
+export const APOLLO_APP_ID = '69eaf28dcab75b0011d9e969';
 // ============================================================
 
 type TrackParams = Record<string, string | number | boolean | undefined>;
