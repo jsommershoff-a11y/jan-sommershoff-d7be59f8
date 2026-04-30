@@ -89,9 +89,48 @@ export type ConsentState = {
   marketing: boolean;
 };
 
+/**
+ * Persistierter Consent inkl. Audit-Metadaten.
+ *  - timestamp: ISO-8601 Zeitpunkt der letzten Entscheidung
+ *  - version: Schema-/Banner-Version (für spätere Re-Consent-Pflicht)
+ *  - source: WIE wurde die Entscheidung getroffen?
+ *  - trackers: Snapshot der konkret betroffenen Anbieter zum Zeitpunkt der Entscheidung
+ */
+export type ConsentSource =
+  | 'banner_accept_all'
+  | 'banner_decline_all'
+  | 'settings_save'
+  | 'settings_accept_all'
+  | 'settings_decline_all'
+  | 'legacy_migration'
+  | 'programmatic';
+
+export type StoredConsent = ConsentState & {
+  timestamp: string;
+  version: number;
+  source: ConsentSource;
+  trackers: { id: string; category: 'analytics' | 'marketing'; granted: boolean }[];
+};
+
+export type ConsentHistoryEntry = StoredConsent;
+
+export const CONSENT_VERSION = 2;
 export const CONSENT_STORAGE_KEY = 'cookie-consent-v2';
 export const CONSENT_LEGACY_KEY = 'cookie-consent';
+export const CONSENT_HISTORY_KEY = 'cookie-consent-history';
+export const CONSENT_HISTORY_MAX = 25;
 export const CONSENT_CHANGED_EVENT = 'cookie-consent-changed';
+
+/**
+ * Tracker-Snapshot für die Audit-Historie.
+ * Hardcodiert hier (statt Import aus cookieTrackers.ts), damit das
+ * Tracking-Modul keine UI-Datenabhängigkeiten bekommt.
+ */
+const TRACKER_SNAPSHOT: { id: string; category: 'analytics' | 'marketing' }[] = [
+  { id: 'google', category: 'analytics' },
+  { id: 'meta', category: 'marketing' },
+  { id: 'apollo', category: 'marketing' },
+];
 
 declare global {
   interface Window {
@@ -133,42 +172,138 @@ function gtagConsentUpdate(state: ConsentState) {
   });
 }
 
-export function readConsent(): ConsentState | null {
+/** Liest den vollständigen, gespeicherten Consent inkl. Audit-Daten. */
+export function readStoredConsent(): StoredConsent | null {
   if (typeof window === 'undefined') return null;
   try {
     const raw = localStorage.getItem(CONSENT_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (typeof parsed === 'object' && parsed !== null) {
+      if (parsed && typeof parsed === 'object' && typeof parsed.timestamp === 'string') {
+        return normalizeStored(parsed);
+      }
+      // Älteres v2-Format ohne Audit-Felder → on-the-fly migrieren
+      if (parsed && typeof parsed === 'object') {
         return {
           analytics: !!parsed.analytics,
           marketing: !!parsed.marketing,
+          timestamp: new Date(0).toISOString(),
+          version: 1,
+          source: 'legacy_migration',
+          trackers: snapshotTrackers({
+            analytics: !!parsed.analytics,
+            marketing: !!parsed.marketing,
+          }),
         };
       }
     }
-    // Legacy migration
+    // Legacy v1
     const legacy = localStorage.getItem(CONSENT_LEGACY_KEY);
-    if (legacy === 'accepted') return { analytics: true, marketing: true };
-    if (legacy === 'declined') return { analytics: false, marketing: false };
+    if (legacy === 'accepted' || legacy === 'declined') {
+      const granted = legacy === 'accepted';
+      return {
+        analytics: granted,
+        marketing: granted,
+        timestamp: new Date(0).toISOString(),
+        version: 1,
+        source: 'legacy_migration',
+        trackers: snapshotTrackers({ analytics: granted, marketing: granted }),
+      };
+    }
   } catch {
     /* ignore */
   }
   return null;
 }
 
-export function writeConsent(state: ConsentState) {
+/** Backwards-kompatible Kurzform — liefert nur analytics/marketing. */
+export function readConsent(): ConsentState | null {
+  const stored = readStoredConsent();
+  if (!stored) return null;
+  return { analytics: stored.analytics, marketing: stored.marketing };
+}
+
+function snapshotTrackers(state: ConsentState) {
+  return TRACKER_SNAPSHOT.map((t) => ({
+    ...t,
+    granted: t.category === 'analytics' ? state.analytics : state.marketing,
+  }));
+}
+
+function normalizeStored(p: Record<string, unknown>): StoredConsent {
+  return {
+    analytics: !!p.analytics,
+    marketing: !!p.marketing,
+    timestamp: typeof p.timestamp === 'string' ? p.timestamp : new Date().toISOString(),
+    version: typeof p.version === 'number' ? p.version : CONSENT_VERSION,
+    source: (typeof p.source === 'string' ? p.source : 'programmatic') as ConsentSource,
+    trackers: Array.isArray(p.trackers)
+      ? (p.trackers as StoredConsent['trackers'])
+      : snapshotTrackers({ analytics: !!p.analytics, marketing: !!p.marketing }),
+  };
+}
+
+/** Liest die Audit-Historie aller Consent-Entscheidungen (jüngste zuerst). */
+export function readConsentHistory(): ConsentHistoryEntry[] {
+  if (typeof window === 'undefined') return [];
   try {
-    localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
+    const raw = localStorage.getItem(CONSENT_HISTORY_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((e) => e && typeof e === 'object')
+      .map((e) => normalizeStored(e as Record<string, unknown>));
+  } catch {
+    return [];
+  }
+}
+
+/** Löscht die Audit-Historie (z.B. „Verlauf zurücksetzen"). */
+export function clearConsentHistory() {
+  try {
+    localStorage.removeItem(CONSENT_HISTORY_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+function appendHistory(entry: StoredConsent) {
+  try {
+    const existing = readConsentHistory();
+    const next = [entry, ...existing].slice(0, CONSENT_HISTORY_MAX);
+    localStorage.setItem(CONSENT_HISTORY_KEY, JSON.stringify(next));
+  } catch {
+    /* ignore */
+  }
+}
+
+/**
+ * Schreibt Consent + Audit-Daten und triggert applyConsent.
+ * `source` dokumentiert, welche UI-Aktion die Änderung ausgelöst hat.
+ */
+export function writeConsent(state: ConsentState, source: ConsentSource = 'programmatic') {
+  const stored: StoredConsent = {
+    analytics: state.analytics,
+    marketing: state.marketing,
+    timestamp: new Date().toISOString(),
+    version: CONSENT_VERSION,
+    source,
+    trackers: snapshotTrackers(state),
+  };
+  try {
+    localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(stored));
     localStorage.setItem(
       CONSENT_LEGACY_KEY,
       state.analytics || state.marketing ? 'accepted' : 'declined',
     );
+    appendHistory(stored);
   } catch {
     /* ignore */
   }
   applyConsent(state);
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: state }));
+    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: stored }));
   }
 }
 
