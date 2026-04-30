@@ -180,7 +180,7 @@ export function CookieBanner() {
               <p className="text-xs text-muted-foreground mt-1">
                 Erforderlich für Betrieb &amp; Sicherheit der Website.
               </p>
-              <TrackerList category="necessary" onNavigate={() => setSettingsOpen(false)} />
+              <TrackerList category="necessary" consent={savedConsent} onNavigate={() => setSettingsOpen(false)} />
             </div>
 
             {/* Analyse */}
@@ -201,7 +201,7 @@ export function CookieBanner() {
               <p className="text-xs text-muted-foreground mt-1">
                 Anonymisierte Reichweitenmessung &amp; Seitenaufrufe.
               </p>
-              <TrackerList category="analytics" onNavigate={() => setSettingsOpen(false)} />
+              <TrackerList category="analytics" consent={savedConsent} onNavigate={() => setSettingsOpen(false)} />
             </div>
 
             {/* Marketing */}
@@ -238,7 +238,7 @@ export function CookieBanner() {
                   .
                 </p>
               </div>
-              <TrackerList category="marketing" onNavigate={() => setSettingsOpen(false)} />
+              <TrackerList category="marketing" consent={savedConsent} onNavigate={() => setSettingsOpen(false)} />
             </div>
 
             <p className="text-xs text-muted-foreground">
@@ -282,52 +282,81 @@ export function openCookieSettings() {
  */
 function TrackerList({
   category,
+  consent,
   onNavigate,
 }: {
   category: TrackerCategory;
+  consent: ConsentState | null;
   onNavigate?: () => void;
 }) {
   const items = getTrackersByCategory(category);
   if (items.length === 0) return null;
 
+  const isLoaded = (cat: TrackerCategory) => {
+    if (cat === 'necessary') return true;
+    if (!consent) return false;
+    return cat === 'analytics' ? consent.analytics : consent.marketing;
+  };
+
   return (
     <ul className="mt-2.5 space-y-2 border-t border-border/60 pt-2.5">
-      {items.map((t) => (
-        <li key={t.avvId} className="text-xs">
-          <div className="flex items-baseline justify-between gap-2">
-            <span className="font-medium text-foreground">{t.displayName}</span>
-            <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">
-              {t.retention}
-            </span>
-          </div>
-          <p className="text-muted-foreground mt-0.5 leading-snug">
-            {t.shortPurpose}
-          </p>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[11px] text-muted-foreground">
-            <span>
-              {t.avv.vendor}
-              {t.avv.thirdCountry ? ` · ${t.avv.thirdCountry}` : ''}
-            </span>
-            <Link
-              to={`/datenschutz#avv-${t.avvId}`}
-              onClick={onNavigate}
-              className="text-accent hover:underline font-medium"
-            >
-              AVV ↗
-            </Link>
-            {t.avv.privacyUrl && (
-              <a
-                href={t.avv.privacyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+      {items.map((t) => {
+        const loaded = isLoaded(t.category);
+        return (
+          <li key={t.avvId} className="text-xs">
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="font-medium text-foreground">{t.displayName}</span>
+              <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">
+                {t.retention}
+              </span>
+            </div>
+            <p className="text-muted-foreground mt-0.5 leading-snug">
+              {t.shortPurpose}
+            </p>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5 text-[11px] text-muted-foreground">
+              <span
+                className={
+                  'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full font-medium ' +
+                  (loaded
+                    ? 'bg-primary/15 text-primary'
+                    : 'bg-muted text-muted-foreground')
+                }
+                aria-label={`Status: ${loaded ? 'Geladen' : 'Nicht geladen'}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={
+                    'inline-block w-1.5 h-1.5 rounded-full ' +
+                    (loaded ? 'bg-primary animate-pulse' : 'bg-muted-foreground/60')
+                  }
+                />
+                {loaded ? 'Geladen' : 'Nicht geladen'}
+              </span>
+              <span>
+                {t.avv.vendor}
+                {t.avv.thirdCountry ? ` · ${t.avv.thirdCountry}` : ''}
+              </span>
+              <Link
+                to={`/datenschutz#avv-${t.avvId}`}
+                onClick={onNavigate}
                 className="text-accent hover:underline font-medium"
               >
-                Datenschutz ↗
-              </a>
-            )}
-          </div>
-        </li>
-      ))}
+                AVV ↗
+              </Link>
+              {t.avv.privacyUrl && (
+                <a
+                  href={t.avv.privacyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline font-medium"
+                >
+                  Datenschutz ↗
+                </a>
+              )}
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
