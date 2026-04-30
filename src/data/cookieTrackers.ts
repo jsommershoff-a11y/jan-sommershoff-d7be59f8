@@ -25,6 +25,12 @@ export type Tracker = {
   shortPurpose: string;
   /** Cookie-/Storage-Lebensdauer (kurz, menschlich lesbar). */
   retention: string;
+  /** DSGVO-Detail: ausführliche Zwecke (Art. 13 Abs. 1 lit. c). */
+  purposes: string[];
+  /** DSGVO-Detail: Kategorien personenbezogener Daten (Art. 13 / Art. 30). */
+  dataCategories: string[];
+  /** DSGVO-Detail: Rechtsgrundlage gem. Art. 6 Abs. 1 DSGVO. */
+  legalBasis: string;
 };
 
 export const TRACKERS: Tracker[] = [
@@ -35,6 +41,9 @@ export const TRACKERS: Tracker[] = [
     displayName: 'Supabase Session',
     shortPurpose: 'Sicherheits-Token & Formular-Submission (kein Tracking).',
     retention: 'Session',
+    purposes: ['Bereitstellung des Dienstes', 'Schutz vor Missbrauch'],
+    dataCategories: ['Session-Token', 'IP-Adresse (kurzzeitig)'],
+    legalBasis: 'Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse: Betrieb & Sicherheit).',
   },
   {
     avvId: 'lovable',
@@ -42,6 +51,9 @@ export const TRACKERS: Tracker[] = [
     displayName: 'Hosting / CDN',
     shortPurpose: 'Auslieferung der Website über Edge-CDN.',
     retention: 'Session',
+    purposes: ['Bereitstellung & schnelle Auslieferung der Website'],
+    dataCategories: ['IP-Adresse', 'User-Agent', 'Zeitstempel'],
+    legalBasis: 'Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse: Hosting).',
   },
 
   // ── Analyse ──────────────────────────────────────────────────
@@ -51,6 +63,9 @@ export const TRACKERS: Tracker[] = [
     displayName: 'Google Analytics 4 (via GTM)',
     shortPurpose: 'Anonymisierte Reichweitenmessung & Seitenaufrufe.',
     retention: 'bis zu 14 Monate',
+    purposes: ['Reichweitenmessung', 'Verbesserung der Inhalte'],
+    dataCategories: ['Pseudonyme Client-ID', 'gekürzte IP', 'Geräte- & Browserdaten', 'Seitenaufrufe'],
+    legalBasis: 'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Widerruf jederzeit möglich.',
   },
 
   // ── Marketing ────────────────────────────────────────────────
@@ -60,6 +75,9 @@ export const TRACKERS: Tracker[] = [
     displayName: 'Meta Pixel',
     shortPurpose: 'Conversion-Tracking & Remarketing (Facebook/Instagram).',
     retention: 'bis zu 90 Tage',
+    purposes: ['Conversion-Messung', 'Zielgruppenbildung (Custom Audiences)', 'Remarketing'],
+    dataCategories: ['Pixel-ID (_fbp/_fbc)', 'IP-Adresse', 'User-Agent', 'Klick- & Conversion-Events'],
+    legalBasis: 'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Widerruf jederzeit möglich.',
   },
   {
     avvId: 'apollo',
@@ -67,6 +85,20 @@ export const TRACKERS: Tracker[] = [
     displayName: 'Apollo.io Website-Tracker',
     shortPurpose: 'B2B-Besucher-Identifikation via Reverse-IP-Lookup.',
     retention: 'bis zu 12 Monate',
+    purposes: [
+      'Identifikation besuchender Unternehmen (Reverse-IP-Lookup)',
+      'B2B-Lead-Anreicherung & Vertriebsansprache',
+      'Reichweiten- & Funnel-Analyse für B2B-Kampagnen',
+    ],
+    dataCategories: [
+      'IP-Adresse',
+      'abgeleitete Firmendaten (Name, Branche, Größe)',
+      'Geräte- & Browser-Informationen',
+      'Seitenaufrufe & Verweildauer',
+      'pseudonyme Visitor-ID (Cookie)',
+    ],
+    legalBasis:
+      'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Auftragsverarbeitung nach Art. 28 DSGVO mit Apollo (siehe AVV-Eintrag). Widerruf jederzeit möglich.',
   },
 ];
 
