@@ -18,6 +18,10 @@ import {
   writeConsent,
   type ConsentState,
 } from '@/lib/tracking';
+import {
+  getTrackersByCategory,
+  type TrackerCategory,
+} from '@/data/cookieTrackers';
 
 const DEFAULT_CONSENT: ConsentState = { analytics: false, marketing: false };
 
