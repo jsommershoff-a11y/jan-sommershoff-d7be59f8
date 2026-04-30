@@ -359,6 +359,13 @@ export default function Datenschutz() {
           <AvvRegister />
         </section>
 
+        {/* 15. Consent-Audit-Log */}
+        <section id="consent-log-section" className="scroll-mt-24">
+          <h2 className="text-xl font-semibold text-foreground">15. Nachweis deiner Einwilligungen</h2>
+          <p>Damit du jederzeit nachvollziehen kannst, welche Cookie-Entscheidung du wann getroffen hast, protokollieren wir deine Zustimmungen <strong>ausschließlich lokal in deinem Browser</strong> (kein Server-Upload). Der Verlauf umfasst Zeitstempel, Quelle der Aktion (Banner / Einstellungen), die zugestimmten Kategorien sowie die konkret betroffenen Anbieter — inkl. Meta Pixel und Apollo.io.</p>
+          <ConsentAuditLog />
+        </section>
+
         {/* Kontakt & Datenschutz-Links */}
         <section className="mt-8 rounded-lg border border-border bg-muted/30 p-5 sm:p-6 not-prose">
           <h2 className="text-xl font-semibold text-foreground mb-3">Kontakt zum Datenschutz</h2>
