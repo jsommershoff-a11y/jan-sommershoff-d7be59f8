@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { AvvRegister } from '@/components/AvvRegister';
+import { ConsentAuditLog } from '@/components/ConsentAuditLog';
 
 export default function Datenschutz() {
   useEffect(() => {
