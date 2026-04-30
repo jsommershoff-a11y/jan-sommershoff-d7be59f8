@@ -249,3 +249,59 @@ export function CookieBanner() {
 export function openCookieSettings() {
   window.dispatchEvent(new Event('open-cookie-settings'));
 }
+
+/**
+ * Standardisierte Anbieterliste pro Kategorie.
+ * Datenquelle: src/data/cookieTrackers.ts → src/data/avvRegistry.ts
+ */
+function TrackerList({
+  category,
+  onNavigate,
+}: {
+  category: TrackerCategory;
+  onNavigate?: () => void;
+}) {
+  const items = getTrackersByCategory(category);
+  if (items.length === 0) return null;
+
+  return (
+    <ul className="mt-2.5 space-y-2 border-t border-border/60 pt-2.5">
+      {items.map((t) => (
+        <li key={t.avvId} className="text-xs">
+          <div className="flex items-baseline justify-between gap-2">
+            <span className="font-medium text-foreground">{t.displayName}</span>
+            <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">
+              {t.retention}
+            </span>
+          </div>
+          <p className="text-muted-foreground mt-0.5 leading-snug">
+            {t.shortPurpose}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[11px] text-muted-foreground">
+            <span>
+              {t.avv.vendor}
+              {t.avv.thirdCountry ? ` · ${t.avv.thirdCountry}` : ''}
+            </span>
+            <Link
+              to={`/datenschutz#avv-${t.avvId}`}
+              onClick={onNavigate}
+              className="text-accent hover:underline font-medium"
+            >
+              AVV ↗
+            </Link>
+            {t.avv.privacyUrl && (
+              <a
+                href={t.avv.privacyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:underline font-medium"
+              >
+                Datenschutz ↗
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
