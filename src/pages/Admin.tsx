@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, FileText, Inbox, Loader2, LogOut, Mail, Package, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown, ChevronRight, Download, FileText, Inbox, Loader2, LogOut, Mail, Pencil, Plus, Search, Send, ShieldAlert, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmissionsChart } from '@/components/admin/SubmissionsChart';
 import { SubmissionsKpis } from '@/components/admin/SubmissionsKpis';
@@ -62,7 +62,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [filter, setFilter] = useState<'all' | 'lead_magnet' | 'contact'>('all');
+  const [filter, setFilter] = useState<'all' | 'contact'>('all');
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'last_name' | 'first_name' | 'type'>('date');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
@@ -378,7 +378,6 @@ export default function Admin() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="contact">Kontakt</SelectItem>
-                        <SelectItem value="lead_magnet">Lead-Magnet</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -498,14 +497,6 @@ export default function Admin() {
           </Button>
           <Button
             size="sm"
-            variant={filter === 'lead_magnet' ? 'default' : 'outline'}
-            onClick={() => setFilter('lead_magnet')}
-          >
-            <Package className="size-3.5 mr-1.5" />
-            Lead-Magnet ({submissions.filter((s) => s.type === 'lead_magnet').length})
-          </Button>
-          <Button
-            size="sm"
             variant={filter === 'contact' ? 'default' : 'outline'}
             onClick={() => setFilter('contact')}
           >
@@ -547,7 +538,7 @@ export default function Admin() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                     <Badge variant={s.type === 'lead_magnet' ? 'default' : 'secondary'}>
-                      {s.type === 'lead_magnet' ? '🎯 Lead-Magnet' : '📩 Kontakt'}
+                      {s.type === 'lead_magnet' ? '🎯 Lead (Legacy)' : '📩 Kontakt'}
                     </Badge>
                     <span className="text-xs sm:text-sm text-muted-foreground">
                       {new Date(s.created_at).toLocaleString('de-DE', {
@@ -678,11 +669,7 @@ export default function Admin() {
         onOpenChange={(o) => !o && setMailTarget(null)}
         to={mailTarget?.email || ''}
         recipientName={mailTarget?.name}
-        defaultSubject={
-          mailTarget?.type === 'lead_magnet'
-            ? 'Dein KI Notfallkoffer'
-            : 'Re: Deine Anfrage'
-        }
+        defaultSubject="Re: Deine Anfrage"
       />
     </div>
   );
