@@ -240,12 +240,26 @@ export default function Datenschutz() {
           </div>
           <p className="mt-2">Weitere Informationen: <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.facebook.com/privacy/policy</a></p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4">10.4 Google Consent Mode v2</h3>
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.4 Apollo.io Website-Tracker (B2B-Besucher-Identifikation)</h3>
+          <p>Mit Ihrer Einwilligung setzen wir den <strong>Apollo.io Website-Tracker</strong> ein. Das Tool ordnet Besucher unserer Website auf Grundlage der IP-Adresse und gerätebezogener Merkmale soweit möglich Unternehmen zu (sog. Reverse-IP-Lookup) und stellt uns aggregierte Informationen zu besuchten Seiten, Verweildauer und ggf. zugeordneter Firma zur Verfügung. Ziel ist die Auswertung des Interesses geschäftlicher Besucher und die Optimierung unseres B2B-Marketings.</p>
+          <p><strong>Anbieter:</strong> Apollo.io, Inc. (ehem. ZenProspect, Inc.), 535 Mission St, Suite 1100, San Francisco, CA 94105, USA.</p>
+          <p><strong>Verarbeitete Daten:</strong> IP-Adresse (gekürzt für Firmen-Match), Browser- und Geräteinformationen, Referrer-URL, aufgerufene Seiten, Zeitstempel, Klick- und Scroll-Verhalten, ggf. ein Cookie/LocalStorage-Identifier zur Wiedererkennung im Verlauf der Sitzung.</p>
+          <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO (Einwilligung über unser Cookie-Banner). Ohne Einwilligung wird das Skript nicht geladen.</p>
+          <p><strong>Speicherdauer:</strong> Die durch Apollo gespeicherten Daten werden gemäß den Apollo-Aufbewahrungsfristen verarbeitet (i. d. R. bis zu 24 Monate für Tracking-Profile). Lokal gesetzte Tracking-Identifier können Sie jederzeit über Ihre Browser-Einstellungen löschen.</p>
+          <p><strong>Drittlandtransfer (USA):</strong> Apollo verarbeitet Daten in den USA. Grundlage des Transfers sind die <a href="https://commission.europa.eu/document/fa09cbad-dd7d-4684-ae60-be03fcb0fddf_de" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">EU-Standardvertragsklauseln</a> nach Art. 46 Abs. 2 lit. c DSGVO sowie – soweit Apollo zertifiziert ist – das <a href="https://www.dataprivacyframework.gov/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">EU-US Data Privacy Framework</a>. Es besteht das Risiko, dass US-Behörden im Einzelfall auf Daten zugreifen können, ohne dass Sie hiergegen wirksame Rechtsmittel haben.</p>
+          <p><strong>Weitere Informationen:</strong></p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Datenschutzerklärung Apollo: <a href="https://www.apollo.io/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/privacy-policy</a></li>
+            <li>DPA / Auftragsverarbeitung: <a href="https://www.apollo.io/dpa" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/dpa</a></li>
+            <li>Opt-out Apollo: <a href="https://www.apollo.io/cookie-settings" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/cookie-settings</a></li>
+          </ul>
+
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.5 Google Consent Mode v2</h3>
           <p>Wir setzen den <strong>Google Consent Mode v2</strong> ein. Das bedeutet: Google-Tags (insbesondere Google Analytics 4 und – falls aktiviert – Google Ads) werden auf unserer Website grundsätzlich mit dem Standardstatus „<strong>denied</strong>" für die Signale <code>ad_storage</code>, <code>ad_user_data</code>, <code>ad_personalization</code> und <code>analytics_storage</code> geladen. Erst nach Ihrer aktiven Einwilligung im Cookie-Banner werden die jeweils freigegebenen Signale per <code>consent update</code> auf „granted" gesetzt.</p>
           <p>Ohne Ihre Einwilligung werden <strong>keine Cookies gesetzt</strong> und <strong>keine identifizierenden Daten</strong> übertragen. Es können in diesem Modus jedoch sogenannte <em>cookielose Pings</em> (anonyme, aggregierte Signale ohne Geräte- oder Nutzer-IDs) an Google gesendet werden, die ausschließlich der statistischen Modellierung von Conversion- und Reichweiten-Lücken dienen. Eine Wiedererkennung Ihrer Person ist auf dieser Basis nicht möglich.</p>
           <p>Zusätzlich aktivieren wir die Google-Einstellungen <code>ads_data_redaction</code> (Schwärzung werbebezogener Daten bei fehlender Einwilligung) und <code>url_passthrough</code> (cookielose Weitergabe von Klick-Parametern).</p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4">10.5 Widerruf Ihrer Einwilligung</h3>
+          <h3 className="text-lg font-semibold text-foreground mt-4">10.6 Widerruf Ihrer Einwilligung</h3>
           <p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen oder anpassen. Klicken Sie dazu auf den Cookie-Button (Symbol unten links auf jeder Seite) oder auf den Link „Cookie-Einstellungen" im Footer. Nach Widerruf werden die zugehörigen Skripte nicht mehr geladen; bereits gesetzte Drittanbieter-Cookies können Sie zusätzlich in den Einstellungen Ihres Browsers löschen.</p>
         </section>
 
