@@ -204,8 +204,8 @@ export function CookieBanner() {
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Meta Pixel — Conversion-Tracking & Kampagnenmessung für
-                Werbeanzeigen.
+                Meta Pixel & Apollo.io — Conversion-Tracking, Kampagnenmessung
+                und B2B-Besucher-Identifikation.
               </p>
             </div>
 
