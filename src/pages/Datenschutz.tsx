@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/seo/SEOHead';
+import { AvvRegister } from '@/components/AvvRegister';
 
 export default function Datenschutz() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    if (window.location.hash) {
+      // Hash vorhanden → smooth zum Element scrollen, nicht nach oben
+      const id = window.location.hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -250,7 +262,7 @@ export default function Datenschutz() {
           <p><strong>Weitere Informationen:</strong></p>
           <ul className="list-disc list-inside space-y-1">
             <li>Datenschutzerklärung Apollo: <a href="https://www.apollo.io/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/privacy-policy</a></li>
-            <li>DPA / Auftragsverarbeitung: <a href="https://www.apollo.io/dpa" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/dpa</a></li>
+            <li>DPA / Auftragsverarbeitung: <a href="https://www.apollo.io/dpa" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/dpa</a> · <a href="#avv-apollo" className="text-accent hover:underline">Eintrag im AVV-Register ↓</a></li>
             <li>Opt-out Apollo: <a href="https://www.apollo.io/cookie-settings" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">https://www.apollo.io/cookie-settings</a></li>
           </ul>
 
@@ -337,6 +349,13 @@ export default function Datenschutz() {
 
           <h3 className="text-lg font-semibold text-foreground mt-4">Freiwilligkeit</h3>
           <p>Die Entscheidung zur Nutzung der Analyse sowie zu einer späteren Kontaktaufnahme liegt jederzeit vollständig beim Nutzer. Die Nutzung der Website und der Analyse ist auch ohne Kontaktaufnahme uneingeschränkt möglich.</p>
+        </section>
+
+        {/* 14. AVV-Register */}
+        <section id="avv" className="scroll-mt-24">
+          <h2 className="text-xl font-semibold text-foreground">14. Auftragsverarbeitung (AVV-Register)</h2>
+          <p>Soweit wir personenbezogene Daten im Auftrag durch externe Dienstleister verarbeiten lassen (z. B. Hosting, E-Mail-Versand, Tracking), haben wir mit diesen Anbietern Verträge zur Auftragsverarbeitung gemäß <strong>Art. 28 DSGVO</strong> abgeschlossen. Die Verträge stellen sicher, dass die Anbieter die personenbezogenen Daten ausschließlich nach unseren Weisungen und unter Einhaltung der DSGVO verarbeiten.</p>
+          <AvvRegister />
         </section>
 
         {/* Kontakt & Datenschutz-Links */}
