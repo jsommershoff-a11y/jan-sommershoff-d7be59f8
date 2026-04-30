@@ -100,6 +100,8 @@ declare global {
     fbq?: ((...args: unknown[]) => void) & { callMethod?: unknown; queue?: unknown[] };
     _fbq?: unknown;
     __metaLoaded?: boolean;
+    __apolloLoaded?: boolean;
+    trackingFunctions?: { onLoad?: (opts: { appId: string }) => void };
   }
 }
 
