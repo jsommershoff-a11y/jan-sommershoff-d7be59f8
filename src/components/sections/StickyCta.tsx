@@ -23,7 +23,7 @@ export function StickyCta() {
   useEffect(() => {
     if (isVisible && !shownTracked.current) {
       shownTracked.current = true;
-      trackEvent('cta_shown', { cta_id: 'sticky_notfallkoffer', placement: 'sticky_bottom' });
+      trackEvent('cta_shown', { cta_id: 'sticky_potenzialanalyse', placement: 'sticky_bottom' });
     }
   }, [isVisible]);
 
@@ -41,27 +41,27 @@ export function StickyCta() {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <p className="text-primary-foreground text-sm md:text-base font-medium hidden sm:block">
-              Sichere dir den kostenlosen KI-Notfallkoffer.
+              Sichere dir deine kostenfreie KI-Potenzialanalyse.
             </p>
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <Link
-                to="/kontakt?ziel=notfallkoffer"
+                to="/kontakt?ziel=potenzialanalyse"
                 onClick={() =>
                   trackEvent('cta_click', {
-                    cta_id: 'sticky_notfallkoffer',
+                    cta_id: 'sticky_potenzialanalyse',
                     placement: 'sticky_bottom',
-                    target: 'notfallkoffer',
+                    target: 'potenzialanalyse',
                   })
                 }
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-white text-primary font-bold rounded-lg hover:bg-white/90 transition-all shadow-[0_2px_15px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_20px_rgba(255,255,255,0.35)] hover:-translate-y-0.5 text-sm"
               >
-                Notfallkoffer anfragen
+                Potenzialanalyse anfragen
                 <ArrowRight className="size-4" />
               </Link>
               <button
                 onClick={() => {
                   trackEvent('cta_dismissed', {
-                    cta_id: 'sticky_notfallkoffer',
+                    cta_id: 'sticky_potenzialanalyse',
                     placement: 'sticky_bottom',
                   });
                   setIsDismissed(true);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, Gift } from 'lucide-react';
+import { X, ArrowRight, LineChart } from 'lucide-react';
 import { trackEvent, gtagSendEventAndNavigate } from '@/lib/tracking';
 
 export function ExitIntentPopup() {
@@ -14,14 +14,14 @@ export function ExitIntentPopup() {
     if (sessionStorage.getItem('exit-popup-dismissed')) return;
     setIsOpen(true);
     setHasTriggered(true);
-    trackEvent('popup_shown', { popup_id: 'exit_intent_notfallkoffer' });
+    trackEvent('popup_shown', { popup_id: 'exit_intent_potenzialanalyse' });
   }, [hasTriggered]);
 
   const dismiss = (reason: 'backdrop' | 'close_button' | 'cta_click' = 'close_button') => {
     setIsOpen(false);
     sessionStorage.setItem('exit-popup-dismissed', 'true');
     if (reason !== 'cta_click') {
-      trackEvent('popup_dismissed', { popup_id: 'exit_intent_notfallkoffer', dismiss_reason: reason });
+      trackEvent('popup_dismissed', { popup_id: 'exit_intent_potenzialanalyse', dismiss_reason: reason });
     }
   };
 
@@ -37,7 +37,7 @@ export function ExitIntentPopup() {
     e.preventDefault();
     dismiss('cta_click');
     gtagSendEventAndNavigate('popup_legal_link_click', target, {
-      params: { popup_id: 'exit_intent_notfallkoffer', link: label },
+      params: { popup_id: 'exit_intent_potenzialanalyse', link: label },
       onNavigate: (url) => navigate(url),
     });
   };
@@ -101,25 +101,25 @@ export function ExitIntentPopup() {
             </button>
 
             <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-5">
-              <Gift className="size-7 text-primary" />
+              <LineChart className="size-7 text-primary" />
             </div>
 
             <h3 className="text-2xl font-bold text-foreground mb-3">
-              Warte — hol dir den KI-Notfallkoffer
+              Bevor du gehst — sichere dir deine Potenzialanalyse
             </h3>
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-              10 KI-Prompts, 3 Automatisierungs-Workflows und ein Entscheidungs-Framework — kostenlos für Unternehmer.
+              Kostenfrei und unverbindlich: Wir analysieren deine Prozesse und zeigen dir, wo KI und Automatisierung sofort Wirkung zeigen.
             </p>
 
             <Link
-              to="/kontakt?ziel=notfallkoffer"
+              to="/kontakt?ziel=potenzialanalyse"
               className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all text-base"
               onClick={() => {
-                trackEvent('popup_cta_click', { popup_id: 'exit_intent_notfallkoffer', cta: 'notfallkoffer_anfragen' });
+                trackEvent('popup_cta_click', { popup_id: 'exit_intent_potenzialanalyse', cta: 'potenzialanalyse_anfragen' });
                 dismiss('cta_click');
               }}
             >
-              Notfallkoffer anfragen
+              Potenzialanalyse anfragen
               <ArrowRight className="size-5" />
             </Link>
 

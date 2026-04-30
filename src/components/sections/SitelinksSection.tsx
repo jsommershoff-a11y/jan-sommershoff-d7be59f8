@@ -4,7 +4,6 @@ import {
   Briefcase,
   Mailbox,
   LineChart,
-  LifeBuoy,
   User,
   MessageSquare,
   type LucideIcon,
@@ -36,12 +35,6 @@ const SITELINKS: Sitelink[] = [
     description: 'Unverbindliche KI-Analyse für Unternehmer und Mittelstand.',
     href: '/kontakt?ziel=potenzialanalyse',
     icon: LineChart,
-  },
-  {
-    title: 'KI Notfallkoffer sichern',
-    description: 'Kostenloser Lead-Magnet mit Sofort-Hilfe für KI-Einsteiger.',
-    href: '/kontakt?ziel=notfallkoffer',
-    icon: LifeBuoy,
   },
   {
     title: 'Über Jan Sommershoff',

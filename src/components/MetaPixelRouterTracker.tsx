@@ -47,15 +47,6 @@ export function MetaPixelRouterTracker() {
       });
     }
 
-    if (location.pathname === '/danke/lead') {
-      trackOncePerSession('CompleteRegistration', 'meta_complete_registration_tracked_danke_lead', {
-        content_name: 'KI Notfallkoffer',
-        value: 0,
-        currency: 'EUR',
-        status: true,
-      });
-    }
-
     if (location.pathname === '/danke/posteingang') {
       trackOncePerSession('Lead', 'meta_lead_tracked_danke_posteingang', {
         content_name: 'Briefpost-Eingangsautomatisierung Anfrage',

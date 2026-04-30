@@ -45,10 +45,10 @@ export function KiZukunftSection() {
         <ScrollReveal delay={0.3}>
           <div className="mt-8 md:mt-10 text-center">
             <Link
-              to="/kontakt?ziel=notfallkoffer"
+              to="/kontakt?ziel=potenzialanalyse"
               className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 md:px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity shadow-lg"
             >
-              Notfallkoffer anfragen
+              Potenzialanalyse anfragen
               <ArrowRight className="size-4" />
             </Link>
           </div>

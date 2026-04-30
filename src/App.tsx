@@ -33,7 +33,6 @@ const GESSNER_SUBDOMAIN = "https://gessner.dein-automatisierungsberater.de";
 
 // Thank-you pages
 const DankeKontakt = lazy(() => import("./pages/danke/DankeKontakt"));
-const DankeLead = lazy(() => import("./pages/danke/DankeLead"));
 const DankePosteingang = lazy(() => import("./pages/danke/DankePosteingang"));
 const TestConversion = lazy(() => import("./pages/TestConversion"));
 
@@ -75,11 +74,12 @@ const App = () => (
 
                 {/* Legacy Conversion-Goal Routen → Kontakt mit Quell-Param */}
                 <Route path="/potenzialanalyse" element={<Navigate to="/kontakt?ziel=potenzialanalyse" replace />} />
-                <Route path="/notfallkoffer" element={<Navigate to="/kontakt?ziel=notfallkoffer" replace />} />
+                {/* Legacy: alter Notfallkoffer-Pfad → leitet jetzt auf Potenzialanalyse, damit indexierte URLs nicht 404en */}
+                <Route path="/notfallkoffer" element={<Navigate to="/kontakt?ziel=potenzialanalyse" replace />} />
+                <Route path="/danke/lead" element={<Navigate to="/danke/kontakt" replace />} />
 
                 {/* Danke-Seiten (Conversion-Trigger) */}
                 <Route path="/danke/kontakt" element={<DankeKontakt />} />
-                <Route path="/danke/lead" element={<DankeLead />} />
                 <Route path="/danke/posteingang" element={<DankePosteingang />} />
 
                 {/* Internes QA-Tool: Conversion-Event Dedup-Test */}
