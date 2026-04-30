@@ -354,6 +354,26 @@ function TrackerList({
                 </a>
               )}
             </div>
+            <details className="mt-1.5 group">
+              <summary className="cursor-pointer text-[11px] text-accent hover:underline font-medium list-none inline-flex items-center gap-1">
+                <span className="transition-transform group-open:rotate-90" aria-hidden="true">›</span>
+                DSGVO-Details
+              </summary>
+              <dl className="mt-1.5 space-y-1.5 text-[11px] leading-snug border-l-2 border-border pl-2.5">
+                <div>
+                  <dt className="font-medium text-foreground">Zwecke</dt>
+                  <dd className="text-muted-foreground">{t.purposes.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt className="font-medium text-foreground">Datenkategorien</dt>
+                  <dd className="text-muted-foreground">{t.dataCategories.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt className="font-medium text-foreground">Rechtsgrundlage</dt>
+                  <dd className="text-muted-foreground">{t.legalBasis}</dd>
+                </div>
+              </dl>
+            </details>
           </li>
         );
       })}
