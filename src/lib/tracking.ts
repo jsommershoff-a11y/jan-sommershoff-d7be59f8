@@ -212,6 +212,7 @@ export function loadApolloTracker() {
   s.src = `https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=${nocache}`;
   s.async = true;
   s.defer = true;
+  s.dataset.lvTracker = 'apollo';
   s.onload = () => {
     try {
       window.trackingFunctions?.onLoad?.({ appId: APOLLO_APP_ID });
@@ -223,10 +224,92 @@ export function loadApolloTracker() {
 }
 
 /**
+ * Entlädt Meta Pixel beim Widerruf:
+ *  - entfernt das Skript-Tag
+ *  - kappt fbq + interne Queue
+ *  - löscht alle _fbp/_fbc Cookies (Meta-Identifier)
+ *  - setzt das __metaLoaded-Flag zurück
+ */
+export function unloadMetaPixel() {
+  if (typeof window === 'undefined') return;
+  document
+    .querySelectorAll<HTMLScriptElement>(
+      'script[src*="connect.facebook.net/en_US/fbevents.js"]',
+    )
+    .forEach((el) => el.remove());
+  try {
+    if (window.fbq) {
+      // fbq als No-Op überschreiben, damit nachgelagerte Calls ins Leere laufen
+      window.fbq = Object.assign(function () {}, { queue: [], callMethod: undefined });
+    }
+    delete (window as { _fbq?: unknown })._fbq;
+  } catch {
+    /* ignore */
+  }
+  // Meta-Identifier-Cookies löschen (_fbp, _fbc, fr)
+  ['_fbp', '_fbc', 'fr'].forEach(deleteCookie);
+  window.__metaLoaded = false;
+}
+
+/**
+ * Entlädt Apollo.io Website-Tracker beim Widerruf:
+ *  - entfernt das Skript-Tag
+ *  - kappt window.trackingFunctions
+ *  - löscht Apollo-Cookies (apollo*, _ga_apollo*)
+ *  - setzt das __apolloLoaded-Flag zurück
+ *
+ * Hinweis: Apollo registriert keine fest dokumentierte globale Tracking-API
+ * außerhalb von trackingFunctions.onLoad. Durch das Entfernen des Skript-Tags
+ * + Reset der globalen Hooks werden weitere Tracking-Calls abgeschnitten.
+ * Bereits in-flight stehende Requests können nicht zurückgehalten werden —
+ * der Browser bricht sie aber spätestens beim nächsten Navigationswechsel ab.
+ */
+export function unloadApolloTracker() {
+  if (typeof window === 'undefined') return;
+  document
+    .querySelectorAll<HTMLScriptElement>('script[data-lv-tracker="apollo"]')
+    .forEach((el) => el.remove());
+  document
+    .querySelectorAll<HTMLScriptElement>(
+      'script[src*="assets.apollo.io/micro/website-tracker"]',
+    )
+    .forEach((el) => el.remove());
+  try {
+    if (window.trackingFunctions) {
+      window.trackingFunctions = { onLoad: () => {} };
+    }
+  } catch {
+    /* ignore */
+  }
+  // Apollo-Cookies bestmöglich löschen
+  if (typeof document !== 'undefined') {
+    document.cookie.split(';').forEach((c) => {
+      const name = c.split('=')[0]?.trim();
+      if (name && /^apollo|^_apollo|^visitor_id/i.test(name)) {
+        deleteCookie(name);
+      }
+    });
+  }
+  window.__apolloLoaded = false;
+}
+
+/** Cookie auf allen plausiblen Pfaden/Domains löschen. */
+function deleteCookie(name: string) {
+  if (typeof document === 'undefined') return;
+  const host = window.location.hostname;
+  const domains = [host, `.${host}`, host.replace(/^www\./, ''), `.${host.replace(/^www\./, '')}`];
+  const expires = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  domains.forEach((d) => {
+    document.cookie = `${name}=; ${expires}; path=/; domain=${d}`;
+  });
+  document.cookie = `${name}=; ${expires}; path=/`;
+}
+
+/**
  * Wendet einen Consent-State an:
  *  - Consent-Mode-v2-Update an GTM / Google
- *  - Meta Pixel laden wenn marketing-Consent
- *  - Apollo.io Website-Tracker laden wenn marketing-Consent
+ *  - Marketing-Consent erteilt → Meta Pixel + Apollo laden
+ *  - Marketing-Consent widerrufen → Meta Pixel + Apollo entladen + Cookies löschen
  *
  * GA4 wird durch GTM selbst gesteuert, wir senden nur das Consent-Signal.
  */
@@ -235,6 +318,9 @@ export function applyConsent(state: ConsentState) {
   if (state.marketing) {
     loadMetaPixel();
     loadApolloTracker();
+  } else {
+    unloadMetaPixel();
+    unloadApolloTracker();
   }
 
   if (import.meta.env.DEV) {
