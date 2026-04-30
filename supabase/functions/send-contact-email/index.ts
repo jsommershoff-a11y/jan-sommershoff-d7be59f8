@@ -14,6 +14,56 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#039;');
 }
 
+/**
+ * Lead-Source aus dem Request validieren.
+ * Erlaubte Keys: gclid, gbraid, wbraid, fbclid, msclkid, utm_*, referrer, landing_path.
+ * Werte werden auf 500 Zeichen gekürzt und HTML-Sonderzeichen entfernt-/escaped.
+ * Output: { sanitized: Record<string,string>, htmlBlock: string, plainBlock: string }
+ */
+function sanitizeLeadSource(raw: unknown): {
+  sanitized: Record<string, string>;
+  htmlBlock: string;
+  plainBlock: string;
+} {
+  const allowed = new Set([
+    'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid',
+    'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+    'referrer', 'landing_path',
+  ]);
+  const sanitized: Record<string, string> = {};
+  if (raw && typeof raw === 'object') {
+    for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+      if (!allowed.has(key)) continue;
+      if (typeof value !== 'string') continue;
+      const trimmed = value.trim().slice(0, 500);
+      if (trimmed) sanitized[key] = trimmed;
+    }
+  }
+
+  const entries = Object.entries(sanitized);
+  if (entries.length === 0) {
+    return { sanitized: {}, htmlBlock: '', plainBlock: '' };
+  }
+
+  const htmlRows = entries
+    .map(([k, v]) => `
+            <tr>
+              <td style="padding: 4px 12px 4px 0; font-weight: 600; color: #555; font-size: 13px; vertical-align: top;">${escapeHtml(k)}:</td>
+              <td style="padding: 4px 0; color: #333; font-size: 13px; word-break: break-all;">${escapeHtml(v)}</td>
+            </tr>`)
+    .join('');
+  const htmlBlock = `
+        <hr style="margin-top: 24px; border: none; border-top: 1px solid #eee;" />
+        <h3 style="font-size: 14px; color: #555; margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">Lead-Quelle</h3>
+        <table style="width: 100%; border-collapse: collapse;">${htmlRows}
+        </table>`;
+
+  const plainBlock = '\n\n--- Lead-Quelle ---\n' +
+    entries.map(([k, v]) => `${k}=${v}`).join('\n');
+
+  return { sanitized, htmlBlock, plainBlock };
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -29,6 +79,10 @@ Deno.serve(async (req) => {
     const message: string | undefined = body.message;
     // Combined display name (used for emails + DB legacy "name" column)
     const name: string = [first_name, last_name].filter(Boolean).join(' ').trim() || (body.name?.trim() ?? '');
+
+    // Lead-Source aus Body validieren (gclid + UTMs + Referrer)
+    const { sanitized: leadSource, htmlBlock: leadSourceHtml, plainBlock: leadSourcePlain } =
+      sanitizeLeadSource(body.lead_source);
 
     // Validate required fields
     if (!type || !first_name || !last_name || !email || !phone) {
@@ -97,10 +151,22 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Save to database
+    // Save to database — Lead-Source wird an die Nachricht angehängt,
+    // damit keine DB-Schema-Migration erforderlich ist. Falls später eine
+    // dedizierte Spalte `lead_source JSONB` angelegt wird, kann hier
+    // ein zusätzliches Feld `lead_source: leadSource` mitgegeben werden.
+    const messageWithSource = (message || '') + (leadSourcePlain || '');
     const { error: dbError } = await supabase
       .from('contact_submissions')
-      .insert({ type, name, first_name, last_name, phone, email, message: message || null });
+      .insert({
+        type,
+        name,
+        first_name,
+        last_name,
+        phone,
+        email,
+        message: messageWithSource || null,
+      });
 
     if (dbError) {
       console.error('Database error:', dbError);
@@ -157,7 +223,7 @@ Deno.serve(async (req) => {
             <td style="padding: 8px 0; font-weight: bold; color: #555; vertical-align: top;">Nachricht:</td>
             <td style="padding: 8px 0;">${safeMessage}</td>
           </tr>` : ''}
-        </table>
+        </table>${leadSourceHtml}
         <hr style="margin-top: 24px; border: none; border-top: 1px solid #eee;" />
         <p style="color: #999; font-size: 12px;">Gesendet über jansommershoff.de</p>
       </div>
@@ -360,7 +426,13 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, emailSent: emailRes.ok, leadEmailSent, confirmationSent }),
+      JSON.stringify({
+        success: true,
+        emailSent: emailRes.ok,
+        leadEmailSent,
+        confirmationSent,
+        leadSourceCaptured: Object.keys(leadSource).length,
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {

@@ -55,6 +55,35 @@ function parseZiel(raw: string | null): Ziel {
   return raw === 'notfallkoffer' ? 'notfallkoffer' : 'potenzialanalyse';
 }
 
+/**
+ * Lead-Quelle aus URL ziehen — Auto-Tagging (gclid) und UTM-Params
+ * werden ans Backend mitgegeben für Lead-Source-Attribution.
+ * PII-frei: nur Marketing-Tracking-IDs, keine Personendaten.
+ */
+function collectLeadSource(): Record<string, string | undefined> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const url = new URL(window.location.href);
+    const get = (k: string) => url.searchParams.get(k) ?? undefined;
+    return {
+      gclid: get('gclid'),
+      gbraid: get('gbraid'),
+      wbraid: get('wbraid'),
+      fbclid: get('fbclid'),
+      msclkid: get('msclkid'),
+      utm_source: get('utm_source'),
+      utm_medium: get('utm_medium'),
+      utm_campaign: get('utm_campaign'),
+      utm_content: get('utm_content'),
+      utm_term: get('utm_term'),
+      referrer: document.referrer || undefined,
+      landing_path: url.pathname || undefined,
+    };
+  } catch {
+    return {};
+  }
+}
+
 export default function Kontakt() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -93,6 +122,10 @@ export default function Kontakt() {
 
     setIsSubmitting(true);
     try {
+      // Lead-Quelle aus URL ziehen — gclid, UTM, Referrer.
+      // Wird ans Backend mitgegeben für Lead-Source-Attribution.
+      const leadSource = collectLeadSource();
+
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: {
           type: ziel === 'notfallkoffer' ? 'lead_magnet' : 'contact',
@@ -103,6 +136,7 @@ export default function Kontakt() {
           phone: form.phone.trim(),
           message: form.message.trim() || (ziel === 'notfallkoffer' ? 'KI Notfallkoffer angefordert' : 'Potenzialanalyse angefragt'),
           source: ziel,
+          lead_source: leadSource,
         },
       });
       if (error) throw error;
@@ -111,6 +145,10 @@ export default function Kontakt() {
       }
 
       // Form-Felder als GA4/Ads-Eventparameter mappen.
+      // value/currency für Google Ads Smart Bidding (Maximize Conversion Value / Target ROAS).
+      // Werte aus Customer-Acquisition-Cost / Lead-zu-Kunde-Conversionrate abgeleitet:
+      //   - Potenzialanalyse: 150 EUR (High-Intent, direkter Beratungslead)
+      //   - Notfallkoffer:    30 EUR  (Lead-Magnet, Top-of-Funnel)
       const conversionParams = {
         event_category: 'lead',
         event_label: ziel,                          // 'potenzialanalyse' | 'notfallkoffer'
@@ -119,6 +157,8 @@ export default function Kontakt() {
         ziel,
         has_message: form.message.trim().length > 0,
         has_phone: form.phone.trim().length > 0,
+        value: ziel === 'notfallkoffer' ? 30 : 150,
+        currency: 'EUR',
       };
 
       // An die Danke-Seite weitergeben, damit conversion_event_page_view
@@ -144,10 +184,18 @@ export default function Kontakt() {
           : undefined;
 
       // Hinweis: Google Ads Lead-Form Conversion (`conversion_event_submit_lead_form_2`)
-      // wird AUSSCHLIESSLICH auf der Danke-Seite (/danke/kontakt) gefeuert
-      // — siehe ThankYou-Komponente, Prop `leadFormConversionEvent`.
+      // wird AUSSCHLIESSLICH auf der Danke-Seite (/danke/kontakt bzw. /danke/lead)
+      // gefeuert — siehe ThankYou-Komponente, Prop `leadFormConversionEvent`.
       // Damit ist garantiert, dass das Event nur nach erfolgreicher Navigation
       // (= echter erfolgreicher Submit) zählt und exakt 1× pro Submit feuert.
+      //
+      // Routing-Split:
+      //   - Notfallkoffer  → /danke/lead    (Meta CompleteRegistration, value 0)
+      //   - Potenzialanalyse → /danke/kontakt (Meta Lead, value 1 EUR)
+      // Damit lässt sich Lead-Qualität in Meta + Google Ads sauber trennen.
+      const dankeUrl = ziel === 'notfallkoffer'
+        ? `/danke/lead?ziel=${ziel}`
+        : `/danke/kontakt?ziel=${ziel}`;
 
       // GA4-Conversion mit verzögerter Navigation: wartet auf event_callback
       // (max. 2s), damit das Event sicher bei GA4 ankommt, bevor wir routen.
@@ -155,7 +203,7 @@ export default function Kontakt() {
       // auf /danke/kontakt bzw. /danke/lead gefeuert (sessionStorage-dedupliziert).
       gtagSendEventAndNavigate(
         config.conversionEvent,
-        `/danke/kontakt?ziel=${ziel}`,
+        dankeUrl,
         {
           params: conversionParams,
           userData,
