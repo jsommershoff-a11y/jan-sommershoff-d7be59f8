@@ -351,6 +351,13 @@ export default function Datenschutz() {
           <p>Die Entscheidung zur Nutzung der Analyse sowie zu einer späteren Kontaktaufnahme liegt jederzeit vollständig beim Nutzer. Die Nutzung der Website und der Analyse ist auch ohne Kontaktaufnahme uneingeschränkt möglich.</p>
         </section>
 
+        {/* 14. AVV-Register */}
+        <section id="avv" className="scroll-mt-24">
+          <h2 className="text-xl font-semibold text-foreground">14. Auftragsverarbeitung (AVV-Register)</h2>
+          <p>Soweit wir personenbezogene Daten im Auftrag durch externe Dienstleister verarbeiten lassen (z. B. Hosting, E-Mail-Versand, Tracking), haben wir mit diesen Anbietern Verträge zur Auftragsverarbeitung gemäß <strong>Art. 28 DSGVO</strong> abgeschlossen. Die Verträge stellen sicher, dass die Anbieter die personenbezogenen Daten ausschließlich nach unseren Weisungen und unter Einhaltung der DSGVO verarbeiten.</p>
+          <AvvRegister />
+        </section>
+
         {/* Kontakt & Datenschutz-Links */}
         <section className="mt-8 rounded-lg border border-border bg-muted/30 p-5 sm:p-6 not-prose">
           <h2 className="text-xl font-semibold text-foreground mb-3">Kontakt zum Datenschutz</h2>
