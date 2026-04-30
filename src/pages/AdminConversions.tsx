@@ -83,7 +83,7 @@ const CONVERSIONS: Conversion[] = [
     url: 'global (30s Inaktivität)',
     ga4Event: 'popup_shown',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse" }',
     goalType: 'Engagement',
   },
   {
@@ -91,15 +91,15 @@ const CONVERSIONS: Conversion[] = [
     url: 'X-Button',
     ga4Event: 'popup_dismissed',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer", dismiss_reason: "close_button" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse", dismiss_reason: "close_button" }',
     goalType: 'Engagement',
   },
   {
     trigger: 'Exit-Intent Popup CTA-Klick',
-    url: '→ /kontakt?ziel=notfallkoffer',
+    url: '→ /kontakt?ziel=potenzialanalyse',
     ga4Event: 'popup_cta_click',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse" }',
     goalType: 'Engagement',
   },
 ];
@@ -304,9 +304,7 @@ export default function AdminConversions() {
                 <li>GA4 → Admin → Events → „Vorhandenes Event als Conversion markieren".</li>
                 <li>
                   Markiere folgende Events als <strong>Key Events</strong>:{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_potenzialanalyse</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_notfallkoffer</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">login_success</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_potenzialanalyse</code>.
                 </li>
                 <li>
                   Optional: Pageview-basiertes Custom Event auf{' '}
@@ -332,21 +330,16 @@ export default function AdminConversions() {
                 <li>
                   Events Manager → Datenquellen → Pixel öffnen → Standard-Events prüfen:{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">PageView</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">CompleteRegistration</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>.
                 </li>
                 <li>
                   <strong>Lead</strong> feuert auf{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/kontakt</code> (Potenzialanalyse, value 1 EUR).
                 </li>
                 <li>
-                  <strong>CompleteRegistration</strong> feuert auf{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/lead</code> (Notfallkoffer Lead-Magnet).
+                  Event ist via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
                 </li>
-                <li>
-                  Beide Events sind via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
-                </li>
-                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1, <strong>CompleteRegistration</strong> Slot 2.</li>
+                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1.</li>
               </ol>
               <a
                 href="https://business.facebook.com/events_manager"

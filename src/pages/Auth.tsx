@@ -15,8 +15,8 @@ export default function Auth() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    trackPageView('/auth', 'Auth – KI Notfallkoffer');
-    trackEvent('auth_page_view', { funnel: 'notfallkoffer' });
+    trackPageView('/auth', 'Auth – Mitgliederbereich');
+    trackEvent('auth_page_view', { funnel: 'member_area' });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,7 +31,7 @@ export default function Auth() {
           options: {
             data: { full_name: name },
             // Double-Opt-In: user must confirm via email link
-            emailRedirectTo: window.location.origin + '/danke/lead',
+            emailRedirectTo: window.location.origin + '/danke/kontakt',
           },
         });
         if (error) throw error;
@@ -39,24 +39,23 @@ export default function Auth() {
         // Mirror to lead pipeline (validation + admin notification)
         await supabase.functions.invoke('send-contact-email', {
           body: {
-            type: 'lead_magnet',
+            type: 'contact',
             name: name || email,
             email,
-            message: 'KI Notfallkoffer Registration',
+            message: 'Mitgliederbereich Registration',
           },
         });
 
-        trackEvent('signup_submit', { funnel: 'notfallkoffer', method: 'email' });
+        trackEvent('signup_submit', { funnel: 'member_area', method: 'email' });
         setSubmitted(true);
         toast.success('Bitte bestätige deine E-Mail-Adresse.');
-        // Redirect zur Danke-Seite (feuert Lead-Conversion-Event)
-        setTimeout(() => { window.location.href = '/danke/lead'; }, 1500);
+        setTimeout(() => { window.location.href = '/danke/kontakt'; }, 1500);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        trackEvent('login_success', { funnel: 'notfallkoffer' });
+        trackEvent('login_success', { funnel: 'member_area' });
         toast.success('Willkommen zurück!');
-        window.location.href = '/danke/lead';
+        window.location.href = '/danke/kontakt';
       }
     } catch (err: any) {
       trackEvent(mode === 'register' ? 'signup_error' : 'login_error', {
@@ -69,16 +68,16 @@ export default function Auth() {
   };
 
   const benefits = [
-    { icon: Shield, text: 'Sofortmaßnahmen bei unternehmerischen Herausforderungen' },
-    { icon: Brain, text: 'KI-gestützte Entscheidungsvorlagen' },
-    { icon: Zap, text: 'Automatisierte Prozessanalyse' },
+    { icon: Shield, text: 'Geschützter Zugang zu deinen Inhalten' },
+    { icon: Brain, text: 'Persönliche Ressourcen und Empfehlungen' },
+    { icon: Zap, text: 'Direkter Draht zu Jan und seinem Team' },
   ];
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
       <SEOHead
-        title="KI Notfallkoffer – Kostenloser Zugang"
-        description="Sichere dir den kostenlosen KI Notfallkoffer für Unternehmer: Prompts, Workflows und Entscheidungs-Frameworks."
+        title="Mitgliederbereich – Jan Sommershoff"
+        description="Geschützter Zugang zu deinem persönlichen Bereich."
         canonicalPath="/auth"
         noIndex
       />
@@ -87,7 +86,7 @@ export default function Auth() {
           <MailCheck className="size-7 sm:size-8 text-[#6fcfab] mx-auto mb-2" />
           <p className="text-white font-semibold text-sm sm:text-base">Bitte bestätige deine E-Mail-Adresse.</p>
           <p className="text-white/60 text-xs sm:text-sm mt-1 break-words">
-            Wir haben dir einen Bestätigungslink an <strong className="break-all">{email}</strong> gesendet. Sobald du klickst, schalten wir den Notfallkoffer frei.
+            Wir haben dir einen Bestätigungslink an <strong className="break-all">{email}</strong> gesendet. Sobald du klickst, schalten wir deinen Zugang frei.
           </p>
         </div>
       )}
@@ -148,16 +147,15 @@ export default function Auth() {
           className="relative z-10"
         >
           <p className="text-sm font-medium tracking-[0.3em] uppercase text-white/50 mb-4">
-            Kostenlos
+            Mitgliederbereich
           </p>
           <h1 className="text-4xl xl:text-5xl font-bold leading-tight mb-6">
-            KI Notfallkoffer
+            Persönlicher Zugang
             <br />
             <span className="text-white/60 font-light">für Unternehmer</span>
           </h1>
           <p className="text-lg text-white/70 leading-relaxed mb-12 max-w-md">
-            Dein digitaler Werkzeugkasten für strategische Entscheidungen – 
-            powered by künstlicher Intelligenz.
+            Dein geschützter Bereich – mit persönlichen Inhalten und direktem Draht zu Jan.
           </p>
 
           <div className="space-y-6">
@@ -189,8 +187,8 @@ export default function Auth() {
         >
           {/* Mobile header */}
           <div className="lg:hidden mb-8 text-center">
-            <p className="text-xs tracking-[0.3em] uppercase text-white/40 mb-3">Kostenlos</p>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2">KI Notfallkoffer</h1>
+            <p className="text-xs tracking-[0.3em] uppercase text-white/40 mb-3">Mitgliederbereich</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Persönlicher Zugang</h1>
             <p className="text-white/50 text-sm">für Unternehmer</p>
           </div>
 
@@ -201,11 +199,11 @@ export default function Auth() {
           </div>
 
           <h2 className="text-xl sm:text-2xl font-semibold mb-2">
-            {mode === 'register' ? 'Kostenlosen Zugang sichern' : 'Anmelden'}
+            {mode === 'register' ? 'Zugang anlegen' : 'Anmelden'}
           </h2>
           <p className="text-white/50 text-sm mb-6 sm:mb-8">
             {mode === 'register'
-              ? 'Registriere dich und erhalte sofort Zugang zum KI Notfallkoffer.'
+              ? 'Registriere dich für deinen persönlichen Bereich.'
               : 'Melde dich an, um auf deine Ressourcen zuzugreifen.'}
           </p>
 
@@ -263,7 +261,7 @@ export default function Auth() {
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : mode === 'register' ? (
-                'Kostenlos registrieren'
+                'Zugang anlegen'
               ) : (
                 'Anmelden'
               )}
