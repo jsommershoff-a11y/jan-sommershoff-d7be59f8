@@ -201,21 +201,47 @@ export function loadMetaPixel() {
   window.fbq?.('track', 'PageView');
 }
 
+/** Lädt Apollo.io Website-Tracker (wenn marketing-Consent). */
+export function loadApolloTracker() {
+  if (typeof window === 'undefined' || window.__apolloLoaded) return;
+  if (isPlaceholder(APOLLO_APP_ID)) return;
+  window.__apolloLoaded = true;
+
+  const nocache = Math.random().toString(36).substring(7);
+  const s = document.createElement('script');
+  s.src = `https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=${nocache}`;
+  s.async = true;
+  s.defer = true;
+  s.onload = () => {
+    try {
+      window.trackingFunctions?.onLoad?.({ appId: APOLLO_APP_ID });
+    } catch {
+      /* ignore */
+    }
+  };
+  document.head.appendChild(s);
+}
+
 /**
  * Wendet einen Consent-State an:
  *  - Consent-Mode-v2-Update an GTM / Google
  *  - Meta Pixel laden wenn marketing-Consent
+ *  - Apollo.io Website-Tracker laden wenn marketing-Consent
  *
  * GA4 wird durch GTM selbst gesteuert, wir senden nur das Consent-Signal.
  */
 export function applyConsent(state: ConsentState) {
   gtagConsentUpdate(state);
-  if (state.marketing) loadMetaPixel();
+  if (state.marketing) {
+    loadMetaPixel();
+    loadApolloTracker();
+  }
 
   if (import.meta.env.DEV) {
     // eslint-disable-next-line no-console
     console.debug('[tracking] consent applied', state, {
       metaActive: !!window.__metaLoaded,
+      apolloActive: !!window.__apolloLoaded,
     });
   }
 }
