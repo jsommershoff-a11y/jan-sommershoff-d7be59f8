@@ -57,25 +57,36 @@ export function CookieBanner() {
     return () => window.removeEventListener('open-cookie-settings', open);
   }, []);
 
-  const persist = (state: ConsentState) => {
-    writeConsent(state);
+  const persist = (
+    state: ConsentState,
+    source: Parameters<typeof writeConsent>[1],
+  ) => {
+    writeConsent(state, source);
     setSavedConsent(state);
   };
 
+  const fromBanner = visible; // Banner sichtbar = aus Initial-Banner; sonst aus Settings
+
   const handleAcceptAll = () => {
-    persist({ analytics: true, marketing: true });
+    persist(
+      { analytics: true, marketing: true },
+      fromBanner ? 'banner_accept_all' : 'settings_accept_all',
+    );
     setVisible(false);
     setSettingsOpen(false);
   };
 
   const handleDeclineAll = () => {
-    persist({ analytics: false, marketing: false });
+    persist(
+      { analytics: false, marketing: false },
+      fromBanner ? 'banner_decline_all' : 'settings_decline_all',
+    );
     setVisible(false);
     setSettingsOpen(false);
   };
 
   const handleSaveSelection = () => {
-    persist(draft);
+    persist(draft, 'settings_save');
     setVisible(false);
     setSettingsOpen(false);
   };

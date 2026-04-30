@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { AvvRegister } from '@/components/AvvRegister';
+import { ConsentAuditLog } from '@/components/ConsentAuditLog';
 
 export default function Datenschutz() {
   useEffect(() => {
@@ -356,6 +357,13 @@ export default function Datenschutz() {
           <h2 className="text-xl font-semibold text-foreground">14. Auftragsverarbeitung (AVV-Register)</h2>
           <p>Soweit wir personenbezogene Daten im Auftrag durch externe Dienstleister verarbeiten lassen (z. B. Hosting, E-Mail-Versand, Tracking), haben wir mit diesen Anbietern Verträge zur Auftragsverarbeitung gemäß <strong>Art. 28 DSGVO</strong> abgeschlossen. Die Verträge stellen sicher, dass die Anbieter die personenbezogenen Daten ausschließlich nach unseren Weisungen und unter Einhaltung der DSGVO verarbeiten.</p>
           <AvvRegister />
+        </section>
+
+        {/* 15. Consent-Audit-Log */}
+        <section id="consent-log-section" className="scroll-mt-24">
+          <h2 className="text-xl font-semibold text-foreground">15. Nachweis deiner Einwilligungen</h2>
+          <p>Damit du jederzeit nachvollziehen kannst, welche Cookie-Entscheidung du wann getroffen hast, protokollieren wir deine Zustimmungen <strong>ausschließlich lokal in deinem Browser</strong> (kein Server-Upload). Der Verlauf umfasst Zeitstempel, Quelle der Aktion (Banner / Einstellungen), die zugestimmten Kategorien sowie die konkret betroffenen Anbieter — inkl. Meta Pixel und Apollo.io.</p>
+          <ConsentAuditLog />
         </section>
 
         {/* Kontakt & Datenschutz-Links */}
