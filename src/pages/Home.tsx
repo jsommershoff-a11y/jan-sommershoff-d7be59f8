@@ -86,14 +86,6 @@ export default function Home() {
                 {
                   '@type': 'SiteNavigationElement',
                   position: 4,
-                  name: 'KI Notfallkoffer sichern',
-                  description:
-                    'Kostenloser Lead-Magnet mit Sofort-Hilfe für KI-Einsteiger.',
-                  url: 'https://dein-automatisierungsberater.de/kontakt?ziel=notfallkoffer',
-                },
-                {
-                  '@type': 'SiteNavigationElement',
-                  position: 5,
                   name: 'Über Jan Sommershoff',
                   description:
                     'Unternehmer, KI-Stratege und Systemarchitekt – Werdegang und Mission.',
@@ -101,7 +93,7 @@ export default function Home() {
                 },
                 {
                   '@type': 'SiteNavigationElement',
-                  position: 6,
+                  position: 5,
                   name: 'Kontakt aufnehmen',
                   description:
                     'Direkter Kontakt per Formular, WhatsApp oder Terminbuchung.',

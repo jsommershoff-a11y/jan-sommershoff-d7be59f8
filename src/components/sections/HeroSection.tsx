@@ -81,13 +81,6 @@ export function HeroSection() {
                 <span className="relative">Potenzialanalyse anfragen</span>
                 <ArrowRight className="relative size-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                to="/kontakt?ziel=notfallkoffer"
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 border-2 border-white/40 text-white text-base md:text-lg font-semibold rounded-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300"
-              >
-                Notfallkoffer anfragen
-                <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
             </motion.div>
 
             {/* Trust elements */}

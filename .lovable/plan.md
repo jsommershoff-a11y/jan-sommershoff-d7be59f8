@@ -1,33 +1,98 @@
-# Plan: Domain-Tausch ki-automationen.io → jan.dein-automatisierungsberater.de
+# Plan: KI Notfallkoffer komplett entfernen
 
-## Ja, das klappt — aber zwei getrennte Themen
+Ziel: Den Lead-Magnet „KI Notfallkoffer" überall aus der Website, Tracking-Logik, Auth-Funnel, Admin-UI und Edge Function entfernen. Einziger verbleibender Conversion-Pfad: **Potenzialanalyse** (`/kontakt?ziel=potenzialanalyse`).
 
-### 1. Code-Änderung (mache ich)
-Die alte Domain ist an genau **2 Stellen** im Code verlinkt (Menüpunkt "Automatisierungen"):
+---
 
-| Datei | Zeile | Alt | Neu |
-|---|---|---|---|
-| `src/components/layout/Header.tsx` | 26 | `https://ki-automationen.io/automatisierungen` | `https://jan.dein-automatisierungsberater.de/automatisierungen` |
-| `src/data/siteData.ts` | 85 | `https://ki-automationen.io/automatisierungen` | `https://jan.dein-automatisierungsberater.de/automatisierungen` |
+## Was passiert
 
-Beide werden im selben Schritt ersetzt.
+### 1. Routen & Redirects
+- `src/App.tsx`: Route `/notfallkoffer` entfernen.
+- `/auth` Route prüfen: bestand der Auth-Funnel **ausschließlich** für den Notfallkoffer? → Ja, laut `Auth.tsx`. **Auth-Seite + Route entfernen**, oder soll sie als Hülle für künftige Logins bleiben? **Entscheidung: entfernen** (siehe Folge-Verbesserungen unten, falls du sie behalten willst, sag Bescheid).
 
-### 2. DNS / Subdomain-Setup (musst du machen)
-Damit `jan.dein-automatisierungsberater.de/automatisierungen` tatsächlich erreichbar ist, muss die **Subdomain `jan`** existieren und auf das Projekt zeigen, das die `/automatisierungen`-Seite liefert.
+### 2. Sections / CTAs
+- `HeroSection.tsx` (Z. 85–88): Notfallkoffer-Button raus. Sekundär-CTA entweder löschen oder durch zweiten Potenzialanalyse-Verweis ersetzen → **löschen** (kein doppelter CTA).
+- `KiZukunftSection.tsx` (Z. 48–51): Notfallkoffer-Link raus, durch Potenzialanalyse ersetzen.
+- `SitelinksSection.tsx` (Z. 41–43): Sitelink-Eintrag „KI Notfallkoffer sichern" entfernen.
+- `StickyCta.tsx`: komplette Sticky-CTA war auf Notfallkoffer ausgelegt → **auf Potenzialanalyse umstellen** (Text + Link + Tracking-IDs).
+- `ExitIntentPopup.tsx`: Popup-Inhalt auf Potenzialanalyse umschreiben (Text, Link, Tracking-IDs).
 
-**Aktuell verbunden** (laut Lovable-Domains): nur `dein-automatisierungsberater.de`, `www.dein-automatisierungsberater.de`, `jan-sommershoff.de`.
-→ `jan.dein-automatisierungsberater.de` ist **noch nicht angebunden**.
+### 3. Kontaktformular
+- `src/pages/Kontakt.tsx`:
+  - `Ziel`-Type auf nur noch `'potenzialanalyse'` reduzieren.
+  - `ZIELE`-Map: Eintrag `notfallkoffer` löschen.
+  - `parseZiel`: immer `'potenzialanalyse'` zurückgeben.
+  - Alle `ziel === 'notfallkoffer'`-Verzweigungen entfernen.
+  - Routing-Split (`/danke/lead` vs `/danke/kontakt`) → nur noch `/danke/kontakt`.
 
-**Was du tun musst:**
-1. **Project Settings → Domains → Connect Domain** → `jan.dein-automatisierungsberater.de` eingeben
-2. DNS beim Registrar: A-Record `jan` → `185.158.133.1` (+ TXT `_lovable` wie angezeigt)
-3. Sicherstellen, dass auf der Subdomain auch eine Route `/automatisierungen` existiert (entweder dieses Projekt mit angepasster Route, oder ein separates Projekt für Jan-Persönlich)
+### 4. Danke-Seiten
+- `src/pages/danke/DankeLead.tsx`: **Datei löschen** (war nur für Notfallkoffer).
+- Route `/danke/lead` aus `App.tsx` entfernen.
 
-**Wichtig:** Wenn `jan.dein-automatisierungsberater.de` ein **separates** Lovable-Projekt sein soll (Personal Brand getrennt von Beratungs-Brand), muss dort die `/automatisierungen`-Seite gebaut werden — das ist nicht Teil dieses Codeschritts.
+### 5. Tracking
+- `MetaPixelRouterTracker.tsx` (Z. 52): `content_name: 'KI Notfallkoffer'` und zugehörige CompleteRegistration-Logik für `/danke/lead` entfernen.
+- `AdminConversions.tsx`: alle Notfallkoffer-Tracking-Doku-Einträge (Z. 30–34, 52, 57–61, 79, 85–88, 113–129, 335, 371) entfernen. Dashboard zeigt nur noch Potenzialanalyse-Funnel.
 
-## Offene Frage
-Zeigt `jan.dein-automatisierungsberater.de` auf **dieses** Projekt (gleiche Inhalte, nur andere Subdomain) oder auf ein **separates** Projekt? Für den Linktausch im Code ist die Antwort egal — für die Frage, ob der Link am Ende funktioniert, entscheidend.
+### 6. Admin
+- `src/pages/Admin.tsx`:
+  - Filter-Type von `'all' | 'lead_magnet' | 'contact'` → nur noch `'all' | 'contact'` (oder Filter ganz raus, da nur ein Typ übrig).
+  - Filter-Button „Lead-Magnet" entfernen.
+  - Badge-Logik vereinfachen.
+  - Mail-Subject-Sonderfall (Z. 682–683) entfernen.
 
-## Nicht Teil dieses Plans
-- Redirects von `ki-automationen.io` selbst (das ist DNS/Registrar-Sache der alten Domain, nicht in diesem Repo konfigurierbar)
-- Anlegen einer neuen `/automatisierungen`-Seite in diesem Projekt
+### 7. Auth-Funnel
+- `src/pages/Auth.tsx`: **Datei löschen** (komplett auf Notfallkoffer ausgerichtet).
+- Route `/auth` aus `App.tsx` entfernen.
+- **Achtung:** Falls bereits Nutzer in `auth.users` registriert sind, bleiben deren Accounts erhalten — nur die UI-Seite verschwindet. Soll ich die User-Liste vorab prüfen? (Sag Bescheid, dann mache ich `SELECT count(*) FROM auth.users` vorher.)
+
+### 8. Edge Function `send-contact-email`
+- `supabase/functions/send-contact-email/index.ts`:
+  - `type`-Validierung (Z. 96): nur noch `'contact'` zulassen.
+  - `isLeadMagnet`-Logik (Z. 189) und gesamten Lead-Magnet-Email-Branch (Z. 349–415, inkl. `downloadUrl`-TODO) entfernen.
+  - Admin-Notification-Subject vereinheitlichen.
+
+### 9. DB
+- **Keine Schema-Änderungen.** Bestehende `contact_submissions` mit `type='lead_magnet'` bleiben als Historie erhalten — sind nicht löschbar ohne Datenverlust. Falls du sie löschen willst, sag Bescheid (wäre `DELETE FROM contact_submissions WHERE type='lead_magnet'`).
+
+### 10. Sitemaps & SEO
+- `public/sitemap.xml` und `public/sitemap-automatisierungsberater.xml` prüfen und `/notfallkoffer`/`/auth`-Einträge entfernen, falls vorhanden.
+
+---
+
+## Files
+
+```text
+src/App.tsx                              EDIT  (Routen entfernen)
+src/components/sections/HeroSection.tsx  EDIT
+src/components/sections/KiZukunftSection.tsx     EDIT
+src/components/sections/SitelinksSection.tsx     EDIT
+src/components/sections/StickyCta.tsx    EDIT  (auf Potenzialanalyse)
+src/components/ui/ExitIntentPopup.tsx    EDIT  (auf Potenzialanalyse)
+src/components/MetaPixelRouterTracker.tsx EDIT
+src/pages/Home.tsx                       EDIT  (JSON-LD sitelink raus)
+src/pages/Kontakt.tsx                    EDIT  (Ziel-Logik vereinfachen)
+src/pages/Admin.tsx                      EDIT  (Filter + Badges)
+src/pages/AdminConversions.tsx           EDIT  (Doku bereinigen)
+src/pages/Auth.tsx                       DELETE
+src/pages/danke/DankeLead.tsx            DELETE
+supabase/functions/send-contact-email/index.ts   EDIT
+public/sitemap.xml                       EDIT (falls Eintrag drin)
+public/sitemap-automatisierungsberater.xml       EDIT (falls Eintrag drin)
+```
+
+---
+
+## Folge-Verbesserungen (ohne Rückfrage geliefert)
+
+1. **301-Redirect statt Hard-Delete für `/notfallkoffer`:** Falls Google die URL indexiert hat oder du sie beworben hast — auf `/kontakt?ziel=potenzialanalyse` weiterleiten statt 404. (Aktuell schon als Navigate-Redirect drin → ich lasse den Redirect bestehen, statt die Route ganz zu entfernen.)
+2. **Auth-Seite behalten als generische Login-Hülle**, falls du später Mitgliederbereich oder Kundendashboard planst — Texte aber neutralisieren („Zugang zu deinem Bereich" statt „Notfallkoffer"). **Default-Empfehlung: behalten + neutralisieren**, nicht löschen.
+3. **Bestehende `lead_magnet`-Submissions als Historie taggen**, nicht löschen — DSGVO-konform aufbewahren bis Aufbewahrungsfrist abläuft.
+4. **AVV-Register-Eintrag für Notfallkoffer-Download-Hosting prüfen**, falls da ein externer Hoster (z. B. S3, Filehost) hinterlegt war → entfernen.
+5. **Memory `mem://project/conversion-funnel` aktualisieren**: Notfallkoffer raus, Potenzialanalyse als einziger Funnel.
+
+---
+
+## Bitte bestätige zwei Punkte vor Implementierung
+
+1. **Auth-Seite & `/auth`-Route:** komplett löschen (mein Plan oben) ODER neutralisieren als Login-Hülle für später (Folge-Verbesserung #2)?
+2. **`/notfallkoffer`-URL:** als 301-Redirect auf Potenzialanalyse behalten (sicher) ODER ersatzlos entfernen → 404?

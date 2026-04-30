@@ -27,15 +27,6 @@ const CONVERSIONS: Conversion[] = [
     notes: 'GA4-Event beim Submit, kurz vor Redirect zu /danke/kontakt. Meta Lead feuert dort via Router-Tracker.',
   },
   {
-    trigger: 'Submit Kontaktformular (Notfallkoffer)',
-    url: '/kontakt?ziel=notfallkoffer',
-    ga4Event: 'lead_submit_notfallkoffer',
-    metaEvent: '— (siehe /danke/lead)',
-    params: '{ ziel: "notfallkoffer" }',
-    goalType: 'Lead',
-    notes: 'Lead-Magnet-Anfrage. Meta CompleteRegistration feuert auf /danke/lead.',
-  },
-  {
     trigger: '★ Pageview Danke-Seite Kontakt (Hauptconversion)',
     url: '/danke/kontakt',
     ga4Event: 'page_view',
@@ -43,24 +34,6 @@ const CONVERSIONS: Conversion[] = [
     params: '{ content_name: "Potenzialanalyse Anfrage", content_category: "High Intent Consulting Lead", value: 1, currency: "EUR" }',
     goalType: 'Lead',
     notes: 'Primäres Meta-Conversion-Event. Wird einmal pro Session über MetaPixelRouterTracker gefeuert (sessionStorage-Dedup).',
-  },
-  {
-    trigger: '★ Pageview Danke-Seite Lead (Hauptconversion)',
-    url: '/danke/lead',
-    ga4Event: 'page_view',
-    metaEvent: 'CompleteRegistration',
-    params: '{ content_name: "KI Notfallkoffer", value: 0, currency: "EUR", status: true }',
-    goalType: 'Lead',
-    notes: 'Wird nach erfolgreicher Lead-Magnet-Anfrage erreicht. Einmal pro Session via MetaPixelRouterTracker.',
-  },
-  {
-    trigger: 'Login erfolgreich (Notfallkoffer)',
-    url: '/auth (Login-Tab)',
-    ga4Event: 'login_success',
-    metaEvent: '—',
-    params: '{ funnel: "notfallkoffer" }',
-    goalType: 'Lead',
-    notes: 'Wird nach Login gefeuert, bevor Redirect zu /danke/lead.',
   },
   {
     trigger: 'View Kontaktseite',
@@ -76,16 +49,16 @@ const CONVERSIONS: Conversion[] = [
     url: 'global (scroll > 30vh)',
     ga4Event: 'cta_shown',
     metaEvent: '—',
-    params: '{ cta_id: "sticky_notfallkoffer", placement: "sticky_bottom" }',
+    params: '{ cta_id: "sticky_potenzialanalyse", placement: "sticky_bottom" }',
     goalType: 'Engagement',
     notes: 'Impression-Tracking für die Sticky Bottom-Bar.',
   },
   {
     trigger: 'Sticky-CTA Klick',
-    url: '→ /kontakt?ziel=notfallkoffer',
+    url: '→ /kontakt?ziel=potenzialanalyse',
     ga4Event: 'cta_click',
     metaEvent: '—',
-    params: '{ cta_id: "sticky_notfallkoffer", placement: "sticky_bottom", target: "notfallkoffer" }',
+    params: '{ cta_id: "sticky_potenzialanalyse", placement: "sticky_bottom", target: "potenzialanalyse" }',
     goalType: 'Engagement',
   },
   {
@@ -110,7 +83,7 @@ const CONVERSIONS: Conversion[] = [
     url: 'global (30s Inaktivität)',
     ga4Event: 'popup_shown',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse" }',
     goalType: 'Engagement',
   },
   {
@@ -118,15 +91,15 @@ const CONVERSIONS: Conversion[] = [
     url: 'X-Button',
     ga4Event: 'popup_dismissed',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer", dismiss_reason: "close_button" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse", dismiss_reason: "close_button" }',
     goalType: 'Engagement',
   },
   {
     trigger: 'Exit-Intent Popup CTA-Klick',
-    url: '→ /kontakt?ziel=notfallkoffer',
+    url: '→ /kontakt?ziel=potenzialanalyse',
     ga4Event: 'popup_cta_click',
     metaEvent: '—',
-    params: '{ popup_id: "exit_intent_notfallkoffer" }',
+    params: '{ popup_id: "exit_intent_potenzialanalyse" }',
     goalType: 'Engagement',
   },
 ];
@@ -331,9 +304,7 @@ export default function AdminConversions() {
                 <li>GA4 → Admin → Events → „Vorhandenes Event als Conversion markieren".</li>
                 <li>
                   Markiere folgende Events als <strong>Key Events</strong>:{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_potenzialanalyse</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_notfallkoffer</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">login_success</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">lead_submit_potenzialanalyse</code>.
                 </li>
                 <li>
                   Optional: Pageview-basiertes Custom Event auf{' '}
@@ -359,21 +330,16 @@ export default function AdminConversions() {
                 <li>
                   Events Manager → Datenquellen → Pixel öffnen → Standard-Events prüfen:{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">PageView</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>,{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">CompleteRegistration</code>.
+                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">Lead</code>.
                 </li>
                 <li>
                   <strong>Lead</strong> feuert auf{' '}
                   <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/kontakt</code> (Potenzialanalyse, value 1 EUR).
                 </li>
                 <li>
-                  <strong>CompleteRegistration</strong> feuert auf{' '}
-                  <code className="text-xs bg-muted/50 px-1 py-0.5 rounded">/danke/lead</code> (Notfallkoffer Lead-Magnet).
+                  Event ist via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
                 </li>
-                <li>
-                  Beide Events sind via <code className="text-xs">sessionStorage</code> dedupliziert (1× pro Session).
-                </li>
-                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1, <strong>CompleteRegistration</strong> Slot 2.</li>
+                <li>Aggregated Event Measurement: <strong>Lead</strong> Slot 1.</li>
               </ol>
               <a
                 href="https://business.facebook.com/events_manager"
