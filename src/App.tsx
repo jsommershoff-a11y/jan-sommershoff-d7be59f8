@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Layout } from "@/components/layout/Layout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { CookieBanner } from "@/components/CookieBanner";
+import { TrackingDebugBadge } from "@/components/dev/TrackingDebugBadge";
 import { FloatingCta } from "@/components/FloatingCta";
 import { MetaPixelRouterTracker } from "@/components/MetaPixelRouterTracker";
 import { lazy, Suspense } from "react";
@@ -89,6 +90,7 @@ const App = () => (
             </Suspense>
             <CookieBanner />
             <FloatingCta />
+            <TrackingDebugBadge />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
