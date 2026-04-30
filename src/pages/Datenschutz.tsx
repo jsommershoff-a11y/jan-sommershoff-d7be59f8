@@ -4,7 +4,18 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { AvvRegister } from '@/components/AvvRegister';
 
 export default function Datenschutz() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    if (window.location.hash) {
+      // Hash vorhanden → smooth zum Element scrollen, nicht nach oben
+      const id = window.location.hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
