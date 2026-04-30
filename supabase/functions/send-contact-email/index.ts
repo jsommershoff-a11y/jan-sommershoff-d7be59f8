@@ -92,8 +92,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate type
-    if (!['contact', 'lead_magnet'].includes(type)) {
+    // Validate type — nur noch 'contact' (lead_magnet entfernt mit Notfallkoffer)
+    if (type !== 'contact') {
       return new Response(
         JSON.stringify({ error: 'Invalid submission type' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -186,10 +186,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const isLeadMagnet = type === 'lead_magnet';
-    const subject = isLeadMagnet
-      ? `🎯 Neue Lead-Magnet Anfrage: ${escapeHtml(name)}`
-      : `📩 Neue Kontaktanfrage: ${escapeHtml(name)}`;
+    const subject = `📩 Neue Kontaktanfrage: ${escapeHtml(name)}`;
 
     const safeName = escapeHtml(name);
     const safeFirst = escapeHtml(first_name);
@@ -200,7 +197,7 @@ Deno.serve(async (req) => {
 
     const htmlBody = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">${isLeadMagnet ? 'Neue KI-Notfallkoffer Anfrage' : 'Neue Kontaktanfrage'}</h2>
+        <h2 style="color: #333;">Neue Kontaktanfrage</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <td style="padding: 8px 0; font-weight: bold; color: #555;">Vorname:</td>

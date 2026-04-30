@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, Send, ShieldCheck, Mail, MapPin } from 'lucide-react';
 import { SEOHead } from '@/components/seo/SEOHead';
@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import {
-  trackConversion,
   trackEvent,
   trackPageView,
   gtagSendEventAndNavigate,
@@ -18,42 +17,15 @@ import {
 } from '@/lib/tracking';
 import { siteData } from '@/data/siteData';
 
-type Ziel = 'notfallkoffer' | 'potenzialanalyse';
-
-const ZIELE: Record<Ziel, {
-  badge: string;
-  headline: string;
-  subline: string;
-  submitLabel: string;
-  successTitle: string;
-  conversionEvent: string;
-  metaEvent: 'Lead' | 'Contact';
-}> = {
-  notfallkoffer: {
-    badge: 'KI Notfallkoffer · Kostenlos',
-    headline: 'KI Notfallkoffer anfordern',
-    subline:
-      'Sichere dir Sofort-Hilfe für die häufigsten KI- und Automatisierungs-Fragen im Unternehmen. Wir senden dir den Notfallkoffer persönlich zu.',
-    submitLabel: 'Notfallkoffer anfordern',
-    successTitle: 'Notfallkoffer angefordert',
-    conversionEvent: 'lead_submit_notfallkoffer',
-    metaEvent: 'Lead',
-  },
-  potenzialanalyse: {
-    badge: 'Potenzialanalyse · Kostenfrei',
-    headline: 'Potenzialanalyse anfragen',
-    subline:
-      'Wir analysieren deine Prozesse und zeigen dir, wo KI und Automatisierung sofort Wirkung zeigen. Innerhalb von 24h melden wir uns persönlich.',
-    submitLabel: 'Analyse anfragen',
-    successTitle: 'Anfrage erhalten',
-    conversionEvent: 'lead_submit_potenzialanalyse',
-    metaEvent: 'Lead',
-  },
-};
-
-function parseZiel(raw: string | null): Ziel {
-  return raw === 'notfallkoffer' ? 'notfallkoffer' : 'potenzialanalyse';
-}
+const POTENZIALANALYSE = {
+  badge: 'Potenzialanalyse · Kostenfrei',
+  headline: 'Potenzialanalyse anfragen',
+  subline:
+    'Wir analysieren deine Prozesse und zeigen dir, wo KI und Automatisierung sofort Wirkung zeigen. Innerhalb von 24h melden wir uns persönlich.',
+  submitLabel: 'Analyse anfragen',
+  successTitle: 'Anfrage erhalten',
+  conversionEvent: 'lead_submit_potenzialanalyse',
+} as const;
 
 /**
  * Lead-Quelle aus URL ziehen — Auto-Tagging (gclid) und UTM-Params
@@ -85,10 +57,8 @@ function collectLeadSource(): Record<string, string | undefined> {
 }
 
 export default function Kontakt() {
-  const [params] = useSearchParams();
   const navigate = useNavigate();
-  const ziel = useMemo(() => parseZiel(params.get('ziel')), [params]);
-  const config = ZIELE[ziel];
+  const config = POTENZIALANALYSE;
 
   const [form, setForm] = useState({
     first_name: '',
@@ -101,9 +71,9 @@ export default function Kontakt() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    trackPageView(`/kontakt?ziel=${ziel}`, config.headline);
-    trackEvent('kontakt_view', { ziel });
-  }, [ziel, config.headline]);
+    trackPageView('/kontakt?ziel=potenzialanalyse', config.headline);
+    trackEvent('kontakt_view', { ziel: 'potenzialanalyse' });
+  }, [config.headline]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,20 +92,18 @@ export default function Kontakt() {
 
     setIsSubmitting(true);
     try {
-      // Lead-Quelle aus URL ziehen — gclid, UTM, Referrer.
-      // Wird ans Backend mitgegeben für Lead-Source-Attribution.
       const leadSource = collectLeadSource();
 
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: {
-          type: ziel === 'notfallkoffer' ? 'lead_magnet' : 'contact',
+          type: 'contact',
           first_name: form.first_name.trim(),
           last_name: form.last_name.trim(),
           name: `${form.first_name.trim()} ${form.last_name.trim()}`,
           email: form.email.trim(),
           phone: form.phone.trim(),
-          message: form.message.trim() || (ziel === 'notfallkoffer' ? 'KI Notfallkoffer angefordert' : 'Potenzialanalyse angefragt'),
-          source: ziel,
+          message: form.message.trim() || 'Potenzialanalyse angefragt',
+          source: 'potenzialanalyse',
           lead_source: leadSource,
         },
       });
@@ -145,24 +113,20 @@ export default function Kontakt() {
       }
 
       // Form-Felder als GA4/Ads-Eventparameter mappen.
-      // value/currency für Google Ads Smart Bidding (Maximize Conversion Value / Target ROAS).
-      // Werte aus Customer-Acquisition-Cost / Lead-zu-Kunde-Conversionrate abgeleitet:
-      //   - Potenzialanalyse: 150 EUR (High-Intent, direkter Beratungslead)
-      //   - Notfallkoffer:    30 EUR  (Lead-Magnet, Top-of-Funnel)
+      // value/currency für Google Ads Smart Bidding.
+      // Potenzialanalyse: 150 EUR (High-Intent, direkter Beratungslead).
       const conversionParams = {
         event_category: 'lead',
-        event_label: ziel,                          // 'potenzialanalyse' | 'notfallkoffer'
-        lead_type: ziel === 'notfallkoffer' ? 'lead_magnet' : 'contact',
+        event_label: 'potenzialanalyse',
+        lead_type: 'contact',
         form_id: 'kontakt',
-        ziel,
+        ziel: 'potenzialanalyse',
         has_message: form.message.trim().length > 0,
         has_phone: form.phone.trim().length > 0,
-        value: ziel === 'notfallkoffer' ? 30 : 150,
+        value: 150,
         currency: 'EUR',
       };
 
-      // An die Danke-Seite weitergeben, damit conversion_event_page_view
-      // dort dieselben Parameter erhält.
       try {
         sessionStorage.setItem(
           'conversion_params',
@@ -184,23 +148,9 @@ export default function Kontakt() {
           : undefined;
 
       // Hinweis: Google Ads Lead-Form Conversion (`conversion_event_submit_lead_form_2`)
-      // wird AUSSCHLIESSLICH auf der Danke-Seite (/danke/kontakt bzw. /danke/lead)
-      // gefeuert — siehe ThankYou-Komponente, Prop `leadFormConversionEvent`.
-      // Damit ist garantiert, dass das Event nur nach erfolgreicher Navigation
-      // (= echter erfolgreicher Submit) zählt und exakt 1× pro Submit feuert.
-      //
-      // Routing-Split:
-      //   - Notfallkoffer  → /danke/lead    (Meta CompleteRegistration, value 0)
-      //   - Potenzialanalyse → /danke/kontakt (Meta Lead, value 1 EUR)
-      // Damit lässt sich Lead-Qualität in Meta + Google Ads sauber trennen.
-      const dankeUrl = ziel === 'notfallkoffer'
-        ? `/danke/lead?ziel=${ziel}`
-        : `/danke/kontakt?ziel=${ziel}`;
+      // wird AUSSCHLIESSLICH auf der Danke-Seite (/danke/kontakt) gefeuert.
+      const dankeUrl = '/danke/kontakt?ziel=potenzialanalyse';
 
-      // GA4-Conversion mit verzögerter Navigation: wartet auf event_callback
-      // (max. 2s), damit das Event sicher bei GA4 ankommt, bevor wir routen.
-      // Meta Lead/CompleteRegistration werden zentral vom MetaPixelRouterTracker
-      // auf /danke/kontakt bzw. /danke/lead gefeuert (sessionStorage-dedupliziert).
       gtagSendEventAndNavigate(
         config.conversionEvent,
         dankeUrl,
@@ -224,7 +174,7 @@ export default function Kontakt() {
       <SEOHead
         title={`${config.headline} – Jan Sommershoff`}
         description={config.subline}
-        canonicalPath={`/kontakt?ziel=${ziel}`}
+        canonicalPath="/kontakt?ziel=potenzialanalyse"
         noIndex
       />
       <div className="min-h-screen bg-background">
@@ -328,11 +278,7 @@ export default function Kontakt() {
               </Label>
               <Textarea
                 id="message"
-                placeholder={
-                  ziel === 'notfallkoffer'
-                    ? 'Worum geht es bei dir gerade? (optional)'
-                    : 'Was sind deine größten Herausforderungen?'
-                }
+                placeholder="Was sind deine größten Herausforderungen?"
                 rows={4}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
