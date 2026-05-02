@@ -8,7 +8,7 @@ interface ThankYouProps {
   subtitle: string;
   eventName: string;
   /** Nur dokumentarisch — Meta-Conversion-Events werden zentral
-   * vom MetaPixelRouterTracker auf /danke/kontakt bzw. /danke/lead gefeuert. */
+   * vom MetaPixelRouterTracker auf /danke/kontakt bzw. /danke/posteingang gefeuert. */
   metaEvent?: 'Lead' | 'Contact' | 'Schedule' | 'Purchase' | 'CompleteRegistration' | 'ViewContent';
   value?: number;
   currency?: string;
