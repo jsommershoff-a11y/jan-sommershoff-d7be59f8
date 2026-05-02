@@ -276,6 +276,8 @@ export default function Posteingang() {
       }
 
       // Form-Felder als GA4/Ads-Eventparameter mappen.
+      // value/currency für Google Ads Smart Bidding.
+      // Posteingang: 80 EUR (mittlerer Intent, Tool-Lead).
       const conversionParams = {
         event_category: 'lead',
         event_label: 'posteingang',
@@ -284,6 +286,8 @@ export default function Posteingang() {
         mail_volume: form.mail_volume || 'unbekannt',
         has_company: form.company.trim().length > 0,
         has_message: form.message.trim().length > 0,
+        value: 80,
+        currency: 'EUR',
       };
 
       try {
